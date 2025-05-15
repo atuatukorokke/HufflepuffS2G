@@ -11,9 +11,11 @@ public class PlayrController : MonoBehaviour
 {
     private Rigidbody2D myRigidbody;
     [SerializeField] private float Speed; //移動速度
-    [SerializeField] private GameObject bulletPrehab;
-    [SerializeField] private Transform gunPort;
-    [SerializeField] private float delayTime;
+    [SerializeField] private GameObject bulletPrehab; //弾幕のプレハブ
+    [SerializeField] private Transform gunPort; //弾幕の発射口
+    [SerializeField] private float delayTime; // 発射してからのディレイ時間
+
+    private bool isShooting = false;
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
@@ -35,7 +37,18 @@ public class PlayrController : MonoBehaviour
         float y = Input.GetAxis("Vertical") * Speed;
         Vector2 movement = new Vector2(x, y) * Speed * Time.deltaTime;
         transform.Translate(movement, Space.World);
-        StartCoroutine(BulletCreat());
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            if(!isShooting)
+            {
+                isShooting = true;
+                StartCoroutine(BulletCreat());
+            }
+        }
+        if(Input.GetKeyUp(KeyCode.Z))
+        {
+            isShooting = false;
+        }
     }
 
 
@@ -47,15 +60,16 @@ public class PlayrController : MonoBehaviour
     /// <returns>nullを返す</returns>
     IEnumerator BulletCreat()
     {
-        if(Input.GetKey(KeyCode.Z))
+        while(isShooting)
         {
             Instantiate(
-                bulletPrehab, //弾幕
-                gunPort.position, // 位置
-                Quaternion.identity // 回転
-                );
+            bulletPrehab, //弾幕
+            gunPort.position, // 位置
+            bulletPrehab.transform.rotation //回転                  
+            );
             yield return new WaitForSeconds(delayTime); //1発打ったら待ち
         }
+        
         yield return null;
     }
 }

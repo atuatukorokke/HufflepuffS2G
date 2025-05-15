@@ -12,6 +12,6 @@ public class BulletMoig : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += transform.right * speed * Time.deltaTime; 
+        transform.position += transform.up * speed * Time.deltaTime; 
     }
 }
