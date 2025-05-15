@@ -20,4 +20,5 @@ public class EnemyDeployment : ScriptableObject
     public GameObject EnemyPrehab { get => enemyPrehab;}
     public int EnemyCount { get => enemyCount; }
     public int DelayTime { get => delayTime; }
+    public Vector2 GenerationPosition { get => generationPosition; }
 }
