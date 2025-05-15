@@ -1,31 +1,61 @@
-using NUnit.Framework.Constraints;
+// PlayerControlle.cs
+//
+// 矢印キーで移動・Zキーで弾幕
+//
+
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayrController : MonoBehaviour
 {
-    private Vector2 pos;
-    [SerializeField] private float Speed;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private Rigidbody2D myRigidbody;
+    [SerializeField] private float Speed; //移動速度
+    [SerializeField] private GameObject bulletPrehab;
+    [SerializeField] private Transform gunPort;
+    [SerializeField] private float delayTime;
     void Start()
     {
-        pos = transform.position;
+        myRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         PlayerMove();
     }
 
     /// <summary>
-    /// �v���C���[�̊�{����
-    /// �E���L�[�ɂ��ړ�
-    /// �EZ�L�[�������Ă�ԁA�e�����o��
+    /// プレイヤーの基本操作
+    /// ・矢印キーによる移動
+    /// ・Zキーを押してる間、弾幕を出す
     /// </summary>
     private void PlayerMove()
     {
-        pos.x += Input.GetAxis("Horizontal");
-        pos.y += Input.GetAxis("Vertical");
-        transform.position = pos * Speed;
+        float x = Input.GetAxis("Horizontal") * Speed;
+        float y = Input.GetAxis("Vertical") * Speed;
+        Vector2 movement = new Vector2(x, y) * Speed * Time.deltaTime;
+        transform.Translate(movement, Space.World);
+        StartCoroutine(BulletCreat());
+    }
+
+
+
+
+    /// <summary>
+    /// Zキーを押すと、球が出る
+    /// </summary>
+    /// <returns>nullを返す</returns>
+    IEnumerator BulletCreat()
+    {
+        if(Input.GetKey(KeyCode.Z))
+        {
+            Instantiate(
+                bulletPrehab, //弾幕
+                gunPort.position, // 位置
+                Quaternion.identity // 回転
+                );
+            yield return new WaitForSeconds(delayTime); //1発打ったら待ち
+        }
+        yield return null;
     }
 }
