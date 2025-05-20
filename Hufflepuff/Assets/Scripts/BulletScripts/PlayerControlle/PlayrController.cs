@@ -19,6 +19,7 @@ public class PlayrController : MonoBehaviour
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
+        
     }
 
     void Update()
@@ -50,10 +51,6 @@ public class PlayrController : MonoBehaviour
             isShooting = false;
         }
     }
-
-
-
-
     /// <summary>
     /// Zキーを押すと、球が出る
     /// </summary>
