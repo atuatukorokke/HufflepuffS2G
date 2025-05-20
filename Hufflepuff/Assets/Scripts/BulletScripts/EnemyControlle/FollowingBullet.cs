@@ -19,6 +19,10 @@ public class FollowingBullet : MonoBehaviour
         InvokeRepeating("FollowingShoot", 0, delayTime);
     }
 
+    /// <summary>
+    /// 追尾弾の生成
+    /// プレイヤーの座標から移動方向を計算する
+    /// </summary>
     private void FollowingShoot()
     {
         // プレイヤーの座標を取得
@@ -29,9 +33,13 @@ public class FollowingBullet : MonoBehaviour
         float dy = targetPos.y - transform.position.y;
         Vector3 moveDirection = new Vector3(dx, dy, 0);
         StartCoroutine(TimeDelayShot(moveDirection));
-        Destroy(proj, destroyTime);
     }
 
+    /// <summary>
+    /// ShotNumの数だけ弾を生成して、moveDirectionの方向に飛ばす
+    /// </summary>
+    /// <param name="moveDirection">移動方向</param>
+    /// <returns>待ち時間0.06秒を返す</returns>
     IEnumerator TimeDelayShot(Vector3 moveDirection)
     {
         for (int i = 0; i < ShotNum; i++)
@@ -40,6 +48,7 @@ public class FollowingBullet : MonoBehaviour
             proj.transform.parent = transform;
             Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
             rb.linearVelocity = moveDirection.normalized * speed;
+            Destroy(proj, destroyTime);
             yield return new WaitForSeconds(0.06f);
         }
     }
