@@ -34,8 +34,8 @@ public class PlayrController : MonoBehaviour
     /// </summary>
     private void PlayerMove()
     {
-        float x = Input.GetAxis("Horizontal") * Speed;
-        float y = Input.GetAxis("Vertical") * Speed;
+        float x = Input.GetAxisRaw("Horizontal") * Speed;
+        float y = Input.GetAxisRaw("Vertical") * Speed;
         Vector2 movement = new Vector2(x, y) * Speed * Time.deltaTime;
         transform.Translate(movement, Space.World);
         if(Input.GetKeyDown(KeyCode.Z))
