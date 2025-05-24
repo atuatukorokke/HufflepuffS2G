@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
-  FlyingNum: 50
+  FlyingNum: 15
   speed: 5
-  DeleteTime: 3
-  delayTime: 1
+  DeleteTime: 4
+  delayTime: 0.3

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Android;
 
 public class CircularBulletEnemy : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class CircularBulletEnemy : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float DeleteTime; // 削除する時間
     [SerializeField] private float delayTime; // 弾幕を出す間隔
+    private float angleOffset = 0f; // ずらし用の角度
 
     private void Start()
     {
@@ -20,7 +22,7 @@ public class CircularBulletEnemy : MonoBehaviour
     private void ShootIncircle()
     {
         float angleStep = 360f / FlyingNum;
-        float angle = 0f;
+        float angle = angleOffset;
 
         for (int i = 0; i < FlyingNum; i++)
         {
@@ -37,5 +39,7 @@ public class CircularBulletEnemy : MonoBehaviour
 
             angle += angleStep;
         }
+        angleOffset += 10f; // ここを変えれば回転速度が変わる
+        if (angleOffset >= 360) angleOffset -= 360f; // 範囲内を保つ
     }
 }
