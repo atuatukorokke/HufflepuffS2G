@@ -1,60 +1,75 @@
 // Winderbullet.cs
 //
-// ƒƒCƒ“ƒ_[ó‚É’e–‹‚ğ¶¬
+// ãƒ¯ã‚¤ãƒ³ãƒ€ãƒ¼çŠ¶ã«å¼¾å¹•ã‚’ç”Ÿæˆã™ã‚‹
 //
 
 
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering;
 
 public class WinderBullet : MonoBehaviour
 {
-    private GameObject targetObj; // ƒ^[ƒQƒbƒg(ƒvƒŒƒCƒ„[)
-    private Vector2 targetPos; // ƒ^[ƒQƒbƒg(ƒvƒŒƒCƒ„[)‚Æ‚ÌˆÊ’uŠÖŒW‚ğ“ü‚ê‚é
-    [SerializeField] private GameObject BulletPrehab; // ’e–‹‚ÌƒvƒŒƒnƒu
-    [SerializeField] private int ShotNum; // ’e–‹‚ğo‚·”
-    [SerializeField] private float speed; // ’e–‹‚ÌƒXƒs[ƒh
-    [SerializeField] private float delayTime; // ’e–‹‚ğo‚·ŠÔŠu
-    [SerializeField] private float destroyTime; // ’e–‹‚ğÁ‚·ŠÔ
+    [SerializeField] private GameObject BulletPrehab; // å¼¾å¹•ã®ãƒ—ãƒ¬ãƒãƒ–
+    [SerializeField] private int ShotNum; // å¼¾å¹•ã‚’æ’ƒã¤æ•°
+    [SerializeField] private float speed; // å¼¾å¹•ã®ã‚¹ãƒ”ãƒ¼ãƒ‰
+    [SerializeField] private float delayTime; // å¼¾å¹•ã‚’æ’ƒã¤é–“éš”
+    [SerializeField] private float destroyTime; // å¼¾å¹•ã‚’æ¶ˆã™ã¾ã§ã®æ™‚é–“
+    private float bulletSpacing;
+
+    [SerializeField]
+    [Range(0, 360)]
+    float angle;
+    float angleStep;
+
     GameObject proj;
     void Start()
     {
-        InvokeRepeating("WindBulletUpdate", 0, delayTime + 2.0f);
+        StartCoroutine(WindBulletUpdate());
     }
 
-    private void WindBulletUpdate()
+    private IEnumerator WindBulletUpdate()
     {
-        StartCoroutine(WinderBulletCreat());
+        while(true)
+        {
+            yield return StartCoroutine(WinderBulletCreat());
+            yield return new WaitForSeconds(delayTime + 2.0f);
+        }
     }
 
     private IEnumerator WinderBulletCreat()
     {
-        int count = 0;
-        while(count < 20)
-        {
-            targetPos = GetAnim(transform.position);
-            for (int i = 0; i < 3; i++)
-            {
-                Debug.Log(targetPos);
-            }
-            count++;
-            yield return new WaitForSeconds(0.05f);
-        }
-    }
+        float shotTime = 0;
 
-    /// <summary>
-    /// ƒvƒŒƒCƒ„[‚ÌÀ•W‚ğæ“¾‚·‚é
-    /// </summary>
-    /// <param name="E_position">ƒGƒlƒ~[‚ÌÀ•W</param>
-    /// <returns>ƒvƒŒƒCƒ„[‚ÆƒGƒlƒ~[‚ÌˆÊ’uŠÖŒW‚ğ•Ô‚·</returns>
-    private Vector2 GetAnim(Vector2 E_position)
-    {
-        targetObj = GameObject.Find("Player");
-        float dx = targetObj.transform.position.x - E_position.x;
-        float dy = targetObj.transform.position.y - E_position.y;
-        return new Vector2(dx, dy);
+        // å¼¾å¹•ã‚’shotTimeã®æ™‚é–“ã®é–“ã ã‘æ’ƒã¤
+        while (shotTime < delayTime)
+        {
+            for(int i = -3; i < 3; i++)
+            {
+                float baseAngle = i * 20 + angle;
+                float rad = baseAngle * Mathf.Deg2Rad;
+
+                // ã‚µã‚¤ãƒ³æ³¢ã®æºã‚Œï¼ˆæ™‚é–“ã‚’ã‚‚ã¨ã«æ¨ªæ–¹å‘ã‚’è£œæ­£ï¼‰
+                float timeOffset = Time.time * 5f; // å‘¨æ³¢æ•°ã‚’å¤‰æ›´ã—ãŸã„å ´åˆã¯ã“ã“ã®ã€Œ5fã€ã‚’å¤‰ãˆã‚‹
+                float wave = Mathf.Sin(timeOffset + i) * 0.3f; // æŒ¯å¹…ã‚’å¤‰ãˆãŸã„ãªã‚‰ã€Œ0.3fã€ã‚’å¤‰æ›´
+
+                float dirX = Mathf.Cos(rad) + wave;
+                float dirY = Mathf.Sin(rad);
+
+                Vector3 moveDirection = new Vector3(dirX, dirY, 0).normalized;
+
+                GameObject proj = Instantiate(BulletPrehab, transform.position, Quaternion.identity);
+                proj.transform.parent = transform;
+
+                Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+                rb.linearVelocity = moveDirection * -speed;
+
+                Destroy(proj, destroyTime);
+
+            }
+            shotTime += 0.07f;
+            yield return new WaitForSeconds(0.07f);
+        }
     }
 }
