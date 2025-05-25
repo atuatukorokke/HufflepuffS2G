@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyDeployment : ScriptableObject
 {
-	enum state
+	public enum state
 	{
         Smallfry, // 雑魚敵
         Boss, // ボス
@@ -12,13 +12,15 @@ public class EnemyDeployment : ScriptableObject
     }
     [SerializeField] private state GetState; // ・雑魚敵　・ボス　・ウェーブの待ち時間
     [SerializeField] private GameObject enemyPrehab; // エネミーのプレハブ
+    [SerializeField] private float enemyHP; // エネミーのHP
     [SerializeField] private Vector2 generationPosition; // 生成位置
     [SerializeField] private int enemyCount; //エネミーの数　
     [SerializeField] private int delayTime; // ウェーブの待ち時間
 
-    private state GetState1 { get => GetState;}
+    public state GetState1 { get => GetState;}
     public GameObject EnemyPrehab { get => enemyPrehab;}
     public int EnemyCount { get => enemyCount; }
     public int DelayTime { get => delayTime; }
     public Vector2 GenerationPosition { get => generationPosition; }
+    public float EnemyHP { get => enemyHP;}
 }
