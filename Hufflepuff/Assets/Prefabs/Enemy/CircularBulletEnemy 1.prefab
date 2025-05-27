@@ -210,10 +210,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 0
   TimingFiring: 0
-  firingType: 0
-  point0: {fileID: 0}
-  point1: {fileID: 0}
-  point2: {fileID: 0}
-  point3: {fileID: 0}
-  initialSpeed: 1
-  slowdownDuration: 5
+  firingType: 1
+  baseTargetPoint: {x: 0, y: 0, z: 0}
+  height: 2
+  duration: 2
+  decelerateFactor: 0.98
+  slowMoveDuration: 2
+  exitSpeed: 10
