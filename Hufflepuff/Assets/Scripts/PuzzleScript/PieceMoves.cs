@@ -16,7 +16,7 @@ public class PieceMoves : MonoBehaviour
     /// <summary>
     /// 各種矢印キーで移動を可能にします
     /// </summary>
-    public void Move()
+    public void PieceMove()
     {
         if (!isMoving)
         {
@@ -48,5 +48,13 @@ public class PieceMoves : MonoBehaviour
         transform.position = inTargetPos;
 
         isMoving = false;
+    }
+
+    /// <summary>
+    /// 呼び出すことでアタッチされたオブジェクトを反時計周りに回転させます
+    /// </summary>
+    public void PieceRotation()
+    {
+        transform.Rotate(0, 0, -90);
     }
 }

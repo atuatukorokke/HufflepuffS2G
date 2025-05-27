@@ -177,9 +177,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1000275941715751280, guid: e67d72e12cccb1a4bbef6759c24f6d90, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1933389507}
-    - targetCorrespondingSourceObject: {fileID: 1000275941715751280, guid: e67d72e12cccb1a4bbef6759c24f6d90, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1933389506}
   m_SourcePrefab: {fileID: 100100000, guid: e67d72e12cccb1a4bbef6759c24f6d90, type: 3}
 --- !u!1 &1259195037
@@ -348,7 +345,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bf448fc61411fd49b7687a1031dda55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pmove: {fileID: 0}
 --- !u!4 &1624736481
 Transform:
   m_ObjectHideFlags: 0
@@ -382,19 +378,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
---- !u!114 &1933389507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1933389505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bf448fc61411fd49b7687a1031dda55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Pmove: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
