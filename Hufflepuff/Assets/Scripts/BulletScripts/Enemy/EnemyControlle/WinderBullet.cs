@@ -60,7 +60,6 @@ public class WinderBullet : MonoBehaviour
                 Vector3 moveDirection = new Vector3(dirX, dirY, 0).normalized;
 
                 GameObject proj = Instantiate(BulletPrehab, transform.position, Quaternion.identity);
-                proj.transform.parent = transform;
 
                 Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
                 rb.linearVelocity = moveDirection * -speed;

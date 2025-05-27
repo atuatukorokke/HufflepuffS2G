@@ -7,6 +7,7 @@ TagManager:
   - Bullet01
   - P_Bullet
   - E_Bullet
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -14,10 +15,10 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - P_Bullet
+  - E_Bullet
   - 
   - 
   - 

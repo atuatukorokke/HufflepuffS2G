@@ -31,7 +31,6 @@ public class CircularBulletEnemy : MonoBehaviour
             Vector3 moveDirection = new Vector3(dirX, dirY, 0);
 
             GameObject proj = Instantiate(BulletPrehab, transform.position, Quaternion.identity);
-            proj.transform.parent = transform; // 親の設定
             Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
             rb.linearVelocity = moveDirection.normalized * speed;
 

@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class EnemyDeployment : ScriptableObject
 {
+    /// <summary>
+    /// 各データの種類
+    /// </summary>
 	public enum state
 	{
         Smallfry, // 雑魚敵
         Boss, // ボス
         DelayTime // 待ち時間
     }
+
     [SerializeField] private state GetState; // ・雑魚敵　・ボス　・ウェーブの待ち時間
     [SerializeField] private GameObject enemyPrehab; // エネミーのプレハブ
     [SerializeField] private float enemyHP; // エネミーのHP

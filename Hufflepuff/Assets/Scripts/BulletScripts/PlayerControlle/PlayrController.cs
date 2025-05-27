@@ -4,7 +4,6 @@
 //
 
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayrController : MonoBehaviour
@@ -14,8 +13,13 @@ public class PlayrController : MonoBehaviour
     [SerializeField] private GameObject bulletPrehab; //弾幕のプレハブ
     [SerializeField] private Transform gunPort; //弾幕の発射口
     [SerializeField] private float delayTime; // 発射してからのディレイ時間
+    [SerializeField] private float Attack; // 攻撃力　パズル画面にも引き渡し
+
 
     private bool isShooting = false;
+
+    public float Attack1 { get => Attack; set => Attack = value; }
+
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
@@ -59,14 +63,22 @@ public class PlayrController : MonoBehaviour
     {
         while(isShooting)
         {
-            Instantiate(
+            GameObject bullet = Instantiate(
             bulletPrehab, //弾幕
             gunPort.position, // 位置
             bulletPrehab.transform.rotation //回転                  
             );
+            Destroy(bullet, 1);
             yield return new WaitForSeconds(delayTime); //1発打ったら待ち
         }
         
         yield return null;
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("E_Bullet"))
+        {
+            Debug.Log("死");
+        }
     }
 }

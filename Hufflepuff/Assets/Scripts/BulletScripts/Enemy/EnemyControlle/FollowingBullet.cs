@@ -45,7 +45,6 @@ public class FollowingBullet : MonoBehaviour
         for (int i = 0; i < ShotNum; i++)
         {
             proj = Instantiate(BulletPrehab, transform.position, Quaternion.identity);
-            proj.transform.parent = transform;
             Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
             rb.linearVelocity = moveDirection.normalized * speed;
             Destroy(proj, destroyTime);

@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 27516891}
   - component: {fileID: 27516892}
   m_Layer: 0
-  m_Name: EnemySummoningmManager
+  m_Name: EnemySummoningManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -163,11 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e26633f1b4bd8e4c8ca8cccee57b250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyDeployment:
-  - {fileID: 11400000, guid: 9d047f7b20a7211498c0a34f908e5c02, type: 2}
-  - {fileID: 11400000, guid: 9d047f7b20a7211498c0a34f908e5c02, type: 2}
-  - {fileID: 11400000, guid: 9d047f7b20a7211498c0a34f908e5c02, type: 2}
-  - {fileID: 11400000, guid: 9d047f7b20a7211498c0a34f908e5c02, type: 2}
+  enemyDeployment: []
 --- !u!1 &283255928
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,6 +439,7 @@ MonoBehaviour:
   bulletPrehab: {fileID: 4187297226051304241, guid: f48007527bc2abe41847e7e45f02a502, type: 3}
   gunPort: {fileID: 283255929}
   delayTime: 0.1
+  Attack: 0
 --- !u!50 &1345790212
 Rigidbody2D:
   serializedVersion: 5
