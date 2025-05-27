@@ -16,6 +16,10 @@ public class EnemySummoningManagement : MonoBehaviour
         StartCoroutine(EnemySummoning());
     }
 
+    /// <summary>
+    /// ƒGƒlƒ~[‚ğenemyDeployment‚©‚ç¶¬‚µ‚Ü‚·
+    /// </summary>
+    /// <returns></returns>
     IEnumerator EnemySummoning()
     {
         while(count < enemyDeployment.Length)
@@ -41,10 +45,12 @@ public class EnemySummoningManagement : MonoBehaviour
         }
         yield return null;
     }
-
     /// <summary>
-    /// G‹›“G‚Ì¢Š«‚ğs‚¢‚Ü‚·
+    /// G‹›“G‚ğ¶¬‚µ‚Ü‚·
     /// </summary>
+    /// <param name="delayTime">¶¬‚ÌŠÔŠu</param>
+    /// <param name="count">¶¬‚·‚é”</param>
+    /// <returns></returns>
     private IEnumerator SmallfrySummoning(float  delayTime, int count)
     {
         for(int i = 0; i < count; i++)

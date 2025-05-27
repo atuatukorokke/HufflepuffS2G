@@ -13,12 +13,13 @@ public class EnemyHealth : MonoBehaviour
             hP -= 10;
             if(hP == 0)
             {
+                // ピースのドロップ
                 if(Random.Range(0, 10) == 1)
                 {
                     Debug.Log("あああああ");
                 }
-                Instantiate(prehab, transform.position, Quaternion.identity);
-                Destroy(gameObject);
+                Instantiate(prehab, transform.position, Quaternion.identity); //ドロップ確認用の再生成
+                Destroy(gameObject); // エネミーの消滅
             }
         }
     }
