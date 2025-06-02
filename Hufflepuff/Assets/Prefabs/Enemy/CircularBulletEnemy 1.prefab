@@ -106,9 +106,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
   FlyingNum: 15
+  frequency: 3
   speed: 5
   DeleteTime: 4
-  delayTime: 0.3
+  delayTime: 0.5
 --- !u!61 &238808884725128172
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -217,3 +218,4 @@ MonoBehaviour:
   decelerateFactor: 0.98
   slowMoveDuration: 2
   exitSpeed: 10
+  waitTimeBeforeExit: 3

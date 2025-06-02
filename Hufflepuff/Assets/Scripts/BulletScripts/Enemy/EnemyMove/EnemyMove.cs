@@ -18,7 +18,7 @@ public class EnemyMove : MonoBehaviour
     [SerializeField] private Vector3 baseTargetPoint; // 基本の目的地（移動先）
     private Vector3 targetPoint; // 各オブジェクトごとに調整された目的地
     [SerializeField] private float height = 2.0f; // 放物線の高さ
-    [SerializeField] private float duration = 2.0f; // 放物線移動にかかる時間
+    [SerializeField] private float duration; // 放物線移動にかかる時間
     private float elapsedTime = 0f; // 経過時間の管理
     private bool slowMovePhase = false; // 放物線移動後のゆっくり移動フラグ
 
