@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: -8118813770022731210}
   - component: {fileID: 4891852988484735984}
   - component: {fileID: 7348610529268632330}
-  - component: {fileID: 5338107688281311725}
   m_Layer: 0
   m_Name: FollowingBulletEnemy
   m_TagString: Enemy
@@ -196,24 +195,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hP: 100
   prehab: {fileID: 1733852370869397095, guid: bb5b9cdd2f6431d44928315081a34aa4, type: 3}
---- !u!114 &5338107688281311725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 212713448090183509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 927b0365eb903df4883b1aaed5f50f3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 0
-  TimingFiring: 0
-  firingType: 1
-  point0: {fileID: 0}
-  point1: {fileID: 0}
-  point2: {fileID: 0}
-  point3: {fileID: 0}
-  initialSpeed: 1
-  slowdownDuration: 5

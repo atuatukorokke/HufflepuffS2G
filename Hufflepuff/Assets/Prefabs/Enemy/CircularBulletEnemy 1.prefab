@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 238808884725128172}
   - component: {fileID: 2858904838610600615}
   - component: {fileID: 4038855810892687840}
-  - component: {fileID: 5970655947658950133}
   m_Layer: 0
   m_Name: CircularBulletEnemy 1
   m_TagString: Enemy
@@ -197,25 +196,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hP: 100
   prehab: {fileID: 212713448090183509, guid: f916519db4177d049a77bbf20deee6b7, type: 3}
---- !u!114 &5970655947658950133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5579639998162137282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 927b0365eb903df4883b1aaed5f50f3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 0
-  TimingFiring: 0
-  firingType: 1
-  baseTargetPoint: {x: 0, y: 0, z: 0}
-  height: 2
-  duration: 2
-  decelerateFactor: 0.98
-  slowMoveDuration: 2
-  exitSpeed: 10
-  waitTimeBeforeExit: 3

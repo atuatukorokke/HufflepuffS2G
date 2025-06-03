@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 7430522326724234377}
   - component: {fileID: 5103154413373633983}
   - component: {fileID: -5969629230045699903}
-  - component: {fileID: -3729408207846038190}
   m_Layer: 0
   m_Name: WindBulletEnemy
   m_TagString: Enemy
@@ -110,6 +109,8 @@ MonoBehaviour:
   delayTime: 5
   destroyTime: 5
   angle: 0
+  destination: 5.5
+  limitTime: 3
 --- !u!61 &7430522326724234377
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -197,25 +198,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hP: 100
   prehab: {fileID: 5579639998162137282, guid: b033526207f04b044972175531e1446d, type: 3}
---- !u!114 &-3729408207846038190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1733852370869397095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 927b0365eb903df4883b1aaed5f50f3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 20
-  TimingFiring: 0
-  firingType: 1
-  baseTargetPoint: {x: 0, y: 0, z: 0}
-  height: 2
-  duration: 2
-  decelerateFactor: 0.98
-  slowMoveDuration: 2
-  exitSpeed: 10
-  waitTimeBeforeExit: 3

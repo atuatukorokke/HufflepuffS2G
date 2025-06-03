@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Android;
+using static UnityEngine.GraphicsBuffer;
 
 public class CircularBulletEnemy : MonoBehaviour
 {
@@ -13,13 +14,30 @@ public class CircularBulletEnemy : MonoBehaviour
     [SerializeField] private float delayTime; // 弾幕を出す間隔
     private float angleOffset = 0f; // ずらし用の角度
 
+    [Header("移動用変数")]
+    [SerializeField] private float destination; // 到着座標
+    [SerializeField] private float limitTime; // 移動にかける時間
+
     private void Start()
     {
-        StartCoroutine(CircularBullet());
+        StartCoroutine(CircularBullet(destination, limitTime));
     }
 
-    private IEnumerator CircularBullet()
+    private IEnumerator CircularBullet(float targetX, float time)
     {
+        // 移動するよん
+        // destinationまで移動する
+        Vector2 startPosition = transform.position;
+        float elapsedTime = 0f;
+        while (elapsedTime < time)
+        {
+            transform.position = new Vector2(
+                Mathf.Lerp(startPosition.x, targetX, elapsedTime / time),
+                startPosition.y
+                );
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
         while (true)
         {
             yield return StartCoroutine(ShootIncircle());

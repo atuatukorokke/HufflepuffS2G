@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class FollowingBullet : MonoBehaviour
 {
+    [Header("弾幕用の変数")]
     private GameObject targetObj; // ターゲット(プレイヤー)
     private Vector2 targetPos; // ターゲット(プレイヤー)との位置関係を入れる
     [SerializeField] private GameObject BulletPrehab; // 弾幕のプレハブ
@@ -14,8 +15,22 @@ public class FollowingBullet : MonoBehaviour
     [SerializeField] private float destroyTime; // 弾幕を消す時間
     GameObject proj;
 
-     void Start()
+    [Header("移動用変数")]
+    [SerializeField] private float moveSpeed; // 移動スピード
+    private Rigidbody2D rb;
+
+    void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+        // y座標が０以上なら下へ、以下なら上へ移動する
+        if (transform.position.y > 0)
+        {
+            rb.linearVelocity = new Vector2(0, -moveSpeed) * Time.deltaTime * moveSpeed;
+        }
+        else
+        {
+            rb.linearVelocity = new Vector2(0, moveSpeed) * Time.deltaTime * moveSpeed;
+        }
         InvokeRepeating("FollowingShoot", 0, delayTime);
     }
 
@@ -42,13 +57,16 @@ public class FollowingBullet : MonoBehaviour
     /// <returns>待ち時間0.06秒を返す</returns>
     IEnumerator TimeDelayShot(Vector3 moveDirection)
     {
-        for (int i = 0; i < ShotNum; i++)
+        if(GetComponent<SpriteRenderer>().isVisible)
         {
-            proj = Instantiate(BulletPrehab, transform.position, Quaternion.identity);
-            Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
-            rb.linearVelocity = moveDirection.normalized * speed;
-            Destroy(proj, destroyTime);
-            yield return new WaitForSeconds(0.06f);
+            for (int i = 0; i < ShotNum; i++)
+            {
+                proj = Instantiate(BulletPrehab, transform.position, Quaternion.identity);
+                Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+                rb.linearVelocity = moveDirection.normalized * speed;
+                Destroy(proj, destroyTime);
+                yield return new WaitForSeconds(0.06f);
+            }
         }
     }
 }

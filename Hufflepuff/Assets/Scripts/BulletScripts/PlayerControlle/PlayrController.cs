@@ -38,10 +38,11 @@ public class PlayrController : MonoBehaviour
     /// </summary>
     private void PlayerMove()
     {
-        float x = Input.GetAxisRaw("Horizontal") * Speed;
-        float y = Input.GetAxisRaw("Vertical") * Speed;
-        Vector2 movement = new Vector2(x, y) * Speed * Time.deltaTime;
-        transform.Translate(movement, Space.World);
+        float x = Input.GetAxisRaw("Horizontal") * Speed * Time.deltaTime;
+        float y = Input.GetAxisRaw("Vertical") * Speed * Time.deltaTime;
+        transform.position = new Vector2(
+            Mathf.Clamp(transform.position.x + x, -8.5f, 8.5f),
+            Mathf.Clamp(transform.position.y + y, -4.5f, 4.5f));
         if(Input.GetKeyDown(KeyCode.Z))
         {
             if(!isShooting)
