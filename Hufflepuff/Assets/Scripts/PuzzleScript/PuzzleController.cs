@@ -9,10 +9,12 @@ using UnityEngine;
 public class PuzzleController : MonoBehaviour
 {
     private PieceMoves Pmoves;  // パズルピースを動かすスクリプトを呼び出す用
+    private PuzzleGrid Pgrid;   // パズルピースを配置するスクリプトを呼び出す用
 
     private void Start()
     {
         Pmoves = FindAnyObjectByType<PieceMoves>();
+        Pgrid = FindAnyObjectByType<PuzzleGrid>();
     }
 
     void Update()
@@ -24,7 +26,7 @@ public class PuzzleController : MonoBehaviour
         if (Input.GetKey(KeyCode.DownArrow)) Pmoves.PieceMove();
 
         // zキーでパズルピースを設置
-        if (Input.GetKeyDown(KeyCode.Z)) Debug.Log("z");
+        if (Input.GetKeyDown(KeyCode.Z)) Pgrid.PiecePossible(Pmoves.transform.position, Pmoves.transform.rotation);
 
         // xキーでパズルピースを回転
         if (Input.GetKeyDown(KeyCode.X)) Pmoves.PieceRotation();

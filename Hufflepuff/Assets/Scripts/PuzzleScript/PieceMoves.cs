@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class PieceMoves : MonoBehaviour
 {
+    [Header("移動速度")]
     [SerializeField] float moveSpeed;
 
     bool isMoving;
@@ -30,11 +31,19 @@ public class PieceMoves : MonoBehaviour
                 Vector2 targetPos = transform.position;
                 targetPos.x += input.x;
                 targetPos.y += input.y;
-                StartCoroutine(Move(targetPos));
+                // 移動場所が範囲外ならば移動を許可しないif文
+                if (Mathf.Pow(targetPos.x, 2) <= 49 && Mathf.Pow(targetPos.y, 2) <= 9)
+                {
+                    StartCoroutine(Move(targetPos));
+                }
             }
         }
     }
 
+    /// <summary>
+    /// 移動させるスクリプト
+    /// マス目で止まるように制御できます
+    /// </summary>
     private IEnumerator Move(Vector3 inTargetPos)
     {
         isMoving = true;
