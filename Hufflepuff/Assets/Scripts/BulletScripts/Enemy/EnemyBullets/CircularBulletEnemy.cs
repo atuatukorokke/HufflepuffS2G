@@ -1,7 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Android;
-using static UnityEngine.GraphicsBuffer;
 
 public class CircularBulletEnemy : MonoBehaviour
 {
