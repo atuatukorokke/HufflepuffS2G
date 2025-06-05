@@ -382,7 +382,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &691746167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,8 +396,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  bulletState: 0
   maxHP: 100
   currentHP: 0
+  attak: 1
+  spellPos: {x: 6, y: 0}
+  BulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
+  FlyingNum: 20
+  frequency: 5
+  speed: 15
+  DeleteTime: 1.5
+  delayTime: 0.2
+  moveSpeed: 3
+  RevolutionBulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
+  FevolutionFlyingNum: 30
+  FevolutionFrequency: 5
+  FevolutionSpeed: 3
+  FevolutionDeleteTime: 7
+  FevolutionDelayTime: 0.2
 --- !u!212 &691746168
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -462,7 +478,7 @@ Transform:
   m_GameObject: {fileID: 691746166}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.5, y: 0, z: 0}
+  m_LocalPosition: {x: 6, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
