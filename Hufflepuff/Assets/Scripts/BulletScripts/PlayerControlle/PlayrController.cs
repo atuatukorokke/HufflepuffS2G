@@ -14,6 +14,7 @@ public class PlayrController : MonoBehaviour
     [SerializeField] private Transform gunPort; //弾幕の発射口
     [SerializeField] private float delayTime; // 発射してからのディレイ時間
     [SerializeField] private float Attack; // 攻撃力　パズル画面にも引き渡し
+    [SerializeField] private bool invincible = false; // 無敵判定
 
 
     private bool isShooting = false;
@@ -77,9 +78,17 @@ public class PlayrController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("E_Bullet"))
+        if(collision.CompareTag("E_Bullet") && !invincible)
         {
             Debug.Log("死");
+            Destroy(collision.gameObject);
+            invincible = true;
+            StartCoroutine(ResetInvincibility()); // 一定時間後に無敵解除
         }
+    }
+    private IEnumerator ResetInvincibility()
+    {
+        yield return new WaitForSeconds(3f); // 3秒間の無敵時間
+        invincible = false;
     }
 }

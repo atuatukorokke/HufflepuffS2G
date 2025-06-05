@@ -5,10 +5,7 @@
 //
 
 using System.Collections;
-using Unity.Android.Gradle;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
-
 public enum BulletState
 {
     normal,
@@ -180,11 +177,11 @@ public class Boss1Bullet : MonoBehaviour
     {
         // ‰~Œ`‚Ì’e–‹‚ð‰ñ“]‚³‚¹‚È‚ª‚ç‘Å‚¿‚Ü‚·
 
-        // ’e‚Ì‰¡ŠÔŠu‚ÌŒvŽZ
-        float angleStep = 360f / FevolutionFlyingNum;
-        float angle = FevolutionAngleOffset;
         while (state == State.second && bulletState == BulletState.normal)
         {
+            // ’e‚Ì‰¡ŠÔŠu‚ÌŒvŽZ
+            float angleStep = 360f / FevolutionFlyingNum;
+            float angle = FevolutionAngleOffset;
             for (int i = 0; i < FevolutionFlyingNum; i++)
             {
                 float dirX = Mathf.Cos(angle * Mathf.Deg2Rad);
@@ -199,7 +196,7 @@ public class Boss1Bullet : MonoBehaviour
 
                 Destroy(proj, FevolutionDeleteTime); // ‰½•bŒã‚É’e–‹‚ðÁ‚·
             }
-            FevolutionAngleOffset += 10f; // ‚±‚±‚ð•Ï‚¦‚ê‚Î‰ñ“]‘¬“x‚ª•Ï‚í‚é
+            FevolutionAngleOffset += 20f; // ‚±‚±‚ð•Ï‚¦‚ê‚Î‰ñ“]‘¬“x‚ª•Ï‚í‚é
             if (FevolutionAngleOffset >= 360) FevolutionAngleOffset -= 360f; // ”ÍˆÍ“à‚ð•Û‚Â
             yield return new WaitForSeconds(FevolutionDelayTime);
         }
