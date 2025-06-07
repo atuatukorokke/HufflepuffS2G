@@ -401,19 +401,33 @@ MonoBehaviour:
   currentHP: 0
   attak: 1
   spellPos: {x: 6, y: 0}
-  BulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
-  FlyingNum: 20
-  frequency: 5
-  speed: 15
-  DeleteTime: 1.5
-  delayTime: 0.2
-  moveSpeed: 3
-  RevolutionBulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
-  FevolutionFlyingNum: 30
-  FevolutionFrequency: 5
-  FevolutionSpeed: 3
-  FevolutionDeleteTime: 7
-  FevolutionDelayTime: 0.2
+  fastBullet:
+    BulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
+    FlyingNum: 20
+    frequency: 7
+    speed: 7
+    DeleteTime: 5
+    delayTime: 0.1
+    angleOffset: 5
+    moveSpeed: 2
+  secondBullet:
+    RevolutionBulletPrehab: {fileID: 0}
+    FevolutionFlyingNum: 0
+    FevolutionFrequency: 0
+    FevolutionSpeed: 0
+    FevolutionDeleteTime: 0
+    FevolutionDelayTime: 0
+    FevolutionAngleOffset: 0
+  thirdBullet:
+    RotationBulletPrehab: {fileID: 0}
+    RotationFlyingNum: 0
+    RotationFrequency: 0
+    RotationSpeed: 0
+    RotationDeleteTime: 0
+    RotationDelayTime: 0
+    RotationAngleOffset: 0
+  FourBullet:
+    Prehab: {fileID: 0}
 --- !u!212 &691746168
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -793,6 +807,7 @@ MonoBehaviour:
   gunPort: {fileID: 283255929}
   delayTime: 0.1
   Attack: 0
+  invincible: 0
 --- !u!50 &1345790212
 Rigidbody2D:
   serializedVersion: 5
