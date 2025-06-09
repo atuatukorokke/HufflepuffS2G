@@ -395,7 +395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f977fa81f3bfca4abd1a6ae2c93d6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 2
+  state: 3
   bulletState: 0
   maxHP: 100
   currentHP: 0
@@ -435,7 +435,14 @@ MonoBehaviour:
     AngleSpacing: 5
     AngleOffset: 0
   finalBulletValue:
-    Prehab: {fileID: 0}
+    Prehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
+    FlyingNum: 20
+    speed: 5
+    DeleteTime: 7
+    DelayTime: 0.05
+    radius: 3
+    player: {fileID: 0}
+    bullets: []
 --- !u!212 &691746168
 SpriteRenderer:
   m_ObjectHideFlags: 0
