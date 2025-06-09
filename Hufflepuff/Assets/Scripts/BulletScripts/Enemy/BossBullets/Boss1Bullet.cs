@@ -4,8 +4,10 @@
 // 移動の際は画面の左半分は入らない
 //
 
+using Mono.Cecil;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 // 一段階目の通常弾幕の変数
 [System.Serializable]
@@ -51,8 +53,23 @@ public class ThirdBullet
 [System.Serializable]
 public class FourBullet
 {
+    [SerializeField] public GameObject BulletPrehab;
+    [SerializeField] public int FlyingNum; // 発射する数
+    [SerializeField] public float Speed; // 弾幕のスピード
+    [SerializeField] public float DeleteTime; // 削除するまでの時間
+    [SerializeField] public float DelayTime; // 弾幕を出す間隔
+    [SerializeField] public float AngleSpacing; // 弾同士の角度のズレ
+    public float AngleOffset = 0;
+}
+
+//最終段階の通常弾幕
+[System.Serializable]
+public class FinalBulletValue
+{
     [SerializeField] private GameObject Prehab;
 }
+
+
 
 
 //敵の弾幕の状態
@@ -98,6 +115,9 @@ public class Boss1Bullet : MonoBehaviour
 
     [Header("四段階目の通常弾幕の変数")]
     [SerializeField] private FourBullet FourBulletValue;
+
+    [Header("最終段階目の通常弾幕の変数")]
+    [SerializeField] private FinalBulletValue finalBulletValue;
 
     void Start()
     {
@@ -202,7 +222,7 @@ public class Boss1Bullet : MonoBehaviour
             float elapsedTime = 0f; // 移動にかかった時間
             Vector2 startPosition = transform.position;
             // randomPosにlimitTimeかけて移動する
-            while (elapsedTime < limitTime)
+            while (elapsedTime < limitTime && bulletState == BulletState.normal)
             {
                 transform.position = new Vector2(
                     Mathf.Lerp(startPosition.x, randomPos.x, elapsedTime / limitTime),
@@ -214,6 +234,7 @@ public class Boss1Bullet : MonoBehaviour
             yield return null;
         }
     }
+
     /// <summary>
     /// 二段階目の通常弾幕です
     /// </summary>
@@ -261,6 +282,7 @@ public class Boss1Bullet : MonoBehaviour
         yield return null;
 
     }
+    
     /// <summary>
     /// 三段階目の通常弾幕です
     /// </summary>
@@ -302,14 +324,80 @@ public class Boss1Bullet : MonoBehaviour
 
         }
     }
+    
     /// <summary>
     /// 四段階目の通常弾幕です
     /// </summary>
     private IEnumerator FireFourBullet()
     {
-        Debug.Log("通常弾幕発射: " + state);
+        StartCoroutine(FireBullet());
+        while (state == State.four && bulletState == BulletState.normal)
+        {
+            Vector2 targetPos = RandomPos(); // 移動先
+            Vector2 startPosition = transform.position; // 移動の開始地点
+            float limitTime = 2f; // 移動にかける時間
+            float elapsedtime = 0; // 移動にかかってる時間
+            while(elapsedtime < limitTime && bulletState == BulletState.normal)
+            {
+                transform.position = new Vector2(
+                    Mathf.Lerp(startPosition.x, targetPos.x, elapsedtime / limitTime),
+                    Mathf.Lerp(startPosition.y, targetPos.y, elapsedtime / limitTime)
+                    );
+                elapsedtime += Time.deltaTime;
+                yield return null;
+            }
+            yield return new WaitForSeconds(5f);
+        }
         yield return null;
     }
+    
+    private IEnumerator FireBullet()
+    {
+        while(bulletState == BulletState.normal && state == State.four)
+        {
+            // 弾の横間隔の計算（360度を指定の弾数で均等に分割）
+            float angleStep = 360f / FourBulletValue.FlyingNum;
+            float baseAngle = FourBulletValue.AngleOffset;
+
+            for (int i = 0; i < FourBulletValue.FlyingNum; i++)
+            {
+                float speed = FourBulletValue.Speed;
+                for (int j = 1; j >= -1; j--)
+                {
+                    // それぞれの弾の発射方向をずらす
+                    float offsetAngle = baseAngle + (j * FourBulletValue.AngleSpacing);
+
+                    // 弾の発射方向（x, y座標）を計算
+                    float dirX = Mathf.Cos(offsetAngle * Mathf.Deg2Rad); // X方向の速度を決定
+                    float dirY = Mathf.Sin(offsetAngle * Mathf.Deg2Rad); // Y方向の速度を決定
+                    Vector3 moveDirection = new Vector3(dirX, dirY, 0); // 弾の移動方向を作成
+
+                    // 弾を生成（プレハブを元にインスタンス化）
+                    GameObject proj = Instantiate(FourBulletValue.BulletPrehab, transform.position, Quaternion.identity);
+
+                    // 弾の Rigidbody2D コンポーネントを取得し、速度を設定
+                    Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+                    rb.linearVelocity = moveDirection.normalized * speed; // 速度を正規化して適用
+
+                    speed = speed * 0.9f;
+                    // 一定時間後に弾を削除
+                    Destroy(proj, FourBulletValue.DeleteTime);
+                }
+                
+                // 次の弾の発射方向を設定
+                baseAngle += angleStep;
+            }
+
+            // 弾の回転角度を更新（回転速度を調整）
+            FourBulletValue.AngleOffset += 5f;
+            if (FourBulletValue.AngleOffset >= 360) FourBulletValue.AngleOffset -= 360f; // 360度を超えないよう調整
+
+            // 一定時間待機
+            yield return new WaitForSeconds(FourBulletValue.DelayTime);
+        }
+        yield return null;  
+    }
+
     /// <summary>
     /// 最終段階の通常弾幕です
     /// </summary>
@@ -318,9 +406,26 @@ public class Boss1Bullet : MonoBehaviour
         Debug.Log("通常弾幕発射: " + state);
         yield return null;
     }
-    // LastWard
+
+    /// <summary>
+    /// 各段階の必殺技の制御を行います
+    /// </summary>
+    /// <returns>動作を終了させます</returns>
     private IEnumerator FireSpecialBullet()
     {
+        float limitTime = 1.5f; // 移動にかける時間
+        float elapsedTime = 0f; // 移動にかかった時間
+        Vector2 startPosition = transform.position;
+        // randomPosにlimitTimeかけて移動する
+        while (elapsedTime < limitTime)
+        {
+            transform.position = new Vector2(
+                Mathf.Lerp(startPosition.x, spellPos.x, elapsedTime / limitTime),
+                Mathf.Lerp(startPosition.y, spellPos.y, elapsedTime / limitTime)
+                );
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
         Debug.Log("特殊弾幕発射: " + state);
         yield return null;
     }
@@ -330,12 +435,23 @@ public class Boss1Bullet : MonoBehaviour
     /// </summary>
     private IEnumerator SpecialFinalBullet()
     {
-        if (!isSpecialBulletActive)
+
+        isSpecialBulletActive = true;
+        float limitTime = 0.5f; // 移動にかける時間
+        float elapsedTime = 0f; // 移動にかかった時間
+        Vector2 startPosition = transform.position;
+        // randomPosにlimitTimeかけて移動する
+        while (elapsedTime < limitTime)
         {
-            isSpecialBulletActive = true;
-            Debug.Log("Final状態: 特別な弾幕を発射");
+            transform.position = new Vector2(
+                Mathf.Lerp(startPosition.x, spellPos.x, elapsedTime / limitTime),
+                Mathf.Lerp(startPosition.y, spellPos.y, elapsedTime / limitTime)
+                );
+            elapsedTime += Time.deltaTime;
             yield return null;
         }
+        Debug.Log("Final状態: 特別な弾幕を発射");
+        yield return null;
     }
 
     /// <summary>
@@ -369,16 +485,30 @@ public class Boss1Bullet : MonoBehaviour
         }
         else if (currentHP <= 0)
         {
+            BulletDelete();
             if (state == State.final)
             {
-                StartCoroutine(SpecialFinalBullet());
+                yield return StartCoroutine(SpecialFinalBullet());
             }
             else
             {
-                StartCoroutine(TransitionToNextState());
+                yield return StartCoroutine(TransitionToNextState());
             }
         }
+    } 
+
+    /// <summary>
+    /// エネミーの弾幕をすべて消します
+    /// </summary>
+    private void BulletDelete()
+    {
+        GameObject[] objects = GameObject.FindGameObjectsWithTag("E_Bullet");
+        foreach(GameObject bullet in objects)
+        {
+            Destroy(bullet);
+        }
     }
+
     /// <summary>
     /// ランダム移動の移動先を計算します
     /// </summary>

@@ -395,38 +395,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f977fa81f3bfca4abd1a6ae2c93d6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
+  state: 2
   bulletState: 0
   maxHP: 100
   currentHP: 0
   attak: 1
   spellPos: {x: 6, y: 0}
-  fastBullet:
+  fastBulletValue:
     BulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
     FlyingNum: 20
-    frequency: 7
-    speed: 7
-    DeleteTime: 5
+    frequency: 5
+    speed: 10
+    DeleteTime: 4
     delayTime: 0.1
-    angleOffset: 5
-    moveSpeed: 2
-  secondBullet:
-    RevolutionBulletPrehab: {fileID: 0}
-    FevolutionFlyingNum: 0
+    angleOffset: 0
+    moveSpeed: 1
+  secondBulletValue:
+    RevolutionBulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
+    FevolutionFlyingNum: 15
     FevolutionFrequency: 0
-    FevolutionSpeed: 0
-    FevolutionDeleteTime: 0
-    FevolutionDelayTime: 0
+    FevolutionSpeed: 10
+    FevolutionDeleteTime: 5
+    FevolutionDelayTime: 0.1
     FevolutionAngleOffset: 0
-  thirdBullet:
-    RotationBulletPrehab: {fileID: 0}
-    RotationFlyingNum: 0
+  thirdBulletValue:
+    RotationBulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
+    RotationFlyingNum: 4
     RotationFrequency: 0
-    RotationSpeed: 0
-    RotationDeleteTime: 0
-    RotationDelayTime: 0
+    RotationSpeed: 4
+    RotationDeleteTime: 10
+    RotationDelayTime: 0.1
     RotationAngleOffset: 0
-  FourBullet:
+  FourBulletValue:
+    BulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
+    FlyingNum: 6
+    Speed: 3
+    DeleteTime: 7
+    DelayTime: 0.15
+    AngleSpacing: 5
+    AngleOffset: 0
+  finalBulletValue:
     Prehab: {fileID: 0}
 --- !u!212 &691746168
 SpriteRenderer:
