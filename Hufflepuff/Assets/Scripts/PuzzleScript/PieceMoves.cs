@@ -11,8 +11,15 @@ public class PieceMoves : MonoBehaviour
     [Header("移動速度")]
     [SerializeField] float moveSpeed;
 
+    private PuzzleGrid Pgrid;   // パズルピースを配置するスクリプトを呼び出す用
+
     bool isMoving;
     Vector2 input;
+
+    private void Start()
+    {
+        Pgrid = FindAnyObjectByType<PuzzleGrid>();
+    }
 
     /// <summary>
     /// 各種矢印キーで移動を可能にします
@@ -32,7 +39,7 @@ public class PieceMoves : MonoBehaviour
                 targetPos.x += input.x;
                 targetPos.y += input.y;
                 // 移動場所が範囲外ならば移動を許可しないif文
-                if (Mathf.Pow(targetPos.x, 2) <= 49 && Mathf.Pow(targetPos.y, 2) <= 9)
+                if (Mathf.Pow(targetPos.x, 2) <= 64 && Mathf.Pow(targetPos.y, 2) <= 16)
                 {
                     StartCoroutine(Move(targetPos));
                 }
@@ -57,6 +64,16 @@ public class PieceMoves : MonoBehaviour
         transform.position = inTargetPos;
 
         isMoving = false;
+    }
+
+    /// <summary>
+    /// PuzzleGridを呼び出しパズルピースが配置可能かを確認します
+    /// </summary>
+    public void PiecePossible()
+    {
+        bool banana;
+        banana = Pgrid.PuzzleCheck(transform.position.x, transform.position.y, gameObject);
+        Debug.Log(banana);
     }
 
     /// <summary>

@@ -4,42 +4,84 @@
 // 列挙体で制御するのでパズルピースの名前で呼び出すことができるようにしたいです
 // 
 
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class PieceList : MonoBehaviour
 {
-    enum PuzzlePiece
+    // 1. モノ（ mono ） · 2. ジ（ di ） · 3. トリ（ tri ） · 4. テトラ（ tetra ）
+
+    int[,] Imino = new int[4, 4] {
+            { 1, 1, 1, 1 },
+            { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 } };
+
+    int[,] Jmino = new int[4, 4] {
+            { 1, 0, 0, 0 },
+            { 1, 1, 1, 0 },
+            { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 } };
+
+    int[,] Lmino = new int[4, 4] {
+            { 0, 0, 1, 0 },
+            { 1, 1, 1, 0 },
+            { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 } };
+
+    int[,] Omino = new int[4, 4] {
+            { 1, 1, 0, 0 },
+            { 1, 1, 0, 0 },
+            { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 } };
+
+    int[,] Smino = new int[4, 4] {
+            { 0, 1, 1, 0 },
+            { 1, 1, 0, 0 },
+            { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 } };
+
+    int[,] Tmino = new int[4, 4] {
+            { 0, 1, 0, 0 },
+            { 1, 1, 1, 0 },
+            { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 } };
+
+    int[,] Zmino = new int[4, 4] {
+            { 1, 1, 0, 0 },
+            { 0, 1, 1, 0 },
+            { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 } };
+
+    public int[,] PieceShapes(GameObject inGameObject)
     {
-        // 1. モノ（ mono ） · 2. ジ（ di ） · 3. トリ（ tri ） · 4. テトラ（ tetra ）
+        int[,] PieceShape = new int[4,4];
 
-        // 四つブロック
-        Imino = 1,
-        Jmino = 2,
-        Lmino = 3,
-        Omino = 4,
-        Smino = 5,
-        Tmino = 6,
-        Zmino = 7,
+        switch (inGameObject.tag)
+        {
+            case "Imino":
+                PieceShape = Imino;
+                break;
+            case "Jmino":
+                PieceShape = Jmino;
+                break;
+            case "Lmino":
+                PieceShape = Lmino;
+                break;
+            case "Omino":
+                PieceShape = Omino;
+                break;
+            case "Smino":
+                PieceShape = Smino;
+                break;
+            case "Tmino":
+                PieceShape = Tmino;
+                break;
+            case "Zmino":
+                PieceShape = Zmino;
+                break;
+        }
 
-        // 三つのブロック
-        triJmino = 8,
-        triLmino = 9,
-
-        // 二つのブロック
-        dimino = 10,
-
-        // 一つのブロック
-        monomino = 11,
-    }
-
-    //int[,,] Pieces = new int[12, 2, 2];
-    private int[,,] test = { { { 1, 0 }, { -1, 0 }, { 4, 0 } } };
-
-
-    public int PiecesList()
-    {
-
-
-        return 0;
+        return PieceShape;
     }
 }
