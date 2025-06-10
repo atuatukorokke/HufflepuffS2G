@@ -109,6 +109,7 @@ public class Boss1Bullet : MonoBehaviour
     private float damageLate = 1f; // ダメージを与える割合
     [SerializeField] private float attak = 1f; // 攻撃力
     [SerializeField] private Vector2 spellPos; // 必殺技・セミファイナルを打つときにこの座標に一旦戻る
+    [SerializeField] private SpecialMove_Gomi GomiSpecialMove; // 必殺技のクラス
 
     [Header("一段階目の通常弾幕の変数")]
     [SerializeField] private FastBullet fastBulletValue;
@@ -216,8 +217,6 @@ public class Boss1Bullet : MonoBehaviour
 
                     angle += angleStep;
 
-                    Destroy(proj, fastBulletValue.DeleteTime); // 何秒後に弾幕を消す
-
                 }
                 fastBulletValue.angleOffset += 10f; // ここを変えれば回転速度が変わる
                 if (fastBulletValue.angleOffset >= 360) fastBulletValue.angleOffset -= 360f; // 範囲内を保つ
@@ -271,9 +270,6 @@ public class Boss1Bullet : MonoBehaviour
 
                 // 次の弾の発射方向を設定
                 angle += angleStep;
-
-                // 一定時間後に弾を削除
-                Destroy(proj, secondBulletValue.FevolutionDeleteTime);
             }
 
             // 弾の回転角度を更新（回転速度を調整）
@@ -316,9 +312,6 @@ public class Boss1Bullet : MonoBehaviour
 
                 // 次の弾の発射方向を設定
                 angle += angleStep;
-
-                // 一定時間後に弾を削除
-                Destroy(proj, thirdBulletValue.RotationDeleteTime);
             }
 
             // 弾の回転角度を更新（回転速度を調整）
@@ -386,8 +379,6 @@ public class Boss1Bullet : MonoBehaviour
                     rb.linearVelocity = moveDirection.normalized * speed; // 速度を正規化して適用
 
                     speed = speed * 0.9f;
-                    // 一定時間後に弾を削除
-                    Destroy(proj, FourBulletValue.DeleteTime);
                 }
                 
                 // 次の弾の発射方向を設定
@@ -409,27 +400,29 @@ public class Boss1Bullet : MonoBehaviour
     /// </summary>
     private IEnumerator FireFinalBullet()
     {
-        while(state == State.final && bulletState == BulletState.normal)
+        while (state == State.final && bulletState == BulletState.normal) 
         {
-            for(int i = 0; i < finalBulletValue.FlyingNum; i++)
+            for (int i = 0; i < finalBulletValue.FlyingNum; i++)
             {
-                finalBulletValue.player = GameObject.Find("Player").transform;
-                float angle = (360 / finalBulletValue.FlyingNum) * i;
-                Vector3 spawnPos = transform.position + new Vector3(
-                    Mathf.Cos(angle * Mathf.Deg2Rad) * finalBulletValue.radius,
-                    Mathf.Sin(angle * Mathf.Deg2Rad) * finalBulletValue.radius,
-                    0f);
-                GameObject bullet = Instantiate(finalBulletValue.Prehab, spawnPos, Quaternion.identity);
-                Destroy(bullet, finalBulletValue.DeleteTime);
+                if(bulletState == BulletState.normal)
+                {
+                    finalBulletValue.player = GameObject.Find("Player").transform;
+                    float angle = (360 / finalBulletValue.FlyingNum) * i;
+                    Vector3 spawnPos = transform.position + new Vector3(
+                        Mathf.Cos(angle * Mathf.Deg2Rad) * finalBulletValue.radius,
+                        Mathf.Sin(angle * Mathf.Deg2Rad) * finalBulletValue.radius,
+                        0f);
+                    GameObject bullet = Instantiate(finalBulletValue.Prehab, spawnPos, Quaternion.identity);
 
-                // 発射時にプレイヤーの位置を記録し、方向を決定
-                Vector3 direction = (finalBulletValue.player.position - spawnPos).normalized;
-                finalBulletValue.bullets.Add(bullet);
-                yield return new WaitForSeconds(finalBulletValue.DelayTime);
+                    // 発射時にプレイヤーの位置を記録し、方向を決定
+                    Vector3 direction = (finalBulletValue.player.position - spawnPos).normalized;
+                    finalBulletValue.bullets.Add(bullet);
+                    yield return new WaitForSeconds(finalBulletValue.DelayTime);
+                }
             }
             StartCoroutine(BulletMover());
             yield return new WaitForSeconds(0.5f);
-        }
+        } 
         yield return null;
     }
 
@@ -447,34 +440,11 @@ public class Boss1Bullet : MonoBehaviour
                 Vector3 direction = (targetPos - bullet.transform.position).normalized;
                 bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * finalBulletValue.speed;
             }
+            else finalBulletValue.bullets.Clear();
         }
         finalBulletValue.bullets.Clear();
         yield return null;
     }
-
-    /// <summary>
-    /// 各段階の必殺技の制御を行います
-    /// </summary>
-    /// <returns>動作を終了させます</returns>
-    private IEnumerator FireSpecialBullet()
-    {
-        float limitTime = 1.5f; // 移動にかける時間
-        float elapsedTime = 0f; // 移動にかかった時間
-        Vector2 startPosition = transform.position;
-        // randomPosにlimitTimeかけて移動する
-        while (elapsedTime < limitTime)
-        {
-            transform.position = new Vector2(
-                Mathf.Lerp(startPosition.x, spellPos.x, elapsedTime / limitTime),
-                Mathf.Lerp(startPosition.y, spellPos.y, elapsedTime / limitTime)
-                );
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        Debug.Log("特殊弾幕発射: " + state);
-        yield return null;
-    }
-
     /// <summary>
     /// 最後の大技を出します
     /// </summary>
@@ -524,9 +494,10 @@ public class Boss1Bullet : MonoBehaviour
         currentHP -= damage;
         if (currentHP <= maxHP * 0.2f && bulletState == BulletState.normal)
         {
+            BulletDelete();
             damageLate = 0.2f; // HPの減少スピードの変更
             bulletState = BulletState.spell; // 弾幕の変更
-            yield return StartCoroutine(FireSpecialBullet());
+            GomiSpecialMove.BomJudgement(state, bulletState);
         }
         else if (currentHP <= 0)
         {
@@ -548,6 +519,10 @@ public class Boss1Bullet : MonoBehaviour
     private void BulletDelete()
     {
         GameObject[] objects = GameObject.FindGameObjectsWithTag("E_Bullet");
+        if(state == State.final)
+        {
+            finalBulletValue.bullets.Clear();
+        }
         foreach(GameObject bullet in objects)
         {
             Destroy(bullet);

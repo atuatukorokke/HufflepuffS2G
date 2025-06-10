@@ -376,6 +376,7 @@ GameObject:
   - component: {fileID: 691746167}
   - component: {fileID: 691746171}
   - component: {fileID: 691746170}
+  - component: {fileID: 691746172}
   m_Layer: 0
   m_Name: Gomi_king
   m_TagString: Untagged
@@ -395,12 +396,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f977fa81f3bfca4abd1a6ae2c93d6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 3
+  state: 0
   bulletState: 0
   maxHP: 100
-  currentHP: 0
+  currentHP: 13.4
   attak: 1
   spellPos: {x: 6, y: 0}
+  GomiSpecialMove: {fileID: 691746172}
   fastBulletValue:
     BulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
     FlyingNum: 20
@@ -577,6 +579,34 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
+--- !u!114 &691746172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691746166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2dfe5e4851bcd84792bac69472ce68d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spellPos: {x: 6, y: 0}
+  fastSpecialBom:
+    BulletPrehab: {fileID: 3591624035391491214, guid: 479c6fdb9eba609408ea39594e45b54f, type: 3}
+    ShotNum: 3
+    DelayTime: 0.2
+    speed: 0.5
+  secondSpecialBom:
+    BulletPrehab: {fileID: 0}
+  thirdSpecialBom:
+    BulletPrehab: {fileID: 0}
+  fourSpecialBom:
+    BulletPrehab: {fileID: 0}
+  finalSpecianBom:
+    BulletPrehab: {fileID: 0}
+  specialFinalAttack:
+    BulletPrehab: {fileID: 0}
 --- !u!1 &1182312687
 GameObject:
   m_ObjectHideFlags: 0
