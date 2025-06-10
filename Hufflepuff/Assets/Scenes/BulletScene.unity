@@ -592,6 +592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spellPos: {x: 6, y: 0}
+  boss1Bullet: {fileID: 691746167}
   fastSpecialBom:
     BulletPrehab: {fileID: 3591624035391491214, guid: 479c6fdb9eba609408ea39594e45b54f, type: 3}
     ShotNum: 3

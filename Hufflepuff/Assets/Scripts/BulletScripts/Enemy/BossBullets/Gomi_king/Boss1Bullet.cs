@@ -126,6 +126,9 @@ public class Boss1Bullet : MonoBehaviour
     [Header("最終段階目の通常弾幕の変数")]
     [SerializeField] private FinalBulletValue finalBulletValue;
 
+    public State State { get => state; set => state = value; }
+    public BulletState BulletState { get => bulletState; set => bulletState = value; }
+
     void Start()
     {
         currentHP = maxHP;
@@ -152,7 +155,7 @@ public class Boss1Bullet : MonoBehaviour
     /// <returns></returns>
     IEnumerator BulletUpdate()
     {
-        if (currentHP > 0 && bulletState == BulletState.normal)
+        if (currentHP > 0 && BulletState == BulletState.normal)
         {
             StartCoroutine(HandleBulletPattern());
         }
@@ -195,7 +198,7 @@ public class Boss1Bullet : MonoBehaviour
     {
         // 画面右半分をランダムに移動してから
         // 円形の弾幕を打つ
-        while(state == State.fast && bulletState == BulletState.normal)
+        while(state == State.fast && BulletState == BulletState.normal)
         {
             // 弾の横間隔の計算
             float angleStep = 360f / fastBulletValue.FlyingNum;
@@ -227,7 +230,7 @@ public class Boss1Bullet : MonoBehaviour
             float elapsedTime = 0f; // 移動にかかった時間
             Vector2 startPosition = transform.position;
             // randomPosにlimitTimeかけて移動する
-            while (elapsedTime < limitTime && bulletState == BulletState.normal)
+            while (elapsedTime < limitTime && BulletState == BulletState.normal)
             {
                 transform.position = new Vector2(
                     Mathf.Lerp(startPosition.x, randomPos.x, elapsedTime / limitTime),
@@ -247,7 +250,7 @@ public class Boss1Bullet : MonoBehaviour
     {
         // 円形の弾幕を回転させながら打ちます
 
-        while (state == State.second && bulletState == BulletState.normal)
+        while (state == State.second && BulletState == BulletState.normal)
         {
             // 弾の横間隔の計算（1周360度を指定の弾数で均等に分割）
             float angleStep = 360f / secondBulletValue.FevolutionFlyingNum;
@@ -290,7 +293,7 @@ public class Boss1Bullet : MonoBehaviour
     /// </summary>
     private IEnumerator FireThirdBullet()
     {
-        while(state == State.third && bulletState == BulletState.normal)
+        while(state == State.third && BulletState == BulletState.normal)
         {
             // 弾の横間隔の計算（360度を指定の弾数で均等に分割）
             float angleStep = 360f / thirdBulletValue.RotationFlyingNum;
@@ -330,13 +333,13 @@ public class Boss1Bullet : MonoBehaviour
     private IEnumerator FireFourBullet()
     {
         StartCoroutine(FireBullet());
-        while (state == State.four && bulletState == BulletState.normal)
+        while (state == State.four && BulletState == BulletState.normal)
         {
             Vector2 targetPos = RandomPos(); // 移動先
             Vector2 startPosition = transform.position; // 移動の開始地点
             float limitTime = 2f; // 移動にかける時間
             float elapsedtime = 0; // 移動にかかってる時間
-            while(elapsedtime < limitTime && bulletState == BulletState.normal)
+            while(elapsedtime < limitTime && BulletState == BulletState.normal)
             {
                 transform.position = new Vector2(
                     Mathf.Lerp(startPosition.x, targetPos.x, elapsedtime / limitTime),
@@ -352,7 +355,7 @@ public class Boss1Bullet : MonoBehaviour
     
     private IEnumerator FireBullet()
     {
-        while(bulletState == BulletState.normal && state == State.four)
+        while(BulletState == BulletState.normal && state == State.four)
         {
             // 弾の横間隔の計算（360度を指定の弾数で均等に分割）
             float angleStep = 360f / FourBulletValue.FlyingNum;
@@ -400,11 +403,11 @@ public class Boss1Bullet : MonoBehaviour
     /// </summary>
     private IEnumerator FireFinalBullet()
     {
-        while (state == State.final && bulletState == BulletState.normal) 
+        while (state == State.final && BulletState == BulletState.normal) 
         {
             for (int i = 0; i < finalBulletValue.FlyingNum; i++)
             {
-                if(bulletState == BulletState.normal)
+                if(BulletState == BulletState.normal)
                 {
                     finalBulletValue.player = GameObject.Find("Player").transform;
                     float angle = (360 / finalBulletValue.FlyingNum) * i;
@@ -477,7 +480,7 @@ public class Boss1Bullet : MonoBehaviour
         if (state < State.final)
         {
             state++;
-            bulletState = BulletState.normal; // 弾幕の変更
+            BulletState = BulletState.normal; // 弾幕の変更
             damageLate = 1f;
             currentHP = maxHP; // HPを回復
             Debug.Log("Stateが変更されました: " + state);
@@ -492,12 +495,12 @@ public class Boss1Bullet : MonoBehaviour
     private IEnumerator TakeDamage(float damage)
     {
         currentHP -= damage;
-        if (currentHP <= maxHP * 0.2f && bulletState == BulletState.normal)
+        if (currentHP <= maxHP * 0.2f && BulletState == BulletState.normal)
         {
             BulletDelete();
             damageLate = 0.2f; // HPの減少スピードの変更
-            bulletState = BulletState.spell; // 弾幕の変更
-            GomiSpecialMove.BomJudgement(state, bulletState);
+            BulletState = BulletState.spell; // 弾幕の変更
+            GomiSpecialMove.BomJudgement(state);
         }
         else if (currentHP <= 0)
         {

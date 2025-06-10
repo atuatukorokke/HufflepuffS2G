@@ -51,6 +51,7 @@ public class SpecialMove_Gomi : MonoBehaviour
 {
     [Header("ƒ{ƒX‘S‘Ì‚ğŠÇ—‚·‚é•Ï”")]
     [SerializeField] private Vector2 spellPos;// •KE‹ZEƒZƒ~ƒtƒ@ƒCƒiƒ‹‚ğ‘Å‚Â‚Æ‚«‚É‚±‚ÌÀ•W‚Éˆê’U–ß‚é
+    [SerializeField] private Boss1Bullet boss1Bullet;
 
     [Header("ˆê’iŠK–Ú‚Ì•KE‹Z‚Ì•Ï”")]
     [SerializeField] private FastSpecialBom fastSpecialBom;
@@ -69,24 +70,24 @@ public class SpecialMove_Gomi : MonoBehaviour
     /// ‚Ç‚Ì•KE‹Z‚ğ‘Å‚Â‚©‚Ì”»’è‚ğs‚¢‚Ü‚·
     /// </summary>
     /// <param name="state">¡‚Ìƒ{ƒX‚Ìó‘Ô‚Å‚·</param>
-    public void BomJudgement(State state, BulletState bulletState)
+    public void BomJudgement(State state)
     {
         switch(state)
         {
             case State.fast:
-                StartCoroutine(FastSpecialBullet(state, bulletState));
+                StartCoroutine(FastSpecialBullet());
                 break;
             case State.second:
-                StartCoroutine(SecondSpecialBullet(state, bulletState));
+                StartCoroutine(SecondSpecialBullet());
                 break;
             case State.third:
-                StartCoroutine(ThirdSpecialBullet(state, bulletState));
+                StartCoroutine(ThirdSpecialBullet());
                 break;
             case State.four:
-                StartCoroutine(FourSpecialBullet(state, bulletState));
+                StartCoroutine(FourSpecialBullet());
                 break;
             case State.final:
-                StartCoroutine(FinalSpecialBullet(state, bulletState));
+                StartCoroutine(FinalSpecialBullet());
                 break;
 
         }
@@ -96,10 +97,10 @@ public class SpecialMove_Gomi : MonoBehaviour
     /// ˆê’iŠK–Ú‚Ì•KE‹Z
     /// </summary>
     /// <returns></returns>
-    private IEnumerator FastSpecialBullet(State state, BulletState bulletState)
+    private IEnumerator FastSpecialBullet()
     {
         yield return StartCoroutine(FireSpecialBullet());
-        while(state == State.fast && bulletState == BulletState.spell)
+        while(boss1Bullet.State == State.fast && boss1Bullet.BulletState == BulletState.spell)
         {
             for(int i = 0; i < fastSpecialBom.ShotNum; i++)
             {
@@ -120,9 +121,10 @@ public class SpecialMove_Gomi : MonoBehaviour
     /// “ñ’iŠK–Ú‚Ì•KE‹Z
     /// </summary>
     /// <returns></returns>
-    private IEnumerator SecondSpecialBullet(State state, BulletState bulletState)
+    private IEnumerator SecondSpecialBullet()
     {
-        while(state == State.second && bulletState == BulletState.spell)
+        yield return StartCoroutine(FireSpecialBullet());
+        while (boss1Bullet.State == State.second && boss1Bullet.BulletState == BulletState.spell)
         {
             yield return new WaitForSeconds(20);
         }
@@ -133,9 +135,10 @@ public class SpecialMove_Gomi : MonoBehaviour
     /// O’iŠK–Ú‚Ì•KE‹Z
     /// </summary>
     /// <returns></returns>
-    private IEnumerator ThirdSpecialBullet(State state, BulletState bulletState)
+    private IEnumerator ThirdSpecialBullet()
     {
-        while(state == State.third && bulletState == BulletState.spell)
+        yield return StartCoroutine(FireSpecialBullet());
+        while (boss1Bullet.State == State.third && boss1Bullet.BulletState == BulletState.spell)
         {
             yield return new WaitForSeconds(20);
         }
@@ -146,9 +149,10 @@ public class SpecialMove_Gomi : MonoBehaviour
     /// l’iŠK–Ú‚Ì•KE‹Z
     /// </summary>
     /// <returns></returns>
-    private IEnumerator FourSpecialBullet(State state, BulletState bulletState)
+    private IEnumerator FourSpecialBullet()
     {
-        while(state == State.four && bulletState == BulletState.spell)
+        yield return StartCoroutine(FireSpecialBullet());
+        while (boss1Bullet.State == State.four && boss1Bullet.BulletState == BulletState.spell)
         {
             yield return new WaitForSeconds(20);
         }
@@ -159,9 +163,10 @@ public class SpecialMove_Gomi : MonoBehaviour
     /// ÅI’iŠK–Ú‚Ì•KE‹Z
     /// </summary>
     /// <returns></returns>
-    private IEnumerator FinalSpecialBullet(State state, BulletState bulletState)
+    private IEnumerator FinalSpecialBullet()
     {
-        while(state == State.final && bulletState == BulletState.spell)
+        yield return StartCoroutine(FireSpecialBullet());
+        while (boss1Bullet.State == State.final && boss1Bullet.BulletState == BulletState.spell)
         {
             yield return new WaitForSeconds(20);
         }
