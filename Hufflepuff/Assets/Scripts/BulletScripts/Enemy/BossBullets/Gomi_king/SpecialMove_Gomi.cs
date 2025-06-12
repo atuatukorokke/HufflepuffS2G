@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-// 一段階目
+// 一段階目-----------------------------------------------------------------------
 [System.Serializable]
 public class FastSpecialBom
 {
@@ -11,34 +12,39 @@ public class FastSpecialBom
     [SerializeField] public int ShotNum; // 弾幕を打つ回数
     [SerializeField] public float DelayTime; // 弾幕を打つ間隔
     [SerializeField] public float speed; // ゴミーの速さ
-
 }
-// 二段階目
+// 二段階目-----------------------------------------------------------------------
 [System.Serializable]
 public class SecondSpecialBom
 {
-    [SerializeField] public GameObject BulletPrehab;
+    public GameObject RightBulletPrehab; // 右向きのハエ
+    public GameObject LeftBulletPrehab; // 左向きのハエ
+    public int BulletNum; // 打つ数
+    public float time; // 何秒後に後ろからハエを出すか
+    public float speed; // 弾幕の速さ
+    [Range(0, 360)]
+    public float angle;
+
 }
-// 三段階目
+// 三段階目-----------------------------------------------------------------------
 [System.Serializable]
 public class ThirdSpecialBom
 {
     [SerializeField] public GameObject BulletPrehab;
-}
-// 四段階目
+ }
+// 四段階目-----------------------------------------------------------------------
 [System.Serializable]
 public class FourSpecialBom
 {
     [SerializeField] public GameObject BulletPrehab;
 }
-// 最終段階目
+// 最終段階目---------------------------------------------------------------------
 [System.Serializable]
 public class FinalSpecianBom
 {
     [SerializeField] public GameObject BulletPrehab;
 }
-
-// セミファイナル
+// セミファイナル-----------------------------------------------------------------
 [System.Serializable]
 public class SpecialFinalAttack
 {
@@ -126,7 +132,13 @@ public class SpecialMove_Gomi : MonoBehaviour
         yield return StartCoroutine(FireSpecialBullet());
         while (boss1Bullet.State == State.second && boss1Bullet.BulletState == BulletState.spell)
         {
-            yield return new WaitForSeconds(20);
+            for(int i = -3; i < 3; i++)
+            {
+                float baseAngle = i * 20 + secondSpecialBom.angle;
+                float rad = baseAngle * Mathf.Rad2Deg;
+
+                yield return new WaitForSeconds(0.5f);
+            }
         }
         yield return null;
     }
