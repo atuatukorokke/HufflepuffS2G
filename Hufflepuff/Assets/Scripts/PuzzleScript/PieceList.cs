@@ -53,9 +53,20 @@ public class PieceList : MonoBehaviour
             { 0, 0, 0, 0 },
             { 0, 0, 0, 0 } };
 
+    /// <summary>
+    /// 引数として渡されたゲームオブジェクトのタグでパズルピースの形を返す
+    /// </summary>
+    /// <param name="inGameObject">パズルピースをGameObjectで入れてください</param>
+    /// <returns>タグを参照してピースの形を二次元配列で返却</returns>
     public int[,] PieceShapes(GameObject inGameObject)
     {
-        int[,] PieceShape = new int[4,4];
+        Debug.Log(inGameObject);
+
+        int[,] PieceShape = new int[4,4] {
+            { 00, 01, 02, 03 },
+            { 10, 11, 12, 13 },
+            { 20, 21, 22, 23 },
+            { 30, 31, 32, 33 } };
 
         switch (inGameObject.tag)
         {
@@ -79,6 +90,9 @@ public class PieceList : MonoBehaviour
                 break;
             case "Zmino":
                 PieceShape = Zmino;
+                break;
+            default:
+                Debug.Log("タグが読み取れてない");
                 break;
         }
 

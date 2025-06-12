@@ -24,7 +24,7 @@ public class PuzzleGrid : MonoBehaviour
     }
 
     /// <summary>
-    /// グリッドの初期化（すべて空いている状態にする）
+    /// パズル盤面の初期化（すべて空いている状態にする）
     /// </summary>
     private void InitializeGrid()
     {
@@ -52,8 +52,6 @@ public class PuzzleGrid : MonoBehaviour
         {
             int[,] PieceShape = new int[4, 4];
             PieceShape = PList.PieceShapes(inGameObject);
-
-            Debug.Log(PieceShape);
 
             return true;
         }
