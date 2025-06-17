@@ -13,11 +13,9 @@ public class WinderBullet : MonoBehaviour
 {
     [Header("弾幕用変数")]
     [SerializeField] private GameObject BulletPrehab; // 弾幕のプレハブ
-    [SerializeField] private int ShotNum; // 弾幕を撃つ数
     [SerializeField] private float speed; // 弾幕のスピード
     [SerializeField] private float delayTime; // 弾幕を撃つ間隔
     [SerializeField] private float destroyTime; // 弾幕を消すまでの時間
-    private float bulletSpacing;
     [SerializeField]
     [Range(0, 360)]
     float angle;

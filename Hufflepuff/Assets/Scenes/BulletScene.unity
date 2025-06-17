@@ -428,7 +428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &691746167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,13 +441,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f977fa81f3bfca4abd1a6ae2c93d6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
+  state: 4
   bulletState: 0
   maxHP: 100
-  currentHP: 13.4
+  currentHP: 100
   attak: 1
   spellPos: {x: 6, y: 0}
   GomiSpecialMove: {fileID: 691746172}
+  isDead: 0
   fastBulletValue:
     BulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
     FlyingNum: 20
@@ -644,11 +645,12 @@ MonoBehaviour:
     DelayTime: 0.2
     speed: 0.5
   secondSpecialBom:
-    RightBulletPrehab: {fileID: 0}
-    LeftBulletPrehab: {fileID: 0}
-    BulletNum: 0
-    time: 0
-    speed: 0
+    RightBulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
+    LeftBulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
+    delayTime: 5
+    BulletNum: 100
+    time: 5
+    speed: 5
     angle: 0
   thirdSpecialBom:
     BulletPrehab: {fileID: 0}
@@ -657,7 +659,11 @@ MonoBehaviour:
   finalSpecianBom:
     BulletPrehab: {fileID: 0}
   specialFinalAttack:
-    BulletPrehab: {fileID: 0}
+    BulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
+    bulletNum: 20
+    speed: 1
+    delayTime: 1.5
+    angleOffset: 0
 --- !u!1 &1182312687
 GameObject:
   m_ObjectHideFlags: 0

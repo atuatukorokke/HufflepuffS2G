@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 // 一段階目-----------------------------------------------------------------------
 [System.Serializable]
@@ -19,6 +20,7 @@ public class SecondSpecialBom
 {
     public GameObject RightBulletPrehab; // 右向きのハエ
     public GameObject LeftBulletPrehab; // 左向きのハエ
+    public float delayTime;
     public int BulletNum; // 打つ数
     public float time; // 何秒後に後ろからハエを出すか
     public float speed; // 弾幕の速さ
@@ -48,7 +50,11 @@ public class FinalSpecianBom
 [System.Serializable]
 public class SpecialFinalAttack
 {
-    [SerializeField] public GameObject BulletPrehab;
+    public GameObject BulletPrehab; // 弾幕のプレハブ
+    public int bulletNum; // 弾幕の数
+    public float speed; // 弾幕のスピード
+    public float delayTime; // 弾幕の出す間隔
+    public float angleOffset;
  }
 
 
@@ -105,7 +111,7 @@ public class SpecialMove_Gomi : MonoBehaviour
     /// <returns></returns>
     private IEnumerator FastSpecialBullet()
     {
-        yield return StartCoroutine(FireSpecialBullet());
+        yield return StartCoroutine(FireSpecialPositionMove());
         while(boss1Bullet.State == State.fast && boss1Bullet.BulletState == BulletState.spell)
         {
             for(int i = 0; i < fastSpecialBom.ShotNum; i++)
@@ -129,16 +135,50 @@ public class SpecialMove_Gomi : MonoBehaviour
     /// <returns></returns>
     private IEnumerator SecondSpecialBullet()
     {
-        yield return StartCoroutine(FireSpecialBullet());
+        // 放射状に弾幕を生成する
+        // 数秒後にプレイヤーの反対側からランダムなx座標に生成する
+        // 上記の弾幕は右方向に直線的に飛ぶ
+
+        float shotTime = 0;
+        yield return StartCoroutine(FireSpecialPositionMove());
         while (boss1Bullet.State == State.second && boss1Bullet.BulletState == BulletState.spell)
         {
-            for(int i = -3; i < 3; i++)
+            while (shotTime < secondSpecialBom.delayTime)
             {
-                float baseAngle = i * 20 + secondSpecialBom.angle;
-                float rad = baseAngle * Mathf.Rad2Deg;
+                for (int i = -3; i < 3; i++)
+                {
+                    float baseAngle = i * 20 + secondSpecialBom.angle;
+                    float incrementalAngle = shotTime * 10f; // 時間経過で角度を変化させる
 
-                yield return new WaitForSeconds(0.5f);
+                    float rad = (baseAngle + incrementalAngle) * Mathf.Deg2Rad;
+
+                    float dirX = Mathf.Cos(rad);
+                    float dirY = Mathf.Sin(rad);
+
+                    Vector3 moveDirection = new Vector3(dirX, dirY, 0).normalized;
+
+                    GameObject proj = Instantiate(secondSpecialBom.LeftBulletPrehab, transform.position, Quaternion.identity);
+
+                    Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+                    rb.linearVelocity = moveDirection * -secondSpecialBom.speed;
+
+
+                }
+                shotTime += 0.07f;
+                yield return new WaitForSeconds(0.07f);
             }
+
+            // 反対側から弾幕を飛ばす（ハエ）
+            for(int i = 0; i < secondSpecialBom.BulletNum; i++)
+            {
+                Vector2 randomPos = new Vector2(-9f, Random.Range(-4.5f, 4.5f)); // 生成座標の設定
+                GameObject proj = Instantiate(secondSpecialBom.RightBulletPrehab, randomPos, Quaternion.identity); // 弾幕の生成
+                Vector3 moveDirection = new Vector3(-20f, 0, 0).normalized; // 方向の設定
+                proj.GetComponent<Rigidbody2D>().linearVelocity = moveDirection * -secondSpecialBom.speed; // 飛ばす
+                yield return new WaitForSeconds(0.05f);
+            }
+            shotTime = 0f;
+
         }
         yield return null;
     }
@@ -149,7 +189,7 @@ public class SpecialMove_Gomi : MonoBehaviour
     /// <returns></returns>
     private IEnumerator ThirdSpecialBullet()
     {
-        yield return StartCoroutine(FireSpecialBullet());
+        yield return StartCoroutine(FireSpecialPositionMove());
         while (boss1Bullet.State == State.third && boss1Bullet.BulletState == BulletState.spell)
         {
             yield return new WaitForSeconds(20);
@@ -163,7 +203,7 @@ public class SpecialMove_Gomi : MonoBehaviour
     /// <returns></returns>
     private IEnumerator FourSpecialBullet()
     {
-        yield return StartCoroutine(FireSpecialBullet());
+        yield return StartCoroutine(FireSpecialPositionMove());
         while (boss1Bullet.State == State.four && boss1Bullet.BulletState == BulletState.spell)
         {
             yield return new WaitForSeconds(20);
@@ -175,12 +215,32 @@ public class SpecialMove_Gomi : MonoBehaviour
     /// 最終段階目の必殺技
     /// </summary>
     /// <returns></returns>
-    private IEnumerator FinalSpecialBullet()
+    public IEnumerator FinalSpecialBullet()
     {
-        yield return StartCoroutine(FireSpecialBullet());
+        yield return StartCoroutine(FireSpecialPositionMove());
+
+        float angleStep = 360 / specialFinalAttack.bulletNum;
+        float angle = specialFinalAttack.angleOffset;
         while (boss1Bullet.State == State.final && boss1Bullet.BulletState == BulletState.spell)
         {
-            yield return new WaitForSeconds(20);
+            Vector3 randomPos = new Vector3(Random.Range(-8.4f, 8.5f), Random.Range(-4.5f, 4.5f), 0);
+            Debug.Log(randomPos);
+            for(int i = 0; i < specialFinalAttack.bulletNum; i++)
+            {
+                float dirX = Mathf.Cos(angle * Mathf.Deg2Rad);
+                float dirY = Mathf.Sin(angle * Mathf.Deg2Rad);
+                Vector3 moveDirection = new Vector3(dirX, dirY, 0);
+
+                GameObject proj = Instantiate(specialFinalAttack.BulletPrehab, randomPos, Quaternion.identity);
+                Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+                rb.linearVelocity = moveDirection.normalized * specialFinalAttack.speed;
+
+                angle += angleStep;
+            }
+            specialFinalAttack.angleOffset += 10f; // ここを変えれば回転速度が変わる
+            if (specialFinalAttack.angleOffset >= 360) specialFinalAttack.angleOffset -= 360f; // 範囲内を保つ
+            yield return new WaitForSeconds(specialFinalAttack.delayTime);
+
         }
         yield return null;
     }
@@ -189,8 +249,9 @@ public class SpecialMove_Gomi : MonoBehaviour
     /// 必殺技を打つときの移動をします
     /// </summary>
     /// <returns>動作を終了させます</returns>
-    private IEnumerator FireSpecialBullet()
+    private IEnumerator FireSpecialPositionMove()
     {
+        boss1Bullet.DamageLate = 0f;
         float limitTime = 1.5f; // 移動にかける時間
         float elapsedTime = 0f; // 移動にかかった時間
         Vector2 startPosition = transform.position;
@@ -204,6 +265,7 @@ public class SpecialMove_Gomi : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+        boss1Bullet.DamageLate = 0.2f;
         yield return null;
     }
 }

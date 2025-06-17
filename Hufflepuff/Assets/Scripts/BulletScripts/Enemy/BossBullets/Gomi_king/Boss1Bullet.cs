@@ -110,6 +110,8 @@ public class Boss1Bullet : MonoBehaviour
     [SerializeField] private float attak = 1f; // 攻撃力
     [SerializeField] private Vector2 spellPos; // 必殺技・セミファイナルを打つときにこの座標に一旦戻る
     [SerializeField] private SpecialMove_Gomi GomiSpecialMove; // 必殺技のクラス
+    [SerializeField] private bool isDead = false;
+
 
     [Header("一段階目の通常弾幕の変数")]
     [SerializeField] private FastBullet fastBulletValue;
@@ -128,6 +130,7 @@ public class Boss1Bullet : MonoBehaviour
 
     public State State { get => state; set => state = value; }
     public BulletState BulletState { get => bulletState; set => bulletState = value; }
+    public float DamageLate { get => damageLate; set => damageLate = value; }
 
     void Start()
     {
@@ -481,7 +484,7 @@ public class Boss1Bullet : MonoBehaviour
         {
             state++;
             BulletState = BulletState.normal; // 弾幕の変更
-            damageLate = 1f;
+            DamageLate = 1f;
             currentHP = maxHP; // HPを回復
             Debug.Log("Stateが変更されました: " + state);
             yield return StartCoroutine(BulletUpdate());
@@ -498,16 +501,16 @@ public class Boss1Bullet : MonoBehaviour
         if (currentHP <= maxHP * 0.2f && BulletState == BulletState.normal)
         {
             BulletDelete();
-            damageLate = 0.2f; // HPの減少スピードの変更
             BulletState = BulletState.spell; // 弾幕の変更
             GomiSpecialMove.BomJudgement(state);
         }
-        else if (currentHP <= 0)
+        else if (currentHP <= 0 && !isDead)
         {
             BulletDelete();
             if (state == State.final)
             {
-                yield return StartCoroutine(SpecialFinalBullet());
+                isDead = true;
+                yield return StartCoroutine(GomiSpecialMove.FinalSpecialBullet());
             }
             else
             {
@@ -548,7 +551,7 @@ public class Boss1Bullet : MonoBehaviour
     {
         if (collision.CompareTag("P_Bullet"))
         {
-            StartCoroutine(TakeDamage(attak * damageLate)); // ダメージ計算
+            StartCoroutine(TakeDamage(attak * DamageLate)); // ダメージ計算
             Destroy(collision.gameObject); // 弾を消す
         }
     }
