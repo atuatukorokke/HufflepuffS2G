@@ -72,7 +72,7 @@ public class PieceMoves : MonoBehaviour
     public void PiecePossible()
     {
         bool banana;
-        banana = Pgrid.PuzzleCheck(transform.position.x, transform.position.y, gameObject);
+        banana = Pgrid.PuzzleCheck(gameObject, transform.position.x + 3, transform.position.y - 3, transform.rotation.z);
         Debug.Log(banana);
     }
 
