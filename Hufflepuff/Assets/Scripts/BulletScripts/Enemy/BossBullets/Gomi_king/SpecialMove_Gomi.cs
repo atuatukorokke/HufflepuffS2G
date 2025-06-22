@@ -33,6 +33,9 @@ public class SecondSpecialBom
 public class ThirdSpecialBom
 {
     [SerializeField] public GameObject BulletPrehab;
+    [SerializeField] public float maxSpeed;
+    [SerializeField] public float minSpeed;
+    [SerializeField] public float delayTime;
  }
 // 四段階目-----------------------------------------------------------------------
 [System.Serializable]
@@ -192,7 +195,8 @@ public class SpecialMove_Gomi : MonoBehaviour
         yield return StartCoroutine(FireSpecialPositionMove());
         while (boss1Bullet.State == State.third && boss1Bullet.BulletState == BulletState.spell)
         {
-            yield return new WaitForSeconds(20);
+            GameObject proj = Instantiate(thirdSpecialBom.BulletPrehab, transform.position, Quaternion.identity);
+            yield return new WaitForSeconds(thirdSpecialBom.delayTime);
         }
         yield return null;
     }
@@ -219,13 +223,26 @@ public class SpecialMove_Gomi : MonoBehaviour
     {
         yield return StartCoroutine(FireSpecialPositionMove());
 
+        while(boss1Bullet.State == State.final && boss1Bullet.BulletState == BulletState.spell) 
+        {
+            yield return new WaitForSeconds(20f);
+        }
+        yield return null;  
+    }
+
+    /// <summary>
+    /// セミファイナル
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator FinalSpecialAttack()
+    {
         float angleStep = 360 / specialFinalAttack.bulletNum;
         float angle = specialFinalAttack.angleOffset;
         while (boss1Bullet.State == State.final && boss1Bullet.BulletState == BulletState.spell)
         {
             Vector3 randomPos = new Vector3(Random.Range(-8.4f, 8.5f), Random.Range(-4.5f, 4.5f), 0);
             Debug.Log(randomPos);
-            for(int i = 0; i < specialFinalAttack.bulletNum; i++)
+            for (int i = 0; i < specialFinalAttack.bulletNum; i++)
             {
                 float dirX = Mathf.Cos(angle * Mathf.Deg2Rad);
                 float dirY = Mathf.Sin(angle * Mathf.Deg2Rad);

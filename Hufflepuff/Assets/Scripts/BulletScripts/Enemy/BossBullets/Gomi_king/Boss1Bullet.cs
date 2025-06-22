@@ -452,11 +452,10 @@ public class Boss1Bullet : MonoBehaviour
         yield return null;
     }
     /// <summary>
-    /// 最後の大技を出します
+    /// セミファイナル
     /// </summary>
     private IEnumerator SpecialFinalBullet()
     {
-
         isSpecialBulletActive = true;
         float limitTime = 0.5f; // 移動にかける時間
         float elapsedTime = 0f; // 移動にかかった時間
@@ -471,7 +470,7 @@ public class Boss1Bullet : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        Debug.Log("Final状態: 特別な弾幕を発射");
+        yield return StartCoroutine(GomiSpecialMove.FinalSpecialAttack());
         yield return null;
     }
 
@@ -510,7 +509,7 @@ public class Boss1Bullet : MonoBehaviour
             if (state == State.final)
             {
                 isDead = true;
-                yield return StartCoroutine(GomiSpecialMove.FinalSpecialBullet());
+                yield return StartCoroutine(SpecialFinalBullet());
             }
             else
             {
