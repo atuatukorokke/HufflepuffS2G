@@ -42,6 +42,9 @@ public class ThirdSpecialBom
 public class FourSpecialBom
 {
     [SerializeField] public GameObject BulletPrehab;
+    [SerializeField] public float stopTime; // ~‚Ü‚é‚Ü‚Å‚ÌŠÔ
+    [SerializeField] public int bulletNum; // ‰½”­’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ğŒ‚‚Â‚©
+    [SerializeField] public float circleDelayTime; // ‰~Œ`‚Ì’e–‹‚Å‰½•b‘Ò‹@‚·‚é‚©
 }
 // ÅI’iŠK–Ú---------------------------------------------------------------------
 [System.Serializable]
@@ -210,9 +213,45 @@ public class SpecialMove_Gomi : MonoBehaviour
         yield return StartCoroutine(FireSpecialPositionMove());
         while (boss1Bullet.State == State.four && boss1Bullet.BulletState == BulletState.spell)
         {
-            yield return new WaitForSeconds(20);
+            int bulletNum = 20;
+            // ’e‚ğ•úËó‚É””­Œ‚‚Â
+            for (int i = 0; i < fourSpecialBom.bulletNum; i++)
+            {
+                List<GameObject> bullets = new List<GameObject>();
+                for (int j = 0; j < bulletNum; j++)
+                {
+                    GameObject proj = Instantiate(fourSpecialBom.BulletPrehab, transform.position, Quaternion.identity);
+                    Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+                    float angle = j * (360f / bulletNum) + (i * 10f); // ’e‚ÌŠp“x‚ğŒvZ
+                    float dirX = Mathf.Cos(angle * Mathf.Deg2Rad);
+                    float dirY = Mathf.Sin(angle * Mathf.Deg2Rad);
+                    Vector3 moveDirection = new Vector3(dirX, dirY, 0).normalized;
+                    rb.linearVelocity = moveDirection * fourSpecialBom.stopTime; // ’e‚Ì‘¬“x‚ğİ’è
+                    bullets.Add(proj); // ’e‚ğƒŠƒXƒg‚É’Ç‰Á
+                }
+                // ’e‚ğ~‚ß‚é
+                foreach (GameObject bullet in bullets)
+                {
+                    Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+                    rb.linearVelocity = Vector2.zero; // ’e‚ğ~‚ß‚é
+                }
+                // ˆê’èŠÔ‘Ò‹@
+                yield return new WaitForSeconds(fourSpecialBom.circleDelayTime);
+                // Œğ·ã‚É’e‚ğŒ‚‚Â
+                for (int j = 0; j < bulletNum; j++)
+                {
+                    GameObject proj = Instantiate(fourSpecialBom.BulletPrehab, transform.position, Quaternion.identity);
+                    Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+                    float angle = j * (360f / bulletNum) + (i * 10f + 180f); // ’e‚ÌŠp“x‚ğŒvZ
+                    float dirX = Mathf.Cos(angle * Mathf.Deg2Rad);
+                    float dirY = Mathf.Sin(angle * Mathf.Deg2Rad);
+                    Vector3 moveDirection = new Vector3(dirX, dirY, 0).normalized;
+                    rb.linearVelocity = moveDirection * fourSpecialBom.stopTime; // ’e‚Ì‘¬“x‚ğİ’è
+                }
+                yield return new WaitForSeconds(20);
+            }
+            yield return null;
         }
-        yield return null;
     }
 
     /// <summary>
