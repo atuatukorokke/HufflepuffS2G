@@ -175,23 +175,26 @@ public class Boss1Bullet : MonoBehaviour
         // 今の状態によって通常の弾幕を変化させる
         // ボスによって変化させるのでかなり大変
         // 楽しいのでワース
-        switch (state)
+        if(!isDead)
         {
-            case State.fast:
-                yield return StartCoroutine(FireFastBullet());
-                break;
-            case State.second:
-                yield return StartCoroutine(FireSecondBullet());
-                break;
-            case State.third:
-                yield return StartCoroutine(FireThirdBullet());
-                break;
-            case State.four:
-                yield return StartCoroutine(FireFourBullet());
-                break;
-            case State.final:
-                yield return StartCoroutine(FireFinalBullet());
-                break;
+            switch (state)
+            {
+                case State.fast:
+                    yield return StartCoroutine(FireFastBullet());
+                    break;
+                case State.second:
+                    yield return StartCoroutine(FireSecondBullet());
+                    break;
+                case State.third:
+                    yield return StartCoroutine(FireThirdBullet());
+                    break;
+                case State.four:
+                    yield return StartCoroutine(FireFourBullet());
+                    break;
+                case State.final:
+                    yield return StartCoroutine(FireFinalBullet());
+                    break;
+            }
         }
     }
     /// <summary>

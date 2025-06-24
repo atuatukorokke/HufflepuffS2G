@@ -45,6 +45,11 @@ public class FourSpecialBom
     [SerializeField] public float stopTime; // ~‚Ü‚é‚Ü‚Å‚ÌŠÔ
     [SerializeField] public int bulletNum; // ‰½”­’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ğŒ‚‚Â‚©
     [SerializeField] public float circleDelayTime; // ‰~Œ`‚Ì’e–‹‚Å‰½•b‘Ò‹@‚·‚é‚©
+    [SerializeField] public float speed; // ’e–‹‚Ì‘¬‚³
+    [SerializeField] public float angleOffset; // ’e–‹‚ÌŠp“x‚ğ‚¸‚ç‚·‚½‚ß‚Ì•Ï”
+    [SerializeField] public float crossSpeed; // Œğ·ã‚É’e‚ğ“®‚©‚·‚Æ‚«‚Ì‘¬‚³ 
+    [SerializeField] public float expandSpeed; // ŠgUƒXƒs[ƒh
+    [SerializeField] public float rotationSpeed; // –ˆ•b‰ñ“]Šp“xi“xj
 }
 // ÅI’iŠK–Ú---------------------------------------------------------------------
 [System.Serializable]
@@ -198,7 +203,7 @@ public class SpecialMove_Gomi : MonoBehaviour
         yield return StartCoroutine(FireSpecialPositionMove());
         while (boss1Bullet.State == State.third && boss1Bullet.BulletState == BulletState.spell)
         {
-            GameObject proj = Instantiate(thirdSpecialBom.BulletPrehab, transform.position, Quaternion.identity);
+            // GameObject proj = Instantiate(thirdSpecialBom.BulletPrehab, transform.position, Quaternion.identity);
             yield return new WaitForSeconds(thirdSpecialBom.delayTime);
         }
         yield return null;
@@ -213,42 +218,82 @@ public class SpecialMove_Gomi : MonoBehaviour
         yield return StartCoroutine(FireSpecialPositionMove());
         while (boss1Bullet.State == State.four && boss1Bullet.BulletState == BulletState.spell)
         {
-            int bulletNum = 20;
-            // ’e‚ğ•úËó‚É””­Œ‚‚Â
-            for (int i = 0; i < fourSpecialBom.bulletNum; i++)
+            // ’e–‹‚ğ‰~ó‚ÉŒ‚‚Á‚½Œã‚É
+            // ’e‚ğ•úËó‚É‘Å‚Â‚æ‚¤‚É•ÏŠ·‚·‚é
+            for (int i = 0; i < 3; i++)
             {
+                int count = 0; // ’e‚Ì”‚ğƒJƒEƒ“ƒg‚·‚é
+                float angleStep = 360f / fourSpecialBom.bulletNum;
+                float angle = fourSpecialBom.angleOffset; // Šp“x‚ğ‚¸‚ç‚·
                 List<GameObject> bullets = new List<GameObject>();
-                for (int j = 0; j < bulletNum; j++)
+                for (int j = 0; j < fourSpecialBom.bulletNum; j++)
                 {
-                    GameObject proj = Instantiate(fourSpecialBom.BulletPrehab, transform.position, Quaternion.identity);
-                    Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
-                    float angle = j * (360f / bulletNum) + (i * 10f); // ’e‚ÌŠp“x‚ğŒvZ
                     float dirX = Mathf.Cos(angle * Mathf.Deg2Rad);
                     float dirY = Mathf.Sin(angle * Mathf.Deg2Rad);
-                    Vector3 moveDirection = new Vector3(dirX, dirY, 0).normalized;
-                    rb.linearVelocity = moveDirection * fourSpecialBom.stopTime; // ’e‚Ì‘¬“x‚ğİ’è
+                    Vector3 moveDirection = new Vector3(dirX, dirY, 0);
+
+                    GameObject proj = Instantiate(fourSpecialBom.BulletPrehab, transform.position, Quaternion.identity);
+                    Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+                    rb.linearVelocity = moveDirection.normalized * fourSpecialBom.speed;
+
                     bullets.Add(proj); // ’e‚ğƒŠƒXƒg‚É’Ç‰Á
+                    angle += angleStep; // Šp“x‚ğ‚¸‚ç‚·
                 }
-                // ’e‚ğ~‚ß‚é
+                yield return new WaitForSeconds(fourSpecialBom.stopTime); // ‰~Œ`‚Ì’e–‹‚Å‘Ò‹@
+                // ’e–‹‚ğ’â~‚·‚é
                 foreach (GameObject bullet in bullets)
                 {
                     Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-                    rb.linearVelocity = Vector2.zero; // ’e‚ğ~‚ß‚é
+                    rb.linearVelocity = Vector2.zero; // ’e‚Ì‘¬“x‚ğƒ[ƒ‚É‚·‚é   
                 }
-                // ˆê’èŠÔ‘Ò‹@
-                yield return new WaitForSeconds(fourSpecialBom.circleDelayTime);
-                // Œğ·ã‚É’e‚ğŒ‚‚Â
-                for (int j = 0; j < bulletNum; j++)
+                yield return new WaitForSeconds(fourSpecialBom.stopTime); // ‰~Œ`‚Ì’e–‹‚Å‘Ò‹@
+
+                float elapsed = 0f;
+                StartCoroutine(ExpandMove(bullets, elapsed)); // ’e‚ğŠgU‚³‚¹‚é
+                yield return null;
+            }
+        }
+    }
+
+    private IEnumerator ExpandMove(List<GameObject> bullets, float elapsed)
+    {
+        while (true)
+        {
+            elapsed += Time.deltaTime;
+            float angleDelta = fourSpecialBom.rotationSpeed * Time.deltaTime;
+
+            for (int j = 0; j < bullets.Count; j++)
+            {
+                GameObject bullet = bullets[j];
+
+                if (bullet == null) continue; // ’e‚ª‘¶İ‚µ‚È‚¢ê‡‚ÍƒXƒLƒbƒv
+                if (j % 2 == 0)
                 {
-                    GameObject proj = Instantiate(fourSpecialBom.BulletPrehab, transform.position, Quaternion.identity);
-                    Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
-                    float angle = j * (360f / bulletNum) + (i * 10f + 180f); // ’e‚ÌŠp“x‚ğŒvZ
-                    float dirX = Mathf.Cos(angle * Mathf.Deg2Rad);
-                    float dirY = Mathf.Sin(angle * Mathf.Deg2Rad);
-                    Vector3 moveDirection = new Vector3(dirX, dirY, 0).normalized;
-                    rb.linearVelocity = moveDirection * fourSpecialBom.stopTime; // ’e‚Ì‘¬“x‚ğİ’è
+                    // ’e‚ÌˆÊ’uƒxƒNƒgƒ‹‚ğæ“¾
+                    Vector3 dir = bullet.transform.position - transform.position;
+
+                    // Œ»İ‚ÌŠp“x + ’Ç‰ÁŠp“x‚Å‰ñ“]
+                    dir = Quaternion.Euler(0, 0, angleDelta) * dir;
+
+                    // ŠgU
+                    dir += dir.normalized * fourSpecialBom.expandSpeed * Time.deltaTime;
+
+                    bullet.transform.position = transform.position + dir;
                 }
-                yield return new WaitForSeconds(20);
+                else
+                {
+                    // ’e‚ÌˆÊ’uƒxƒNƒgƒ‹‚ğæ“¾
+                    Vector3 dir = bullet.transform.position - transform.position;
+
+                    // Œ»İ‚ÌŠp“x + ’Ç‰ÁŠp“x‚Å‰ñ“]
+                    dir = Quaternion.Euler(0, 0, -angleDelta) * dir;
+
+                    // ŠgU
+                    dir += dir.normalized * fourSpecialBom.expandSpeed * Time.deltaTime;
+
+                    bullet.transform.position = transform.position + dir;
+                }
+
             }
             yield return null;
         }
