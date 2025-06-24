@@ -441,11 +441,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f977fa81f3bfca4abd1a6ae2c93d6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 3
+  state: 2
   bulletState: 0
   maxHP: 100
   currentHP: 100
-  attak: 1
+  attak: 10
   spellPos: {x: 6, y: 0}
   GomiSpecialMove: {fileID: 691746172}
   isDead: 0
@@ -654,8 +654,8 @@ MonoBehaviour:
     angle: 0
   thirdSpecialBom:
     BulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
-    maxSpeed: 0
-    minSpeed: 0
+    maxSpeed: 0.1
+    minSpeed: 3
     delayTime: 20
   fourSpecialBom:
     BulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
@@ -666,7 +666,11 @@ MonoBehaviour:
     angleOffset: 0
     crossSpeed: 0.7
     expandSpeed: 2
-    rotationSpeed: 45
+    rotationSpeed: 20
+    arcCount: 10
+    arcAngle: 150
+    arcSpeed: 5
+    movementSpeed: 2
   finalSpecianBom:
     BulletPrehab: {fileID: 0}
   specialFinalAttack:

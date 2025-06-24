@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 // ˆê’iŠK–Ú-----------------------------------------------------------------------
@@ -50,6 +52,11 @@ public class FourSpecialBom
     [SerializeField] public float crossSpeed; // Œğ·ã‚É’e‚ğ“®‚©‚·‚Æ‚«‚Ì‘¬‚³ 
     [SerializeField] public float expandSpeed; // ŠgUƒXƒs[ƒh
     [SerializeField] public float rotationSpeed; // –ˆ•b‰ñ“]Šp“xi“xj
+    [SerializeField] public float arcCount; // ’e–‹‚Ì”i’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ì”j
+    [SerializeField] public float arcAngle; // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ÌŠp“x
+    [SerializeField] public float arcSpeed; // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ì‘¬‚³
+    [SerializeField] public float movementSpeed; // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ÌˆÚ“®‘¬“x
+
 }
 // ÅI’iŠK–Ú---------------------------------------------------------------------
 [System.Serializable]
@@ -122,7 +129,7 @@ public class SpecialMove_Gomi : MonoBehaviour
     /// <returns></returns>
     private IEnumerator FastSpecialBullet()
     {
-        yield return StartCoroutine(FireSpecialPositionMove());
+        yield return StartCoroutine(FireSpecialPositionMove(spellPos));
         while(boss1Bullet.State == State.fast && boss1Bullet.BulletState == BulletState.spell)
         {
             for(int i = 0; i < fastSpecialBom.ShotNum; i++)
@@ -151,7 +158,7 @@ public class SpecialMove_Gomi : MonoBehaviour
         // ã‹L‚Ì’e–‹‚Í‰E•ûŒü‚É’¼ü“I‚É”ò‚Ô
 
         float shotTime = 0;
-        yield return StartCoroutine(FireSpecialPositionMove());
+        yield return StartCoroutine(FireSpecialPositionMove(spellPos));
         while (boss1Bullet.State == State.second && boss1Bullet.BulletState == BulletState.spell)
         {
             while (shotTime < secondSpecialBom.delayTime)
@@ -200,13 +207,21 @@ public class SpecialMove_Gomi : MonoBehaviour
     /// <returns></returns>
     private IEnumerator ThirdSpecialBullet()
     {
-        yield return StartCoroutine(FireSpecialPositionMove());
+        yield return StartCoroutine(FireSpecialPositionMove(spellPos));
         while (boss1Bullet.State == State.third && boss1Bullet.BulletState == BulletState.spell)
         {
-            // GameObject proj = Instantiate(thirdSpecialBom.BulletPrehab, transform.position, Quaternion.identity);
-            yield return new WaitForSeconds(thirdSpecialBom.delayTime);
+            float angle = Random.Range(0f, 360f); // ƒ‰ƒ“ƒ_ƒ€‚ÈŠp“x‚ğ¶¬
+            float speed = Random.Range(thirdSpecialBom.minSpeed, thirdSpecialBom.maxSpeed); // ƒ‰ƒ“ƒ_ƒ€‚È‘¬“x‚ğ¶¬
+            Vector2 direction = Quaternion.Euler(0, 0, angle) * Vector2.right; // ƒ‰ƒ“ƒ_ƒ€‚È•ûŒü‚ğŒvZ
+
+            GameObject bullet = Instantiate(thirdSpecialBom.BulletPrehab, transform.position, Quaternion.identity);
+            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.linearVelocity = direction * speed; // ’e‚Ì‘¬“x‚ğİ’è
+            }
+            yield return new WaitForSeconds(0.01f);
         }
-        yield return null;
     }
 
     /// <summary>
@@ -215,29 +230,31 @@ public class SpecialMove_Gomi : MonoBehaviour
     /// <returns></returns>
     private IEnumerator FourSpecialBullet()
     {
-        yield return StartCoroutine(FireSpecialPositionMove());
+        yield return StartCoroutine(FireSpecialPositionMove(spellPos));
         while (boss1Bullet.State == State.four && boss1Bullet.BulletState == BulletState.spell)
         {
             // ’e–‹‚ğ‰~ó‚ÉŒ‚‚Á‚½Œã‚É
             // ’e‚ğ•úËó‚É‘Å‚Â‚æ‚¤‚É•ÏŠ·‚·‚é
             for (int i = 0; i < 3; i++)
             {
-                int count = 0; // ’e‚Ì”‚ğƒJƒEƒ“ƒg‚·‚é
-                float angleStep = 360f / fourSpecialBom.bulletNum;
-                float angle = fourSpecialBom.angleOffset; // Šp“x‚ğ‚¸‚ç‚·
                 List<GameObject> bullets = new List<GameObject>();
-                for (int j = 0; j < fourSpecialBom.bulletNum; j++)
+                for (int k = 0; k < 2; k++)
                 {
-                    float dirX = Mathf.Cos(angle * Mathf.Deg2Rad);
-                    float dirY = Mathf.Sin(angle * Mathf.Deg2Rad);
-                    Vector3 moveDirection = new Vector3(dirX, dirY, 0);
+                    float angleStep = 360f / fourSpecialBom.bulletNum;
+                    float angle = fourSpecialBom.angleOffset; // Šp“x‚ğ‚¸‚ç‚·
+                    for (int j = 0; j < fourSpecialBom.bulletNum; j++)
+                    {
+                        float dirX = Mathf.Cos(angle * Mathf.Deg2Rad);
+                        float dirY = Mathf.Sin(angle * Mathf.Deg2Rad);
+                        Vector3 moveDirection = new Vector3(dirX, dirY, 0);
 
-                    GameObject proj = Instantiate(fourSpecialBom.BulletPrehab, transform.position, Quaternion.identity);
-                    Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
-                    rb.linearVelocity = moveDirection.normalized * fourSpecialBom.speed;
+                        GameObject proj = Instantiate(fourSpecialBom.BulletPrehab, transform.position, Quaternion.identity);
+                        Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+                        rb.linearVelocity = moveDirection.normalized * fourSpecialBom.speed * (k + 1) * 0.7f;
 
-                    bullets.Add(proj); // ’e‚ğƒŠƒXƒg‚É’Ç‰Á
-                    angle += angleStep; // Šp“x‚ğ‚¸‚ç‚·
+                        bullets.Add(proj); // ’e‚ğƒŠƒXƒg‚É’Ç‰Á
+                        angle += angleStep; // Šp“x‚ğ‚¸‚ç‚·
+                    }
                 }
                 yield return new WaitForSeconds(fourSpecialBom.stopTime); // ‰~Œ`‚Ì’e–‹‚Å‘Ò‹@
                 // ’e–‹‚ğ’â~‚·‚é
@@ -248,18 +265,47 @@ public class SpecialMove_Gomi : MonoBehaviour
                 }
                 yield return new WaitForSeconds(fourSpecialBom.stopTime); // ‰~Œ`‚Ì’e–‹‚Å‘Ò‹@
 
-                float elapsed = 0f;
-                StartCoroutine(ExpandMove(bullets, elapsed)); // ’e‚ğŠgU‚³‚¹‚é
+                StartCoroutine(ExpandMove(bullets)); // ’e‚ğŠgU‚³‚¹‚é
                 yield return null;
             }
+
+            // ƒ‰ƒ“ƒ_ƒ€‚ÈÀ•W‚ÉˆÚ“®‚µ‚È‚ª‚ç’e‚ğ”ò‚Î‚·
+            Vector2 randomPos = new Vector2(Random.Range(2.0f, 8.5f), Random.Range(-4.5f, 4.5f));
+            StartCoroutine(FireSpecialPositionMove(randomPos)); // ƒ‰ƒ“ƒ_ƒ€‚ÈÀ•W‚ÖˆÚ“®
+            for (int i = 0; i < 3; i++)
+            {
+                // ’e–‹¶¬
+                List<GameObject> bullets = new List<GameObject>();
+                // îó‚É’e–‹‚ğ¶¬‚µ‚Ä
+                float startAngle = 180f - fourSpecialBom.arcAngle / 2f; // î‚ÌŠJnŠp“x
+                float angleStep = fourSpecialBom.arcAngle / (fourSpecialBom.arcCount - 1);
+
+                for(int j = 0; j < fourSpecialBom.arcCount; j++)
+                {
+                    float angle = startAngle + j * angleStep; // ’e–‹‚ÌŠp“x‚ğŒvZ
+                    float rad = angle * Mathf.Deg2Rad; // ƒ‰ƒWƒAƒ“‚É•ÏŠ·   
+                    Vector2 direction = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)); // •ûŒüƒxƒNƒgƒ‹‚ğŒvZ
+
+                    GameObject bullet = Instantiate(fourSpecialBom.BulletPrehab, transform.position, Quaternion.identity);
+                    bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * fourSpecialBom.arcSpeed; // ’e‚Ì‘¬“x‚ğİ’è
+                    bullets.Add(bullet); // ’e‚ğƒŠƒXƒg‚É’Ç‰Á
+                }
+                StartCoroutine(BulletMover(bullets));
+                yield return new WaitForSeconds(0.7f);
+            }
+            yield return StartCoroutine(FireSpecialPositionMove(spellPos));
         }
     }
 
-    private IEnumerator ExpandMove(List<GameObject> bullets, float elapsed)
+    /// <summary>
+    /// ’e‚ğŠgU‚³‚¹‚Ä“®‚©‚·ƒRƒ‹[ƒ`ƒ“
+    /// </summary>
+    /// <param name="bullets">’e–‹‚ÌƒŠƒXƒg</param>
+    /// <returns></returns>
+    private IEnumerator ExpandMove(List<GameObject> bullets)
     {
         while (true)
         {
-            elapsed += Time.deltaTime;
             float angleDelta = fourSpecialBom.rotationSpeed * Time.deltaTime;
 
             for (int j = 0; j < bullets.Count; j++)
@@ -300,12 +346,43 @@ public class SpecialMove_Gomi : MonoBehaviour
     }
 
     /// <summary>
+    /// ’e–‹‚ğ©‹@‘_‚¢‚É”ò‚Î‚·ƒRƒ‹[ƒ`ƒ“ƒR
+    /// </summary>
+    /// <param name="bullets"></param>
+    /// <returns></returns>
+    private IEnumerator BulletMover(List<GameObject> bullets)
+    {
+        // ”•b’â~ó‘Ô‚É‚·‚é
+        yield return new WaitForSeconds(1f);
+        foreach (GameObject bullet in bullets)
+        {
+            if (bullet != null)
+            {
+                Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+                rb.linearVelocity = Vector2.zero; // ’e‚Ì‘¬“x‚ğƒ[ƒ‚É‚·‚é
+            }
+        }
+        yield return new WaitForSeconds(1f); // ”•bŠÔ‘Ò‹@
+                                                                         // ”•bŒã‚É©‹@‘_‚¢‚Å’e‚ğ”ò‚Î‚·
+        for (int i = 0; i < bullets.Count; i++)
+        {
+            if (bullets != null)
+            {
+                Vector3 direction = (GameObject.Find("Player").transform.position - bullets[i].transform.position).normalized;
+                bullets[i].GetComponent<Rigidbody2D>().linearVelocity = direction * 10f; // ’e‚Ì‘¬‚³‚ğİ’è
+                yield return new WaitForSeconds(0.01f); // ’e‚ğ”ò‚Î‚·ŠÔŠu
+            }
+        }
+        yield return null;
+    }
+
+    /// <summary>
     /// ÅI’iŠK–Ú‚Ì•KE‹Z
     /// </summary>
     /// <returns></returns>
     public IEnumerator FinalSpecialBullet()
     {
-        yield return StartCoroutine(FireSpecialPositionMove());
+        yield return StartCoroutine(FireSpecialPositionMove(spellPos));
 
         while(boss1Bullet.State == State.final && boss1Bullet.BulletState == BulletState.spell) 
         {
@@ -350,7 +427,7 @@ public class SpecialMove_Gomi : MonoBehaviour
     /// •KE‹Z‚ğ‘Å‚Â‚Æ‚«‚ÌˆÚ“®‚ğ‚µ‚Ü‚·
     /// </summary>
     /// <returns>“®ì‚ğI—¹‚³‚¹‚Ü‚·</returns>
-    private IEnumerator FireSpecialPositionMove()
+    private IEnumerator FireSpecialPositionMove(Vector2 targetPos)
     {
         boss1Bullet.DamageLate = 0f;
         float limitTime = 1.5f; // ˆÚ“®‚É‚©‚¯‚éŠÔ
@@ -360,8 +437,8 @@ public class SpecialMove_Gomi : MonoBehaviour
         while (elapsedTime < limitTime)
         {
             transform.position = new Vector2(
-                Mathf.Lerp(startPosition.x, spellPos.x, elapsedTime / limitTime),
-                Mathf.Lerp(startPosition.y, spellPos.y, elapsedTime / limitTime)
+                Mathf.Lerp(startPosition.x, targetPos.x, elapsedTime / limitTime),
+                Mathf.Lerp(startPosition.y, targetPos.y, elapsedTime / limitTime)
                 );
             elapsedTime += Time.deltaTime;
             yield return null;
