@@ -5,6 +5,7 @@
 
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PieceMoves : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PieceMoves : MonoBehaviour
 
     private PuzzleGrid Pgrid;   // パズルピースを配置するスクリプトを呼び出す用
 
+    private int CountRotate = 0;
     bool isMoving;
     Vector2 input;
 
@@ -81,6 +83,8 @@ public class PieceMoves : MonoBehaviour
     /// </summary>
     public void PieceRotation()
     {
-        transform.Rotate(0, 0, -90);
+        CountRotate = (CountRotate + 1) % 4;
+        Debug.Log(CountRotate);
+        //transform.Rotate(0, 0, -90);
     }
 }

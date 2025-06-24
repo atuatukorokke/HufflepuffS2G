@@ -38,14 +38,16 @@ public class PuzzleGrid : MonoBehaviour
                 grid[x, y] = 0;
             }
         }
+        // デバッグ用　消えてなかったら消してください
+        grid[3, 3] = 1;
     }
 
     /// <summary>
     /// ピースが配置可能かを判定します
     /// </summary>
     /// <param name="inGameObject">オブジェクト情報</param>
-    /// <param name="inx">ピースのx座標を入れてください</param>
-    /// <param name="iny">ピースのy座標を入れてください</param>
+    /// <param name="inx">パズル画面の左上を0, 0として現在のx座標を入れてください</param>
+    /// <param name="iny">パズル画面の左上を0, 0として現在のy座標を入れてください</param>
     /// <param name="inz">ピースの回転角度を入れてください</param>
     /// <returns>配置可能 = true　配置不可 = false</returns>
     public bool PuzzleCheck(GameObject inGameObject ,float inx, float iny, float inz)
@@ -82,15 +84,39 @@ public class PuzzleGrid : MonoBehaviour
             Debug.Log("inz:4");
         }
 
-        // for文等を使用し、パズル範囲外に出ていないかを確認します
+        // パズルピースが範囲外に出ていないかを確認します
         for (int i = 0; i < 4; i++)
         {
             for (int j = 0; j < 4; j++)
             {
-                if (PieceShape[j, i] == 1 && (inx + i) > 6) return false;
-                if (PieceShape[i, j] == 1 && (iny - i) < -6) return false;
+                if (PieceShape[j, i] == 1 && (inx + i) > 6)
+                {
+                    Debug.Log("範囲外です");
+                    return false;
+                }
+                if (PieceShape[i, j] == 1 && (iny - i) < -6)
+                {
+                    Debug.Log("範囲外です");
+                    return false;
+                }
             }
 
+        }
+
+        // パズルピースの配置箇所に既にピースが置かれていないか確認
+        int pTestx = (int)(inx);
+        int pTesty = (int)(iny * -1);
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                if (i + pTestx > 6 || j + pTesty > 6) break;
+                if (grid[i + pTestx, j + pTesty] == 1 && PieceShape[j, i] == 1)
+                {
+                    Debug.Log("ピースの上には配置できません");
+                    return false;
+                }
+            }
         }
 
         return true;
