@@ -1,9 +1,11 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BulletDestroy : MonoBehaviour
 {
     private void OnBecameInvisible()
     {
-        Destroy(this.gameObject);
+        // Destroy the bullet when it goes off-screen
+        Destroy(gameObject);
     }
 }

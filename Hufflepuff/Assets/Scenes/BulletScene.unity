@@ -441,7 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f977fa81f3bfca4abd1a6ae2c93d6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 2
+  state: 3
   bulletState: 0
   maxHP: 100
   currentHP: 100
@@ -555,7 +555,7 @@ Transform:
   m_GameObject: {fileID: 691746166}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6, y: 0, z: 0}
+  m_LocalPosition: {x: 6.15, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -654,13 +654,13 @@ MonoBehaviour:
     angle: 0
   thirdSpecialBom:
     BulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
-    maxSpeed: 0.1
+    maxSpeed: 1
     minSpeed: 3
     delayTime: 20
   fourSpecialBom:
     BulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
     stopTime: 0.7
-    bulletNum: 60
+    bulletNum: 30
     circleDelayTime: 4
     speed: 3
     angleOffset: 0
@@ -669,10 +669,21 @@ MonoBehaviour:
     rotationSpeed: 20
     arcCount: 10
     arcAngle: 150
-    arcSpeed: 5
+    arcSpeed: 3
     movementSpeed: 2
+    arcLine: 10
   finalSpecianBom:
-    BulletPrehab: {fileID: 0}
+    BulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
+    maxSpeed: 3
+    minSpeed: 2
+    randomSpeed: 1.5
+    randomBulletTime: 2
+    radiationBulletNum: 5
+    radiationBulletSpeed: 5
+    radiationBulletDelayTime: 0.1
+    radiationBulletCount: 20
+    radiationBulletAngle: 150
+    breakTime: 3
   specialFinalAttack:
     BulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
     bulletNum: 20
@@ -832,7 +843,7 @@ GameObject:
   - component: {fileID: 1345790214}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1091,7 +1102,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: -10
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &2010380851
 RectTransform:
