@@ -81,8 +81,9 @@ public class FinalBulletValue
 //敵の弾幕の状態
 public enum BulletState
 {
-    normal,
-    spell
+    normal, // 通常弾幕
+    spell, //必殺技
+    special // セミファイナル
 }
 
 // 敵が今何段階目か
@@ -512,6 +513,7 @@ public class Boss1Bullet : MonoBehaviour
             if (state == State.final)
             {
                 isDead = true;
+                BulletState = BulletState.special; // 弾幕の変更
                 yield return StartCoroutine(SpecialFinalBullet());
             }
             else

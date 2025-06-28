@@ -16,6 +16,7 @@ public class FastSpecialBom
     [SerializeField] public int ShotNum; // 弾幕を打つ回数
     [SerializeField] public float DelayTime; // 弾幕を打つ間隔
     [SerializeField] public float speed; // ゴミーの速さ
+    [SerializeField] public float delayTime; // 弾幕を打つまでの待機時間
 }
 // 二段階目-----------------------------------------------------------------------
 [System.Serializable]
@@ -164,7 +165,7 @@ public class SpecialMove_Gomi : MonoBehaviour
             }
 
             // 一連の発射が終わったら小休止（テンポを調整）
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(fastSpecialBom.delayTime);
         }
 
         // 状態遷移などでループを抜けたら終了
@@ -182,73 +183,109 @@ public class SpecialMove_Gomi : MonoBehaviour
         // 数秒後にプレイヤーの反対側からランダムなx座標に生成する
         // 上記の弾幕は右方向に直線的に飛ぶ
 
-        float shotTime = 0;
+        float shotTime = 0; // 経過時間を初期化（角度変化に使う）
+
+        // スペル発動位置に移動（演出と弾幕開始のトリガーとして）
         yield return StartCoroutine(FireSpecialPositionMove(spellPos));
+
+        // 状態が「second」かつ「spell」の間、弾幕を継続
         while (boss1Bullet.State == State.second && boss1Bullet.BulletState == BulletState.spell)
         {
+            // 一定時間の間だけ、回転弾を発射し続ける
             while (shotTime < secondSpecialBom.delayTime)
             {
+                // 状態変化があったら即時終了（安全対策）
+                if (boss1Bullet.State != State.second || boss1Bullet.BulletState != BulletState.spell) break;
+
+                // 左側から扇状に弾を発射
                 for (int i = -3; i < 3; i++)
                 {
-                    float baseAngle = i * 20 + secondSpecialBom.angle;
-                    float incrementalAngle = shotTime * 10f; // 時間経過で角度を変化させる
+                    float baseAngle = i * 20 + secondSpecialBom.angle; // 基本角度（中央基準で間隔を空ける）
+                    float incrementalAngle = shotTime * 10f; // 時間経過に応じて角度に変化を加える
+                    float rad = (baseAngle + incrementalAngle) * Mathf.Deg2Rad; // ラジアンに変換
 
-                    float rad = (baseAngle + incrementalAngle) * Mathf.Deg2Rad;
-
+                    // 指定角度の方向ベクトルを計算
                     float dirX = Mathf.Cos(rad);
                     float dirY = Mathf.Sin(rad);
-
                     Vector3 moveDirection = new Vector3(dirX, dirY, 0).normalized;
 
+                    // 弾プレハブをボスの位置から生成
                     GameObject proj = Instantiate(secondSpecialBom.LeftBulletPrehab, transform.position, Quaternion.identity);
 
+                    // ベクトル方向に速度を与えて発射（マイナス方向で外に向かって発射）
                     Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
                     rb.linearVelocity = moveDirection * -secondSpecialBom.speed;
-
-
                 }
+
+                // 次のループのために時間を加算＆ウェイト
                 shotTime += 0.07f;
                 yield return new WaitForSeconds(0.07f);
             }
 
-            // 反対側から弾幕を飛ばす（ハエ）
-            for(int i = 0; i < secondSpecialBom.BulletNum; i++)
+            // 状態を再確認（ループの再突入前に安全にブレーク）
+            if (boss1Bullet.State != State.second || boss1Bullet.BulletState != BulletState.spell) break;
+
+            // 右側から直進弾をランダムY座標で発射（左右からの挟撃になる）
+            for (int i = 0; i < secondSpecialBom.BulletNum; i++)
             {
-                Vector2 randomPos = new Vector2(-9f, Random.Range(-4.5f, 4.5f)); // 生成座標の設定
-                GameObject proj = Instantiate(secondSpecialBom.RightBulletPrehab, randomPos, Quaternion.identity); // 弾幕の生成
-                Vector3 moveDirection = new Vector3(-20f, 0, 0).normalized; // 方向の設定
-                proj.GetComponent<Rigidbody2D>().linearVelocity = moveDirection * -secondSpecialBom.speed; // 飛ばす
+                if (boss1Bullet.State != State.second || boss1Bullet.BulletState != BulletState.spell) continue;
+
+                Vector2 randomPos = new Vector2(-9f, Random.Range(-4.5f, 4.5f)); // 左端からYランダム生成
+                GameObject proj = Instantiate(secondSpecialBom.RightBulletPrehab, randomPos, Quaternion.identity);
+                Vector3 moveDirection = new Vector3(-20f, 0, 0).normalized; // 画面左方向へ直進
+
+                // 高速な直進弾で圧力をかける
+                proj.GetComponent<Rigidbody2D>().linearVelocity = moveDirection * -secondSpecialBom.speed;
                 yield return new WaitForSeconds(0.05f);
             }
-            shotTime = 0f;
 
+            // shotTime をリセットして再ループへ（時計回りに角度増加の再開始）
+            shotTime = 0f;
         }
+
+        // 状態が変化したら終了
         yield return null;
+
     }
 
     /// <summary>
-    /// 三段階目の必殺技
+    /// 三段階目の必殺技（360度方向へランダム速度で弾を発射）
     /// </summary>
-    /// <returns></returns>
+    /// <returns>IEnumerator（コルーチン）</returns>
     private IEnumerator ThirdSpecialBullet()
     {
+        // スペルカード発動位置へ移動（演出的な効果や位置制御）
         yield return StartCoroutine(FireSpecialPositionMove(spellPos));
+
+        // ボスが「third」状態かつ「spell」状態の間、弾幕ループを継続
         while (boss1Bullet.State == State.third && boss1Bullet.BulletState == BulletState.spell)
         {
-            float angle = Random.Range(0f, 360f); // ランダムな角度を生成
-            float speed = Random.Range(thirdSpecialBom.minSpeed, thirdSpecialBom.maxSpeed); // ランダムな速度を生成
-            Vector2 direction = Quaternion.Euler(0, 0, angle) * Vector2.right; // ランダムな方向を計算
+            // ランダムな角度（0～360度）を生成
+            float angle = Random.Range(0f, 360f);
 
+            // 弾速もランダムに設定（指定範囲内）
+            float speed = Random.Range(thirdSpecialBom.minSpeed, thirdSpecialBom.maxSpeed);
+
+            // 角度に応じた方向ベクトルを算出（Vector2.right を回転）
+            Vector2 direction = Quaternion.Euler(0, 0, angle) * Vector2.right;
+
+            // 弾プレハブを現在位置に生成
             GameObject bullet = Instantiate(thirdSpecialBom.BulletPrehab, transform.position, Quaternion.identity);
             Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
             if (rb != null)
             {
-                rb.linearVelocity = direction * speed; // 弾の速度を設定
+                // 方向ベクトルに速度を掛けて弾速を設定
+                rb.linearVelocity = direction * speed;
             }
+
+            // 発射間隔を極小に設定（非常に高密度な弾幕を構成）
             yield return new WaitForSeconds(0.01f);
         }
-        yield return null; // コルーチンの終了
+
+        // 状態が変化したら終了
+        yield return null;
     }
+
 
     /// <summary>
     /// 四段階目の必殺技
@@ -430,10 +467,12 @@ public class SpecialMove_Gomi : MonoBehaviour
 
         while(boss1Bullet.State == State.final && boss1Bullet.BulletState == BulletState.spell) 
         {
+            // 乱雑に弾幕を飛ばす--------------------------------------------------------------------------------------------------------
             float randomTime = 0; // 乱雑に弾幕を飛ばす時間
             List<GameObject> bullets = new List<GameObject>(); // 弾幕のリスト
             while (randomTime < finalSpecianBom.randomBulletTime) // 弾幕を乱雑に飛ばす時間が経過するまでループ
             {
+                if (boss1Bullet.State != State.final || boss1Bullet.BulletState != BulletState.spell) break; // 状態が変わったらループを抜ける
                 float angle = Random.Range(0f, 360f); // ランダムな角度を生成
                 float speed = Random.Range(finalSpecianBom.minSpeed, finalSpecianBom.maxSpeed); // ランダムな速度を生成
                 Vector2 direction = Quaternion.Euler(0, 0, angle) * Vector2.right; // ランダムな方向を計算
@@ -446,8 +485,10 @@ public class SpecialMove_Gomi : MonoBehaviour
                 }
                 yield return new WaitForSeconds(0.01f);
                 bullets.Add(bullet); // 弾をリストに追加
-                randomTime += Time.deltaTime; // 経過時間を更新
+                randomTime += 0.01f; // 乱雑に弾幕を飛ばす時間を更新
             }
+            if (boss1Bullet.State != State.final || boss1Bullet.BulletState != BulletState.spell) break; // 状態が変わったらループを抜ける
+            // 乱雑に飛ばした弾幕を停止する----------------------------------------------------------------------------------------------
             yield return new WaitForSeconds(1f); // 乱雑に弾幕を飛ばした後の待機時間
             foreach (GameObject bullet in bullets) // 乱雑に飛ばした弾幕を停止する
             {
@@ -457,14 +498,17 @@ public class SpecialMove_Gomi : MonoBehaviour
                     rb.linearVelocity = Vector2.zero; // 弾の速度をゼロにする
                 }
             }
-            // 放射状に弾幕を飛ばす
+            // 放射状に弾幕を飛ばす------------------------------------------------------------------------------------------------------
+            if(boss1Bullet.State != State.final || boss1Bullet.BulletState != BulletState.spell) break; // 状態が変わったらループを抜ける
             StartCoroutine(PositionMove(new Vector2(Random.Range(1.5f, 8.5f), Random.Range(-4.5f, 4.5f))));
             for (int i = 0; i < finalSpecianBom.radiationBulletCount; i++)
             {
+                if (boss1Bullet.State != State.final || boss1Bullet.BulletState != BulletState.spell) break; // 状態が変わったらループを抜ける
                 float startAngle = 180f - finalSpecianBom.radiationBulletAngle / 2f; // 放射状の開始角度
                 float angleStep = finalSpecianBom.radiationBulletAngle / (finalSpecianBom.radiationBulletNum - 1); // 放射状の角度ステップ
                 for (int j = 0; j < finalSpecianBom.radiationBulletNum; j++)
                 {
+                    if (boss1Bullet.State != State.final || boss1Bullet.BulletState != BulletState.spell) break; // 状態が変わったらループを抜ける
                     float angle = startAngle + j * angleStep; // 弾の角度を計算    
                     float rad = angle * Mathf.Deg2Rad; // ラジアンに変換
 
@@ -478,9 +522,10 @@ public class SpecialMove_Gomi : MonoBehaviour
                 }
                 yield return new WaitForSeconds(finalSpecianBom.radiationBulletDelayTime); // 放射状に弾幕を飛ばす間隔
             }
+            if (boss1Bullet.State != State.final || boss1Bullet.BulletState != BulletState.spell) break; // 状態が変わったらループを抜ける 
             // 放射状に弾幕を飛ばした後の待機時間
             yield return new WaitForSeconds(1f); // 放射状に弾幕を飛ばした後の待機時間
-            // 画面内の弾幕をランダムな方向に一定の速度で飛ばす
+            // 画面内の弾幕をランダムな方向に一定の速度で飛ばす--------------------------------------------------------------------------
             foreach (GameObject bullet in bullets)
             {
                 if (bullet != null)
@@ -511,7 +556,7 @@ public class SpecialMove_Gomi : MonoBehaviour
         float angle = specialFinalAttack.angleOffset;
 
         // ボスの状態がファイナルかつスペル状態の間、攻撃を繰り返す
-        while (boss1Bullet.State == State.final && boss1Bullet.BulletState == BulletState.spell)
+        while (boss1Bullet.State == State.final && boss1Bullet.BulletState == BulletState.special)
         {
             // ランダムな生成位置を画面内から決定（やや広めの指定範囲）
             Vector3 randomPos = new Vector3(Random.Range(-8.4f, 8.5f), Random.Range(-4.5f, 4.5f), 0);
