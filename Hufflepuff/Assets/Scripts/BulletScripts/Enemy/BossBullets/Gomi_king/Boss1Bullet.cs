@@ -7,6 +7,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 // 一段階目の通常弾幕の変数
 [System.Serializable]
@@ -112,6 +113,7 @@ public class Boss1Bullet : MonoBehaviour
     [SerializeField] private Vector2 spellPos; // 必殺技・セミファイナルを打つときにこの座標に一旦戻る
     [SerializeField] private SpecialMove_Gomi GomiSpecialMove; // 必殺技のクラス
     [SerializeField] private bool isDead = false;
+    [SerializeField] private Slider hpSlider; // HPのスライダー
 
 
     [Header("一段階目の通常弾幕の変数")]
@@ -489,6 +491,7 @@ public class Boss1Bullet : MonoBehaviour
             BulletState = BulletState.normal; // 弾幕の変更
             DamageLate = 1f;
             currentHP = maxHP; // HPを回復
+            hpSlider.value = currentHP / maxHP; // HPスライダーの更新
             Debug.Log("Stateが変更されました: " + state);
             yield return StartCoroutine(BulletUpdate());
         }
@@ -501,6 +504,7 @@ public class Boss1Bullet : MonoBehaviour
     private IEnumerator TakeDamage(float damage)
     {
         currentHP -= damage;
+        hpSlider.value = currentHP / maxHP; // HPスライダーの更新
         if (currentHP <= maxHP * 0.2f && BulletState == BulletState.normal)
         {
             BulletDelete();
