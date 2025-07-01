@@ -1,12 +1,6 @@
-using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 // 一段階目-----------------------------------------------------------------------
 [System.Serializable]
@@ -87,8 +81,6 @@ public class SpecialFinalAttack
     public float delayTime; // 弾幕の出す間隔
     public float angleOffset;
  }
-
-
 
 public class SpecialMove_Gomi : MonoBehaviour
 {
@@ -215,6 +207,7 @@ public class SpecialMove_Gomi : MonoBehaviour
                     // ベクトル方向に速度を与えて発射（マイナス方向で外に向かって発射）
                     Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
                     rb.linearVelocity = moveDirection * -secondSpecialBom.speed;
+                    proj.transform.rotation = Quaternion.Euler(0, 0, baseAngle); // 弾の向きを調整
                 }
 
                 // 次のループのために時間を加算＆ウェイト
@@ -494,6 +487,7 @@ public class SpecialMove_Gomi : MonoBehaviour
             {
                 if (bullet != null)
                 {
+                    bullet.GetComponent<SpriteRenderer>().color = Color.black; // 弾の色を黒に変更
                     Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
                     rb.linearVelocity = Vector2.zero; // 弾の速度をゼロにする
                 }
@@ -562,6 +556,7 @@ public class SpecialMove_Gomi : MonoBehaviour
             Vector3 randomPos = new Vector3(Random.Range(-8.4f, 8.5f), Random.Range(-4.5f, 4.5f), 0);
 
             // 弾幕を構成する個々の弾をループで発射
+            List<GameObject> bullets = new List<GameObject>(); // 弾のリストを初期化
             for (int i = 0; i < specialFinalAttack.bulletNum; i++)
             {
                 // 現在の角度に基づいて方向ベクトルを計算（ラジアンに変換）
@@ -574,9 +569,27 @@ public class SpecialMove_Gomi : MonoBehaviour
                 Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
                 rb.linearVelocity = moveDirection.normalized * specialFinalAttack.speed;
 
+                // 弾をリストに追加
+                bullets.Add(proj);
+
                 // 次の弾の角度を設定
                 angle += angleStep;
             }
+            yield return new WaitForSeconds(0.2f); // 弾幕の発射間隔を待機
+
+            // 弾幕のスピードを少し遅くする
+            foreach(GameObject bullet in bullets)
+            {
+                if (bullet != null)
+                {
+                    Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+                    if (rb != null)
+                    {
+                        rb.linearVelocity *= 0.2f; // 弾の速度を少し遅くする
+                    }
+                }
+            }
+
             // 弾幕を回転させるために角度オフセットを加算
             specialFinalAttack.angleOffset += 10f; // この値を変えると回転速度が変わる
 
@@ -651,5 +664,4 @@ public class SpecialMove_Gomi : MonoBehaviour
         // コルーチンを終了
         yield return null;
     }
-
 }

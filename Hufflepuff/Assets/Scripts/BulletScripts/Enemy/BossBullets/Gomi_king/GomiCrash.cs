@@ -36,6 +36,7 @@ public class GomiCrash : MonoBehaviour
                 GameObject bullet = Instantiate(Prehab, transform.position, Quaternion.identity);
                 Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
                 rb.linearVelocity = moveDirection.normalized * speed * speedLate;
+                bullet.transform.rotation = Quaternion.Euler(0, 0, angle + 180); 
 
                 angle += angleStep;
             }
