@@ -4,6 +4,7 @@
 //
 
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayrController : MonoBehaviour
@@ -88,7 +89,13 @@ public class PlayrController : MonoBehaviour
     }
     private IEnumerator ResetInvincibility()
     {
-        yield return new WaitForSeconds(3f); // 3秒間の無敵時間
+        for(int i = 0; i < 15; i++)
+        {
+            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0); // 赤く点滅
+            yield return new WaitForSeconds(0.05f); // 0.1秒ごとに無敵状態を維持
+            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1); // 元の色に戻す
+            yield return new WaitForSeconds(0.05f); // 0.1秒ごとに無敵状態を維持
+        }
         invincible = false;
     }
 }
