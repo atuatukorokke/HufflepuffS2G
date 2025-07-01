@@ -39,7 +39,7 @@ public class PuzzleGrid : MonoBehaviour
             }
         }
         // デバッグ用　消えてなかったら消してください
-        grid[3, 3] = 1;
+        grid[3, 2] = 1;
     }
 
     /// <summary>
@@ -56,61 +56,86 @@ public class PuzzleGrid : MonoBehaviour
         Debug.Log("iny:" + iny);
         // 座標の小数点を除外
         if (inx % 1 != 0 || iny % 1 != 0) return false;
-
-        // 受け取った座標はそもそも範囲外の場合を除外
-        // x 0 ~ 6
-        // y -6 ~ 0
-        if (inx < 0 || inx > 6 || iny > 0 || iny < -6) return false;
+        
+        int pTestx = (int)(inx);
+        int pTesty = (int)(iny * -1);
 
         // ピースの形の情報をPieceShapeに入れます
         int[,] PieceShape = new int[4, 4];
         PieceShape = PList.PieceShapes(inGameObject);
 
-        // 角度を扱いやすい情報に変更する
-        if (inz == 0)
-        {
-            Debug.Log("inz:1");
-        }
-        else if (inz > 0 && inz != 1)
-        {
-            Debug.Log("inz:2");
-        }
-        else if (inz == 1)
-        {
-            Debug.Log("inz:3");
-        }
-        else if (inz < 0)
-        {
-            Debug.Log("inz:4");
-        }
 
         // パズルピースが範囲外に出ていないかを確認します
-        for (int i = 0; i < 4; i++)
+        switch (inz)
         {
-            for (int j = 0; j < 4; j++)
-            {
-                if (PieceShape[j, i] == 1 && (inx + i) > 6)
-                {
-                    Debug.Log("範囲外です");
-                    return false;
-                }
-                if (PieceShape[i, j] == 1 && (iny - i) < -6)
-                {
-                    Debug.Log("範囲外です");
-                    return false;
-                }
-            }
 
+            case 0:
+                // 時計   0°回転
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        // x方向にピースが範囲外に出ていないかを確認
+                        if (PieceShape[j, i] == 1 && ((pTestx + i) > width - 1 || (pTestx + i) < 0))
+                        {
+                            Debug.Log("x範囲外です");
+                            return false;
+                        }
+                        // y方向にピースが範囲外に出ていないかを確認
+                        if (PieceShape[j, i] == 1 && ((pTesty + j) > height - 1 || (pTesty + j) < 0))
+                        {
+                            Debug.Log("y範囲外です");
+                            return false;
+                        }
+                        if (pTestx + j <= 0 || pTestx + j >= width || pTestx + j <= 0 || pTesty + i >= height) break;
+                        if (grid[i + pTesty, j + pTestx] == 1 && PieceShape[i, j] == 1)
+                        {
+                            Debug.Log("ピースの上には配置できません");
+                            return false;
+                        }
+                    }
+                }
+                break;
+            case 1:
+                // 時計  90°回転
+                // 現在書き換え中
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        if (PieceShape[j, i] == 1 && ((pTestx + i) > width - 1 || (pTestx + i) < 0))
+                        {
+                            Debug.Log("範囲外です");
+                            return false;
+                        }
+                        if (PieceShape[i, j] == 1 && ((pTesty + i) > height - 1 || (pTesty + i) < 0))
+                        {
+                            Debug.Log("範囲外です");
+                            return false;
+                        }
+                    }
+                }
+                break;
+            case 2:
+                // 時計 180°回転
+                Debug.Log("未実装やね");
+                break;
+            case 3:
+                // 時計 270°回転
+                Debug.Log("未実装やね");
+                break;
+            default:
+                Debug.Log("ばぐってるやでー");
+                break;
         }
 
+        /*
         // パズルピースの配置箇所に既にピースが置かれていないか確認
-        int pTestx = (int)(inx);
-        int pTesty = (int)(iny * -1);
         for (int i = 0; i < 4; i++)
         {
             for (int j = 0; j < 4; j++)
             {
-                if (i + pTestx > 6 || j + pTesty > 6) break;
+                if (i + pTestx > width || j + pTesty > height) break;
                 if (grid[i + pTestx, j + pTesty] == 1 && PieceShape[j, i] == 1)
                 {
                     Debug.Log("ピースの上には配置できません");
@@ -118,6 +143,7 @@ public class PuzzleGrid : MonoBehaviour
                 }
             }
         }
+        */
 
         return true;
     }

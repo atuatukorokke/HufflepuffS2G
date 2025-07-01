@@ -74,7 +74,7 @@ public class PieceMoves : MonoBehaviour
     public void PiecePossible()
     {
         bool banana;
-        banana = Pgrid.PuzzleCheck(gameObject, transform.position.x + 3, transform.position.y - 3, transform.rotation.z);
+        banana = Pgrid.PuzzleCheck(gameObject, transform.position.x + 2, transform.position.y - 2, CountRotate);
         Debug.Log(banana);
     }
 
@@ -85,6 +85,6 @@ public class PieceMoves : MonoBehaviour
     {
         CountRotate = (CountRotate + 1) % 4;
         Debug.Log(CountRotate);
-        //transform.Rotate(0, 0, -90);
+        transform.Rotate(0, 0, -90);
     }
 }
