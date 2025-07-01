@@ -113,8 +113,7 @@ public class Boss1Bullet : MonoBehaviour
     [SerializeField] private Vector2 spellPos; // 必殺技・セミファイナルを打つときにこの座標に一旦戻る
     [SerializeField] private SpecialMove_Gomi GomiSpecialMove; // 必殺技のクラス
     [SerializeField] private bool isDead = false;
-    [SerializeField] private Slider hpSlider; // HPのスライダー
-
+    [SerializeField] private GameObject currentHPBar; // 現在のHPを表示するUI
 
     [Header("一段階目の通常弾幕の変数")]
     [SerializeField] private FastBullet fastBulletValue;
@@ -235,7 +234,7 @@ public class Boss1Bullet : MonoBehaviour
                 yield return new WaitForSeconds(fastBulletValue.delayTime);
             }
             Vector2 randomPos = RandomPos(); // ランダムな移動先の排出
-            float limitTime = 0.5f; // 移動にかける時間
+            float limitTime = 1f; // 移動にかける時間
             float elapsedTime = 0f; // 移動にかかった時間
             Vector2 startPosition = transform.position;
             // randomPosにlimitTimeかけて移動する
@@ -491,7 +490,10 @@ public class Boss1Bullet : MonoBehaviour
             BulletState = BulletState.normal; // 弾幕の変更
             DamageLate = 1f;
             currentHP = maxHP; // HPを回復
-            hpSlider.value = currentHP / maxHP; // HPスライダーの更新
+            if (!isDead)
+            {
+                currentHPBar.transform.localScale = new Vector3(currentHP / maxHP, 1, 1); // HPバーの更新
+            }
             Debug.Log("Stateが変更されました: " + state);
             yield return StartCoroutine(BulletUpdate());
         }
@@ -503,8 +505,12 @@ public class Boss1Bullet : MonoBehaviour
     /// <param name="damage">与ダメージ</param>
     private IEnumerator TakeDamage(float damage)
     {
-        currentHP -= damage;
-        hpSlider.value = currentHP / maxHP; // HPスライダーの更新
+        currentHP -= damage; // HPを減らす
+        if (!isDead)
+        {
+            currentHPBar.transform.localScale = new Vector3(currentHP / maxHP, 1, 1); // HPバーの更新
+        }
+
         if (currentHP <= maxHP * 0.2f && BulletState == BulletState.normal)
         {
             BulletDelete();
