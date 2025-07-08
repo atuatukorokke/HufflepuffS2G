@@ -4,67 +4,70 @@
 //
 
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class EnemySummoningManagement : MonoBehaviour
 {
-    [SerializeField] private EnemyDeployment[] enemyDeployment; // エネミーの出現データの保管庫
-    private int count; // enemyDeploymentの数
+    [SerializeField] private List<EnemyDeployment> enemyDeployment; // エネミーの配置データを格納するリスト
+    private bool waitingForMiddleBoss = false; // 途中でボスが出てくるかどうかのフラグ
+
+
     private void Start()
     {
-        count = 0;
-        StartCoroutine(EnemySummoning());
+        StartCoroutine(enumerator()); // エネミーの配置を開始
     }
 
     /// <summary>
-    /// エネミーをenemyDeploymentから生成します
+    /// エネミーの配置を行います。
     /// </summary>
     /// <returns></returns>
-    IEnumerator EnemySummoning()
+    public IEnumerator enumerator()
     {
-        while(count < enemyDeployment.Length)
+        foreach(var deploment in enemyDeployment)
         {
-            switch (enemyDeployment[count].GetState1)
+            switch(deploment.GetState1)
             {
-                case EnemyDeployment.state.Smallfry:
-                    StartCoroutine(SmallfrySummoning(enemyDeployment[count].DelayTime, enemyDeployment[count].EnemyCount));
-                    count++;
+                case EnemyDeployment.state.Smallfry: // 雑魚敵の配置
+                    for (int i = 0; i < deploment.EnemyCount; i++)
+                    {
+                        SpawnEnemy(deploment);
+                        yield return new WaitForSeconds(deploment.DelayTime);
+                    }
                     break;
-                case EnemyDeployment.state.Boss:
-                    BossSummoning();
-                    yield return new WaitForSeconds(enemyDeployment[count].DelayTime); // ボス召喚後の待機時間(多分なくなる)
-                    count++;
+
+                case EnemyDeployment.state.middleBoss: // 中ボスの配置
+                    GameObject middleBoss = SpawnEnemy(deploment);
+                    waitingForMiddleBoss = true; // 中ボスが出てくるフラグを立てる
+                    EnemyHealth health = middleBoss.GetComponent<EnemyHealth>();
+                    if (health != null)
+                    {
+                        health.OnDeath += () => waitingForMiddleBoss = false; // 中ボスが倒されたらフラグを下げる
+                    }
+                    yield return new WaitUntil(() => !waitingForMiddleBoss); // 中ボスが倒されるまで待機
+                    break;
+                case EnemyDeployment.state.Boss: // ボスの配置
+                    Instantiate(deploment.EnemyPrehab, deploment.GenerationPosition, Quaternion.identity);
                     break;
                 case EnemyDeployment.state.DelayTime:
-                    Debug.Log(enemyDeployment[count].DelayTime + "秒間待機です。");
-                    yield return new WaitForSeconds(enemyDeployment[count].DelayTime); // 一個前の召喚が終わってからの待機時間
-                    count++;
+                    yield return new WaitForSeconds(deploment.DelayTime);
                     break;
             }
+        }
+    }
 
-        }
-        yield return null;
-    }
-    /// <summary>
-    /// 雑魚敵を生成します
-    /// </summary>
-    /// <param name="delayTime">生成の間隔</param>
-    /// <param name="count">生成する数</param>
-    /// <returns></returns>
-    private IEnumerator SmallfrySummoning(float  delayTime, int count)
+    private GameObject SpawnEnemy(EnemyDeployment deployment)
     {
-        for(int i = 0; i < count; i++)
+        Vector2 position = deployment.GenerationPosition;
+        GameObject enemy = Instantiate(deployment.EnemyPrehab, position, Quaternion.identity);
+        EnemyHealth health = enemy.GetComponent<EnemyHealth>();
+        if (health != null)
         {
-            GameObject enemy = Instantiate(enemyDeployment[count].EnemyPrehab, enemyDeployment[count].GenerationPosition, Quaternion.identity); // エネミーを配置する
-            // 移動方法の指定
-            yield return new WaitForSeconds(delayTime); // １体召喚ごとにとる間隔
+            health.SetHealth(deployment.EnemyHP);
         }
-    }
-    /// <summary>
-    /// ボスの召喚を行います。
-    /// </summary>
-    private void BossSummoning()
-    {
-        GameObject bossEnemy = Instantiate(enemyDeployment[count].EnemyPrehab, enemyDeployment[count].GenerationPosition, Quaternion.identity); // ボスエネミーを配置する
+
+        return enemy;
     }
 }

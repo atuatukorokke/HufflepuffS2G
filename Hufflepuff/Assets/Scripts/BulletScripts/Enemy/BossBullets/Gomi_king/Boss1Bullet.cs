@@ -7,7 +7,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 // 一段階目の通常弾幕の変数
 [System.Serializable]
@@ -108,7 +107,7 @@ public class Boss1Bullet : MonoBehaviour
     private bool isSpecialBulletActive = false; // HPが0になったらtrueになる→ラストワード発生
     private float specialBulletDuration = 15f; // 何秒ラストワードを撃つか
     private float timer = 0f; // 今何秒たったか
-    private float damageLate = 1f; // ダメージを与える割合
+    private float damageLate = 0f; // ダメージを与える割合
     [SerializeField] private float attak = 1f; // 攻撃力
     [SerializeField] private Vector2 spellPos; // 必殺技・セミファイナルを打つときにこの座標に一旦戻る
     [SerializeField] private SpecialMove_Gomi GomiSpecialMove; // 必殺技のクラス
@@ -136,10 +135,31 @@ public class Boss1Bullet : MonoBehaviour
 
     void Start()
     {
+        currentHPBar = GameObject.Find("currentHP"); // 現在のHPを表示するUIを取得
+        // 初期位置から指定場所へ移動する
         currentHP = maxHP;
-        StartCoroutine(BulletUpdate());
+        StartCoroutine(StartPositionMove()); // 初期位置から指定位置へ移動
     }
 
+    private IEnumerator StartPositionMove()
+    {
+        float limitTime = 0.5f; // 移動にかける時間
+        float elapsedTime = 0f; // 移動にかかった時間
+        Vector2 startPosition = transform.position;
+        // randomPosにlimitTimeかけて移動する
+        while (elapsedTime < limitTime)
+        {
+            transform.position = new Vector2(
+                Mathf.Lerp(startPosition.x, spellPos.x, elapsedTime / limitTime),
+                Mathf.Lerp(startPosition.y, spellPos.y, elapsedTime / limitTime)
+                );
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        yield return new WaitForSeconds(2.0f);
+        damageLate = 1.0f; // ダメージを与える割合を初期化
+        yield return StartCoroutine(BulletUpdate()); // 弾幕の更新を開始
+    }
 
     private void Update()
     {

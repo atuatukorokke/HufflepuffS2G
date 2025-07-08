@@ -34,6 +34,15 @@ public class FollowingBullet : MonoBehaviour
         InvokeRepeating("FollowingShoot", 0, delayTime);
     }
 
+    private void Update()
+    {
+        // エネミーの座標が画面外に出たら削除
+        if (transform.position.y < -8 || transform.position.y > 8)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     /// <summary>
     /// 追尾弾の生成
     /// プレイヤーの座標から移動方向を計算する

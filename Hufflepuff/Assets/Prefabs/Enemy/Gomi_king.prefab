@@ -1,0 +1,286 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1009985746254006914
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8861759956308253484}
+  - component: {fileID: 2820946454297867302}
+  - component: {fileID: 780350193236948880}
+  - component: {fileID: 6045031437138032910}
+  - component: {fileID: 4769583251282865747}
+  - component: {fileID: 3092607265527844790}
+  m_Layer: 0
+  m_Name: Gomi_king
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8861759956308253484
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009985746254006914}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.23, y: -0.2, z: 0}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2820946454297867302
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009985746254006914}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 2556801809791008061, guid: ddcd1854c3fa200449c932e54867dee6, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 2}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &780350193236948880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009985746254006914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f977fa81f3bfca4abd1a6ae2c93d6c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 1
+  bulletState: 0
+  maxHP: 100
+  currentHP: 12.6
+  attak: 1
+  spellPos: {x: 6, y: 0}
+  GomiSpecialMove: {fileID: 3092607265527844790}
+  isDead: 0
+  currentHPBar: {fileID: 0}
+  fastBulletValue:
+    BulletPrehab: {fileID: 593574743847144491, guid: 364ae85816761a845b2a4e3bee527973, type: 3}
+    FlyingNum: 20
+    frequency: 5
+    speed: 10
+    DeleteTime: 4
+    delayTime: 0.1
+    angleOffset: 0
+    moveSpeed: 1
+  secondBulletValue:
+    RevolutionBulletPrehab: {fileID: 7961033102418890308, guid: 5a84cc53ed5784746a7066f9c74ef0b3, type: 3}
+    FevolutionFlyingNum: 15
+    FevolutionFrequency: 0
+    FevolutionSpeed: 5
+    FevolutionDeleteTime: 5
+    FevolutionDelayTime: 0.1
+    FevolutionAngleOffset: 0
+  thirdBulletValue:
+    RotationBulletPrehab: {fileID: 7961033102418890308, guid: 5a84cc53ed5784746a7066f9c74ef0b3, type: 3}
+    RotationFlyingNum: 4
+    RotationFrequency: 0
+    RotationSpeed: 4
+    RotationDeleteTime: 10
+    RotationDelayTime: 0.1
+    RotationAngleOffset: 0
+  FourBulletValue:
+    BulletPrehab: {fileID: 8122776338678338232, guid: c34af014c73c3f142b12ef14b13cf32c, type: 3}
+    FlyingNum: 6
+    Speed: 3
+    DeleteTime: 7
+    DelayTime: 0.15
+    AngleSpacing: 5
+    AngleOffset: 0
+  finalBulletValue:
+    Prehab: {fileID: 4416596193334731641, guid: b30b6ef3a31771b46a0587aacb8bd0b0, type: 3}
+    FlyingNum: 20
+    speed: 5
+    DeleteTime: 7
+    DelayTime: 0.05
+    radius: 3
+    player: {fileID: 0}
+    bullets: []
+--- !u!70 &6045031437138032910
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009985746254006914}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.15, y: 0.81}
+  m_Size: {x: 1.742897, y: 3.4333577}
+  m_Direction: 0
+--- !u!50 &4769583251282865747
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009985746254006914}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &3092607265527844790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009985746254006914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2dfe5e4851bcd84792bac69472ce68d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spellPos: {x: 6, y: 0}
+  boss1Bullet: {fileID: 780350193236948880}
+  fastSpecialBom:
+    BulletPrehab: {fileID: 3591624035391491214, guid: 479c6fdb9eba609408ea39594e45b54f, type: 3}
+    ShotNum: 3
+    DelayTime: 0.2
+    speed: 0.5
+    delayTime: 5
+  secondSpecialBom:
+    RightBulletPrehab: {fileID: 5736442091953159142, guid: 24210d9295e194640bf535a5c778d128, type: 3}
+    LeftBulletPrehab: {fileID: 5580179878717300200, guid: 92e46a3e9d628b34b849809d1d1b0961, type: 3}
+    delayTime: 5
+    BulletNum: 100
+    time: 5
+    speed: 5
+    angle: 0
+  thirdSpecialBom:
+    BulletPrehab: {fileID: 5769044862919052364, guid: f32c617cd933adb4089ec951cff1f86a, type: 3}
+    maxSpeed: 1
+    minSpeed: 3
+    delayTime: 20
+  fourSpecialBom:
+    BulletPrehab: {fileID: 4416596193334731641, guid: b30b6ef3a31771b46a0587aacb8bd0b0, type: 3}
+    stopTime: 0.7
+    bulletNum: 30
+    circleDelayTime: 4
+    speed: 3
+    angleOffset: 0
+    crossSpeed: 0.7
+    expandSpeed: 2
+    rotationSpeed: 20
+    arcCount: 10
+    arcAngle: 150
+    arcSpeed: 3
+    movementSpeed: 2
+    arcLine: 10
+  finalSpecianBom:
+    BulletPrehab: {fileID: 5769044862919052364, guid: f32c617cd933adb4089ec951cff1f86a, type: 3}
+    maxSpeed: 3
+    minSpeed: 2
+    randomSpeed: 1.5
+    randomBulletTime: 4
+    radiationBulletNum: 5
+    radiationBulletSpeed: 5
+    radiationBulletDelayTime: 0.1
+    radiationBulletCount: 20
+    radiationBulletAngle: 150
+    breakTime: 3
+  specialFinalAttack:
+    BulletPrehab: {fileID: 4173998257336814873, guid: 6a56cbcb4569e9243861e25981ffc25f, type: 3}
+    bulletNum: 20
+    speed: 5
+    delayTime: 0.3
+    angleOffset: 0

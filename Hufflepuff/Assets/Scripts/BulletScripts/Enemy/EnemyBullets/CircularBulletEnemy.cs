@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 public class CircularBulletEnemy : MonoBehaviour
@@ -11,6 +12,7 @@ public class CircularBulletEnemy : MonoBehaviour
     [SerializeField] private float DeleteTime; // 削除する時間
     [SerializeField] private float delayTime; // 弾幕を出す間隔
     private float angleOffset = 0f; // ずらし用の角度
+    private int count = 0; // 発射回数のカウント
 
     [Header("移動用変数")]
     [SerializeField] private float destination; // 到着座標
@@ -36,11 +38,20 @@ public class CircularBulletEnemy : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        while (true)
+        yield return StartCoroutine(ShootIncircle());
+        yield return new WaitForSeconds(delayTime + 2.0f);
+        elapsedTime = 0f; // 経過時間をリセット
+        startPosition = transform.position;
+        while (elapsedTime < 5)
         {
-            yield return StartCoroutine(ShootIncircle());
-            yield return new WaitForSeconds(delayTime + 2.0f);
+            transform.position = new Vector2(
+                Mathf.Lerp(startPosition.x, -10, elapsedTime / 5),
+                Mathf.Lerp(startPosition.y, -10, elapsedTime / 5)
+                );
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
+        Destroy(gameObject); // 5秒後にオブジェクトを削除
     }
 
     /// <summary>
