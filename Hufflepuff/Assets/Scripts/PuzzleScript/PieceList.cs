@@ -58,7 +58,7 @@ public class PieceList : MonoBehaviour
     /// </summary>
     /// <param name="inGameObject">パズルピースをGameObjectで入れてください</param>
     /// <returns>タグを参照してピースの形を二次元配列で返却</returns>
-    public int[,] PieceShapes(GameObject inGameObject)
+    public int[,] PieceShapes(GameObject inGameObject, int inz)
     {
         int[,] PieceShape = new int[4,4] {
             { 00, 01, 02, 03 },
@@ -66,6 +66,15 @@ public class PieceList : MonoBehaviour
             { 20, 21, 22, 23 },
             { 30, 31, 32, 33 } };
 
+        /*
+        int[,] RotationPieceShape = new int[4, 4] {
+            { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 } };
+        */
+
+        // 現在操作しているピースのタグ情報からピースの形を返却するために入れる
         switch (inGameObject.tag)
         {
             case "Imino":
@@ -93,6 +102,29 @@ public class PieceList : MonoBehaviour
                 Debug.Log("タグが読み取れてない");
                 break;
         }
+
+        /*
+        // 配列を回転して渡すための処理
+        // inzの回数だけ右方向に回転させる
+        for (int z = 0; z < inz; z++)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                for(int j = 0; j < 4; j++)
+                {
+                    RotationPieceShape[j, 3 - i] = PieceShape[i, j];
+                }
+            }
+            //PieceShape = RotationPieceShape;
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    PieceShape[i, j] = RotationPieceShape[i, j];
+                }
+            }
+        }
+        */
 
         return PieceShape;
     }
