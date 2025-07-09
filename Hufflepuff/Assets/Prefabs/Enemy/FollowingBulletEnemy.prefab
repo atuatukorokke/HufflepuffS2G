@@ -108,7 +108,7 @@ MonoBehaviour:
   speed: 10
   delayTime: 0.5
   destroyTime: 3
-  moveSpeed: 15
+  moveSpeed: 25
 --- !u!61 &-8118813770022731210
 BoxCollider2D:
   m_ObjectHideFlags: 0

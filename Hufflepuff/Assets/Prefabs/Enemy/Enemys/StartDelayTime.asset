@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e68c76bbb4de79d41bdef340ddc7bf16, type: 3}
-  m_Name: FollowingBulletEnemy01
+  m_Name: StartDelayTime
   m_EditorClassIdentifier: 
-  GetState: 0
-  enemyPrehab: {fileID: 212713448090183509, guid: f916519db4177d049a77bbf20deee6b7, type: 3}
-  enemyHP: 100
-  generationPosition: {x: 6, y: 7}
-  enemyCount: 3
-  delayTime: 1
+  GetState: 3
+  enemyPrehab: {fileID: 0}
+  enemyHP: 0
+  generationPosition: {x: 0, y: 0}
+  enemyCount: 0
+  delayTime: 2

@@ -17,4 +17,4 @@ MonoBehaviour:
   enemyHP: 0
   generationPosition: {x: 0, y: 0}
   enemyCount: 0
-  delayTime: 2
+  delayTime: 5
