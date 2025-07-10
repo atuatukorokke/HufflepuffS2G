@@ -16,6 +16,8 @@ public class PlayrController : MonoBehaviour
     [SerializeField] private float delayTime; // 発射してからのディレイ時間
     [SerializeField] private float Attack; // 攻撃力　パズル画面にも引き渡し
     [SerializeField] private bool invincible = false; // 無敵判定
+    [SerializeField] private float invincibleTime = 15f; // 無敵時間
+    [SerializeField] private int presentCount = 0; // プレゼントの数
 
 
     private bool isShooting = false;
@@ -79,17 +81,30 @@ public class PlayrController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("E_Bullet") && !invincible)
+        switch(collision.tag)
         {
-            Debug.Log("死");
-            Destroy(collision.gameObject);
-            invincible = true;
-            StartCoroutine(ResetInvincibility()); // 一定時間後に無敵解除
+            case "E_Bullet":
+                if(!invincible)
+                {
+                    Debug.Log("死");
+                    Destroy(collision.gameObject);
+                    invincible = true;
+                    StartCoroutine(ResetInvincibility()); // 一定時間後に無敵解除
+                }
+                break;
+            case "Present":
+                presentCount++;
+                Destroy(collision.gameObject);
+                if (presentCount == 10) 
+                {
+                    Debug.Log("プレゼントを10個集めた！");
+                }
+                break;  
         }
     }
     private IEnumerator ResetInvincibility()
     {
-        for(int i = 0; i < 15; i++)
+        for(int i = 0; i < invincibleTime; i++)
         {
             GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0); // 赤く点滅
             yield return new WaitForSeconds(0.05f); // 0.1秒ごとに無敵状態を維持

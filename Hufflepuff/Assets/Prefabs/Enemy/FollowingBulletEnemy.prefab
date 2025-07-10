@@ -195,6 +195,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hP: 100
-  prehab: {fileID: 1733852370869397095, guid: bb5b9cdd2f6431d44928315081a34aa4, type: 3}
+  prehab: {fileID: 8988514118765363044, guid: 3d20a48ec3ab95142b0c37d5bb1544ca, type: 3}
   dropLate: 0
   dropManager: {fileID: 0}

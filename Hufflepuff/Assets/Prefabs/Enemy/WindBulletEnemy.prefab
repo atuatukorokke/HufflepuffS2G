@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65db55e91c308074c95bf34e9b80b184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletPrehab: {fileID: 7011368598628698757, guid: 37544a9ae590c67428701798500d268a, type: 3}
+  BulletPrehab: {fileID: 8122776338678338232, guid: c34af014c73c3f142b12ef14b13cf32c, type: 3}
   speed: 5
   delayTime: 5
   destroyTime: 5
@@ -196,6 +196,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hP: 100
-  prehab: {fileID: 5579639998162137282, guid: b033526207f04b044972175531e1446d, type: 3}
+  prehab: {fileID: 8988514118765363044, guid: 3d20a48ec3ab95142b0c37d5bb1544ca, type: 3}
   dropLate: 0
   dropManager: {fileID: 0}

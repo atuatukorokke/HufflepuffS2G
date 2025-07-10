@@ -6,7 +6,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public enum EnemyType
 {
@@ -16,8 +16,11 @@ public enum EnemyType
 
 public class MiddleBossBullet : MonoBehaviour
 {
-    private EnemyHealth enemyHealth; // エネミーのヘルスを管理するスクリプト
     [SerializeField] private EnemyType enemyType; // エネミーの状態を管理する列挙型
+    [SerializeField] private BossHealth bossHealth; // ボスのＨＰを管理するスクリプト
+    private float damageLate = 1; // 被ダメージの割合
+    [SerializeField] private GameObject presentBox; // ドロップ用のプレハブ
+    [SerializeField] private Image healthBar; // エネミーのＨＰバー
 
     [Header("通常弾幕用の変数")]
     [SerializeField] private GameObject bulletPrefab; // 弾幕のプレハブ
@@ -32,7 +35,7 @@ public class MiddleBossBullet : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        enemyHealth = GetComponent<EnemyHealth>();
+        bossHealth = FindAnyObjectByType<BossHealth>(); // ボスのＨＰ管理スクリプトを取得
         StartCoroutine(StartBullet());
     }
 
@@ -48,7 +51,7 @@ public class MiddleBossBullet : MonoBehaviour
 
         while (enemyType == EnemyType.noemal)
         {
-            if (radius > stopThreshold)
+            if (radius > stopThreshold && enemyType == EnemyType.noemal)
             {
                 for (int i = 0; i < shotNum; i++)
                 {
@@ -75,5 +78,35 @@ public class MiddleBossBullet : MonoBehaviour
             yield return new WaitForSeconds(bulletDelayTime);
         }
         yield return null; // 1フレーム待機
+    }
+
+    private IEnumerator MiddleApell()
+    {
+        while(enemyType == EnemyType.spell)
+        {
+            Debug.Log("スペルカード発動中");
+            yield return new WaitForSeconds(5f); // スペルカードの間隔
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("P_Bullet"))
+        {
+            Destroy(collision.gameObject); // プレイヤーの弾を消す
+            bossHealth.hP -= damageLate; // エネミーのHPを減らす
+            healthBar.fillAmount = bossHealth.hP / 100; // エネミーのＨＰバーを更新
+            if (bossHealth.hP <= 20 && enemyType == EnemyType.noemal)
+            {
+                enemyType++; // エネミーの状態をスペルカードに変更
+                damageLate = 0.2f; // 被ダメージの割合を変更
+                StartCoroutine(MiddleApell()); // スペルカードの発動
+            }
+            else if(bossHealth.hP <= 0)
+            {
+                GameObject present = Instantiate(presentBox, transform.position, Quaternion.identity); // ドロップ用のプレハブを生成
+                present.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-2, 0); // ドロップの速度を設定
+            }
+        }
     }
 }

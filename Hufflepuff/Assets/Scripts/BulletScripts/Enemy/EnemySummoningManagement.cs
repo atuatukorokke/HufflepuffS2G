@@ -41,11 +41,8 @@ public class EnemySummoningManagement : MonoBehaviour
                 case EnemyDeployment.state.middleBoss: // 中ボスの配置
                     GameObject middleBoss = SpawnEnemy(deploment);
                     waitingForMiddleBoss = true; // 中ボスが出てくるフラグを立てる
-                    EnemyHealth health = middleBoss.GetComponent<EnemyHealth>();
-                    if (health != null)
-                    {
-                        health.OnDeath += () => waitingForMiddleBoss = false; // 中ボスが倒されたらフラグを下げる
-                    }
+                    BossHealth health = middleBoss.GetComponent<BossHealth>();
+                    health.OnDeath += () => waitingForMiddleBoss = false; // 中ボスが倒されたらフラグを下げる
                     yield return new WaitUntil(() => !waitingForMiddleBoss); // 中ボスが倒されるまで待機
                     break;
                 case EnemyDeployment.state.Boss: // ボスの配置

@@ -10,12 +10,10 @@ using System;
 public class EnemyHealth : MonoBehaviour
 {
     [Range (0, 100)]
-    [SerializeField] private float hP; // エネミーのＨＰ
+    [SerializeField] public float hP; // エネミーのＨＰ
     [SerializeField] GameObject prehab; // 箱のプレハブ
     [SerializeField] private int dropLate; // 箱を落とす確率
     [SerializeField] private DropManager dropManager; // ドロップ管理のスクリプト
-
-    public event Action OnDeath; // 中ボス撃破通知用イベント
 
     private void Start()
     {
@@ -34,16 +32,14 @@ public class EnemyHealth : MonoBehaviour
                 // ピースのドロップ
                 if (UnityEngine.Random.Range(0, dropLate) == 0)
                 {
-                    Debug.Log("ドロップ成功！");
-                    Instantiate(prehab, transform.position, Quaternion.identity); // 箱の生成
+                    GameObject present = Instantiate(prehab, transform.position, Quaternion.identity); // 箱の生成
+                    present.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-2, 0); // 箱を下に落とす
                     dropLate = dropManager.LateReset();
                 }
                 else
                 {
                     dropLate = dropManager.LateChange();
                 }
-                OnDeath?.Invoke(); // 中ボス撃破通知イベントを発火
-                Instantiate(prehab, transform.position, Quaternion.identity); //ドロップ確認用の再生成
                 Destroy(gameObject); // エネミーの消滅
             }
         }

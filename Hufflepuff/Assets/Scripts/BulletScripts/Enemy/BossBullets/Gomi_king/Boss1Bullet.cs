@@ -7,6 +7,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 // 一段階目の通常弾幕の変数
 [System.Serializable]
@@ -75,9 +76,6 @@ public class FinalBulletValue
     public List<GameObject> bullets = new List<GameObject>();
 }
 
-
-
-
 //敵の弾幕の状態
 public enum BulletState
 {
@@ -113,6 +111,7 @@ public class Boss1Bullet : MonoBehaviour
     [SerializeField] private SpecialMove_Gomi GomiSpecialMove; // 必殺技のクラス
     [SerializeField] private bool isDead = false;
     [SerializeField] private GameObject currentHPBar; // 現在のHPを表示するUI
+    [SerializeField] private Image healthBar; // エネミーのＨＰバー
 
     [Header("一段階目の通常弾幕の変数")]
     [SerializeField] private FastBullet fastBulletValue;
