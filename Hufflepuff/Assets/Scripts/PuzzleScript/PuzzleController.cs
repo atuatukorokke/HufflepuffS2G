@@ -11,10 +11,12 @@ using UnityEngine;
 public class PuzzleController : MonoBehaviour
 {
     private PieceMoves Pmoves;  // パズルピースを動かすスクリプトを呼び出す用
+    private PieceCreate Pcreate;    // デバッグ用にピースを生成するスクリプトを呼び出す
 
     private void Start()
     {
         Pmoves = FindAnyObjectByType<PieceMoves>();
+        Pcreate = FindAnyObjectByType<PieceCreate>();
     }
 
     void Update()
@@ -30,5 +32,14 @@ public class PuzzleController : MonoBehaviour
 
         // xキーでパズルピースを回転
         if (Input.GetKeyDown(KeyCode.X)) Pmoves.PieceRotation();
+
+
+        // デバッグ用にキーを押したらピースを生成する
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Pcreate.NewPiece();
+            Pmoves = FindAnyObjectByType<PieceMoves>();
+        }
+
     }
 }

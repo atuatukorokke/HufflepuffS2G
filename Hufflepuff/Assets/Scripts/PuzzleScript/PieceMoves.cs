@@ -74,8 +74,14 @@ public class PieceMoves : MonoBehaviour
     public void PiecePossible()
     {
         bool banana;
+        // PuzzleCheck を呼び出すことで配置してもよいか処理をする
         banana = Pgrid.PuzzleCheck(gameObject, transform.position.x + 2, transform.position.y - 2, CountRotate);
-        Debug.Log(banana);
+        // 配置できるなら移動用スクリプトを削除して配置する
+        if (banana)
+        {
+            var test = GetComponent<PieceMoves>();
+            Destroy(test);
+        }
     }
 
     /// <summary>

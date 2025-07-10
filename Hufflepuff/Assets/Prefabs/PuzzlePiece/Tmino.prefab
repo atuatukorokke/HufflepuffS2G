@@ -98,12 +98,12 @@ GameObject:
   - component: {fileID: 1268390078231385701}
   - component: {fileID: 6139633335394730884}
   m_Layer: 0
-  m_Name: Square
+  m_Name: DebugSquare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1268390078231385701
 Transform:
   m_ObjectHideFlags: 0
