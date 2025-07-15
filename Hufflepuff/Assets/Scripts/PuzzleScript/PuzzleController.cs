@@ -21,11 +21,13 @@ public class PuzzleController : MonoBehaviour
 
     void Update()
     {
+        /*
         // 矢印キーでパズルピースを移動
         if (Input.GetKey(KeyCode.RightArrow)) Pmoves.PieceMove();
         if (Input.GetKey(KeyCode.LeftArrow)) Pmoves.PieceMove();
         if (Input.GetKey(KeyCode.UpArrow)) Pmoves.PieceMove();
         if (Input.GetKey(KeyCode.DownArrow)) Pmoves.PieceMove();
+        */
 
         // zキーでパズルピースを設置
         if (Input.GetKeyDown(KeyCode.Z)) Pmoves.PiecePossible();

@@ -9,140 +9,41 @@ using UnityEngine;
 
 public class PieceList : MonoBehaviour
 {
-    // 1. モノ（ mono ） · 2. ジ（ di ） · 3. トリ（ tri ） · 4. テトラ（ tetra ）
+    int[,] mino1 = new int[3, 5] {
+            { 1, 0, 0, 0, 0 },  // ■□□□□
+            { 0, 0, 0, 0, 0 },  // □□□□□
+            { 0, 0, 0, 0, 0 } };// □□□□□
 
-    int[,] Imino0 = new int[4, 4] {
-            { 0, 0, 0, 0 },     // □□□□
-            { 0, 0, 0, 0 },     // □□□□
-            { 1, 1, 1, 1 },     // ■■■■
-            { 0, 0, 0, 0 } };   // □□□□
-    int[,] Imino1 = new int[4, 4] {
-            { 0, 1, 0, 0 },     // □■□□
-            { 0, 1, 0, 0 },     // □■□□
-            { 0, 1, 0, 0 },     // □■□□
-            { 0, 1, 0, 0 } };   // □■□□
-    int[,] Imino2 = new int[4, 4] {
-            { 0, 0, 0, 0 },     // □□□□
-            { 1, 1, 1, 1 },     // ■■■■
-            { 0, 0, 0, 0 },     // □□□□
-            { 0, 0, 0, 0 } };   // □□□□
-    int[,] Imino3 = new int[4, 4] {
-            { 0, 0, 1, 0 },     // □□■□
-            { 0, 0, 1, 0 },     // □□■□
-            { 0, 0, 1, 0 },     // □□■□
-            { 0, 0, 1, 0 } };   // □□■□
+    int[,] mino2 = new int[3, 5] {
+            { 1, 1, 0, 0, 0 },  // ■■□□□
+            { 0, 0, 0, 0, 0 },  // □□□□□
+            { 0, 0, 0, 0, 0 } };// □□□□□
 
-    int[,] Jmino0 = new int[4, 4] {
-            { 0, 0, 0, 0 },     // □□□□
-            { 0, 1, 0, 0 },     // □■□□
-            { 0, 1, 1, 1 },     // □■■■
-            { 0, 0, 0, 0 } };   // □□□□
-    int[,] Jmino1 = new int[4, 4] {
-            { 0, 0, 0, 0 },     // □□□□
-            { 0, 1, 1, 0 },     // □■■□
-            { 0, 1, 0, 0 },     // □■□□
-            { 0, 1, 0, 0 } };   // □■□□
-    int[,] Jmino2 = new int[4, 4] {
-            { 0, 0, 0, 0 },     // □□□□
-            { 1, 1, 1, 0 },     // ■■■□
-            { 0, 0, 1, 0 },     // □□■□
-            { 0, 0, 0, 0 } };   // □□□□
-    int[,] Jmino3 = new int[4, 4] {
-            { 0, 0, 1, 0 },     // □□■□
-            { 0, 0, 1, 0 },     // □□■□
-            { 0, 1, 1, 0 },     // □■■□
-            { 0, 0, 0, 0 } };   // □□□□
+    int[,] mino3 = new int[3, 5] {
+            { 1, 1, 0, 0, 0 },  // ■■□□□
+            { 1, 0, 0, 0, 0 },  // ■□□□□
+            { 0, 0, 0, 0, 0 } };// □□□□□
 
-    int[,] Lmino0 = new int[4, 4] {
-            { 0, 0, 0, 0 },     // □□□□
-            { 0, 0, 1, 0 },     // □□■□
-            { 1, 1, 1, 0 },     // ■■■□
-            { 0, 0, 0, 0 } };   // □□□□
-    int[,] Lmino1 = new int[4, 4] {
-            { 0, 1, 0, 0 },     // □■□□
-            { 0, 1, 0, 0 },     // □■□□
-            { 0, 1, 1, 0 },     // □■■□
-            { 0, 0, 0, 0 } };   // □□□□
-    int[,] Lmino2 = new int[4, 4] {
-            { 0, 0, 0, 0 },     // □□□□
-            { 0, 1, 1, 1 },     // □■■■
-            { 0, 1, 0, 0 },     // □■□□
-            { 0, 0, 0, 0 } };   // □□□□
-    int[,] Lmino3 = new int[4, 4] {
-            { 0, 0, 0, 0 },     // □□□□
-            { 0, 1, 1, 0 },     // □■■□
-            { 0, 0, 1, 0 },     // □□■□
-            { 0, 0, 1, 0 } };   // □□■□
+    int[,] mino4 = new int[3, 5] {
+            { 1, 1, 0, 0, 0 },  // ■■□□□
+            { 1, 1, 0, 0, 0 },  // ■■□□□
+            { 0, 0, 0, 0, 0 } };// □□□□□
 
-    int[,] Omino = new int[4, 4] {
-            { 0, 0, 0, 0 },     // □□□□
-            { 0, 1, 1, 0 },     // □■■□
-            { 0, 1, 1, 0 },     // □■■□
-            { 0, 0, 0, 0 } };   // □□□□
+    int[,] mino5 = new int[3, 5] {
+            { 1, 1, 1, 1, 1 },  // ■■■■■
+            { 0, 0, 0, 0, 0 },  // □□□□□
+            { 0, 0, 0, 0, 0 } };// □□□□□
 
-    int[,] Smino0 = new int[4, 4] {
-            { 0, 0, 0, 0 },     // □□□□
-            { 0, 1, 1, 0 },     // □■■□
-            { 1, 1, 0, 0 },     // ■■□□
-            { 0, 0, 0, 0 } };   // □□□□
-    int[,] Smino1 = new int[4, 4] {
-            { 0, 1, 0, 0 },     // □■□□
-            { 0, 1, 1, 0 },     // □■■□
-            { 0, 0, 1, 0 },     // □□■□
-            { 0, 0, 0, 0 } };   // □□□□
-    int[,] Smino2 = new int[4, 4] {
-            { 0, 0, 0, 0 },     // □□□□
-            { 0, 0, 1, 1 },     // □□■■
-            { 0, 1, 1, 0 },     // □■■□
-            { 0, 0, 0, 0 } };   // □□□□
-    int[,] Smino3 = new int[4, 4] {
-            { 0, 0, 0, 0 },     // □□□□
-            { 0, 1, 0, 0 },     // □■□□
-            { 0, 1, 1, 0 },     // □■■□
-            { 0, 0, 1, 0 } };   // □□■□
+    int[,] mino6 = new int[3, 5] {
+            { 1, 1, 1, 0, 0 },  // ■■■□□
+            { 1, 1, 1, 0, 0 },  // ■■■□□
+            { 0, 0, 0, 0, 0 } };// □□□□□
 
-    int[,] Tmino0 = new int[4, 4] {
-            { 0, 1, 0, 0 },     // □■□□
-            { 1, 1, 1, 0 },     // ■■■□
-            { 0, 0, 0, 0 },     // □□□□
-            { 0, 0, 0, 0 } };   // □□□□
-    int[,] Tmino1 = new int[4, 4] {
-            { 0, 0, 1, 0 },     // □□■□
-            { 0, 0, 1, 1 },     // □□■■
-            { 0, 0, 1, 0 },     // □□■□
-            { 0, 0, 0, 0 } };   // □□□□
-    int[,] Tmino2 = new int[4, 4] {
-            { 0, 0, 0, 0 },     // □□□□
-            { 0, 0, 0, 0 },     // □□□□
-            { 0, 1, 1, 1 },     // □■■■
-            { 0, 0, 1, 0 } };   // □□■□
-    int[,] Tmino3 = new int[4, 4] {
-            { 0, 0, 0, 0 },     // □□□□
-            { 0, 1, 0, 0 },     // □■□□
-            { 1, 1, 0, 0 },     // ■■□□
-            { 0, 1, 0, 0 } };   // □■□□
-
-    int[,] Zmino0 = new int[4, 4] {
-            { 0, 0, 0, 0 },     // □□□□
-            { 0, 1, 1, 0 },     // □■■□
-            { 0, 0, 1, 1 },     // □□■■
-            { 0, 0, 0, 0 } };   // □□□□
-    int[,] Zmino1 = new int[4, 4] {
-            { 0, 0, 0, 0 },     // □□□□
-            { 0, 0, 1, 0 },     // □□■□
-            { 0, 1, 1, 0 },     // □■■□
-            { 0, 1, 0, 0 } };   // □■□□
-    int[,] Zmino2 = new int[4, 4] {
-            { 0, 0, 0, 0 },     // □□□□
-            { 1, 1, 0, 0 },     // ■■□□
-            { 0, 1, 1, 0 },     // □■■□
-            { 0, 0, 0, 0 } };   // □□□□
-    int[,] Zmino3 = new int[4, 4] {
-            { 0, 1, 0, 0 },     // □■□□
-            { 0, 1, 1, 0 },     // □■■□
-            { 0, 0, 1, 0 },     // □□■□
-            { 0, 0, 0, 0 } };   // □□□□
-
+    int[,] mino9 = new int[3, 5] {
+            { 1, 1, 1, 0, 0 },  // ■■■□□
+            { 1, 1, 1, 0, 0 },  // ■■■□□
+            { 1, 1, 1, 0, 0 } };// ■■■□□
+    
     /// <summary>
     /// 引数として渡されたゲームオブジェクトのタグでパズルピースの形を返す
     /// </summary>
@@ -150,119 +51,34 @@ public class PieceList : MonoBehaviour
     /// <returns>タグを参照してピースの形を二次元配列で返却</returns>
     public int[,] PieceShapes(GameObject inGameObject, int inz)
     {
-        int[,] PieceShape = new int[4,4] {
-            { 00, 01, 02, 03 },
-            { 10, 11, 12, 13 },
-            { 20, 21, 22, 23 },
-            { 30, 31, 32, 33 } };
+        int[,] PieceShape = new int[3, 5] {
+            { 0, 0, 0, 0, 0 },  // □□□□□
+            { 0, 0, 0, 0, 0 },  // □□□□□
+            { 0, 0, 0, 0, 0 } };// □□□□□
 
         // 現在操作しているピースのタグ情報からピースの形を返却するために入れる
         switch (inGameObject.tag)
         {
-            case "Imino":
-                switch (inz)
-                {
-                    case 0:
-                        PieceShape = Imino0;
-                        break;
-                    case 1:
-                        PieceShape = Imino1;
-                        break;
-                    case 2:
-                        PieceShape = Imino2;
-                        break;
-                    case 3:
-                        PieceShape = Imino3;
-                        break;
-                }
+            case "1mino":
+                PieceShape = mino1;
                 break;
-            case "Jmino":
-                switch (inz)
-                {
-                    case 0:
-                        PieceShape = Jmino0;
-                        break;
-                    case 1:
-                        PieceShape = Jmino1;
-                        break;
-                    case 2:
-                        PieceShape = Jmino2;
-                        break;
-                    case 3:
-                        PieceShape = Jmino3;
-                        break;
-                }
+            case "2mino":
+                PieceShape = mino2;
                 break;
-            case "Lmino":
-                switch (inz)
-                {
-                    case 0:
-                        PieceShape = Lmino0;
-                        break;
-                    case 1:
-                        PieceShape = Lmino1;
-                        break;
-                    case 2:
-                        PieceShape = Lmino2;
-                        break;
-                    case 3:
-                        PieceShape = Lmino3;
-                        break;
-                }
+            case "3mino":
+                PieceShape = mino3;
                 break;
-            case "Omino":
-                PieceShape = Omino;
+            case "4mino":
+                PieceShape = mino4;
                 break;
-            case "Smino":
-                switch (inz)
-                {
-                    case 0:
-                        PieceShape = Smino0;
-                        break;
-                    case 1:
-                        PieceShape = Smino1;
-                        break;
-                    case 2:
-                        PieceShape = Smino2;
-                        break;
-                    case 3:
-                        PieceShape = Smino3;
-                        break;
-                }
+            case "5mino":
+                PieceShape = mino5;
                 break;
-            case "Tmino":
-                switch (inz)
-                {
-                    case 0:
-                        PieceShape = Tmino0;
-                        break;
-                    case 1:
-                        PieceShape = Tmino1;
-                        break;
-                    case 2:
-                        PieceShape = Tmino2;
-                        break;
-                    case 3:
-                        PieceShape = Tmino3;
-                        break;
-                }
+            case "6mino":
+                PieceShape = mino6;
                 break;
-            case "Zmino":
-                switch (inz)
-                {
-                    case 0:
-                        PieceShape = Zmino0;
-                        break;
-                    case 1:
-                        PieceShape = Zmino1;
-                        break;
-                    case 2:
-                        PieceShape = Zmino2;
-                        break;
-                    case 3:
-                        PieceShape = Zmino3;
-                        break;
-                }
+            case "9mino":
+                PieceShape = mino9;
                 break;
             default:
                 Debug.Log("タグが読み取れてない");

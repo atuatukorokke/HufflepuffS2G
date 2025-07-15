@@ -15,14 +15,17 @@ public class PieceMoves : MonoBehaviour
     private PuzzleGrid Pgrid;   // パズルピースを配置するスクリプトを呼び出す用
 
     private int CountRotate = 0;
+    /*
     bool isMoving;
     Vector2 input;
+    */
 
     private void Start()
     {
         Pgrid = FindAnyObjectByType<PuzzleGrid>();
     }
 
+    /*
     /// <summary>
     /// 各種矢印キーで移動を可能にします
     /// </summary>
@@ -67,6 +70,7 @@ public class PieceMoves : MonoBehaviour
 
         isMoving = false;
     }
+    */
 
     /// <summary>
     /// PuzzleGridを呼び出しパズルピースが配置可能かを確認します
@@ -89,8 +93,33 @@ public class PieceMoves : MonoBehaviour
     /// </summary>
     public void PieceRotation()
     {
-        CountRotate = (CountRotate + 1) % 4;
+        // 必要最低カウント数を設定
+        switch (gameObject.tag)
+        {
+            // 回転無し
+            case "1mino":
+            case "4mino":
+            case "9mino":
+                CountRotate = 0;
+                break;
+            // 回転２つ
+            case "2mino":
+            case "5mino":
+            case "6mino":
+                CountRotate = (CountRotate + 1) % 2;
+                break;
+            // 回転４つ
+            case "3mino":
+                CountRotate = (CountRotate + 1) % 4;
+                break;
+            default:
+                Debug.Log("変なタグを読み取ってます");
+                break;
+
+        }
+
+        int test = CountRotate * -90;
         Debug.Log(CountRotate);
-        transform.Rotate(0, 0, -90);
+        transform.localRotation = Quaternion.Euler(0, 0, test);
     }
 }

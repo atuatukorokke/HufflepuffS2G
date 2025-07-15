@@ -4,11 +4,14 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Imino
-  - Jmino
-  - Lmino
+  - 1mino
+  - 2mino
+  - 3mino
+  - 4mino
+  - 5mino
+  - 6mino
+  - 9mino
   - Omino
-  - Smino
   - Tmino
   - Zmino
   layers:
