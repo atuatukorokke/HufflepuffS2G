@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f977fa81f3bfca4abd1a6ae2c93d6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 1
+  state: 0
   bulletState: 0
   maxHP: 100
   currentHP: 12.6
@@ -111,7 +111,8 @@ MonoBehaviour:
   spellPos: {x: 6, y: 0}
   GomiSpecialMove: {fileID: 3092607265527844790}
   isDead: 0
-  currentHPBar: {fileID: 0}
+  HealthCanvas: {fileID: 7528563050860135875, guid: 6b64f1ae081c258409fa87024818bc66, type: 3}
+  currentHpbar: {fileID: 0}
   fastBulletValue:
     BulletPrehab: {fileID: 593574743847144491, guid: 364ae85816761a845b2a4e3bee527973, type: 3}
     FlyingNum: 20

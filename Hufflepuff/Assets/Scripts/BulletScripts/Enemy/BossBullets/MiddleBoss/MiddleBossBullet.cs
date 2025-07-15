@@ -20,7 +20,10 @@ public class MiddleBossBullet : MonoBehaviour
     [SerializeField] private BossHealth bossHealth; // ボスのＨＰを管理するスクリプト
     private float damageLate = 1; // 被ダメージの割合
     [SerializeField] private GameObject presentBox; // ドロップ用のプレハブ
-    [SerializeField] private Image healthBar; // エネミーのＨＰバー
+    [SerializeField] private GameObject HealthCanvas; // 現在のＨＰバーのキャンバス
+    [SerializeField] private GameObject currentHpbar; // 現在のＨＰバーのオブジェクト
+    private float maxHp; // ボスの最大ＨＰ
+    GameObject canvas; // ＨＰバーのキャンバス
 
     [Header("通常弾幕用の変数")]
     [SerializeField] private GameObject bulletPrefab; // 弾幕のプレハブ
@@ -35,7 +38,11 @@ public class MiddleBossBullet : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        canvas = Instantiate(HealthCanvas, Vector3.zero, Quaternion.identity); // ＨＰバーのキャンバスを生成
+        currentHpbar = canvas.transform.GetChild(0).Find("currentHpBar").gameObject; // 現在のＨＰバーのオブジェクトを取得; // 現在のＨＰバーを取得
+
         bossHealth = FindAnyObjectByType<BossHealth>(); // ボスのＨＰ管理スクリプトを取得
+        maxHp = bossHealth.hP; // ボスの最大ＨＰを取得
         StartCoroutine(StartBullet());
     }
 
@@ -95,7 +102,8 @@ public class MiddleBossBullet : MonoBehaviour
         {
             Destroy(collision.gameObject); // プレイヤーの弾を消す
             bossHealth.hP -= damageLate; // エネミーのHPを減らす
-            healthBar.fillAmount = bossHealth.hP / 100; // エネミーのＨＰバーを更新
+            currentHpbar.transform.localScale = new Vector3(bossHealth.hP / 100, currentHpbar.transform.localScale.y, currentHpbar.transform.localScale.z); // 現在のHPバーを更新
+
             if (bossHealth.hP <= 20 && enemyType == EnemyType.noemal)
             {
                 enemyType++; // エネミーの状態をスペルカードに変更
@@ -104,6 +112,7 @@ public class MiddleBossBullet : MonoBehaviour
             }
             else if(bossHealth.hP <= 0)
             {
+                Destroy(canvas); // ＨＰバーのキャンバスを削除
                 GameObject present = Instantiate(presentBox, transform.position, Quaternion.identity); // ドロップ用のプレハブを生成
                 present.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-2, 0); // ドロップの速度を設定
             }

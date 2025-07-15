@@ -110,8 +110,9 @@ public class Boss1Bullet : MonoBehaviour
     [SerializeField] private Vector2 spellPos; // 必殺技・セミファイナルを打つときにこの座標に一旦戻る
     [SerializeField] private SpecialMove_Gomi GomiSpecialMove; // 必殺技のクラス
     [SerializeField] private bool isDead = false;
-    [SerializeField] private GameObject currentHPBar; // 現在のHPを表示するUI
-    [SerializeField] private Image healthBar; // エネミーのＨＰバー
+    [SerializeField] private GameObject HealthCanvas; // 現在のＨＰバーのキャンバス
+    [SerializeField] private GameObject currentHpbar; // 現在のＨＰバーのオブジェクト
+    GameObject canvas; // ＨＰバーのキャンバス
 
     [Header("一段階目の通常弾幕の変数")]
     [SerializeField] private FastBullet fastBulletValue;
@@ -134,7 +135,8 @@ public class Boss1Bullet : MonoBehaviour
 
     void Start()
     {
-        currentHPBar = GameObject.Find("currentHP"); // 現在のHPを表示するUIを取得
+        canvas = Instantiate(HealthCanvas, Vector3.zero, Quaternion.identity); // ＨＰバーのキャンバスを生成
+        currentHpbar = canvas.transform.GetChild(0).Find("currentHpBar").gameObject; // 現在のＨＰバーのオブジェクトを取得
         // 初期位置から指定場所へ移動する
         currentHP = maxHP;
         StartCoroutine(StartPositionMove()); // 初期位置から指定位置へ移動
@@ -168,6 +170,7 @@ public class Boss1Bullet : MonoBehaviour
             timer += Time.deltaTime;
             if (timer >= specialBulletDuration)
             {
+                Destroy(canvas); // ＨＰバーのキャンバスを消す
                 Destroy(gameObject);
             }
         }
@@ -511,7 +514,7 @@ public class Boss1Bullet : MonoBehaviour
             currentHP = maxHP; // HPを回復
             if (!isDead)
             {
-                currentHPBar.transform.localScale = new Vector3(currentHP / maxHP, 1, 1); // HPバーの更新
+                currentHpbar.transform.localScale = new Vector3(currentHP / maxHP, currentHpbar.transform.localScale.y, currentHpbar.transform.localScale.z); // HPバーの更新
             }
             Debug.Log("Stateが変更されました: " + state);
             yield return StartCoroutine(BulletUpdate());
@@ -527,7 +530,7 @@ public class Boss1Bullet : MonoBehaviour
         currentHP -= damage; // HPを減らす
         if (!isDead)
         {
-            currentHPBar.transform.localScale = new Vector3(currentHP / maxHP, 1, 1); // HPバーの更新
+            currentHpbar.transform.localScale = new Vector3(currentHP / maxHP, currentHpbar.transform.localScale.y, currentHpbar.transform.localScale.z); // HPバーの更新        
         }
 
         if (currentHP <= maxHP * 0.2f && BulletState == BulletState.normal)
