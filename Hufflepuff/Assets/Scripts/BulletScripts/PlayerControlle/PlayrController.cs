@@ -86,7 +86,6 @@ public class PlayrController : MonoBehaviour
             case "E_Bullet":
                 if(!invincible)
                 {
-                    Debug.Log("死");
                     Destroy(collision.gameObject);
                     invincible = true;
                     StartCoroutine(ResetInvincibility()); // 一定時間後に無敵解除
