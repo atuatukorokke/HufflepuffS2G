@@ -8,13 +8,13 @@ using UnityEngine;
 public class PieceCreate : MonoBehaviour
 {
     [Header("各種ピース")]
-    [SerializeField] public GameObject Imino;
-    [SerializeField] public GameObject Jmino;
-    [SerializeField] public GameObject Lmino;
-    [SerializeField] public GameObject Omino;
-    [SerializeField] public GameObject Smino;
-    [SerializeField] public GameObject Tmino;
-    [SerializeField] public GameObject Zmino;
+    [SerializeField] public GameObject mino1;
+    [SerializeField] public GameObject mino2;
+    [SerializeField] public GameObject mino3;
+    [SerializeField] public GameObject mino4;
+    [SerializeField] public GameObject mino5;
+    [SerializeField] public GameObject mino6;
+    [SerializeField] public GameObject mino9;
     public void NewPiece()
     {
         // 1~7の整数をランダムで生成
@@ -27,25 +27,25 @@ public class PieceCreate : MonoBehaviour
         switch (rndMino)
         {
             case 1:
-                Instantiate(Imino, pos, Quaternion.identity);
+                Instantiate(mino1, pos, Quaternion.identity);
                 break;
             case 2:
-                Instantiate(Jmino, pos, Quaternion.identity);
+                Instantiate(mino2, pos, Quaternion.identity);
                 break;
             case 3:
-                Instantiate(Lmino, pos, Quaternion.identity);
+                Instantiate(mino3, pos, Quaternion.identity);
                 break;
             case 4:
-                Instantiate(Omino, pos, Quaternion.identity);
+                Instantiate(mino4, pos, Quaternion.identity);
                 break;
             case 5:
-                Instantiate(Smino, pos, Quaternion.identity);
+                Instantiate(mino5, pos, Quaternion.identity);
                 break;
             case 6:
-                Instantiate(Imino, pos, Quaternion.identity);
+                Instantiate(mino6, pos, Quaternion.identity);
                 break;
             case 7:
-                Instantiate(Zmino, pos, Quaternion.identity);
+                Instantiate(mino9, pos, Quaternion.identity);
                 break;
             default:
                 Debug.Log("なんか変な値が出てるやでー");

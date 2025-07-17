@@ -79,7 +79,7 @@ public class PieceMoves : MonoBehaviour
     {
         bool banana;
         // PuzzleCheck を呼び出すことで配置してもよいか処理をする
-        banana = Pgrid.PuzzleCheck(gameObject, transform.position.x + 2, transform.position.y - 2, CountRotate);
+        banana = Pgrid.PuzzleCheck(gameObject, transform.position.x - 3, transform.position.y - 2, CountRotate);
         // 配置できるなら移動用スクリプトを削除して配置する
         if (banana)
         {

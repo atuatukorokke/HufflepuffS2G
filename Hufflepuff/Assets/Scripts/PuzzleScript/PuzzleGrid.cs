@@ -11,8 +11,8 @@ public class PuzzleGrid : MonoBehaviour
     private PieceList PList;   // パズルピースの形を確認するよう
 
     // グリッドサイズ      ※注　この変数でUnity上の枠線は制御していません、直接いじってください
-    private const int width = 7;
-    private const int height = 7;
+    private const int width = 5;
+    private const int height = 5;
 
     // グリッドの状態を管理する配列
     private int[,] grid;
@@ -39,6 +39,11 @@ public class PuzzleGrid : MonoBehaviour
                 grid[x, y] = 0;
             }
         }
+
+        grid[0, 0] = -1;                    // 左上の位置を配置不可にする
+        grid[0, width - 1] = -1;            // 右上の位置を配置不可にする
+        grid[height - 1, 0] = -1;           // 左下の位置を配置不可にする
+        grid[height - 1, width - 1] = -1;   // 右下の位置を配置不可にする
     }
 
     /// <summary>
@@ -65,28 +70,32 @@ public class PuzzleGrid : MonoBehaviour
         int pTesty = (int)(iny * -1);
 
         // ピースの形の情報をPieceShapeに入れます
-        int[,] PieceShape = new int[4, 4];
+        int[,] PieceShape = new int[3, 5];
         PieceShape = PList.PieceShapes(inGameObject, inz);
 
 
         // 時計回りに0度回転しています
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 3; i++)
         {
-            for (int j = 0; j < 4; j++)
+            for (int j = 0; j < 5; j++)
             {
-                // x方向にピースが範囲外に出ていないかの検証
-                if (PieceShape[i, j] == 1 && ((pTestx + j) < 0 || (pTestx + j) > width - 1))
+                if (PieceShape[i, j] == 1)
                 {
-                    Debug.Log("x範囲外です");
-                    return false;
-                }
+                    // x方向にピースが範囲外に出ていないかの検証
+                    if ((pTestx + j) < 0 || (pTestx + j) > width - 1)
+                    {
+                        Debug.Log("x範囲外です");
+                        return false;
+                    }
 
-                // y方向にピースが範囲外に出ていないかの検証
-                if (PieceShape[i, j] == 1 && ((pTesty + i) < 0 || (pTesty + i) > height - 1))
-                {
-                    Debug.Log("y範囲外です");
-                    return false;
+                    // y方向にピースが範囲外に出ていないかの検証
+                    if ((pTesty + i) < 0 || (pTesty + i) > height - 1)
+                    {
+                        Debug.Log("y範囲外です");
+                        return false;
+                    }
                 }
+                
                 if ((pTestx + j) > width - 1 || (pTestx + j) < 0) break;
                 if ((pTesty + i) > height - 1 || (pTesty + i) < 0) break;
                 // すでに置かれているオブジェクトの上に置かないようにする処理
@@ -100,9 +109,9 @@ public class PuzzleGrid : MonoBehaviour
 
 
         // パズルを配置
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 3; i++)
         {
-            for (int j = 0; j < 4; j++)
+            for (int j = 0; j < 5; j++)
             {
                 if (PieceShape[i, j] == 1)
                 {
