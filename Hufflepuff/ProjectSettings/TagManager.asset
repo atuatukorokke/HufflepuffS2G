@@ -4,16 +4,13 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - 1mino
-  - 2mino
-  - 3mino
-  - 4mino
-  - 5mino
-  - 6mino
-  - 9mino
-  - Omino
-  - Tmino
-  - Zmino
+  - mino1
+  - mino2
+  - mino3
+  - mino4
+  - mino5
+  - mino6
+  - mino9
   layers:
   - Default
   - TransparentFX

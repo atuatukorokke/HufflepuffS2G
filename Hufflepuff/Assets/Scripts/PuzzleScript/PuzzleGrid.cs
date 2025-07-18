@@ -40,10 +40,10 @@ public class PuzzleGrid : MonoBehaviour
             }
         }
 
-        grid[0, 0] = -1;                    // 左上の位置を配置不可にする
-        grid[0, width - 1] = -1;            // 右上の位置を配置不可にする
-        grid[height - 1, 0] = -1;           // 左下の位置を配置不可にする
-        grid[height - 1, width - 1] = -1;   // 右下の位置を配置不可にする
+        grid[0, 0] = 99;                    // 左上の位置を配置不可にする
+        grid[0, width - 1] = 99;            // 右上の位置を配置不可にする
+        grid[height - 1, 0] = 99;           // 左下の位置を配置不可にする
+        grid[height - 1, width - 1] = 99;   // 右下の位置を配置不可にする
     }
 
     /// <summary>
@@ -56,8 +56,8 @@ public class PuzzleGrid : MonoBehaviour
     /// <returns>配置可能 = true　配置不可 = false</returns>
     public bool PuzzleCheck(GameObject inGameObject ,float inx, float iny, int inz)
     {
-        inx = inx - 0.5f;
-        iny = iny + 0.5f;
+        //inx = inx - 0.5f;
+        //iny = iny + 0.5f;
 
         Debug.Log("inx:" + inx);
         Debug.Log("iny:" + iny);
@@ -99,7 +99,7 @@ public class PuzzleGrid : MonoBehaviour
                 if ((pTestx + j) > width - 1 || (pTestx + j) < 0) break;
                 if ((pTesty + i) > height - 1 || (pTesty + i) < 0) break;
                 // すでに置かれているオブジェクトの上に置かないようにする処理
-                if (grid[i + pTesty, j + pTestx] == 1 && PieceShape[i, j] == 1)
+                if (grid[i + pTesty, j + pTestx] > 0 && PieceShape[i, j] > 0)
                 {
                     Debug.Log("ピースの上には配置できません");
                     return false;

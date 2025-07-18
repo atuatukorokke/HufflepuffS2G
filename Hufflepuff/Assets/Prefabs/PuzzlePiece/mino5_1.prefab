@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: -6230924130425612753}
   - component: {fileID: 2941772121845765218}
   m_Layer: 0
-  m_Name: 5mino
-  m_TagString: 5mino
+  m_Name: mino5_1
+  m_TagString: mino5
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

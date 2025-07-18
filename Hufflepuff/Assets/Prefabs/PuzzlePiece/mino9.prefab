@@ -536,8 +536,8 @@ GameObject:
   - component: {fileID: -4770061227309017687}
   - component: {fileID: -8156021072384444253}
   m_Layer: 0
-  m_Name: 9mino
-  m_TagString: Zmino
+  m_Name: mino9
+  m_TagString: mino9
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -25,6 +25,7 @@ public class PieceMoves : MonoBehaviour
         Pgrid = FindAnyObjectByType<PuzzleGrid>();
     }
 
+    // 過去のピースの移動スクリプト
     /*
     /// <summary>
     /// 各種矢印キーで移動を可能にします
@@ -83,8 +84,10 @@ public class PieceMoves : MonoBehaviour
         // 配置できるなら移動用スクリプトを削除して配置する
         if (banana)
         {
-            var test = GetComponent<PieceMoves>();
-            Destroy(test);
+            var thisPieceScript = GetComponent<PieceMoves>();
+            Destroy(thisPieceScript);
+            BoxCollider2D thisPieceCollider = GetComponent<BoxCollider2D>();
+            Destroy(thisPieceCollider);
         }
     }
 
