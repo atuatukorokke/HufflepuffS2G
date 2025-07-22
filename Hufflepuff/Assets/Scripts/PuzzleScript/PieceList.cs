@@ -111,25 +111,25 @@ public class PieceList : MonoBehaviour
         // 現在操作しているピースのタグ情報からピースの形を返却するために入れる
         switch (inGameObject.tag)
         {
-            case "1mino":
+            case "mino1":
                 PieceShape = mino1;
                 break;
-            case "2mino":
+            case "mino2":
 
                 break;
-            case "3mino":
+            case "mino3":
 
                 break;
-            case "4mino":
+            case "mino4":
                 PieceShape = mino4;
                 break;
-            case "5mino":
+            case "mino5":
 
                 break;
-            case "6mino":
+            case "mino6":
 
                 break;
-            case "9mino":
+            case "mino9":
                 PieceShape = mino9;
                 break;
             default:

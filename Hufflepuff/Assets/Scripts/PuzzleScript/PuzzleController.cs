@@ -10,8 +10,10 @@ using UnityEngine;
 
 public class PuzzleController : MonoBehaviour
 {
-    private PieceMoves Pmoves;  // パズルピースを動かすスクリプトを呼び出す用
-    private PieceCreate Pcreate;    // デバッグ用にピースを生成するスクリプトを呼び出す
+    private PieceMoves Pmoves;      // パズルピースを動かすスクリプト
+    private PieceCreate Pcreate;    // パズルピースを生成するスクリプト
+
+    int CountRotate = 0;    // 回転数をカウントする変数
 
     private void Start()
     {
@@ -21,26 +23,28 @@ public class PuzzleController : MonoBehaviour
 
     void Update()
     {
-        /*
-        // 矢印キーでパズルピースを移動
-        if (Input.GetKey(KeyCode.RightArrow)) Pmoves.PieceMove();
-        if (Input.GetKey(KeyCode.LeftArrow)) Pmoves.PieceMove();
-        if (Input.GetKey(KeyCode.UpArrow)) Pmoves.PieceMove();
-        if (Input.GetKey(KeyCode.DownArrow)) Pmoves.PieceMove();
-        */
-
         // zキーでパズルピースを設置
-        if (Input.GetKeyDown(KeyCode.Z)) Pmoves.PiecePossible();
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            if (Pmoves == null) Pmoves = FindAnyObjectByType<PieceMoves>();
+            Pmoves.PiecePossible(CountRotate);
+        }
 
         // xキーでパズルピースを回転
-        if (Input.GetKeyDown(KeyCode.X)) Pmoves.PieceRotation();
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            if (Pmoves == null) Pmoves = FindAnyObjectByType<PieceMoves>();
+            CountRotate = Pmoves.PieceRotation(CountRotate);
+            Pmoves = null;
+            Destroy(Pmoves, 0.1f); // PieceMovesスクリプトを削除
+        }
 
 
         // デバッグ用にキーを押したらピースを生成する
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Pcreate.NewPiece();
-            Pmoves = FindAnyObjectByType<PieceMoves>();
+            Start();
         }
 
     }
