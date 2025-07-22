@@ -135,7 +135,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &27516891
 Transform:
   m_ObjectHideFlags: 0
@@ -398,7 +398,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1091380214}
-  - component: {fileID: 1091380213}
+  - component: {fileID: 1091380215}
   m_Layer: 0
   m_Name: BuffManager
   m_TagString: Untagged
@@ -406,24 +406,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1091380213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1091380212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e09d300fb0c456a47b96fe29e7fe5d32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackPoer: 0
-  bulletDelayTime: 0
-  puzzleTimeLimit: 0
-  isSpecialBullet: 0
-  IntrusionDeleteNum: 0
-  InvincibleTime: 0
 --- !u!4 &1091380214
 Transform:
   m_ObjectHideFlags: 0
@@ -439,6 +421,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1091380215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091380212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e075ca7d84e77048b4dfd31ee08ae34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  datas: []
 --- !u!1 &1182312687
 GameObject:
   m_ObjectHideFlags: 0

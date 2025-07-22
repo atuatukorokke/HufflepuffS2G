@@ -1,13 +1,17 @@
-using UnityEngine;
+using System;
 
-public class BuffID : MonoBehaviour
+[Serializable]
+public class Buff
 {
-    
+    public BuffForID buffID;
+    public float value;
+    public bool isActive;
 }
 
 public enum BuffForID
 {
-    None,
-    Attack,
-    PuzzleTime,
+    AtackMethod, // UŒ‚è’i
+    InvincibleTime, // –³“GŠÔ
+    PuzzleTime, // ƒpƒYƒ‹ŠÔ
+    CarryOverSpecialGauge // •KE‹ZƒQ[ƒW‚ªŒJ‚è‰z‚µ‰Â”\‚©‚Ç‚¤‚©
 }

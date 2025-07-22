@@ -6,15 +6,19 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+[System.Serializable]
 
 public class PlayrController : MonoBehaviour
 {
     private Rigidbody2D myRigidbody;
-    [SerializeField] private float Speed; //移動速度
-    [SerializeField] private GameObject bulletPrehab; //弾幕のプレハブ
-    [SerializeField] private Transform gunPort; //弾幕の発射口
+    [SerializeField] private float Speed; // 移動速度
+    [Range(0f, 5f)]
+    [SerializeField] private float attack;
+    [SerializeField] private GameObject straightBulletPrehab; // 直線弾幕のプレハブ
+    [SerializeField] private GameObject diffusionBulletPrehab; // 拡散用の弾幕プレハブ
+    [SerializeField] private float bulletSpeed = 20f; // 弾幕の速度
+    [SerializeField] private Transform gunPort; // 弾幕の発射口
     [SerializeField] private float delayTime; // 発射してからのディレイ時間
-    [SerializeField] private float Attack; // 攻撃力　パズル画面にも引き渡し
     [SerializeField] private bool invincible = false; // 無敵判定
     [SerializeField] private float invincibleTime = 15f; // 無敵時間
     [SerializeField] private int presentCount = 0; // プレゼントの数
@@ -22,7 +26,7 @@ public class PlayrController : MonoBehaviour
 
     private bool isShooting = false;
 
-    public float Attack1 { get => Attack; set => Attack = value; }
+
 
     void Start()
     {
@@ -52,7 +56,10 @@ public class PlayrController : MonoBehaviour
             if(!isShooting)
             {
                 isShooting = true;
+                // 直線状に弾幕を飛ばす
                 StartCoroutine(BulletCreat());
+                // 拡散するように弾幕を飛ばす
+                //if (attack >= 2) StartCoroutine(DiffusionBullet());
             }
         }
         if(Input.GetKeyUp(KeyCode.Z))
@@ -61,24 +68,47 @@ public class PlayrController : MonoBehaviour
         }
     }
     /// <summary>
-    /// Zキーを押すと、球が出る
+    /// 直線状に弾幕を出します
     /// </summary>
     /// <returns>nullを返す</returns>
-    IEnumerator BulletCreat()
+    private IEnumerator BulletCreat()
     {
         while(isShooting)
         {
             GameObject bullet = Instantiate(
-            bulletPrehab, //弾幕
+            straightBulletPrehab, //弾幕
             gunPort.position, // 位置
-            bulletPrehab.transform.rotation //回転                  
+            straightBulletPrehab.transform.rotation //回転                  
             );
-            Destroy(bullet, 1);
+
+            bullet.GetComponent<Rigidbody2D>().linearVelocity = new Vector3(1, 0, 0) * bulletSpeed;
             yield return new WaitForSeconds(delayTime); //1発打ったら待ち
         }
         
         yield return null;
     }
+
+    /// <summary>
+    /// 放射状に弾幕を出します
+    /// </summary>
+    private IEnumerator DiffusionBullet()
+    {
+        float spreadAngle = 60;
+
+        while (isShooting)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                float angle = -spreadAngle / 2 + (spreadAngle / 2) * i;
+                Vector3 dir = Quaternion.Euler(0, 0, angle) * Vector3.right;
+
+                GameObject bullet = Instantiate(diffusionBulletPrehab, transform.position, Quaternion.identity);
+                bullet.GetComponent<Rigidbody2D>().linearVelocity = dir * Speed;
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         switch(collision.tag)
