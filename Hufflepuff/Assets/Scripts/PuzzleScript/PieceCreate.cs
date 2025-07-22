@@ -22,8 +22,6 @@ public class PieceCreate : MonoBehaviour
     [SerializeField] public GameObject mino6_2;
     [SerializeField] public GameObject mino9;
 
-    private int CountRotate = 0;
-
     public void NewPiece()
     {
         // 1~7‚Ì®”‚ğƒ‰ƒ“ƒ_ƒ€‚Å¶¬
