@@ -22,11 +22,19 @@ public class PieceCreate : MonoBehaviour
     [SerializeField] public GameObject mino6_2;
     [SerializeField] public GameObject mino9;
 
-    public void NewPiece()
+    /// <summary>
+    /// 新しいピースを生成します
+    /// </summary>
+    /// <param name="x">0 = ランダム生成, 1 ~ 7 = 対応したピースを生成</param>
+    public void NewPiece(int x)
     {
-        // 1~7の整数をランダムで生成
-        //int rndMino = Random.Range(1, 8);
-        int rndMino = 3; // デバッグ用に2を固定
+        int rndMino = x;
+        // 入力が０の時1~7の整数をランダムで生成
+        if (x == 0)
+        {
+            //int rndMino = Random.Range(1, 8);
+            rndMino = 3; // デバッグ用に2を固定
+        }
 
         // 生成位置
         Vector3 pos = new Vector3(0.0f, 0.0f, 0.0f);
@@ -68,7 +76,6 @@ public class PieceCreate : MonoBehaviour
     /// <param name="r">初期値からの回転数を入れてください</param>
     public void PieceRotationCreate(GameObject inGameObject, int r)
     {
-        Debug.Log(r);
         // 必要最低カウント数を設定
         switch (inGameObject.tag)
         {

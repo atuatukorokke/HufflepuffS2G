@@ -56,12 +56,6 @@ public class PuzzleGrid : MonoBehaviour
     /// <returns>配置可能 = true　配置不可 = false</returns>
     public bool PuzzleCheck(GameObject inGameObject ,float inx, float iny, int inz)
     {
-        //inx = inx - 0.5f;
-        //iny = iny + 0.5f;
-
-        Debug.Log("inx:" + inx);
-        Debug.Log("iny:" + iny);
-
         // 移動中を許さない
         if (inx % 1 != 0 || iny % 1 != 0) return false;
         
@@ -116,10 +110,10 @@ public class PuzzleGrid : MonoBehaviour
                 if (PieceShape[i, j] == 1)
                 {
                     grid[pTesty + i, pTestx + j] = PieceShape[i, j];
-                    Debug.Log("配置できました");
                 }
             }
         }
+        Debug.Log("配置できました");
 
         return true;
     }

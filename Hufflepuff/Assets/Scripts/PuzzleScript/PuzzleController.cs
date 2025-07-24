@@ -28,6 +28,7 @@ public class PuzzleController : MonoBehaviour
         {
             if (Pmoves == null) Pmoves = FindAnyObjectByType<PieceMoves>();
             Pmoves.PiecePossible(CountRotate);
+            CountRotate = 0; // 回転数をリセット
         }
 
         // xキーでパズルピースを回転
@@ -43,7 +44,7 @@ public class PuzzleController : MonoBehaviour
         // デバッグ用にキーを押したらピースを生成する
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Pcreate.NewPiece();
+            Pcreate.NewPiece(0);
             Start();
         }
 
