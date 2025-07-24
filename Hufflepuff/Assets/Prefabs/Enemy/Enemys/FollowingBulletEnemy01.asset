@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e68c76bbb4de79d41bdef340ddc7bf16, type: 3}
+  m_Name: FollowingBulletEnemy01
+  m_EditorClassIdentifier: 
+  GetState: 0
+  enemyPrehab: {fileID: 212713448090183509, guid: f916519db4177d049a77bbf20deee6b7, type: 3}
+  enemyHP: 100
+  generationPosition: {x: 6, y: 7}
+  enemyCount: 3
+  delayTime: 1
