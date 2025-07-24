@@ -171,6 +171,7 @@ public class Boss1Bullet : MonoBehaviour
             if (timer >= specialBulletDuration)
             {
                 Destroy(canvas); // ＨＰバーのキャンバスを消す
+                BulletDelete(); // 弾幕を消す
                 Destroy(gameObject);
             }
         }

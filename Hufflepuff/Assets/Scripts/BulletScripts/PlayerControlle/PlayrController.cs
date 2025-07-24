@@ -26,7 +26,8 @@ public class PlayrController : MonoBehaviour
 
     private bool isShooting = false;
 
-
+    public float Attack { get => attack; set => attack = value; }
+    public float InvincibleTime { get => invincibleTime; set => invincibleTime = value; }
 
     void Start()
     {
@@ -59,7 +60,7 @@ public class PlayrController : MonoBehaviour
                 // 直線状に弾幕を飛ばす
                 StartCoroutine(BulletCreat());
                 // 拡散するように弾幕を飛ばす
-                //if (attack >= 2) StartCoroutine(DiffusionBullet());
+                if (Attack >= 2) StartCoroutine(DiffusionBullet(3));
             }
         }
         if(Input.GetKeyUp(KeyCode.Z))
@@ -91,21 +92,28 @@ public class PlayrController : MonoBehaviour
     /// <summary>
     /// 放射状に弾幕を出します
     /// </summary>
-    private IEnumerator DiffusionBullet()
+    private IEnumerator DiffusionBullet(int bulletCount)
     {
-        float spreadAngle = 60;
-
-        while (isShooting)
+        while(isShooting)
         {
-            for (int i = 0; i < 5; i++)
+            Vector2 player = transform.up.normalized; // プレイヤーの向き
+
+            float spreadAngle = 30f; // 放射状の角度
+
+            float baseAbgle = Mathf.Atan2(player.x, player.y) * Mathf.Rad2Deg; // プレイヤーの向きの角度
+            float angleStep = spreadAngle / (bulletCount - 1); // 弾幕の間隔
+            float startAngle = baseAbgle - (spreadAngle / 2); // 開始角度
+
+            for (int i = 0; i < bulletCount; i++)
             {
-                float angle = -spreadAngle / 2 + (spreadAngle / 2) * i;
-                Vector3 dir = Quaternion.Euler(0, 0, angle) * Vector3.right;
+                float angle = startAngle + angleStep * i; // 弾幕の角度
+                float rad = angle * Mathf.Deg2Rad; // ラジアンに変換
+                Vector2 direction = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)); // 方向ベクトル
 
                 GameObject bullet = Instantiate(diffusionBulletPrehab, transform.position, Quaternion.identity);
-                bullet.GetComponent<Rigidbody2D>().linearVelocity = dir * Speed;
+                bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * bulletSpeed; // 弾幕の速度を設定
             }
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(delayTime);
         }
     }
 
@@ -133,7 +141,7 @@ public class PlayrController : MonoBehaviour
     }
     private IEnumerator ResetInvincibility()
     {
-        for(int i = 0; i < invincibleTime; i++)
+        for(int i = 0; i < InvincibleTime; i++)
         {
             GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0); // 赤く点滅
             yield return new WaitForSeconds(0.05f); // 0.1秒ごとに無敵状態を維持

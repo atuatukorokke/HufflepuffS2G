@@ -12,6 +12,6 @@ public enum BuffForID
 {
     AtackMethod, // 攻撃手段
     InvincibleTime, // 無敵時間
-    PuzzleTime, // パズル時間
-    CarryOverSpecialGauge // 必殺技ゲージが繰り越し可能かどうか
+    PuzzleTime, // パズル時間 まだ無理
+    CarryOverSpecialGauge // 必殺技ゲージが繰り越し可能かどうか　まだ無理
 }

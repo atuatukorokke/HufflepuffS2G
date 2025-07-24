@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 27548672266852e46b1249491ac6cbb5
+guid: c2aa5f319980e96489c4edcc1616fd13
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7153099074514317613
-    second: OptionButton_0
+      213: 2679181433076351277
+    second: SceneTransition_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: OptionButton_0
+      name: SceneTransition_0
       rect:
         serializedVersion: 2
-        x: 556
-        y: 140
-        width: 447
-        height: 137
+        x: 44
+        y: 0
+        width: 2676
+        height: 1080
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3de066c5a461bbc90800000000000000
-      internalID: -7153099074514317613
+      spriteID: d218657815d5e2520800000000000000
+      internalID: 2679181433076351277
       vertices: []
       indices: 
       edges: []
@@ -173,8 +173,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      OptionButton_0: -7153099074514317613
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

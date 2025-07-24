@@ -16,8 +16,10 @@ public class BuffSeter : MonoBehaviour
             switch(buff.buffID)
             {
                 case BuffForID.AtackMethod:
+                    player.Attack += player.Attack * buff.value; // UŒ‚—Í‚Ì‘‰Á
                     break;
                 case BuffForID.InvincibleTime:
+                    player.InvincibleTime += buff.value; // –³“GŠÔ‚Ì‘‰Á
                     break;
                 case BuffForID.PuzzleTime:
                     break;

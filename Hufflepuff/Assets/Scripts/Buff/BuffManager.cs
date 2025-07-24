@@ -8,7 +8,7 @@ public class BuffManager : MonoBehaviour
     /// <summary>
     /// 各バフをリストに記録します
     /// </summary>
-    /// <param name="forId">ステータス</param>
+    /// <param name="forId">ステータスID</param>
     /// <param name="value">値</param>
     public void AddBuff(BuffForID forId, float value)
     {

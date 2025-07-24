@@ -17,14 +17,14 @@ public class EnemySummoningManagement : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(enumerator()); // エネミーの配置を開始
+        StartCoroutine(Enumerator()); // エネミーの配置を開始
     }
 
     /// <summary>
     /// エネミーの配置を行います。
     /// </summary>
     /// <returns></returns>
-    public IEnumerator enumerator()
+    public IEnumerator Enumerator()
     {
         foreach(var deploment in enemyDeployment)
         {
@@ -60,7 +60,7 @@ public class EnemySummoningManagement : MonoBehaviour
         Vector2 position = deployment.GenerationPosition;
         GameObject enemy = Instantiate(deployment.EnemyPrehab, position, Quaternion.identity);
         EnemyHealth health = enemy.GetComponent<EnemyHealth>();
-        if (health != null)
+        if(health != null)
         {
             health.SetHealth(deployment.EnemyHP);
         }

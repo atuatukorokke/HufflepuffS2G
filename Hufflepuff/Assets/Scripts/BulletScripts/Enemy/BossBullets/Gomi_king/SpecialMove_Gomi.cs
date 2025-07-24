@@ -70,6 +70,7 @@ public class FinalSpecianBom
     [SerializeField] public float radiationBulletCount; // 放射状に出す弾幕の数（何回放射状に出すか）
     [SerializeField] public float radiationBulletAngle; // 放射状に出す弾幕の角度
     [SerializeField] public float breakTime; // 停止した弾幕を動かした後の待機時間
+    [SerializeField] public Color bulletColor; // 弾幕の色
 }
 // セミファイナル-----------------------------------------------------------------
 [System.Serializable]
@@ -487,7 +488,7 @@ public class SpecialMove_Gomi : MonoBehaviour
             {
                 if (bullet != null)
                 {
-                    bullet.GetComponent<SpriteRenderer>().color = Color.black; // 弾の色を黒に変更
+                    bullet.GetComponent<SpriteRenderer>().color = finalSpecianBom.bulletColor; // 弾の色を黒に変更
                     Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
                     rb.linearVelocity = Vector2.zero; // 弾の速度をゼロにする
                 }

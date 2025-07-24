@@ -105,7 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   bulletState: 0
-  maxHP: 100
+  maxHP: 300
   currentHP: 12.6
   attak: 1
   spellPos: {x: 6, y: 0}
