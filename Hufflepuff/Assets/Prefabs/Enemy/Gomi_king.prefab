@@ -279,6 +279,7 @@ MonoBehaviour:
     radiationBulletCount: 20
     radiationBulletAngle: 150
     breakTime: 3
+    bulletColor: {r: 0, g: 0, b: 0, a: 1}
   specialFinalAttack:
     BulletPrehab: {fileID: 4173998257336814873, guid: 6a56cbcb4569e9243861e25981ffc25f, type: 3}
     bulletNum: 20

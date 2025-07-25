@@ -28,6 +28,11 @@ public class ShopOpen : MonoBehaviour
         animator.SetBool("PuzzleState", false);
     }
 
+    public void SetEndAnim()
+    {
+        animator.SetBool("EndAnim", true);
+    }
+
     public void ShopCameraMove()
     {
         shopCamera.gameObject.SetActive(OpenState);

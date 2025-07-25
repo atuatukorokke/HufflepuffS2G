@@ -22,6 +22,7 @@ public class PlayrController : MonoBehaviour
     [SerializeField] private bool invincible = false; // 無敵判定
     [SerializeField] private float invincibleTime = 15f; // 無敵時間
     [SerializeField] private int presentCount = 0; // プレゼントの数
+    [SerializeField] private PlayState playState; // プレイヤーの状態
 
 
     private bool isShooting = false;
@@ -31,13 +32,14 @@ public class PlayrController : MonoBehaviour
 
     void Start()
     {
+        playState = PlayState.Shooting; // 初期状態をシューティングに設定
         myRigidbody = GetComponent<Rigidbody2D>();
         
     }
 
     void Update()
     {
-        PlayerMove();
+        if(playState == PlayState.Shooting) PlayerMove();
     }
 
     /// <summary>
@@ -47,8 +49,9 @@ public class PlayrController : MonoBehaviour
     /// </summary>
     private void PlayerMove()
     {
-        float x = Input.GetAxisRaw("Horizontal") * Speed * Time.deltaTime;
-        float y = Input.GetAxisRaw("Vertical") * Speed * Time.deltaTime;
+        float speedLate = 1.0f; // 移動速度の遅延
+        float x = Input.GetAxisRaw("Horizontal") * Speed * Time.deltaTime * speedLate;
+        float y = Input.GetAxisRaw("Vertical") * Speed * Time.deltaTime * speedLate;
         transform.position = new Vector2(
             Mathf.Clamp(transform.position.x + x, -8.5f, 8.5f),
             Mathf.Clamp(transform.position.y + y, -4.5f, 4.5f));
@@ -66,6 +69,15 @@ public class PlayrController : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.Z))
         {
             isShooting = false;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            speedLate = 0.5f;
+        }
+        else if(Input.GetKeyUp(KeyCode.Space))
+        {
+            speedLate = 1.0f; // スペースキーを離したら通常の速度に戻す
         }
     }
     /// <summary>
@@ -150,4 +162,10 @@ public class PlayrController : MonoBehaviour
         }
         invincible = false;
     }
+}
+
+public enum  PlayState
+{
+    Shooting, // シューティング中
+    Puzzle, // パズル中
 }
