@@ -7,12 +7,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 public class EnemySummoningManagement : MonoBehaviour
 {
     [SerializeField] private List<EnemyDeployment> enemyDeployment; // エネミーの配置データを格納するリスト
     private bool waitingForMiddleBoss = false; // 途中でボスが出てくるかどうかのフラグ
+    private bool waitingForShop = false; // ショップを開いているかどうかのフラグ
 
 
     private void Start()
@@ -50,6 +50,14 @@ public class EnemySummoningManagement : MonoBehaviour
                     break;
                 case EnemyDeployment.state.DelayTime:
                     yield return new WaitForSeconds(deploment.DelayTime);
+                    break;
+                case EnemyDeployment.state.Shop:
+                    var shop = FindAnyObjectByType<ShopOpen>(); // ショップのオブジェクトを取得
+                    shop.ShopOpenAni();
+                    waitingForShop = true; // ショップが開いているフラグを立てる
+                    shop.OnShop += () => waitingForShop = false; // ショップが閉じられたらフラグを下げる
+                    yield return new WaitUntil(() => !waitingForShop); // ショップが閉じられるまで待機
+                    yield return new WaitForSeconds(2f);
                     break;
             }
         }

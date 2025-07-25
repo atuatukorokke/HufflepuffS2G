@@ -37,7 +37,7 @@ public class PieceCreate : MonoBehaviour
         }
 
         // 生成位置
-        Vector3 pos = new Vector3(0.0f, 0.0f, 0.0f);
+        Vector3 pos = new Vector3(-35.0f, -1.0f, 0.0f);
 
         // プレハブを指定位置に生成
         switch (rndMino)

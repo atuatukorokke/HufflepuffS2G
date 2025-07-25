@@ -12,7 +12,8 @@ public class EnemyDeployment : ScriptableObject
         Smallfry, // 雑魚敵
         middleBoss, // 中ボス
         Boss, // ボス
-        DelayTime // 待ち時間
+        DelayTime, // 待ち時間
+        Shop, // ショップ
     }
 
     [SerializeField] private state GetState; // ・雑魚敵　・ボス　・ウェーブの待ち時間
