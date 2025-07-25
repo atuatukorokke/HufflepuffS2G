@@ -2136,6 +2136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0a25910e18605d4f94434f496eb75d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startPos: {x: 0, y: 0}
   animator: {fileID: 0}
   shopCamera: {fileID: 1691390749}
   OpenState: 0
@@ -4869,7 +4870,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!20 &1691390749
 Camera:
   m_ObjectHideFlags: 0

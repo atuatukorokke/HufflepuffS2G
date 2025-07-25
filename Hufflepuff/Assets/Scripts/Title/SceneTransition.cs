@@ -5,6 +5,11 @@ public class SceneTransition : MonoBehaviour
 {
     [SerializeField] private Animator animator;
 
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     public void LoadScene()
     {
         SceneManager.LoadScene("BulletScene");
