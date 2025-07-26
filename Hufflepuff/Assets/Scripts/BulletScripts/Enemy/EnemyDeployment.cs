@@ -22,6 +22,7 @@ public class EnemyDeployment : ScriptableObject
     [SerializeField] private Vector2 generationPosition; // 生成位置
     [SerializeField] private int enemyCount; //エネミーの数　
     [SerializeField] private float delayTime; // ウェーブの待ち時間
+    [SerializeField] private AudioClip bossBGM; // ボス戦用のBGM
 
     public state GetState1 { get => GetState;}
     public GameObject EnemyPrehab { get => enemyPrehab;}
@@ -29,4 +30,5 @@ public class EnemyDeployment : ScriptableObject
     public float DelayTime { get => delayTime; }
     public Vector2 GenerationPosition { get => generationPosition; }
     public float EnemyHP { get => enemyHP;}
+    public AudioClip BossBGM { get => bossBGM; set => bossBGM = value; }
 }

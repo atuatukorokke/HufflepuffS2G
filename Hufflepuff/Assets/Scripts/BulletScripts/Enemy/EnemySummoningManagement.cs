@@ -13,10 +13,11 @@ public class EnemySummoningManagement : MonoBehaviour
     [SerializeField] private List<EnemyDeployment> enemyDeployment; // エネミーの配置データを格納するリスト
     private bool waitingForMiddleBoss = false; // 途中でボスが出てくるかどうかのフラグ
     private bool waitingForShop = false; // ショップを開いているかどうかのフラグ
-
+    private AudioSource audioSource; // BGMの再生用オーディオソース
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>(); // AudioSourceコンポーネントを取得
         StartCoroutine(Enumerator()); // エネミーの配置を開始
     }
 
@@ -47,6 +48,8 @@ public class EnemySummoningManagement : MonoBehaviour
                     break;
                 case EnemyDeployment.state.Boss: // ボスの配置
                     Instantiate(deploment.EnemyPrehab, deploment.GenerationPosition, Quaternion.identity);
+                    audioSource.clip = deploment.BossBGM; // ボス戦用のBGMを設定
+                    audioSource.Play(); // BGMを再生
                     break;
                 case EnemyDeployment.state.DelayTime:
                     yield return new WaitForSeconds(deploment.DelayTime);

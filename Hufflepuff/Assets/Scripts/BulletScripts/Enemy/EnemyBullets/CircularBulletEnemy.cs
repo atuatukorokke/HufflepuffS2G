@@ -12,7 +12,6 @@ public class CircularBulletEnemy : MonoBehaviour
     [SerializeField] private float DeleteTime; // 削除する時間
     [SerializeField] private float delayTime; // 弾幕を出す間隔
     private float angleOffset = 0f; // ずらし用の角度
-    private int count = 0; // 発射回数のカウント
 
     [Header("移動用変数")]
     [SerializeField] private float destination; // 到着座標

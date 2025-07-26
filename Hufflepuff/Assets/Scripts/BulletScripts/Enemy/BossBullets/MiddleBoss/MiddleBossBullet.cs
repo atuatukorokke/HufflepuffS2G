@@ -91,7 +91,6 @@ public class MiddleBossBullet : MonoBehaviour
     {
         while(enemyType == EnemyType.spell)
         {
-            Debug.Log("スペルカード発動中");
             yield return new WaitForSeconds(5f); // スペルカードの間隔
         }
     }

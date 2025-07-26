@@ -18,3 +18,4 @@ MonoBehaviour:
   generationPosition: {x: 14, y: 8}
   enemyCount: 0
   delayTime: 0
+  bossBGM: {fileID: 8300000, guid: 215f2631944bbd34db51fc11ac1a09e7, type: 3}

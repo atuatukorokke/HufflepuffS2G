@@ -517,7 +517,6 @@ public class Boss1Bullet : MonoBehaviour
             {
                 currentHpbar.transform.localScale = new Vector3(currentHP / maxHP, currentHpbar.transform.localScale.y, currentHpbar.transform.localScale.z); // HPバーの更新
             }
-            Debug.Log("Stateが変更されました: " + state);
             yield return StartCoroutine(BulletUpdate());
         }
     }
