@@ -11,12 +11,18 @@ using UnityEngine;
 public class EnemySummoningManagement : MonoBehaviour
 {
     [SerializeField] private List<EnemyDeployment> enemyDeployment; // エネミーの配置データを格納するリスト
+    [SerializeField] private GameObject ClearPanel;
+    [SerializeField] private Animator animator;
     private bool waitingForMiddleBoss = false; // 途中でボスが出てくるかどうかのフラグ
     private bool waitingForShop = false; // ショップを開いているかどうかのフラグ
     private AudioSource audioSource; // BGMの再生用オーディオソース
+    private float fadeInTime = 2;
+    private float fadeOutTime = 0;
+    private bool isFateIn = false;
 
     private void Start()
     {
+        ClearPanel.SetActive(false);
         audioSource = GetComponent<AudioSource>(); // AudioSourceコンポーネントを取得
         StartCoroutine(Enumerator()); // エネミーの配置を開始
     }
@@ -47,9 +53,13 @@ public class EnemySummoningManagement : MonoBehaviour
                     yield return new WaitUntil(() => !waitingForMiddleBoss); // 中ボスが倒されるまで待機
                     break;
                 case EnemyDeployment.state.Boss: // ボスの配置
-                    Instantiate(deploment.EnemyPrehab, deploment.GenerationPosition, Quaternion.identity);
+                    GameObject Bosss = Instantiate(deploment.EnemyPrehab, deploment.GenerationPosition, Quaternion.identity);
                     audioSource.clip = deploment.BossBGM; // ボス戦用のBGMを設定
                     audioSource.Play(); // BGMを再生
+
+                    // ボスが倒された時の処理
+                    Boss1Bullet BossBullet = Bosss.GetComponent<Boss1Bullet>();
+                    BossBullet.Ondeath += () => StartCoroutine(BossDeath());  
                     break;
                 case EnemyDeployment.state.DelayTime:
                     yield return new WaitForSeconds(deploment.DelayTime);
@@ -77,5 +87,18 @@ public class EnemySummoningManagement : MonoBehaviour
         }
 
         return enemy;
+    }
+
+    private IEnumerator BossDeath()
+    {
+        ClearPanel.SetActive(true);
+        while(audioSource.volume > 0)
+        {
+            audioSource.volume -= 0.05f;
+            yield return new WaitForSeconds(0.1f);
+        }
+        yield return new WaitForSeconds(1f);
+        animator.SetBool("EndGame", true);
+        yield return null;
     }
 }

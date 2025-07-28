@@ -113,6 +113,7 @@ public class Boss1Bullet : MonoBehaviour
     [SerializeField] private GameObject HealthCanvas; // 現在のＨＰバーのキャンバス
     [SerializeField] private GameObject currentHpbar; // 現在のＨＰバーのオブジェクト
     GameObject canvas; // ＨＰバーのキャンバス
+    public event  System.Action Ondeath;
 
     [Header("一段階目の通常弾幕の変数")]
     [SerializeField] private FastBullet fastBulletValue;
@@ -171,6 +172,7 @@ public class Boss1Bullet : MonoBehaviour
             if (timer >= specialBulletDuration)
             {
                 Destroy(canvas); // ＨＰバーのキャンバスを消す
+                Ondeath?.Invoke();
                 BulletDelete(); // 弾幕を消す
                 Destroy(gameObject);
             }

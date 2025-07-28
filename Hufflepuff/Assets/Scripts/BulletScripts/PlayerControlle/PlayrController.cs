@@ -12,6 +12,7 @@ public class PlayrController : MonoBehaviour
 {
     private Rigidbody2D myRigidbody;
     [SerializeField] private float Speed; // 移動速度
+    [SerializeField] private float speedLate = 1.0f; // 移動速度の遅延
     [Range(0f, 5f)]
     [SerializeField] private float attack;
     [SerializeField] private GameObject straightBulletPrehab; // 直線弾幕のプレハブ
@@ -29,17 +30,18 @@ public class PlayrController : MonoBehaviour
 
     public float Attack { get => attack; set => attack = value; }
     public float InvincibleTime { get => invincibleTime; set => invincibleTime = value; }
+    public PlayState PlayState { get => playState; set => playState = value; }
 
     void Start()
     {
-        playState = PlayState.Shooting; // 初期状態をシューティングに設定
+        PlayState = PlayState.Shooting; // 初期状態をシューティングに設定
         myRigidbody = GetComponent<Rigidbody2D>();
         
     }
 
     void Update()
     {
-        if(playState == PlayState.Shooting) PlayerMove();
+        if(PlayState == PlayState.Shooting) PlayerMove();
     }
 
     /// <summary>
@@ -49,7 +51,16 @@ public class PlayrController : MonoBehaviour
     /// </summary>
     private void PlayerMove()
     {
-        float speedLate = 1.0f; // 移動速度の遅延
+        // プレイヤーの移動速度を制御する
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            speedLate = 0.5f;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            speedLate = 1.0f; // スペースキーを離したら通常の速度に戻す
+        }
+
         float x = Input.GetAxisRaw("Horizontal") * Speed * Time.deltaTime * speedLate;
         float y = Input.GetAxisRaw("Vertical") * Speed * Time.deltaTime * speedLate;
         transform.position = new Vector2(
@@ -69,15 +80,6 @@ public class PlayrController : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.Z))
         {
             isShooting = false;
-        }
-
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            speedLate = 0.5f;
-        }
-        else if(Input.GetKeyUp(KeyCode.Space))
-        {
-            speedLate = 1.0f; // スペースキーを離したら通常の速度に戻す
         }
     }
     /// <summary>

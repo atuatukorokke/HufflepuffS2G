@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // 一段階目-----------------------------------------------------------------------
@@ -315,6 +316,10 @@ public class SpecialMove_Gomi : MonoBehaviour
                     }
                 }
                 yield return new WaitForSeconds(fourSpecialBom.stopTime); // 円形の弾幕で待機
+
+                // ボスのステートが変わったらダンマクの強制終了
+                if (boss1Bullet.State != State.four || boss1Bullet.BulletState != BulletState.spell) continue;
+
                 // 弾幕を停止する
                 foreach (GameObject bullet in bullets)
                 {
@@ -327,11 +332,17 @@ public class SpecialMove_Gomi : MonoBehaviour
                 yield return null;
             }
 
+            // ボスのステートが変わったらダンマクの強制終了
+            if (boss1Bullet.State != State.four || boss1Bullet.BulletState != BulletState.spell) continue;
+
             // ランダムな座標に移動しながら弾を飛ばす
             Vector2 randomPos = new Vector2(Random.Range(2.0f, 8.5f), Random.Range(-4.5f, 4.5f));
             StartCoroutine(PositionMove(randomPos)); // ランダムな座標へ移動
             for (int i = 0; i < 3; i++)
             {
+                // ボスのステートが変わったらダンマクの強制終了
+                if (boss1Bullet.State != State.four || boss1Bullet.BulletState != BulletState.spell) continue;
+
                 // 弾幕生成
                 List<GameObject> bullets = new List<GameObject>();
                 // 扇状に弾幕を生成して
@@ -433,6 +444,7 @@ public class SpecialMove_Gomi : MonoBehaviour
                 rb.linearVelocity = Vector2.zero; // 弾の速度をゼロにする
             }
         }
+        if (boss1Bullet.State != State.four || boss1Bullet.BulletState != BulletState.spell) StopCoroutine(BulletMover(bullets));
         yield return new WaitForSeconds(1f); // 数秒間待機
                                                                          // 数秒後に自機狙いで弾を飛ばす
         for (int i = 0; i < bullets.Count; i++)
