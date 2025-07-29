@@ -49,7 +49,6 @@ public class ShopOpen : MonoBehaviour
     /// </summary>
     public void SetIdelAnim()
     {
-        playerController.PlayState = PlayState.Shooting; // プレイヤーの状態をシューティング状態にする
         animator.SetBool("PuzzleState", false);
     }
 

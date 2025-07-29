@@ -108,6 +108,7 @@ MonoBehaviour:
   presentBox: {fileID: 8988514118765363044, guid: 3d20a48ec3ab95142b0c37d5bb1544ca, type: 3}
   HealthCanvas: {fileID: 7528563050860135875, guid: 6b64f1ae081c258409fa87024818bc66, type: 3}
   currentHpbar: {fileID: 0}
+  maxHp: 200
   bulletPrefab: {fileID: 4173998257336814873, guid: 6a56cbcb4569e9243861e25981ffc25f, type: 3}
   shotNum: 4
   radiusShrinkSpeed: 0.05

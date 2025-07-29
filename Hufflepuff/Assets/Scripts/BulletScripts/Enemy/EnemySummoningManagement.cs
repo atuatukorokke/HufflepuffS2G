@@ -12,6 +12,7 @@ public class EnemySummoningManagement : MonoBehaviour
 {
     [SerializeField] private List<EnemyDeployment> enemyDeployment; // エネミーの配置データを格納するリスト
     [SerializeField] private GameObject ClearPanel;
+    [SerializeField] private GameObject TitleButton;
     [SerializeField] private Animator animator;
     private bool waitingForMiddleBoss = false; // 途中でボスが出てくるかどうかのフラグ
     private bool waitingForShop = false; // ショップを開いているかどうかのフラグ
@@ -22,6 +23,7 @@ public class EnemySummoningManagement : MonoBehaviour
 
     private void Start()
     {
+        TitleButton.SetActive(false);
         ClearPanel.SetActive(false);
         audioSource = GetComponent<AudioSource>(); // AudioSourceコンポーネントを取得
         StartCoroutine(Enumerator()); // エネミーの配置を開始
@@ -91,6 +93,7 @@ public class EnemySummoningManagement : MonoBehaviour
 
     private IEnumerator BossDeath()
     {
+        FindAnyObjectByType<PlayrController>().PlayState = PlayState.Clear;
         ClearPanel.SetActive(true);
         while(audioSource.volume > 0)
         {
@@ -99,6 +102,7 @@ public class EnemySummoningManagement : MonoBehaviour
         }
         yield return new WaitForSeconds(1f);
         animator.SetBool("EndGame", true);
-        yield return null;
+        yield return new WaitForSeconds(1.7f);
+        TitleButton.SetActive(true);
     }
 }

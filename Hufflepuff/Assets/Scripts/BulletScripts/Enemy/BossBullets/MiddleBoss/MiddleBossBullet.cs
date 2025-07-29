@@ -3,8 +3,11 @@
 // 中ボスの弾幕を管理するスクリプト
 //
 
+using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +25,9 @@ public class MiddleBossBullet : MonoBehaviour
     [SerializeField] private GameObject presentBox; // ドロップ用のプレハブ
     [SerializeField] private GameObject HealthCanvas; // 現在のＨＰバーのキャンバス
     [SerializeField] private GameObject currentHpbar; // 現在のＨＰバーのオブジェクト
-    private float maxHp; // ボスの最大ＨＰ
+    [SerializeField] private float maxHp; // ボスの最大ＨＰ
+    private float dangerHp;
+    private bool isDamage;
     GameObject canvas; // ＨＰバーのキャンバス
 
     [Header("通常弾幕用の変数")]
@@ -38,8 +43,10 @@ public class MiddleBossBullet : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        isDamage = true;
         canvas = Instantiate(HealthCanvas, Vector3.zero, Quaternion.identity); // ＨＰバーのキャンバスを生成
         currentHpbar = canvas.transform.GetChild(0).Find("currentHpBar").gameObject; // 現在のＨＰバーのオブジェクトを取得; // 現在のＨＰバーを取得
+        dangerHp = maxHp * 0.3f;
 
         bossHealth = FindAnyObjectByType<BossHealth>(); // ボスのＨＰ管理スクリプトを取得
         maxHp = bossHealth.hP; // ボスの最大ＨＰを取得
@@ -87,27 +94,51 @@ public class MiddleBossBullet : MonoBehaviour
         yield return null; // 1フレーム待機
     }
 
-    private IEnumerator MiddleApell()
+    private IEnumerator MiddleSpell()
     {
+        yield return new WaitForSeconds(2f);
+        isDamage = true;
+
         while(enemyType == EnemyType.spell)
         {
-            yield return new WaitForSeconds(5f); // スペルカードの間隔
+            List<GameObject> bullets = new List<GameObject>();
+            Vector3 randomPos = new Vector2(Random.Range(-8.5f, 8.5f), Random.Range(-4.5f, 4.5f));
+
+            for(int i = 0; i < 10; i++)
+            {
+                float angle = (360 / 10) * i;
+                Vector3 spawnPos = randomPos + new Vector3(
+                    Mathf.Cos(angle * Mathf.Deg2Rad) * radius,
+                    Mathf.Sin(angle * Mathf.Deg2Rad) * radius,
+                    0f);
+
+                GameObject bullet = Instantiate(bulletPrefab, spawnPos, Quaternion.identity);
+                bullets.Add(bullet);
+            }
+
+            yield return new WaitForSeconds(1f);
+            foreach(GameObject bullet in bullets)
+            {
+                Vector3 direction = (randomPos - bullet.transform.position).normalized;
+                bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * 4;
+            }
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("P_Bullet"))
+        if (collision.CompareTag("P_Bullet") && isDamage)
         {
             Destroy(collision.gameObject); // プレイヤーの弾を消す
             bossHealth.hP -= damageLate; // エネミーのHPを減らす
             currentHpbar.transform.localScale = new Vector3(bossHealth.hP / 100, currentHpbar.transform.localScale.y, currentHpbar.transform.localScale.z); // 現在のHPバーを更新
 
-            if (bossHealth.hP <= 20 && enemyType == EnemyType.noemal)
+            if (bossHealth.hP <= dangerHp && enemyType == EnemyType.noemal)
             {
+                isDamage = false;
                 enemyType++; // エネミーの状態をスペルカードに変更
                 damageLate = 0.2f; // 被ダメージの割合を変更
-                StartCoroutine(MiddleApell()); // スペルカードの発動
+                StartCoroutine(MiddleSpell()); // スペルカードの発動
             }
             else if(bossHealth.hP <= 0)
             {

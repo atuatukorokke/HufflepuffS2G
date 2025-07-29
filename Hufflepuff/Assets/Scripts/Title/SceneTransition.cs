@@ -19,4 +19,8 @@ public class SceneTransition : MonoBehaviour
     {
         animator.SetBool("GetStart", true);
     }
+    public void PanelActive()
+    {
+        gameObject.SetActive(false);
+    }
 }

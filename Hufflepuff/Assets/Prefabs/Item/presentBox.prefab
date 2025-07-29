@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 528177683331716572}
   - component: {fileID: 2010904848639613493}
   - component: {fileID: 1765588551332085719}
+  - component: {fileID: 5074078105715150041}
   m_Layer: 0
   m_Name: presentBox
   m_TagString: Present
@@ -162,3 +163,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5074078105715150041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8988514118765363044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3093b1290d218349bc297056d4471a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

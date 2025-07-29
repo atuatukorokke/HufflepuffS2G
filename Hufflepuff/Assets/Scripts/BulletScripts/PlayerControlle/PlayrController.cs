@@ -170,4 +170,5 @@ public enum  PlayState
 {
     Shooting, // シューティング中
     Puzzle, // パズル中
+    Clear, // ゲームクリア時のアニメーション中
 }
