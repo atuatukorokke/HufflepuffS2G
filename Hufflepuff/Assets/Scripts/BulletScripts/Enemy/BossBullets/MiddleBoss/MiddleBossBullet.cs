@@ -49,7 +49,6 @@ public class MiddleBossBullet : MonoBehaviour
         dangerHp = maxHp * 0.3f;
 
         bossHealth = FindAnyObjectByType<BossHealth>(); // ボスのＨＰ管理スクリプトを取得
-        maxHp = bossHealth.hP; // ボスの最大ＨＰを取得
         StartCoroutine(StartBullet());
     }
 

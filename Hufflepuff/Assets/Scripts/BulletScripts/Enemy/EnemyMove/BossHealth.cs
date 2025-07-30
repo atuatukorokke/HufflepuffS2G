@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BossHealth : MonoBehaviour
 {
-    [Range(0, 100)]
+    [Range(0, 250)]
     [SerializeField] public float hP; // エネミーのＨＰ
 
     public event Action OnDeath; // 中ボス撃破通知用イベント
