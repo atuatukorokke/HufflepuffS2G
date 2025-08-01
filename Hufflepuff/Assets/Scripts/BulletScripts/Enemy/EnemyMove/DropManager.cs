@@ -3,9 +3,7 @@
 // ” ‚ğ—‚Æ‚·Šm—¦‚ğŠÇ—‚µ‚Ü‚·
 //
 
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class DropManager : MonoBehaviour
 {

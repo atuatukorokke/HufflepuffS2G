@@ -113,6 +113,7 @@ MonoBehaviour:
   isDead: 0
   HealthCanvas: {fileID: 7528563050860135875, guid: 6b64f1ae081c258409fa87024818bc66, type: 3}
   currentHpbar: {fileID: 0}
+  CutInnCanvas: {fileID: 2189008657571246229, guid: ae20aef9b3c14554b8835813ec596f63, type: 3}
   fastBulletValue:
     BulletPrehab: {fileID: 593574743847144491, guid: 364ae85816761a845b2a4e3bee527973, type: 3}
     FlyingNum: 20

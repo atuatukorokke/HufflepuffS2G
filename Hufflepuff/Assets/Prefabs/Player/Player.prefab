@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 10
+  speedLate: 1
   attack: 3
   straightBulletPrehab: {fileID: 4187297226051304241, guid: f48007527bc2abe41847e7e45f02a502, type: 3}
   diffusionBulletPrehab: {fileID: 593574743847144491, guid: ee453264fe7b5a14cbb1926460b63099, type: 3}
@@ -146,6 +147,8 @@ MonoBehaviour:
   invincible: 0
   invincibleTime: 15
   presentCount: 0
+  playState: 0
+  CutInnCanvas: {fileID: 3651732272002953837, guid: 46c61a03d4ff8a24fb52eea426da4552, type: 3}
 --- !u!58 &8603824806522729282
 CircleCollider2D:
   m_ObjectHideFlags: 0

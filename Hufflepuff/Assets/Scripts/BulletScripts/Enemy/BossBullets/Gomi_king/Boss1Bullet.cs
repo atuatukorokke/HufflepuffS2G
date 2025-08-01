@@ -112,6 +112,7 @@ public class Boss1Bullet : MonoBehaviour
     [SerializeField] private bool isDead = false;
     [SerializeField] private GameObject HealthCanvas; // 現在のＨＰバーのキャンバス
     [SerializeField] private GameObject currentHpbar; // 現在のＨＰバーのオブジェクト
+    [SerializeField] private GameObject CutInnCanvas; // カットイン用のキャンバス
     GameObject canvas; // ＨＰバーのキャンバス
     public event  System.Action Ondeath;
 
@@ -540,6 +541,7 @@ public class Boss1Bullet : MonoBehaviour
             BulletDelete();
             BulletState = BulletState.spell; // 弾幕の変更
             GomiSpecialMove.BomJudgement(state);
+            GameObject CutInObj = Instantiate(CutInnCanvas, new Vector3(0, 0, 0), Quaternion.identity);
         }
         else if (currentHP <= 0 && !isDead)
         {

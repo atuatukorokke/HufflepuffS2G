@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 // ˆê’iŠK–Ú-----------------------------------------------------------------------
@@ -323,6 +322,7 @@ public class SpecialMove_Gomi : MonoBehaviour
                 // ’e–‹‚ğ’â~‚·‚é
                 foreach (GameObject bullet in bullets)
                 {
+                    if(bullet == null) continue;
                     Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
                     rb.linearVelocity = Vector2.zero; // ’e‚Ì‘¬“x‚ğƒ[ƒ‚É‚·‚é   
                 }
@@ -438,11 +438,9 @@ public class SpecialMove_Gomi : MonoBehaviour
         yield return new WaitForSeconds(1f);
         foreach (GameObject bullet in bullets)
         {
-            if (bullet != null)
-            {
-                Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-                rb.linearVelocity = Vector2.zero; // ’e‚Ì‘¬“x‚ğƒ[ƒ‚É‚·‚é
-            }
+            if(bullet == null) continue;
+            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+            rb.linearVelocity = Vector2.zero; // ’e‚Ì‘¬“x‚ğƒ[ƒ‚É‚·‚é
         }
         if (boss1Bullet.State != State.four || boss1Bullet.BulletState != BulletState.spell) StopCoroutine(BulletMover(bullets));
         yield return new WaitForSeconds(1f); // ”•bŠÔ‘Ò‹@

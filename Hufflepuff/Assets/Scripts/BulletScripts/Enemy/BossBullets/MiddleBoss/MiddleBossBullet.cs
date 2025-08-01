@@ -118,6 +118,7 @@ public class MiddleBossBullet : MonoBehaviour
             yield return new WaitForSeconds(1f);
             foreach(GameObject bullet in bullets)
             {
+                if(bullet == null) continue;
                 Vector3 direction = (randomPos - bullet.transform.position).normalized;
                 bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * 4;
             }

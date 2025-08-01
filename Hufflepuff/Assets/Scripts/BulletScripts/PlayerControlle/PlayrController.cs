@@ -4,7 +4,6 @@
 //
 
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 [System.Serializable]
 
@@ -24,6 +23,7 @@ public class PlayrController : MonoBehaviour
     [SerializeField] private float invincibleTime = 15f; // 無敵時間
     [SerializeField] private int presentCount = 0; // プレゼントの数
     [SerializeField] private PlayState playState; // プレイヤーの状態
+    [SerializeField] private GameObject CutInnCanvas; // カットイン用のキャンバス
 
 
     private bool isShooting = false;
@@ -77,6 +77,12 @@ public class PlayrController : MonoBehaviour
                 if (Attack >= 2) StartCoroutine(DiffusionBullet(3));
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.X))
+        {
+            Instantiate(CutInnCanvas, new Vector3(0, 0, 0), Quaternion.identity);
+        }
+
         if(Input.GetKeyUp(KeyCode.Z))
         {
             isShooting = false;
