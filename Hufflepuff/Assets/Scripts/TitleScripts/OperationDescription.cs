@@ -4,13 +4,15 @@ using UnityEngine;
 public class OperationDescription : MonoBehaviour
 {
     [SerializeField] private GameObject panel;
-    [SerializeField] private Animator animator;
-
+    [SerializeField] private Animator gameAanimator;
+    [SerializeField] private Animator optionAnimator;
+    private bool optionCheck;
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
+        gameAanimator = GetComponent<Animator>();
         panel.SetActive(false);
+        optionCheck = true;
     }
     public void ShowDescription()
     {
@@ -18,6 +20,12 @@ public class OperationDescription : MonoBehaviour
     }
     public void GaemAnim()
     {
-        animator.SetBool("OptionOpen", true);
+        gameAanimator.SetBool("OptionOpen", true);
     }
+    public void OptionOpen()
+    {
+        optionAnimator.SetBool("Open", optionCheck);
+        optionCheck = !optionCheck;
+    }
+
 }
