@@ -25,12 +25,18 @@ public class PlayrController : MonoBehaviour
     [SerializeField] private PlayState playState; // プレイヤーの状態
     [SerializeField] private GameObject CutInnCanvas; // カットイン用のキャンバス
 
+    [SerializeField] private int pieceCount = 0; // ピースの数
+    [SerializeField] private int coinCount = 0; // コインの数
+    [SerializeField] private int defultCoinIncreaseCount = 20; // デフォルトのコイン増加数
+
 
     private bool isShooting = false;
 
     public float Attack { get => attack; set => attack = value; }
     public float InvincibleTime { get => invincibleTime; set => invincibleTime = value; }
     public PlayState PlayState { get => playState; set => playState = value; }
+    public int CoinCount { get => coinCount; set => coinCount = value; }
+    public int PieceCount { get => pieceCount; set => pieceCount = value; }
 
     void Start()
     {
@@ -150,12 +156,8 @@ public class PlayrController : MonoBehaviour
                 }
                 break;
             case "Present":
-                presentCount++;
-                Destroy(collision.gameObject);
-                if (presentCount == 10) 
-                {
-                    Debug.Log("プレゼントを10個集めた！");
-                }
+                PieceCount++; // ピースの数を増やす
+                CoinCount += defultCoinIncreaseCount + Random.Range(0, 5); // コインの数を増やす
                 break;  
         }
     }

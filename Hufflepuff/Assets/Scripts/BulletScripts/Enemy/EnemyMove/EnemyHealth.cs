@@ -29,16 +29,9 @@ public class EnemyHealth : MonoBehaviour
             if(hP == 0)
             {
                 // ピースのドロップ
-                if (UnityEngine.Random.Range(0, dropLate) == 0)
-                {
-                    GameObject present = Instantiate(prehab, transform.position, Quaternion.identity); // 箱の生成
-                    present.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-2, 0); // 箱を下に落とす
-                    dropLate = dropManager.LateReset();
-                }
-                else
-                {
-                    dropLate = dropManager.LateChange();
-                }
+                GameObject present = Instantiate(prehab, transform.position, Quaternion.identity); // 箱の生成
+                present.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-2, 0); // 箱を下に落とす
+                dropLate = dropManager.LateReset();
                 Destroy(gameObject); // エネミーの消滅
             }
         }
