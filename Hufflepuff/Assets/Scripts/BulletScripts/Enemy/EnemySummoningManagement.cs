@@ -70,6 +70,8 @@ public class EnemySummoningManagement : MonoBehaviour
                     var shop = FindAnyObjectByType<ShopOpen>(); // ショップのオブジェクトを取得
                     shop.ShopOpenAni();
                     waitingForShop = true; // ショップが開いているフラグを立てる
+                    // ここで現在のバフ情報を渡す
+                    // BuffHandOver(); 仮
                     shop.OnShop += () => waitingForShop = false; // ショップが閉じられたらフラグを下げる
                     yield return new WaitUntil(() => !waitingForShop); // ショップが閉じられるまで待機
                     yield return new WaitForSeconds(2f);
