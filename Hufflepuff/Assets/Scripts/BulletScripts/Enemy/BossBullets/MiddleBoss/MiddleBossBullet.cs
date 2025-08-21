@@ -49,6 +49,7 @@ public class MiddleBossBullet : MonoBehaviour
         dangerHp = maxHp * 0.3f;
 
         bossHealth = FindAnyObjectByType<BossHealth>(); // ボスのＨＰ管理スクリプトを取得
+        bossHealth.HP = maxHp; // ボスのＨＰを設定
         StartCoroutine(StartBullet());
     }
 
@@ -130,18 +131,41 @@ public class MiddleBossBullet : MonoBehaviour
         if (collision.CompareTag("P_Bullet") && isDamage)
         {
             Destroy(collision.gameObject); // プレイヤーの弾を消す
-            bossHealth.hP -= damageLate; // エネミーのHPを減らす
-            currentHpbar.transform.localScale = new Vector3(bossHealth.hP / 100, currentHpbar.transform.localScale.y, currentHpbar.transform.localScale.z); // 現在のHPバーを更新
+            bossHealth.HP -= damageLate; // エネミーのHPを減らす
+            currentHpbar.transform.localScale = new Vector3(bossHealth.HP / maxHp, currentHpbar.transform.localScale.y, currentHpbar.transform.localScale.z); // 現在のHPバーを更新
 
-            if (bossHealth.hP <= dangerHp && enemyType == EnemyType.noemal)
+            if (bossHealth.HP <= dangerHp && enemyType == EnemyType.noemal)
             {
                 isDamage = false;
                 enemyType++; // エネミーの状態をスペルカードに変更
                 damageLate = 0.2f; // 被ダメージの割合を変更
                 StartCoroutine(MiddleSpell()); // スペルカードの発動
             }
-            else if(bossHealth.hP <= 0)
+            else if(bossHealth.HP <= 0)
             {
+                Destroy(canvas); // ＨＰバーのキャンバスを削除
+                GameObject present = Instantiate(presentBox, transform.position, Quaternion.identity); // ドロップ用のプレハブを生成
+                present.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-2, 0); // ドロップの速度を設定
+            }
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if(collision.CompareTag("P_Bom") && isDamage)
+        {
+            bossHealth.HP -= damageLate;
+            currentHpbar.transform.localScale = new Vector3(bossHealth.HP / maxHp, currentHpbar.transform.localScale.y, currentHpbar.transform.localScale.z); // 現在のHPバーを更新
+
+            if (bossHealth.HP <= dangerHp && enemyType == EnemyType.noemal)
+            {
+                isDamage = false;
+                enemyType++; // エネミーの状態をスペルカードに変更
+                damageLate = 0.2f; // 被ダメージの割合を変更
+                StartCoroutine(MiddleSpell()); // スペルカードの発動
+            }
+            else if (bossHealth.HP <= 0)
+            {
+                Destroy(gameObject);
                 Destroy(canvas); // ＨＰバーのキャンバスを削除
                 GameObject present = Instantiate(presentBox, transform.position, Quaternion.identity); // ドロップ用のプレハブを生成
                 present.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-2, 0); // ドロップの速度を設定

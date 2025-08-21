@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class BossHealth : MonoBehaviour
 {
-    [Range(0, 250)]
-    [SerializeField] public float hP; // エネミーのＨＰ
+    [Range(0, 100)]
+    [SerializeField] private float hP; // エネミーのＨＰ
+
+    public float HP { get => hP; set => hP = value; }
 
     public event Action OnDeath; // 中ボス撃破通知用イベント
 
@@ -13,7 +15,7 @@ public class BossHealth : MonoBehaviour
         if (collision.CompareTag("P_Bullet"))
         {
             Destroy(collision.gameObject); // プレイヤーの弾を消す
-            if (hP <= 0)
+            if (HP <= 0)
             {
                 GameObject[] bullets = GameObject.FindGameObjectsWithTag("E_Bullet");
                 foreach(GameObject objects in bullets)

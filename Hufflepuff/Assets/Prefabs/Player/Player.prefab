@@ -112,7 +112,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 322532691053147229, guid: 64b94e5c8704d6b4dbdba0b9d799928d, type: 3}
   m_Color: {r: 1, g: 0.995283, b: 0.995283, a: 1}
   m_FlipX: 0
@@ -149,6 +149,12 @@ MonoBehaviour:
   presentCount: 0
   playState: 0
   CutInnCanvas: {fileID: 3651732272002953837, guid: 46c61a03d4ff8a24fb52eea426da4552, type: 3}
+  pieceCount: 0
+  coinCount: 0
+  defultCoinIncreaseCount: 20
+  PlayerBomObjerct: {fileID: 6505414572547319358, guid: 5380f43bac006d84a9582d8ddd8294b6, type: 3}
+  bomAppearTime: 5
+  playerBomDelayTime: 5
 --- !u!58 &8603824806522729282
 CircleCollider2D:
   m_ObjectHideFlags: 0

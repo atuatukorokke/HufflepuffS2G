@@ -595,4 +595,12 @@ public class Boss1Bullet : MonoBehaviour
             Destroy(collision.gameObject); // 弾を消す
         }
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if(collision.CompareTag("P_Bom"))
+        {
+            StartCoroutine(TakeDamage(1)); // ボムに当たったらダメージを与える
+        }
+    }
 }

@@ -11,6 +11,11 @@ TagManager:
   - mino5
   - mino6
   - mino9
+  - P_Bullet
+  - Enemy
+  - E_Bullet
+  - Present
+  - P_Bom
   layers:
   - Default
   - TransparentFX

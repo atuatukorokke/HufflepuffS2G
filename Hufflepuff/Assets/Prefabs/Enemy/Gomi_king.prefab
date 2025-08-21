@@ -106,7 +106,7 @@ MonoBehaviour:
   state: 0
   bulletState: 0
   maxHP: 300
-  currentHP: 13.4
+  currentHP: 100
   attak: 1
   spellPos: {x: 6, y: 0}
   GomiSpecialMove: {fileID: 3092607265527844790}

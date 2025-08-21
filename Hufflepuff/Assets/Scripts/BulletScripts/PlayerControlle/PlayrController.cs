@@ -9,6 +9,7 @@ using UnityEngine;
 
 public class PlayrController : MonoBehaviour
 {
+    [Header("Player Settings")]
     private Rigidbody2D myRigidbody;
     [SerializeField] private float Speed; // 移動速度
     [SerializeField] private float speedLate = 1.0f; // 移動速度の遅延
@@ -25,9 +26,16 @@ public class PlayrController : MonoBehaviour
     [SerializeField] private PlayState playState; // プレイヤーの状態
     [SerializeField] private GameObject CutInnCanvas; // カットイン用のキャンバス
 
+    [Header("Player Coin")]
     [SerializeField] private int pieceCount = 0; // ピースの数
     [SerializeField] private int coinCount = 0; // コインの数
     [SerializeField] private int defultCoinIncreaseCount = 20; // デフォルトのコイン増加数
+
+    [Header("Player Bom")]
+    [SerializeField] private GameObject PlayerBomObjerct; // プレイヤーのボムオブジェクト
+    [SerializeField] private float bomAppearTime = 5f; // ボムの出現時間
+    [SerializeField] private float playerBomDelayTime = 5f; // ボムのディレイ時間
+    [SerializeField] private bool isCharge = false; // ボムのチャージ状態
 
 
     private bool isShooting = false;
@@ -70,7 +78,7 @@ public class PlayrController : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal") * Speed * Time.deltaTime * speedLate;
         float y = Input.GetAxisRaw("Vertical") * Speed * Time.deltaTime * speedLate;
         transform.position = new Vector2(
-            Mathf.Clamp(transform.position.x + x, -8.5f, 8.5f),
+            Mathf.Clamp(transform.position.x + x, -8.5f, 8.0f),
             Mathf.Clamp(transform.position.y + y, -4.5f, 4.5f));
         if(Input.GetKeyDown(KeyCode.Z))
         {
@@ -84,9 +92,23 @@ public class PlayrController : MonoBehaviour
             }
         }
 
+        // Xキーを押したらカットインからのボムの発動
+        // ボム発動中は無敵
+        // 一定時間後にボムが消えて、無敵も解除
+        // 発動が終わったらボムのチャージを開始する
         if(Input.GetKeyDown(KeyCode.X))
         {
             Instantiate(CutInnCanvas, new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject Bom = Instantiate(PlayerBomObjerct, transform.position, Quaternion.identity);
+            Bom.transform.rotation = Quaternion.Euler(0, 0, 90); // ボムの回転を初期化
+            Destroy(Bom, bomAppearTime); // 一定時間後にボムを削除
+            invincible = true; // ボム発動中は無敵
+            float time = 0;
+            while(time >= bomAppearTime)
+            {
+                time += Time.deltaTime; // ボムのチャージ時間を計測
+            }
+            invincible = false; // 一定時間後に無敵を解除
         }
 
         if(Input.GetKeyUp(KeyCode.Z))
@@ -158,6 +180,7 @@ public class PlayrController : MonoBehaviour
             case "Present":
                 PieceCount++; // ピースの数を増やす
                 CoinCount += defultCoinIncreaseCount + Random.Range(0, 5); // コインの数を増やす
+                Destroy(collision.gameObject); // プレゼントを削除
                 break;  
         }
     }
