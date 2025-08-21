@@ -35,7 +35,10 @@ public class PlayrController : MonoBehaviour
     [SerializeField] private GameObject PlayerBomObjerct; // プレイヤーのボムオブジェクト
     [SerializeField] private float bomAppearTime = 5f; // ボムの出現時間
     [SerializeField] private float playerBomDelayTime = 5f; // ボムのディレイ時間
-    [SerializeField] private bool isCharge = false; // ボムのチャージ状態
+    [SerializeField] private float maxChatgeTime; // ボムの最大チャージ時間
+    [SerializeField] private float currentChargeTime; // ボムのチャージ時間
+    [SerializeField] private bool isCharge = true; // ボムのチャージ状態
+    [SerializeField] private bool isBom; // ボムの状態
 
 
     private bool isShooting = false;
@@ -50,12 +53,25 @@ public class PlayrController : MonoBehaviour
     {
         PlayState = PlayState.Shooting; // 初期状態をシューティングに設定
         myRigidbody = GetComponent<Rigidbody2D>();
-        
+        currentChargeTime = 0.0f;
+        isCharge = true; // ボムのチャージ状態を開始
+        isBom = false; // ボムの状態を初期化
     }
 
     void Update()
     {
         if(PlayState == PlayState.Shooting) PlayerMove();
+
+        if(isCharge)
+        {
+            currentChargeTime += Time.deltaTime; // ボムのチャージ時間を計測
+            if (currentChargeTime >= playerBomDelayTime) // 一定時間経過したらボムのチャージ状態を解除
+            {
+                isCharge = false; // ボムのチャージ状態を解除
+                isBom = true; // ボムの状態を有効にする
+                currentChargeTime = 0.0f; // チャージ時間をリセット
+            }
+        }
     }
 
     /// <summary>
@@ -96,11 +112,11 @@ public class PlayrController : MonoBehaviour
         // ボム発動中は無敵
         // 一定時間後にボムが消えて、無敵も解除
         // 発動が終わったらボムのチャージを開始する
-        if(Input.GetKeyDown(KeyCode.X))
+        if(Input.GetKeyDown(KeyCode.X) && isBom)
         {
+            isBom = false; // ボムの二度撃ちを防止
             Instantiate(CutInnCanvas, new Vector3(0, 0, 0), Quaternion.identity);
             GameObject Bom = Instantiate(PlayerBomObjerct, transform.position, Quaternion.identity);
-            Bom.transform.rotation = Quaternion.Euler(0, 0, 90); // ボムの回転を初期化
             Destroy(Bom, bomAppearTime); // 一定時間後にボムを削除
             invincible = true; // ボム発動中は無敵
             float time = 0;
@@ -108,7 +124,9 @@ public class PlayrController : MonoBehaviour
             {
                 time += Time.deltaTime; // ボムのチャージ時間を計測
             }
+            Debug.Log("ボム終了");
             invincible = false; // 一定時間後に無敵を解除
+            isCharge = true; // ボムのチャージ状態を開始
         }
 
         if(Input.GetKeyUp(KeyCode.Z))
