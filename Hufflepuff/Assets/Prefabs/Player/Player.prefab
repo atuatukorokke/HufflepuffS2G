@@ -152,10 +152,9 @@ MonoBehaviour:
   pieceCount: 0
   coinCount: 0
   defultCoinIncreaseCount: 20
-  PlayerBomObjerct: {fileID: 8440666455646813007, guid: 5380f43bac006d84a9582d8ddd8294b6, type: 3}
+  PlayerBomObjerct: {fileID: 6505414572547319358, guid: 5380f43bac006d84a9582d8ddd8294b6, type: 3}
   bomAppearTime: 5
   playerBomDelayTime: 5
-  isCharge: 0
 --- !u!58 &8603824806522729282
 CircleCollider2D:
   m_ObjectHideFlags: 0

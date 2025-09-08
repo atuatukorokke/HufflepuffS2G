@@ -9,8 +9,6 @@ public class BulletGameManager : MonoBehaviour
     void Start()
     {
         gameTime = 0.0f;
-        Cursor.visible = false; // カーソルを非表示にする
-        Cursor.lockState = CursorLockMode.Locked; // カーソルを画面中央に固定する
     }
 
     // Update is called once per frame
