@@ -109,7 +109,7 @@ public class Boss1Bullet : MonoBehaviour
     [SerializeField] private float attak = 1f; // 攻撃力
     [SerializeField] private Vector2 spellPos; // 必殺技・セミファイナルを打つときにこの座標に一旦戻る
     [SerializeField] private SpecialMove_Gomi GomiSpecialMove; // 必殺技のクラス
-    [SerializeField] private bool isDead = false;
+    [SerializeField] private bool isInvivle = false; // 必殺技中の一時無敵判定
     [SerializeField] private GameObject HealthCanvas; // 現在のＨＰバーのキャンバス
     [SerializeField] private GameObject currentHpbar; // 現在のＨＰバーのオブジェクト
     [SerializeField] private GameObject CutInnCanvas; // カットイン用のキャンバス
@@ -203,7 +203,7 @@ public class Boss1Bullet : MonoBehaviour
         // 今の状態によって通常の弾幕を変化させる
         // ボスによって変化させるのでかなり大変
         // 楽しいのでワース
-        if(!isDead)
+        if(!isInvivle)
         {
             switch (state)
             {
@@ -516,7 +516,7 @@ public class Boss1Bullet : MonoBehaviour
             BulletState = BulletState.normal; // 弾幕の変更
             DamageLate = 1f;
             currentHP = maxHP; // HPを回復
-            if (!isDead)
+            if (!isInvivle)
             {
                 currentHpbar.transform.localScale = new Vector3(currentHP / maxHP, currentHpbar.transform.localScale.y, currentHpbar.transform.localScale.z); // HPバーの更新
             }
@@ -531,7 +531,7 @@ public class Boss1Bullet : MonoBehaviour
     private IEnumerator TakeDamage(float damage)
     {
         currentHP -= damage; // HPを減らす
-        if (!isDead)
+        if (!isInvivle)
         {
             currentHpbar.transform.localScale = new Vector3(currentHP / maxHP, currentHpbar.transform.localScale.y, currentHpbar.transform.localScale.z); // HPバーの更新        
         }
@@ -543,12 +543,12 @@ public class Boss1Bullet : MonoBehaviour
             GomiSpecialMove.BomJudgement(state);
             GameObject CutInObj = Instantiate(CutInnCanvas, new Vector3(0, 0, 0), Quaternion.identity);
         }
-        else if (currentHP <= 0 && !isDead)
+        else if (currentHP <= 0 && !isInvivle)
         {
             BulletDelete();
             if (state == State.final)
             {
-                isDead = true;
+                isInvivle = true;
                 BulletState = BulletState.special; // 弾幕の変更
                 yield return StartCoroutine(SpecialFinalBullet());
             }
@@ -600,7 +600,7 @@ public class Boss1Bullet : MonoBehaviour
     {
         if(collision.CompareTag("P_Bom"))
         {
-            StartCoroutine(TakeDamage(1)); // ボムに当たったらダメージを与える
+            StartCoroutine(TakeDamage(damageLate)); // ボムに当たったらダメージを与える
         }
     }
 }
