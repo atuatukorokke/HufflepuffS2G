@@ -67,7 +67,7 @@ public class BuffSeter : MonoBehaviour
 
     private void Start()
     {
-        player = GetComponent<PlayrController>();
-        buffManager = FindAnyObjectByType<BuffManager>();
+        player = FindAnyObjectByType<PlayrController>();
+        buffManager = GetComponent<BuffManager>();
     }
 }

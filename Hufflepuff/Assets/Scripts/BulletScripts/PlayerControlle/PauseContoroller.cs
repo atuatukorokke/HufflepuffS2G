@@ -8,12 +8,16 @@ public class PauseContoroller : MonoBehaviour
 {
     [SerializeField] private GameObject PausePanel;
     [SerializeField] private GameObject FadeInPanel;
+    [SerializeField] private GameObject VolumeControllerPanel;
+    [SerializeField] private GameObject BuffCheckPanel;
     [SerializeField] private AudioSource audio;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         PausePanel.SetActive(false);
         FadeInPanel.SetActive(false);
+        VolumeControllerPanel.SetActive(true);
+        BuffCheckPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -34,11 +38,31 @@ public class PauseContoroller : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// リタイアボタン
+    /// </summary>
     public void Retire()
     {
         FadeInPanel.SetActive(true);
         StartCoroutine(RetireAnim());
     }
+    /// <summary>
+    /// 音量調整パネルを開く
+    /// </summary>
+    public void VolumeControllerOpen()
+    {
+        VolumeControllerPanel.SetActive(true);
+        BuffCheckPanel.SetActive(false);
+    }
+    /// <summary>
+    /// バフ確認パネルを開く
+    /// </summary>
+    public void BuffCheckOpen()
+    {
+        VolumeControllerPanel.SetActive(false);
+        BuffCheckPanel.SetActive(true);
+    }
+
 
     private IEnumerator RetireAnim()
     {

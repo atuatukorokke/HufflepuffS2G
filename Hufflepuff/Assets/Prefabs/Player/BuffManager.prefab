@@ -62,7 +62,7 @@ MonoBehaviour:
   buffManager: {fileID: 0}
   buffExplanationObj: {fileID: 4555005829819904842, guid: 4214ccad8360aaf4987c370770f0fe15, type: 3}
   buffListObj: {fileID: 0}
-  AttackIcon: {fileID: 0}
-  InvincibleIcon: {fileID: 0}
-  PuzzleTimeIcon: {fileID: 0}
-  CarryOverSpecialGaugeIcon: {fileID: 0}
+  AttackIcon: {fileID: 5147535407792283799, guid: 97d1962880fdf024eb4ec2f1a6e10d5d, type: 3}
+  InvincibleIcon: {fileID: -7100420547707310897, guid: 9c157def2886f694cbcebcd2e03f9d55, type: 3}
+  PuzzleTimeIcon: {fileID: -3420199609595108753, guid: 7f1521ce13ddaa04c980697bf4b996ed, type: 3}
+  CarryOverSpecialGaugeIcon: {fileID: 7242588766018160167, guid: fed868d62f4aa374a8b598d8918c524c, type: 3}

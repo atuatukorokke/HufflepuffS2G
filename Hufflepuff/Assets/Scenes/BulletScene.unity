@@ -6415,6 +6415,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PausePanel: {fileID: 318569217}
   FadeInPanel: {fileID: 1339988669}
+  VolumeControllerPanel: {fileID: 739741036}
+  BuffCheckPanel: {fileID: 1067870672}
   audio: {fileID: 2024082160}
 --- !u!1 &1511431870
 GameObject:
@@ -6755,7 +6757,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1545519928}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1494231040}
+        m_TargetAssemblyTypeName: PauseContoroller, Assembly-CSharp
+        m_MethodName: BuffCheckOpen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1545519928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8446,7 +8460,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2010341200}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1494231040}
+        m_TargetAssemblyTypeName: PauseContoroller, Assembly-CSharp
+        m_MethodName: VolumeControllerOpen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2010341200
 MonoBehaviour:
   m_ObjectHideFlags: 0
