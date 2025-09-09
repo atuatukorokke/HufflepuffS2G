@@ -165,7 +165,6 @@ public class MiddleBossBullet : MonoBehaviour
             }
             else if (bossHealth.HP <= 0)
             {
-                Destroy(gameObject);
                 Destroy(canvas); // ＨＰバーのキャンバスを削除
                 GameObject present = Instantiate(presentBox, transform.position, Quaternion.identity); // ドロップ用のプレハブを生成
                 present.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-2, 0); // ドロップの速度を設定

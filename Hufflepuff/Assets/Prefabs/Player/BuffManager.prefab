@@ -60,3 +60,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   buffManager: {fileID: 0}
+  buffExplanationObj: {fileID: 4555005829819904842, guid: 4214ccad8360aaf4987c370770f0fe15, type: 3}
+  buffListObj: {fileID: 0}
+  AttackIcon: {fileID: 0}
+  InvincibleIcon: {fileID: 0}
+  PuzzleTimeIcon: {fileID: 0}
+  CarryOverSpecialGaugeIcon: {fileID: 0}

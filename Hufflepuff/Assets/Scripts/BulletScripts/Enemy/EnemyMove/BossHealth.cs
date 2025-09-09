@@ -12,7 +12,7 @@ public class BossHealth : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("P_Bullet"))
+        if (collision.CompareTag("P_Bullet") || collision.CompareTag("P_Bom"))
         {
             Destroy(collision.gameObject); // ƒvƒŒƒCƒ„[‚Ì’e‚ğÁ‚·
             if (HP <= 0)
