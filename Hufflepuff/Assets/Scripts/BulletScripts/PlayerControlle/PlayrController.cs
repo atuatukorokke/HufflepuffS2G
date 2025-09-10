@@ -114,25 +114,31 @@ public class PlayrController : MonoBehaviour
         // 発動が終わったらボムのチャージを開始する
         if(Input.GetKeyDown(KeyCode.X) && isBom)
         {
-            isBom = false; // ボムの二度撃ちを防止
-            Instantiate(CutInnCanvas, new Vector3(0, 0, 0), Quaternion.identity);
-            GameObject Bom = Instantiate(PlayerBomObjerct, transform.position, Quaternion.identity);
-            Destroy(Bom, bomAppearTime); // 一定時間後にボムを削除
-            invincible = true; // ボム発動中は無敵
-            float time = 0;
-            while(time >= bomAppearTime)
-            {
-                time += Time.deltaTime; // ボムのチャージ時間を計測
-            }
-            Debug.Log("ボム終了");
-            invincible = false; // 一定時間後に無敵を解除
-            isCharge = true; // ボムのチャージ状態を開始
+            StartCoroutine(Bom());
         }
 
         if(Input.GetKeyUp(KeyCode.Z))
         {
             isShooting = false;
         }
+    }
+
+    private IEnumerator Bom()
+    {
+        isBom = false; // ボムの二度撃ちを防止
+        Instantiate(CutInnCanvas, new Vector3(0, 0, 0), Quaternion.identity);
+        GameObject Bom = Instantiate(PlayerBomObjerct, transform.position, Quaternion.identity);
+        Destroy(Bom, bomAppearTime); // 一定時間後にボムを削除
+        invincible = true; // ボム発動中は無敵
+        float time = 0;
+        while(time >= bomAppearTime)
+        {
+            yield return new WaitForSeconds(0.1f);
+            time += 0.1f;
+        }
+        Debug.Log("ボム終了");
+        invincible = false; // 一定時間後に無敵を解除
+        isCharge = true; // ボムのチャージ状態を開始
     }
     /// <summary>
     /// 直線状に弾幕を出します
