@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      PuzzleTimeUp_0: -3420199609595108753
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
