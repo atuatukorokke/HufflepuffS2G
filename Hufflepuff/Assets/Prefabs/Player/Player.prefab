@@ -138,7 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 10
   speedLate: 1
-  attack: 3
+  attack: 0
   straightBulletPrehab: {fileID: 4187297226051304241, guid: f48007527bc2abe41847e7e45f02a502, type: 3}
   diffusionBulletPrehab: {fileID: 593574743847144491, guid: ee453264fe7b5a14cbb1926460b63099, type: 3}
   bulletSpeed: 20
@@ -155,7 +155,10 @@ MonoBehaviour:
   PlayerBomObjerct: {fileID: 8440666455646813007, guid: 5380f43bac006d84a9582d8ddd8294b6, type: 3}
   bomAppearTime: 5
   playerBomDelayTime: 5
+  maxChatgeTime: 10
+  currentChargeTime: 0
   isCharge: 0
+  isBom: 0
 --- !u!58 &8603824806522729282
 CircleCollider2D:
   m_ObjectHideFlags: 0

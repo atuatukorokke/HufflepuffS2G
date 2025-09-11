@@ -31,26 +31,38 @@ public class BuffSeter : MonoBehaviour
     /// </summary>
     public void ApplyBuffs()
     {
+        foreach (Transform child in buffListObj.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+
         foreach(var buff in buffManager.datas)
         {
             switch(buff.buffID)
             {
                 case BuffForID.AtackMethod:
-                    player.Attack += player.Attack * buff.value; // 攻撃力の増加
+                    player.Attack = player.Attack * buff.value; // 攻撃力の増加
                     buffName = "攻撃力アップ";
                     buffExplanationText = $"プレイヤーの攻撃力＋<color=#ffd700>{buff.value}％</color>";
                     buffIcon = AttackIcon;
                     break;
                 case BuffForID.InvincibleTime:
-                    player.InvincibleTime += buff.value; // 無敵時間の増加
+                    player.InvincibleTime = buff.value; // 無敵時間の増加
                     buffName = "無敵時間延長";
                     buffExplanationText = $"プレイヤーの無敵時間＋<color=#ffd700>{buff.value}秒</color>";
                     buffIcon = InvincibleIcon;
                     break;
                 case BuffForID.PuzzleTime:
+                    buffName = "パズル時間延長";
+                    buffExplanationText = $"パズル時間が＋<color=#ffd700>{buff.value}秒</color>";
+                    buffIcon = PuzzleTimeIcon;
                     // パズル時間延長の処理をここに追加
                     break;
                 case BuffForID.CarryOverSpecialGauge:
+                    buffName = "スペシャルゲージ持ち越し";
+                    buffExplanationText = $"スペシャルゲージが<color=#ffd700>{buff.value * 100}％</color>持ち越し可能に";
+                    buffIcon = CarryOverSpecialGaugeIcon;
                     // スペシャルゲージ持ち越しの処理をここに追加
                     break;
             }
@@ -60,9 +72,6 @@ public class BuffSeter : MonoBehaviour
             buffExplanation.transform.parent = buffListObj.transform;
             buffExplanation.GetComponent<BuffExplanation>().SetBuffExplanation(buffName, buffExplanationText, buffIcon);
         }
-
-        // リストのクリア
-        buffManager.datas.Clear();
     }
 
     private void Start()

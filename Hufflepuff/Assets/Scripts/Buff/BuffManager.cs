@@ -14,7 +14,26 @@ public class BuffManager : MonoBehaviour
     /// <param name="value">値</param>
     public void AddBuff(BuffForID forId, float value)
     {
-        datas.Add(new Buff { buffID = forId, value = value });
+        if (datas.Count == 0)
+        {
+            datas.Add(new Buff { buffID = forId, value = value });
+        }
+        else
+        {
+            for (int i = 0; i < datas.Count; i++)
+            {
+                if (datas[i].buffID == forId)
+                {
+                    datas[i].value += value;
+                    return;
+                }
+                else
+                {
+                    Debug.Log("バフが見つかりませんでした");
+                }
+            }
+            datas.Add(new Buff { buffID = forId, value = value });
+        }
     }
 
     private void Update()
@@ -22,7 +41,7 @@ public class BuffManager : MonoBehaviour
         // デバッグ用
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            AddBuff(BuffForID.AtackMethod, 0.2f);
+            AddBuff(BuffForID.AtackMethod, 0.5f);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
