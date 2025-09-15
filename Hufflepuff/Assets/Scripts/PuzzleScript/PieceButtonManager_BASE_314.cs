@@ -14,6 +14,11 @@ public class PieceButtonManager : MonoBehaviour
         Pcreate = FindAnyObjectByType<PieceCreate>();
     }
 
+    void Update()
+    {
+        
+    }
+
     public void mino1Click()
     {
         Pcreate.NewPiece(1);

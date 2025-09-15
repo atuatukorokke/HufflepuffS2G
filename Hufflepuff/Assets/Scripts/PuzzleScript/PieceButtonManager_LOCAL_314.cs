@@ -8,10 +8,22 @@ using UnityEngine;
 public class PieceButtonManager : MonoBehaviour
 {
     private PieceCreate Pcreate;    // パズルピースを生成するスクリプト
+    private ShopOpen shop;   // ショップを開くスクリプト
 
     void Start()
     {
         Pcreate = FindAnyObjectByType<PieceCreate>();
+        shop = FindAnyObjectByType<ShopOpen>();
+    }
+
+    void Update()
+    {
+        
+    }
+
+    public void ShopClose()
+    {
+        shop.ShopOpenAni(); // ショップのカメラを切り替える
     }
 
     public void mino1Click()

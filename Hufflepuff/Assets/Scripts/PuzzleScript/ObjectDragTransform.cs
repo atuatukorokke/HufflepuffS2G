@@ -31,6 +31,12 @@ public class ObjectDragTransform : MonoBehaviour
         {
             transform.position = GetMouseWorldPosition() + offset;
         }
+
+        if (isDragging & Input.GetKeyDown(KeyCode.X))
+        {
+            float currentZ = transform.eulerAngles.z;
+            transform.eulerAngles = new Vector3(0, 0, currentZ + 90f);
+        }
     }
 
     void OnMouseUp()
