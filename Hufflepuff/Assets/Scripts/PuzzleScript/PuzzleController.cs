@@ -11,16 +11,14 @@ using UnityEngine;
 public class PuzzleController : MonoBehaviour
 {
     private PieceMoves Pmoves;      // パズルピースを動かすスクリプト
-    [SerializeField] private BuffManager buffManager;
-    [SerializeField] private PieceCreate Pcreate;    // パズルピースを生成するスクリプト
 
-    int CountRotate = 0;    // 回転数をカウントする変数
+    [SerializeField] private DeathCount deathCount;     // 死ぬかの判定を行うスクリプト
 
     private void Start()
     {
         Pmoves = FindAnyObjectByType<PieceMoves>();
-        buffManager = FindAnyObjectByType<BuffManager>();
-        Pcreate = FindAnyObjectByType<PieceCreate>();
+
+        //deathCount.SetPieceCount(50);   // デバッグ用のピース数
     }
 
     void Update()
@@ -28,16 +26,8 @@ public class PuzzleController : MonoBehaviour
         // zキーでパズルピースを設置
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            //if (Pmoves == null)
-            //{
-            //    Pmoves = FindAnyObjectByType<PieceMoves>();
-            //    Pmoves.PiecePossible();
-            //}
-            if(Pcreate.IsCreate)
-            {
-                buffManager.AddBuff(Pcreate.BuffID, Pcreate.BuffValue);
-                Pcreate.IsCreate = false;
-            }
+            if (Pmoves == null) Pmoves = FindAnyObjectByType<PieceMoves>();
+            Pmoves.PiecePossible();
         }
 
         // xキーでパズルピースを回転

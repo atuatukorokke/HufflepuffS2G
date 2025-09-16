@@ -16,72 +16,123 @@ public class PieceCreate : MonoBehaviour
     [SerializeField] public GameObject mino6;
     [SerializeField] public GameObject mino9;
 
-    private bool isCreate = false;
-    private int pieceNumber;
-    private BuffForID buffID;
-    private float buffValue;
+    [SerializeField] public GameObject block;
 
-    public bool IsCreate { get => isCreate; set => isCreate = value; }
-    public BuffForID BuffID { get => buffID; private set => buffID = value; }
-    public float BuffValue { get => buffValue; private set => buffValue = value; }
+    [SerializeField] private DeathCount deathCount;     // 死ぬかの判定を行うスクリプト
+
+    private int[,] BlockBoard = new int[5, 5]
+    {{1, 0, 0, 0, 1},
+     {0, 0, 0, 0, 0},
+     {0, 0, 0, 0, 0},
+     {0, 0, 0, 0, 0},
+     {1, 0, 0, 0, 1}};
 
     /// <summary>
     /// 新しいピースを生成します
     /// </summary>
-    /// <param name="pieceNumber">0 = ランダム生成, 1 ~ 7 = 対応したピースを生成</param>
-    public void NewPiece(int pieceNumber)
-    { 
-        this.pieceNumber = pieceNumber;
+    /// <param name="x">0 = ランダム生成, 1 ~ 7 = 対応したピースを生成</param>
+    public void NewPiece(int x)
+    {
+        int rndMino = x;
         // 入力が０の時1~7の整数をランダムで生成
-        if (pieceNumber == 0)
+        if (x == 0)
         {
             //int rndMino = Random.Range(1, 8);
-            pieceNumber = 3; // デバッグ用に2を固定
+            rndMino = 3; // デバッグ用に2を固定
         }
 
         // 生成位置
-        Vector3 pos = new Vector3(-40.0f, -11.0f, 0.0f);
+        Vector3 pos = new Vector3(-5.0f, -1.0f, 0.0f);
 
-        if(!IsCreate)
+        // プレハブを指定位置に生成
+        switch (rndMino)
         {
-            IsCreate = true;
-            // プレハブを指定位置に生成
-            switch (pieceNumber)
-            {
-                case 1:
-                    Instantiate(mino1, pos, Quaternion.identity);
-                    break;
-                case 2:
-                    Instantiate(mino2, pos, Quaternion.identity);
-                    break;
-                case 3:
-                    Instantiate(mino3, pos, Quaternion.identity);
-                    break;
-                case 4:
-                    Instantiate(mino4, pos, Quaternion.identity);
-                    break;
-                case 5:
-                    Instantiate(mino5, pos, Quaternion.identity);
-                    break;
-                case 6:
-                    Instantiate(mino6, pos, Quaternion.identity);
-                    break;
-                case 7:
-                    Instantiate(mino9, pos, Quaternion.identity);
-                    break;
-                default:
-                    break;
-            }
+            case 1:
+                Instantiate(mino1, pos, Quaternion.identity);
+                deathCount.SetPieceCount(1);
+                break;
+            case 2:
+                Instantiate(mino2, pos, Quaternion.identity);
+                deathCount.SetPieceCount(2);
+                break;
+            case 3:
+                Instantiate(mino3, pos, Quaternion.identity);
+                deathCount.SetPieceCount(3);
+                break;
+            case 4:
+                Instantiate(mino4, pos, Quaternion.identity);
+                deathCount.SetPieceCount(4);
+                break;
+            case 5:
+                Instantiate(mino5, pos, Quaternion.identity);
+                deathCount.SetPieceCount(5);
+                break;
+            case 6:
+                Instantiate(mino6, pos, Quaternion.identity);
+                deathCount.SetPieceCount(6);
+                break;
+            case 7:
+                Instantiate(mino9, pos, Quaternion.identity);
+                deathCount.SetPieceCount(9);
+                break;
+            default:
+                Debug.Log("なんか変な値が出てるやでー");
+                break;
         }
-        
     }
 
-    public void PieceAddBuff(BuffForID buffForID)
+    // お邪魔ブロックを生成(呼び出すように変更)
+    public void BlockCreate()
     {
-        if(IsCreate)
+        bool isBlock = false;
+
+        int BlockRndX = 0;
+        int BlockRndY = 0;
+
+        while(isBlock == false)
         {
-            BuffID = buffForID;
-            BuffValue = pieceNumber * 0.1f; // デバッグ用にピース番号の10%をバフ値にする
+            isBlock = true;
+
+            BlockRndX = Random.Range(0, 5);
+            BlockRndY = Random.Range(0, 5);
+
+            if (BlockBoard[BlockRndY, BlockRndX] == 1)
+            {
+                isBlock = false;
+            }
+
+            if (BlockRndX == 0 && BlockRndY == 0)
+            {
+                isBlock = false;
+            }
+
+            if (BlockRndX == 0 && BlockRndY == 4)
+            {
+                isBlock = false;
+            }
+
+            if (BlockRndX == 4 && BlockRndY == 0)
+            {
+                isBlock = false;
+            }
+
+            if (BlockRndX == 4 && BlockRndY == 4)
+            {
+                isBlock = false;
+            }
         }
+
+        Debug.Log(BlockRndX);
+        Debug.Log(BlockRndY);
+
+        Debug.Log(BlockBoard[BlockRndY, BlockRndX]);
+
+        BlockBoard[BlockRndY, BlockRndX] = 1;
+
+        // 生成位置 盤面の左上を指定
+        Vector3 pos = new Vector3(3.0f + BlockRndX, 2.0f - BlockRndY, 0.0f);
+        Instantiate(block, pos, Quaternion.identity);
+
+        deathCount.SetBlockCount(1);
     }
 }
