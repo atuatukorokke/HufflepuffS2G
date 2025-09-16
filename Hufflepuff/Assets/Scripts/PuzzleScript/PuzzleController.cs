@@ -12,11 +12,13 @@ public class PuzzleController : MonoBehaviour
 {
     private PieceMoves Pmoves;      // パズルピースを動かすスクリプト
 
-    int CountRotate = 0;    // 回転数をカウントする変数
+    [SerializeField] private DeathCount deathCount;     // 死ぬかの判定を行うスクリプト
 
     private void Start()
     {
         Pmoves = FindAnyObjectByType<PieceMoves>();
+
+        //deathCount.SetPieceCount(50);   // デバッグ用のピース数
     }
 
     void Update()

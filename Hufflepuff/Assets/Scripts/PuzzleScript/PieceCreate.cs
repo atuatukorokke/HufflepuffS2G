@@ -16,6 +16,17 @@ public class PieceCreate : MonoBehaviour
     [SerializeField] public GameObject mino6;
     [SerializeField] public GameObject mino9;
 
+    [SerializeField] public GameObject block;
+
+    [SerializeField] private DeathCount deathCount;     // 死ぬかの判定を行うスクリプト
+
+    private int[,] BlockBoard = new int[5, 5]
+    {{1, 0, 0, 0, 1},
+     {0, 0, 0, 0, 0},
+     {0, 0, 0, 0, 0},
+     {0, 0, 0, 0, 0},
+     {1, 0, 0, 0, 1}};
+
     /// <summary>
     /// 新しいピースを生成します
     /// </summary>
@@ -38,28 +49,90 @@ public class PieceCreate : MonoBehaviour
         {
             case 1:
                 Instantiate(mino1, pos, Quaternion.identity);
+                deathCount.SetPieceCount(1);
                 break;
             case 2:
                 Instantiate(mino2, pos, Quaternion.identity);
+                deathCount.SetPieceCount(2);
                 break;
             case 3:
                 Instantiate(mino3, pos, Quaternion.identity);
+                deathCount.SetPieceCount(3);
                 break;
             case 4:
                 Instantiate(mino4, pos, Quaternion.identity);
+                deathCount.SetPieceCount(4);
                 break;
             case 5:
                 Instantiate(mino5, pos, Quaternion.identity);
+                deathCount.SetPieceCount(5);
                 break;
             case 6:
                 Instantiate(mino6, pos, Quaternion.identity);
+                deathCount.SetPieceCount(6);
                 break;
             case 7:
                 Instantiate(mino9, pos, Quaternion.identity);
+                deathCount.SetPieceCount(9);
                 break;
             default:
                 Debug.Log("なんか変な値が出てるやでー");
                 break;
         }
+    }
+
+    // お邪魔ブロックを生成(呼び出すように変更)
+    public void BlockCreate()
+    {
+        bool isBlock = false;
+
+        int BlockRndX = 0;
+        int BlockRndY = 0;
+
+        while(isBlock == false)
+        {
+            isBlock = true;
+
+            BlockRndX = Random.Range(0, 5);
+            BlockRndY = Random.Range(0, 5);
+
+            if (BlockBoard[BlockRndY, BlockRndX] == 1)
+            {
+                isBlock = false;
+            }
+
+            if (BlockRndX == 0 && BlockRndY == 0)
+            {
+                isBlock = false;
+            }
+
+            if (BlockRndX == 0 && BlockRndY == 4)
+            {
+                isBlock = false;
+            }
+
+            if (BlockRndX == 4 && BlockRndY == 0)
+            {
+                isBlock = false;
+            }
+
+            if (BlockRndX == 4 && BlockRndY == 4)
+            {
+                isBlock = false;
+            }
+        }
+
+        Debug.Log(BlockRndX);
+        Debug.Log(BlockRndY);
+
+        Debug.Log(BlockBoard[BlockRndY, BlockRndX]);
+
+        BlockBoard[BlockRndY, BlockRndX] = 1;
+
+        // 生成位置 盤面の左上を指定
+        Vector3 pos = new Vector3(3.0f + BlockRndX, 2.0f - BlockRndY, 0.0f);
+        Instantiate(block, pos, Quaternion.identity);
+
+        deathCount.SetBlockCount(1);
     }
 }
