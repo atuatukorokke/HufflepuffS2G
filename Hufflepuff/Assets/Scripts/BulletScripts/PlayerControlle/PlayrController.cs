@@ -136,7 +136,6 @@ public class PlayrController : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             time += 0.1f;
         }
-        Debug.Log("ボム終了");
         invincible = false; // 一定時間後に無敵を解除
         isCharge = true; // ボムのチャージ状態を開始
     }

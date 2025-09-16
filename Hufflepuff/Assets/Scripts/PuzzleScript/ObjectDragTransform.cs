@@ -43,6 +43,8 @@ public class ObjectDragTransform : MonoBehaviour
     {
         isDragging = false;
 
+        // ピース同士が重なっていたら元の位置に戻す
+
         // 位置を取得して、xとyを四捨五入して整数にスナップ
         Vector3 pos = transform.position;
         pos.x = Mathf.Round(pos.x / gridSize) * gridSize;

@@ -1,22 +1,12 @@
-// PieceButtonManager.cs
-// 
-// ボタン入力を受付、入力されたピースを生成します。
-// 
-
 using UnityEngine;
 
-public class PieceButtonManager : MonoBehaviour
+public class PieceButtonManager_REMOTE_315 : MonoBehaviour
 {
     private PieceCreate Pcreate;    // パズルピースを生成するスクリプト
 
     void Start()
     {
         Pcreate = FindAnyObjectByType<PieceCreate>();
-    }
-
-    void Update()
-    {
-        
     }
 
     public void mino1Click()

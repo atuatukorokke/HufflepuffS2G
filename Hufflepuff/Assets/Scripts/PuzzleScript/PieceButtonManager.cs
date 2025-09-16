@@ -8,44 +8,27 @@ using UnityEngine;
 public class PieceButtonManager : MonoBehaviour
 {
     private PieceCreate Pcreate;    // パズルピースを生成するスクリプト
+    private ShopOpen shop;   // ショップを開くスクリプト
+    private BuffSeter buffSeter; // バフを適応させるスクリプト
 
     void Start()
     {
+        buffSeter = FindAnyObjectByType<BuffSeter>();
         Pcreate = FindAnyObjectByType<PieceCreate>();
+        shop = FindAnyObjectByType<ShopOpen>();
+    }
+    public void ShopClose()
+    {
+        buffSeter.ApplyBuffs(); // バフを適応させる
+        shop.ShopOpenAni(); // ショップのカメラを切り替える
     }
 
-    public void mino1Click()
+    public void minoClick(int number)
     {
-        Pcreate.NewPiece(1);
+        Pcreate.NewPiece(number);
     }
-
-    public void mino2Click()
+    public void PieceAddBuff(int BuffID)
     {
-        Pcreate.NewPiece(2);
-    }
-
-    public void mino3Click()
-    {
-        Pcreate.NewPiece(3);
-    }
-
-    public void mino4Click()
-    {
-        Pcreate.NewPiece(4);
-    }
-
-    public void mino5Click()
-    {
-        Pcreate.NewPiece(5);
-    }
-
-    public void mino6Click()
-    {
-        Pcreate.NewPiece(6);
-    }
-
-    public void mino9Click()
-    {
-        Pcreate.NewPiece(7);
+        Pcreate.PieceAddBuff((BuffForID)BuffID);
     }
 }

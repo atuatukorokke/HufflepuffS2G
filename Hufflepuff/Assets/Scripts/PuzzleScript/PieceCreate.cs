@@ -16,50 +16,72 @@ public class PieceCreate : MonoBehaviour
     [SerializeField] public GameObject mino6;
     [SerializeField] public GameObject mino9;
 
+    private bool isCreate = false;
+    private int pieceNumber;
+    private BuffForID buffID;
+    private float buffValue;
+
+    public bool IsCreate { get => isCreate; set => isCreate = value; }
+    public BuffForID BuffID { get => buffID; private set => buffID = value; }
+    public float BuffValue { get => buffValue; private set => buffValue = value; }
+
     /// <summary>
     /// 新しいピースを生成します
     /// </summary>
-    /// <param name="x">0 = ランダム生成, 1 ~ 7 = 対応したピースを生成</param>
-    public void NewPiece(int x)
-    {
-        int rndMino = x;
+    /// <param name="pieceNumber">0 = ランダム生成, 1 ~ 7 = 対応したピースを生成</param>
+    public void NewPiece(int pieceNumber)
+    { 
+        this.pieceNumber = pieceNumber;
         // 入力が０の時1~7の整数をランダムで生成
-        if (x == 0)
+        if (pieceNumber == 0)
         {
             //int rndMino = Random.Range(1, 8);
-            rndMino = 3; // デバッグ用に2を固定
+            pieceNumber = 3; // デバッグ用に2を固定
         }
 
         // 生成位置
-        Vector3 pos = new Vector3(-5.0f, -1.0f, 0.0f);
+        Vector3 pos = new Vector3(-40.0f, -11.0f, 0.0f);
 
-        // プレハブを指定位置に生成
-        switch (rndMino)
+        if(!IsCreate)
         {
-            case 1:
-                Instantiate(mino1, pos, Quaternion.identity);
-                break;
-            case 2:
-                Instantiate(mino2, pos, Quaternion.identity);
-                break;
-            case 3:
-                Instantiate(mino3, pos, Quaternion.identity);
-                break;
-            case 4:
-                Instantiate(mino4, pos, Quaternion.identity);
-                break;
-            case 5:
-                Instantiate(mino5, pos, Quaternion.identity);
-                break;
-            case 6:
-                Instantiate(mino6, pos, Quaternion.identity);
-                break;
-            case 7:
-                Instantiate(mino9, pos, Quaternion.identity);
-                break;
-            default:
-                Debug.Log("なんか変な値が出てるやでー");
-                break;
+            IsCreate = true;
+            // プレハブを指定位置に生成
+            switch (pieceNumber)
+            {
+                case 1:
+                    Instantiate(mino1, pos, Quaternion.identity);
+                    break;
+                case 2:
+                    Instantiate(mino2, pos, Quaternion.identity);
+                    break;
+                case 3:
+                    Instantiate(mino3, pos, Quaternion.identity);
+                    break;
+                case 4:
+                    Instantiate(mino4, pos, Quaternion.identity);
+                    break;
+                case 5:
+                    Instantiate(mino5, pos, Quaternion.identity);
+                    break;
+                case 6:
+                    Instantiate(mino6, pos, Quaternion.identity);
+                    break;
+                case 7:
+                    Instantiate(mino9, pos, Quaternion.identity);
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+    }
+
+    public void PieceAddBuff(BuffForID buffForID)
+    {
+        if(IsCreate)
+        {
+            BuffID = buffForID;
+            BuffValue = pieceNumber * 0.1f; // デバッグ用にピース番号の10%をバフ値にする
         }
     }
 }

@@ -37,7 +37,6 @@ public class PieceMoves : MonoBehaviour
     /// </summary>
     public void PiecePossible()
     {
-        Debug.Log(isColliding);
         if (isColliding)
         {
             Debug.Log("‚¨‚¯‚Ä‚È‚¢");

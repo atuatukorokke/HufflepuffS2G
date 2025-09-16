@@ -16,6 +16,7 @@ TagManager:
   - E_Bullet
   - Present
   - P_Bom
+  - Piece
   layers:
   - Default
   - TransparentFX

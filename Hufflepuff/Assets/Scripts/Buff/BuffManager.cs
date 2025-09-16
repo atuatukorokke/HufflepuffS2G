@@ -27,10 +27,6 @@ public class BuffManager : MonoBehaviour
                     datas[i].value += value;
                     return;
                 }
-                else
-                {
-                    Debug.Log("ƒoƒt‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½");
-                }
             }
             datas.Add(new Buff { buffID = forId, value = value });
         }

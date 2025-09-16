@@ -1,11 +1,6 @@
-// PieceButtonManager.cs
-// 
-// ボタン入力を受付、入力されたピースを生成します。
-// 
-
 using UnityEngine;
 
-public class PieceButtonManager : MonoBehaviour
+public class PieceButtonManager_BACKUP_315 : MonoBehaviour
 {
     private PieceCreate Pcreate;    // パズルピースを生成するスクリプト
     private ShopOpen shop;   // ショップを開くスクリプト
@@ -15,11 +10,11 @@ public class PieceButtonManager : MonoBehaviour
         Pcreate = FindAnyObjectByType<PieceCreate>();
         shop = FindAnyObjectByType<ShopOpen>();
     }
-
-<<<<<<< HEAD
+ 
+// <<<<<<< HEAD
     void Update()
     {
-        
+
     }
 
     public void ShopClose()
@@ -27,8 +22,8 @@ public class PieceButtonManager : MonoBehaviour
         shop.ShopOpenAni(); // ショップのカメラを切り替える
     }
 
-=======
->>>>>>> origin/PuzzleSummer
+// =======
+// >>>>>>> origin/PuzzleSummer
     public void mino1Click()
     {
         Pcreate.NewPiece(1);
