@@ -25,6 +25,7 @@ public class PlayrController : MonoBehaviour
     [SerializeField] private int presentCount = 0; // プレゼントの数
     [SerializeField] private PlayState playState; // プレイヤーの状態
     [SerializeField] private GameObject CutInnCanvas; // カットイン用のキャンバス
+    [SerializeField] private PieceCreate pieceCreate; // ピース生成スクリプト
 
     [Header("Player Coin")]
     [SerializeField] private int pieceCount = 0; // ピースの数
@@ -53,6 +54,7 @@ public class PlayrController : MonoBehaviour
     {
         PlayState = PlayState.Shooting; // 初期状態をシューティングに設定
         myRigidbody = GetComponent<Rigidbody2D>();
+        pieceCreate = FindAnyObjectByType<PieceCreate>();
         currentChargeTime = 0.0f;
         isCharge = true; // ボムのチャージ状態を開始
         isBom = false; // ボムの状態を初期化
@@ -209,7 +211,8 @@ public class PlayrController : MonoBehaviour
     }
     private IEnumerator ResetInvincibility()
     {
-        for(int i = 0; i < InvincibleTime; i++)
+        pieceCreate.BlockCreate(); // ブロックを生成
+        for (int i = 0; i < InvincibleTime; i++)
         {
             GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0); // 赤く点滅
             yield return new WaitForSeconds(0.05f); // 0.1秒ごとに無敵状態を維持

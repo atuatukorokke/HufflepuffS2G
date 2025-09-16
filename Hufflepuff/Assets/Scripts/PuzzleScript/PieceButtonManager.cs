@@ -29,7 +29,7 @@ public class PieceButtonManager : MonoBehaviour
     }
     public void PieceAddBuff(int BuffID)
     {
-        Pcreate.PieceAddBuff((BuffForID)BuffID);
+        //Pcreate.PieceAddBuff((BuffForID)BuffID);
     }
 
     public void debugBlockClick()
