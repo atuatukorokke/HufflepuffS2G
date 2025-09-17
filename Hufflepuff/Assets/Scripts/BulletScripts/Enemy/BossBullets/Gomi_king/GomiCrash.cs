@@ -3,7 +3,6 @@
 // ボスエネミーの必殺技の弾幕です
 // 
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GomiCrash : MonoBehaviour

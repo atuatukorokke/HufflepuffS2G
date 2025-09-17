@@ -2,8 +2,6 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
-using Unity.VisualScripting;
-using UnityEngine.Rendering;
 
 public class PauseContoroller : MonoBehaviour
 {

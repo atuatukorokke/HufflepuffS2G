@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using System.Security;
 using UnityEngine.UI;
 
 public class BuffExplanation : MonoBehaviour

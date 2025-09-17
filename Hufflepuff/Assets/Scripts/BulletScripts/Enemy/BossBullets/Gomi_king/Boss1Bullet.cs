@@ -7,7 +7,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 // 一段階目の通常弾幕の変数
 [System.Serializable]

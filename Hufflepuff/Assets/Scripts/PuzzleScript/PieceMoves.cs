@@ -4,11 +4,7 @@
 // ピース数の重なりをカウントします
 // 
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.Rendering.DebugUI;
 
 public class PieceMoves : MonoBehaviour
 {

@@ -3,13 +3,9 @@
 // 中ボスの弾幕を管理するスクリプト
 //
 
-using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 public enum EnemyType
 {

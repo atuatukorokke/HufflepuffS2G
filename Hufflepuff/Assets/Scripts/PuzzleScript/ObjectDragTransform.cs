@@ -3,7 +3,6 @@
 // オブジェクトをドラッグアンドドロップで移動させます
 // 
 
-using System.Collections;
 using UnityEngine;
 
 public class ObjectDragTransform : MonoBehaviour
