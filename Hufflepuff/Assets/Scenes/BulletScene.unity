@@ -9879,7 +9879,7 @@ PrefabInstance:
       objectReference: {fileID: 1217609743}
     - target: {fileID: 5624076567885931027, guid: 0f6ac126c8e3a144fa78618bda2991e9, type: 3}
       propertyPath: enemyDeployment.Array.size
-      value: 13
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5624076567885931027, guid: 0f6ac126c8e3a144fa78618bda2991e9, type: 3}
       propertyPath: 'enemyDeployment.Array.data[5]'
@@ -9904,13 +9904,25 @@ PrefabInstance:
     - target: {fileID: 5624076567885931027, guid: 0f6ac126c8e3a144fa78618bda2991e9, type: 3}
       propertyPath: 'enemyDeployment.Array.data[10]'
       value: 
-      objectReference: {fileID: 11400000, guid: f32a73e8a14ba174aa5877e97fc4b928, type: 2}
+      objectReference: {fileID: 11400000, guid: 2cf9a34deace82d4c8c818d1ce3bfbb1, type: 2}
     - target: {fileID: 5624076567885931027, guid: 0f6ac126c8e3a144fa78618bda2991e9, type: 3}
       propertyPath: 'enemyDeployment.Array.data[11]'
       value: 
       objectReference: {fileID: 11400000, guid: cc4bf25788cf8c84ab4aeec6894062dc, type: 2}
     - target: {fileID: 5624076567885931027, guid: 0f6ac126c8e3a144fa78618bda2991e9, type: 3}
       propertyPath: 'enemyDeployment.Array.data[12]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 54eed9fbd89898b42a014a608f82ccaf, type: 2}
+    - target: {fileID: 5624076567885931027, guid: 0f6ac126c8e3a144fa78618bda2991e9, type: 3}
+      propertyPath: 'enemyDeployment.Array.data[13]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cc4bf25788cf8c84ab4aeec6894062dc, type: 2}
+    - target: {fileID: 5624076567885931027, guid: 0f6ac126c8e3a144fa78618bda2991e9, type: 3}
+      propertyPath: 'enemyDeployment.Array.data[14]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d8a102446d9fea4388e3f34a743c666, type: 2}
+    - target: {fileID: 5624076567885931027, guid: 0f6ac126c8e3a144fa78618bda2991e9, type: 3}
+      propertyPath: 'enemyDeployment.Array.data[15]'
       value: 
       objectReference: {fileID: 11400000, guid: 7d8a102446d9fea4388e3f34a743c666, type: 2}
     m_RemovedComponents: []

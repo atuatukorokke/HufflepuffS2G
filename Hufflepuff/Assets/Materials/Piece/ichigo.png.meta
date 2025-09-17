@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      ichigo_0: 5780316413124148576
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
