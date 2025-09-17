@@ -11,6 +11,7 @@ TagManager:
   - mino5
   - mino6
   - mino9
+  - block
   layers:
   - Default
   - TransparentFX

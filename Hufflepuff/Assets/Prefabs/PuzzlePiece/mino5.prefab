@@ -9,13 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1124915259530263581}
-  - component: {fileID: -7032641217218270488}
   - component: {fileID: 5525678009856388673}
+  - component: {fileID: -2426801343364349744}
   - component: {fileID: -6230924130425612753}
   - component: {fileID: 6298297719989560316}
   m_Layer: 0
   m_Name: mino5
-  m_TagString: mino5
+  m_TagString: block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41,18 +41,6 @@ Transform:
   - {fileID: 154690024327844782}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-7032641217218270488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000275941715751280}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cffad4251b9cf7444a4a0f0ef6301e3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5525678009856388673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,6 +53,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c93d7ac35a376144db8382657e690b51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pieceCount: 5
+  sellGold: 6
+  deathCount: {fileID: 0}
+  goldManager: {fileID: 0}
+--- !u!114 &-2426801343364349744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000275941715751280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4b7a3e1c48657042b17eefb2dc09b20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pieceMoves: {fileID: 0}
 --- !u!50 &-6230924130425612753
 Rigidbody2D:
   serializedVersion: 5

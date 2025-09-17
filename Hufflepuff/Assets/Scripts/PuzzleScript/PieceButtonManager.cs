@@ -49,6 +49,11 @@ public class PieceButtonManager : MonoBehaviour
         Pcreate.NewPiece(7);
     }
 
+    public void debugPresentClick()
+    {
+        Pcreate.PresentBox();
+    }
+
     public void debugBlockClick()
     {
         Pcreate.BlockCreate();

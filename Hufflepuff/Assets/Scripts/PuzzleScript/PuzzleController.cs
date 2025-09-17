@@ -10,15 +10,12 @@ using UnityEngine;
 
 public class PuzzleController : MonoBehaviour
 {
-    private PieceMoves Pmoves;      // パズルピースを動かすスクリプト
-
-    [SerializeField] private DeathCount deathCount;     // 死ぬかの判定を行うスクリプト
+    [SerializeField] private PieceMoves pieceMoves;     // 盤面が重なっていないかを確認するスクリプト
+    [SerializeField] private DestroyBlock destroyBlock; // ブロックを消すスクリプト
 
     private void Start()
     {
-        Pmoves = FindAnyObjectByType<PieceMoves>();
 
-        //deathCount.SetPieceCount(50);   // デバッグ用のピース数
     }
 
     void Update()
@@ -26,14 +23,12 @@ public class PuzzleController : MonoBehaviour
         // zキーでパズルピースを設置
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            if (Pmoves == null) Pmoves = FindAnyObjectByType<PieceMoves>();
-            Pmoves.PiecePossible();
-        }
+            pieceMoves.PiecePossible();
 
-        // xキーでパズルピースを回転
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-
+            if (pieceMoves.GetPiecePossible())
+            {
+                destroyBlock.DestroyPieceBlock();
+            }
         }
     }
 }

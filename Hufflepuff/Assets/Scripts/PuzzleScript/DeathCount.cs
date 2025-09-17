@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class DeathCount : MonoBehaviour
 {
+
     [Header("死亡判定")]
     [SerializeField] private bool isDead = false; // false = 生きてる, true = 死んでる
 
@@ -16,7 +17,8 @@ public class DeathCount : MonoBehaviour
 
     void Start()
     {
-        SetPieceCount(0);   // デバッグ用のピース数
+        // デバッグ用のピース数
+        SetPieceCount(0);
         SetBlockCount(0);
     }
 
@@ -44,4 +46,10 @@ public class DeathCount : MonoBehaviour
             isDead = false; // それ以外は生きてる
         }
     }
+
+    public int GetTotalBlock()
+    {
+        return pieceCount + blockCount;
+    }
+
 }

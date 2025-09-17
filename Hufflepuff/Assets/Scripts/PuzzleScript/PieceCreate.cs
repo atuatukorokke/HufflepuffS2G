@@ -18,7 +18,11 @@ public class PieceCreate : MonoBehaviour
 
     [SerializeField] public GameObject block;
 
+    [Header("スクリプトをアタッチ")]
     [SerializeField] private DeathCount deathCount;     // 死ぬかの判定を行うスクリプト
+    [SerializeField] private GoldManager goldManager;     // 金額管理を行うスクリプト
+    [SerializeField] private PieceMoves pieceMoves;     // 盤面が重なっていないかを確認するスクリプト
+    [SerializeField] private DestroyBlock destroyBlock; // ブロックを消すスクリプト
 
     private int[,] BlockBoard = new int[5, 5]
     {{1, 0, 0, 0, 1},
@@ -40,6 +44,116 @@ public class PieceCreate : MonoBehaviour
             //int rndMino = Random.Range(1, 8);
             rndMino = 3; // デバッグ用に2を固定
         }
+
+        // 生成位置
+        Vector3 pos = new Vector3(-5.0f, -1.0f, 0.0f);
+
+        // プレハブを指定位置に生成
+        switch (rndMino)
+        {
+            case 1:
+                if (goldManager.GetGold() >= 10)
+                {
+                    Debug.Log("購入できました");
+                    goldManager.SetGoldCount(-10);
+                    Instantiate(mino1, pos, Quaternion.identity);
+                    deathCount.SetPieceCount(1);
+                }
+                else
+                {
+                    Debug.Log("金が足りません");
+                }
+                break;
+            case 2:
+                if (goldManager.GetGold() >= 10)
+                {
+                    Debug.Log("購入できました");
+                    goldManager.SetGoldCount(-10);
+                    Instantiate(mino2, pos, Quaternion.identity);
+                    deathCount.SetPieceCount(2);
+                }
+                else
+                {
+                    Debug.Log("金が足りません");
+                }
+                break;
+            case 3:
+                if (goldManager.GetGold() >= 10)
+                {
+                    Debug.Log("購入できました");
+                    goldManager.SetGoldCount(-10);
+                    Instantiate(mino3, pos, Quaternion.identity);
+                    deathCount.SetPieceCount(3);
+                }
+                else
+                {
+                    Debug.Log("金が足りません");
+                }
+                break;
+            case 4:
+                if (goldManager.GetGold() >= 10)
+                {
+                    Debug.Log("購入できました");
+                    goldManager.SetGoldCount(-10);
+                    Instantiate(mino4, pos, Quaternion.identity);
+                    deathCount.SetPieceCount(4);
+                }
+                else
+                {
+                    Debug.Log("金が足りません");
+                }
+                break;
+            case 5:
+                if (goldManager.GetGold() >= 10)
+                {
+                    Debug.Log("購入できました");
+                    goldManager.SetGoldCount(-10);
+                    Instantiate(mino5, pos, Quaternion.identity);
+                    deathCount.SetPieceCount(5);
+                }
+                else
+                {
+                    Debug.Log("金が足りません");
+                }
+                break;
+            case 6:
+                if (goldManager.GetGold() >= 10)
+                {
+                    Debug.Log("購入できました");
+                    goldManager.SetGoldCount(-10);
+                    Instantiate(mino6, pos, Quaternion.identity);
+                    deathCount.SetPieceCount(6);
+                }
+                else
+                {
+                    Debug.Log("金が足りません");
+                }
+                break;
+            case 7:
+                if (goldManager.GetGold() >= 10)
+                {
+                    Debug.Log("購入できました");
+                    goldManager.SetGoldCount(-10);
+                    Instantiate(mino9, pos, Quaternion.identity);
+                    deathCount.SetPieceCount(9);
+                }
+                else
+                {
+                    Debug.Log("金が足りません");
+                }
+                break;
+            default:
+                Debug.Log("なんか変な値が出てるやでー");
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 乱数でピースを作成します
+    /// </summary>
+    public void PresentBox()
+    {
+        int rndMino = Random.Range(1, 8);
 
         // 生成位置
         Vector3 pos = new Vector3(-5.0f, -1.0f, 0.0f);
@@ -89,7 +203,7 @@ public class PieceCreate : MonoBehaviour
         int BlockRndX = 0;
         int BlockRndY = 0;
 
-        while(isBlock == false)
+        while (isBlock == false)
         {
             isBlock = true;
 
@@ -134,5 +248,21 @@ public class PieceCreate : MonoBehaviour
         Instantiate(block, pos, Quaternion.identity);
 
         deathCount.SetBlockCount(1);
+
+        if (pieceMoves.GetPiecePossible())
+        {
+            destroyBlock.DestroyPieceBlock();
+        }
+    }
+
+    // お邪魔ブロックの配置情報を初期化
+    public void BlockBoardInitialize()
+    {
+        BlockBoard = new int[5, 5]
+        {{1, 0, 0, 0, 1},
+         {0, 0, 0, 0, 0},
+         {0, 0, 0, 0, 0},
+         {0, 0, 0, 0, 0},
+         {1, 0, 0, 0, 1}};
     }
 }
