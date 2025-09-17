@@ -30,13 +30,13 @@ public class ShopOpen : MonoBehaviour
         if(!isPuzzle)
         {
             // シューティングをしていたらパズル状態にする
-            playerController.PlayState = PlayState.Puzzle; // プレイヤーをパズル状態にする
+            playerController.Playstate = PlayState.Puzzle; // プレイヤーをパズル状態にする
             isPuzzle = true;
         }
         else
         {
             // パズル状態ならシューティング状態にする
-            playerController.PlayState = PlayState.Shooting;
+            playerController.Playstate = PlayState.Shooting;
             isPuzzle = false;
         }
         animator.SetBool("PuzzleState", true);

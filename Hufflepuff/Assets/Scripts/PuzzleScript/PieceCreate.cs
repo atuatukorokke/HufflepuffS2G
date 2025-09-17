@@ -3,6 +3,7 @@
 // スクリプト呼び出した時にパズルピースをランダム生成（パズルには必ず当てはめることが可能）する
 // 
 
+using UnityEditor;
 using UnityEngine;
 
 public class PieceCreate : MonoBehaviour
@@ -25,6 +26,10 @@ public class PieceCreate : MonoBehaviour
     [SerializeField] private DestroyBlock destroyBlock; // ブロックを消すスクリプト
     [SerializeField] private PlayrController playerController; // プレイヤーのコントローラー
 
+    private AudioSource audio;
+    [SerializeField] private AudioClip blockCreateSE;
+    [SerializeField] private AudioClip notBlockCreateSE;
+
     [Header("ブロックを置けるかの判定")]
     public bool isBlockCreate = true; 
 
@@ -37,6 +42,7 @@ public class PieceCreate : MonoBehaviour
 
     private void Start()
     {
+        audio = GetComponent<AudioSource>();
         playerController = FindAnyObjectByType<PlayrController>();
     }
 
@@ -66,92 +72,92 @@ public class PieceCreate : MonoBehaviour
                 case 1:
                     if (goldManager.GetGold() >= 10)
                     {
-                        Debug.Log("購入できました");
+                        audio.PlayOneShot(blockCreateSE);
                         goldManager.SetGoldCount(-10);
                         Instantiate(mino1, pos, Quaternion.identity);
                         deathCount.SetPieceCount(1);
                     }
                     else
                     {
-                        Debug.Log("金が足りません");
+                        audio.PlayOneShot(notBlockCreateSE);
                     }
                     break;
                 case 2:
                     if (goldManager.GetGold() >= 10)
                     {
-                        Debug.Log("購入できました");
+                        audio.PlayOneShot(blockCreateSE);
                         goldManager.SetGoldCount(-10);
                         Instantiate(mino2, pos, Quaternion.identity);
                         deathCount.SetPieceCount(2);
                     }
                     else
                     {
-                        Debug.Log("金が足りません");
+                        audio.PlayOneShot(notBlockCreateSE);
                     }
                     break;
                 case 3:
                     if (goldManager.GetGold() >= 10)
                     {
-                        Debug.Log("購入できました");
+                        audio.PlayOneShot(blockCreateSE);
                         goldManager.SetGoldCount(-10);
                         Instantiate(mino3, pos, Quaternion.identity);
                         deathCount.SetPieceCount(3);
                     }
                     else
                     {
-                        Debug.Log("金が足りません");
+                        audio.PlayOneShot(notBlockCreateSE);
                     }
                     break;
                 case 4:
                     if (goldManager.GetGold() >= 10)
                     {
-                        Debug.Log("購入できました");
+                        audio.PlayOneShot(blockCreateSE);
                         goldManager.SetGoldCount(-10);
                         Instantiate(mino4, pos, Quaternion.identity);
                         deathCount.SetPieceCount(4);
                     }
                     else
                     {
-                        Debug.Log("金が足りません");
+                        audio.PlayOneShot(notBlockCreateSE);
                     }
                     break;
                 case 5:
                     if (goldManager.GetGold() >= 10)
                     {
-                        Debug.Log("購入できました");
+                        audio.PlayOneShot(blockCreateSE);
                         goldManager.SetGoldCount(-10);
                         Instantiate(mino5, pos, Quaternion.identity);
                         deathCount.SetPieceCount(5);
                     }
                     else
                     {
-                        Debug.Log("金が足りません");
+                        audio.PlayOneShot(notBlockCreateSE);
                     }
                     break;
                 case 6:
                     if (goldManager.GetGold() >= 10)
                     {
-                        Debug.Log("購入できました");
+                        audio.PlayOneShot(blockCreateSE);
                         goldManager.SetGoldCount(-10);
                         Instantiate(mino6, pos, Quaternion.identity);
                         deathCount.SetPieceCount(6);
                     }
                     else
                     {
-                        Debug.Log("金が足りません");
+                        audio.PlayOneShot(notBlockCreateSE);
                     }
                     break;
                 case 7:
                     if (goldManager.GetGold() >= 10)
                     {
-                        Debug.Log("購入できました");
+                        audio.PlayOneShot(blockCreateSE);
                         goldManager.SetGoldCount(-10);
                         Instantiate(mino9, pos, Quaternion.identity);
                         deathCount.SetPieceCount(9);
                     }
                     else
                     {
-                        Debug.Log("金が足りません");
+                        audio.PlayOneShot(notBlockCreateSE);
                     }
                     break;
                 default:
@@ -168,6 +174,7 @@ public class PieceCreate : MonoBehaviour
     {
         if(playerController.PieceCount > 0 && isBlockCreate)
         {
+            audio.PlayOneShot(blockCreateSE);
             isBlockCreate = false;
             playerController.PieceCount -= 1;
             int rndMino = Random.Range(1, 8);
@@ -209,6 +216,10 @@ public class PieceCreate : MonoBehaviour
                 default:
                     break;
             }
+        }
+        else
+        {
+            audio.PlayOneShot(notBlockCreateSE);
         }
         
     }
@@ -253,9 +264,6 @@ public class PieceCreate : MonoBehaviour
                 isBlock = false;
             }
         }
-
-        Debug.Log(BlockRndX);
-        Debug.Log(BlockRndY);
 
         Debug.Log(BlockBoard[BlockRndY, BlockRndX]);
 

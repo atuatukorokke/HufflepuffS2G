@@ -14,8 +14,12 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI MainTutorialExplanation; // メインチュートリアル説明文
     [SerializeField] private GameObject startButton; // スタートボタン
 
+    private AudioSource audio;
+    [SerializeField] private AudioClip buttonSE;
+
     private void Start()
     {
+        audio = GetComponent<AudioSource>();
         startButton.SetActive(false);
         maxTutorialIndex = TutorialImage.Length;
         currentTutorialIndex = 0;
@@ -27,6 +31,7 @@ public class TutorialManager : MonoBehaviour
     /// </summary>
     public void IndexUpdate()
     {
+        audio.PlayOneShot(buttonSE);
         currentTutorialIndex++;
         currentTutorialIndex = (int)Mathf.Repeat(currentTutorialIndex, maxTutorialIndex);
         SetTutorial(currentTutorialIndex);
@@ -38,6 +43,7 @@ public class TutorialManager : MonoBehaviour
     /// </summary>
     public void IndexDown()
     {
+        audio.PlayOneShot(buttonSE);
         currentTutorialIndex--;
         currentTutorialIndex = (int)Mathf.Repeat(currentTutorialIndex, maxTutorialIndex);
         SetTutorial(currentTutorialIndex);

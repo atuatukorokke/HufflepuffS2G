@@ -16,6 +16,9 @@ public class PieceMoves : MonoBehaviour
     [SerializeField] private PieceMoves pieceMoves;     // 盤面が重なっていないかを確認するスクリプト
     [SerializeField] private PieceCreate pieceCreate; // ピースを生成するスクリプト
     [SerializeField] private DestroyBlock destroyBlock; // ブロックを消すスクリプト
+    private AudioSource audio;
+    [SerializeField] private AudioClip putSE;
+    [SerializeField] private AudioClip removeSE;
 
     [Header("0なら配置可能")]
     [SerializeField] private int Colliding = 0;
@@ -24,6 +27,7 @@ public class PieceMoves : MonoBehaviour
 
     private void Start()
     {
+        audio = GetComponent<AudioSource>();
         pieceCreate = FindAnyObjectByType<PieceCreate>();
     }
 
@@ -34,13 +38,13 @@ public class PieceMoves : MonoBehaviour
     {
         if (Colliding == 0)
         {
-            Debug.Log("配置可能");
+            audio.PlayOneShot(putSE);
             pieceCreate.isBlockCreate = true;
             isPiesePossible = true;
         }
         else
         {
-            Debug.Log("配置不可");
+            audio.PlayOneShot(removeSE);
             isPiesePossible = false;
         }
 
@@ -50,12 +54,12 @@ public class PieceMoves : MonoBehaviour
     {
         if (Colliding == 0)
         {
-            Debug.Log("配置可能");
+            audio.PlayOneShot(putSE);
             isPiesePossible = true;
         }
         else
         {
-            Debug.Log("配置不可");
+            audio.PlayOneShot(removeSE);
             isPiesePossible = false;
         }
         return isPiesePossible;

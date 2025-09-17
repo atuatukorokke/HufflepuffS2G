@@ -14,6 +14,8 @@ public class PieceButtonManager : MonoBehaviour
     private PlayrController playerController; // プレイヤーのコントローラー
     private GoldManager goldManager; // 金額管理を行うスクリプト
     private PuzzleController puzzleController; // パズル全体を管理するスクリプト
+    [SerializeField] private GameObject EnemySummoningManager; // エネミーの配置を管理するスクリプト
+    [SerializeField] private AudioClip normalBGM;
 
     void Start()
     {
@@ -33,6 +35,8 @@ public class PieceButtonManager : MonoBehaviour
         }
         buffSeter.ApplyBuffs(); // バフを適応させる
         playerController.CoinCount = goldManager.GetGold(); // 所持金を更新
+        EnemySummoningManager.GetComponent<AudioSource>().clip = normalBGM; // 通常用のBGMを設定
+        EnemySummoningManager.GetComponent<AudioSource>().Play(); // BGMを再生
         shop.ShopOpenAni(); // ショップのカメラを切り替える
     }
 

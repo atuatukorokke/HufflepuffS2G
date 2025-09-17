@@ -28,6 +28,12 @@ public class PlayrController : MonoBehaviour
     [SerializeField] private PieceCreate pieceCreate; // ピース生成スクリプト
     [SerializeField] private float outPieceLate; // お邪魔ピースの出現率
 
+    private AudioSource audio;
+    [SerializeField] private AudioClip damageSE;
+    [SerializeField] private AudioClip presentSE;
+    [SerializeField] private AudioClip specialSE;
+
+
     [Header("Player Coin")]
     [SerializeField] private int pieceCount = 0; // ピースの数
     [SerializeField] private int coinCount = 0; // コインの数
@@ -47,7 +53,7 @@ public class PlayrController : MonoBehaviour
 
     public float Attack { get => attack; set => attack = value; }
     public float InvincibleTime { get => invincibleTime; set => invincibleTime = value; }
-    public PlayState PlayState { get => playState; set => playState = value; }
+    public PlayState Playstate { get => playState; set => playState = value; }
     public int CoinCount { get => coinCount; set => coinCount = value; }
     public int PieceCount { get => pieceCount; set => pieceCount = value; }
     public int DefultCoinIncreaseCount { get => defultCoinIncreaseCount; set => defultCoinIncreaseCount = value; }
@@ -55,7 +61,8 @@ public class PlayrController : MonoBehaviour
 
     void Start()
     {
-        PlayState = PlayState.Shooting; // 初期状態をシューティングに設定
+        audio = GetComponent<AudioSource>();
+        Playstate = PlayState.Shooting; // 初期状態をシューティングに設定
         myRigidbody = GetComponent<Rigidbody2D>();
         pieceCreate = FindAnyObjectByType<PieceCreate>();
         currentChargeTime = 0.0f;
@@ -65,7 +72,7 @@ public class PlayrController : MonoBehaviour
 
     void Update()
     {
-        if(PlayState == PlayState.Shooting) PlayerMove();
+        if(Playstate == PlayState.Shooting) PlayerMove();
 
         if(isCharge)
         {
@@ -130,6 +137,7 @@ public class PlayrController : MonoBehaviour
 
     private IEnumerator Bom()
     {
+        audio.PlayOneShot(specialSE);
         isBom = false; // ボムの二度撃ちを防止
         Instantiate(CutInnCanvas, new Vector3(0, 0, 0), Quaternion.identity);
         GameObject Bom = Instantiate(PlayerBomObjerct, transform.position, Quaternion.identity);
@@ -200,12 +208,14 @@ public class PlayrController : MonoBehaviour
             case "E_Bullet":
                 if(!invincible)
                 {
+                    audio.PlayOneShot(damageSE);
                     Destroy(collision.gameObject);
                     invincible = true;
                     StartCoroutine(ResetInvincibility()); // 一定時間後に無敵解除
                 }
                 break;
             case "Present":
+                audio.PlayOneShot(presentSE);
                 PieceCount++; // ピースの数を増やす
                 CoinCount += DefultCoinIncreaseCount + Random.Range(0, 5); // コインの数を増やす
                 Destroy(collision.gameObject); // プレゼントを削除

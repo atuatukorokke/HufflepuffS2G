@@ -22,6 +22,9 @@ public class EnemySummoningManagement : MonoBehaviour
     private float fadeOutTime = 0;
     private bool isFateIn = false;
 
+    [SerializeField] private AudioClip OpenPuzzle;
+    [SerializeField] private AudioClip puzzleBGM;
+
     private void Start()
     {
         playerController = FindAnyObjectByType<PlayrController>();
@@ -70,6 +73,9 @@ public class EnemySummoningManagement : MonoBehaviour
                     yield return new WaitForSeconds(deploment.DelayTime);
                     break;
                 case EnemyDeployment.state.Shop:
+                    audioSource.PlayOneShot(OpenPuzzle);
+                    audioSource.clip = puzzleBGM; // パズル用のBGMを設定
+                    audioSource.Play(); // BGMを再生
                     var shop = FindAnyObjectByType<ShopOpen>(); // ショップのオブジェクトを取得
                     goldManager.SetGoldCount(playerController.CoinCount); // 所持金を更新
                     shop.ShopOpenAni();
@@ -97,7 +103,7 @@ public class EnemySummoningManagement : MonoBehaviour
 
     private IEnumerator BossDeath()
     {
-        FindAnyObjectByType<PlayrController>().PlayState = PlayState.Clear;
+        FindAnyObjectByType<PlayrController>().Playstate = PlayState.Clear;
         ClearPanel.SetActive(true);
         while(audioSource.volume > 0)
         {
