@@ -1,6 +1,6 @@
 // EnemyHealth.cs
 //
-// G‹›ƒGƒlƒ~[‚Ì‚g‚oŠÇ—‚ÆƒhƒƒbƒvŠm”F‚ğs‚¢‚Ü‚·
+// é›‘é­šã‚¨ãƒãƒŸãƒ¼ã®ï¼¨ï¼°ç®¡ç†ã¨ãƒ‰ãƒ­ãƒƒãƒ—ç¢ºèªã‚’è¡Œã„ã¾ã™
 //
 
 using UnityEngine;
@@ -9,10 +9,10 @@ using System;
 public class EnemyHealth : MonoBehaviour
 {
     [Range (0, 100)]
-    [SerializeField] public float hP; // ƒGƒlƒ~[‚Ì‚g‚o
-    [SerializeField] GameObject prehab; // ” ‚ÌƒvƒŒƒnƒu
-    [SerializeField] private int dropLate; // ” ‚ğ—‚Æ‚·Šm—¦
-    [SerializeField] private DropManager dropManager; // ƒhƒƒbƒvŠÇ—‚ÌƒXƒNƒŠƒvƒg
+    [SerializeField] public float hP; // ã‚¨ãƒãƒŸãƒ¼ã®ï¼¨ï¼°
+    [SerializeField] GameObject prehab; // ç®±ã®ãƒ—ãƒ¬ãƒãƒ–
+    [SerializeField] private int dropLate; // ç®±ã‚’è½ã¨ã™ç¢ºç‡
+    [SerializeField] private DropManager dropManager; // ãƒ‰ãƒ­ãƒƒãƒ—ç®¡ç†ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 
     private void Start()
     {
@@ -24,15 +24,15 @@ public class EnemyHealth : MonoBehaviour
     {
         if(collision.CompareTag("P_Bullet"))
         {
-            Destroy(collision.gameObject); // ƒvƒŒƒCƒ„[‚Ì’e‚ğÁ‚·
+            Destroy(collision.gameObject); // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å¼¾ã‚’æ¶ˆã™
             hP -= 10;
-            if(hP == 0)
+            if(hP <= 0)
             {
-                // ƒs[ƒX‚Ìƒhƒƒbƒv
-                GameObject present = Instantiate(prehab, transform.position, Quaternion.identity); // ” ‚Ì¶¬
-                present.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-2, 0); // ” ‚ğ‰º‚É—‚Æ‚·
+                // ãƒ”ãƒ¼ã‚¹ã®ãƒ‰ãƒ­ãƒƒãƒ—
+                GameObject present = Instantiate(prehab, transform.position, Quaternion.identity); // ç®±ã®ç”Ÿæˆ
+                present.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-2, 0); // ç®±ã‚’ä¸‹ã«è½ã¨ã™
                 dropLate = dropManager.LateReset();
-                Destroy(gameObject); // ƒGƒlƒ~[‚ÌÁ–Å
+                Destroy(gameObject); // ã‚¨ãƒãƒŸãƒ¼ã®æ¶ˆæ»…
             }
         }
     }
@@ -41,19 +41,19 @@ public class EnemyHealth : MonoBehaviour
     {
         if(collision.CompareTag("P_Bom"))
         {
-            hP--; // ƒ{ƒ€‚É“–‚½‚Á‚½‚çƒGƒlƒ~[‚Ì‚g‚o‚ğŒ¸‚ç‚·
+            hP--; // ãƒœãƒ ã«å½“ãŸã£ãŸã‚‰ã‚¨ãƒãƒŸãƒ¼ã®ï¼¨ï¼°ã‚’æ¸›ã‚‰ã™
             if (hP == 0)
             {
-                // ƒs[ƒX‚Ìƒhƒƒbƒv
-                GameObject present = Instantiate(prehab, transform.position, Quaternion.identity); // ” ‚Ì¶¬
-                present.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-2, 0); // ” ‚ğ‰º‚É—‚Æ‚·
+                // ãƒ”ãƒ¼ã‚¹ã®ãƒ‰ãƒ­ãƒƒãƒ—
+                GameObject present = Instantiate(prehab, transform.position, Quaternion.identity); // ç®±ã®ç”Ÿæˆ
+                present.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-2, 0); // ç®±ã‚’ä¸‹ã«è½ã¨ã™
                 dropLate = dropManager.LateReset();
-                Destroy(gameObject); // ƒGƒlƒ~[‚ÌÁ–Å
+                Destroy(gameObject); // ã‚¨ãƒãƒŸãƒ¼ã®æ¶ˆæ»…
             }
         }
     }
     public void SetHealth(float health)
     {
-        hP = health; // ƒGƒlƒ~[‚Ì‚g‚o‚ğİ’è
+        hP = health; // ã‚¨ãƒãƒŸãƒ¼ã®ï¼¨ï¼°ã‚’è¨­å®š
     }
 }
