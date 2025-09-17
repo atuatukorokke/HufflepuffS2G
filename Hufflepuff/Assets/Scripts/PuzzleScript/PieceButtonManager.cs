@@ -32,6 +32,11 @@ public class PieceButtonManager : MonoBehaviour
         //Pcreate.PieceAddBuff((BuffForID)BuffID);
     }
 
+    public void debugPresentClick()
+    {
+        Pcreate.PresentBox();
+    }
+
     public void debugBlockClick()
     {
         Pcreate.BlockCreate();

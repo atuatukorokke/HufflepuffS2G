@@ -14,9 +14,21 @@ public class ObjectDragTransform : MonoBehaviour
 
     float gridSize = 1.0f;
 
+    [Header("ピース情報")]
+    [SerializeField] private int pieceCount = 0;    // ピース数
+    [SerializeField] private int sellGold = 0;     // 金額
+
+    [Header("スクリプトを動的にアタッチされる")]
+    [SerializeField] private DeathCount deathCount;     // 死ぬかの判定を行うスクリプト
+    [SerializeField] private GoldManager goldManager;     // 金額管理を行うスクリプト
+
     void Start()
     {
         mainCamera = Camera.main;
+
+        // このスクリプトがアタッチされているオブジェクトを生成したときにオブジェクトを取得する
+        deathCount = Object.FindFirstObjectByType<DeathCount>();
+        goldManager = Object.FindFirstObjectByType<GoldManager>();
     }
 
     void OnMouseDown()
@@ -32,10 +44,21 @@ public class ObjectDragTransform : MonoBehaviour
             transform.position = GetMouseWorldPosition() + offset;
         }
 
+        // 現在ドラッグしているオブジェクトをXキーで90度回転
         if (isDragging & Input.GetKeyDown(KeyCode.X))
         {
             float currentZ = transform.eulerAngles.z;
             transform.eulerAngles = new Vector3(0, 0, currentZ + 90f);
+        }
+
+        // 現在ドラッグしているオブジェクトをCキーで売却
+        if (isDragging & Input.GetKeyDown(KeyCode.C))
+        {
+            Destroy(gameObject);
+
+            deathCount.SetPieceCount(pieceCount * -1);
+
+            goldManager.SetGoldCount(sellGold);
         }
     }
 
