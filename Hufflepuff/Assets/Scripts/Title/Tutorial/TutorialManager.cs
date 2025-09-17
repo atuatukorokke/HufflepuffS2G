@@ -1,22 +1,23 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
     private int currentTutorialIndex;
     private int maxTutorialIndex;
 
-    [Header("0.移動方法\r\n1.攻撃方法\r\n2.必殺技\r\n3.敵を倒したら\r\n4.パズル説明\r\n5.バフ関連（仮）")]
+    [Header("0.移動方法 攻撃方法\r\n1.必殺技\r\n2.敵を倒したら\r\n3.パズル説明バフ含む\r\n")]
     [SerializeField] private Sprite[] TutorialImage; // チュートリアル画像格納
     [SerializeField] private string[] TutorialExplanation; // チュートリアル説明文格納
-    [SerializeField] private Sprite MainTutorialImage; // メインチュートリアル画像
+    [SerializeField] private Image MainTutorialImage; // メインチュートリアル画像
     [SerializeField] private TextMeshProUGUI MainTutorialExplanation; // メインチュートリアル説明文
     [SerializeField] private GameObject startButton; // スタートボタン
 
     private void Start()
     {
         startButton.SetActive(false);
-        maxTutorialIndex = TutorialImage.Length - 1;
+        maxTutorialIndex = TutorialImage.Length;
         currentTutorialIndex = 0;
         SetTutorial(currentTutorialIndex);
     }
@@ -29,7 +30,7 @@ public class TutorialManager : MonoBehaviour
         currentTutorialIndex++;
         currentTutorialIndex = (int)Mathf.Repeat(currentTutorialIndex, maxTutorialIndex);
         SetTutorial(currentTutorialIndex);
-        if(currentTutorialIndex == maxTutorialIndex) startButton.SetActive(true);
+        if(currentTutorialIndex == maxTutorialIndex - 1) startButton.SetActive(true);
     }
 
     /// <summary>
@@ -48,7 +49,7 @@ public class TutorialManager : MonoBehaviour
     /// <param name="TutorialNumber">Tチュートリアル番号</param>
     public void SetTutorial(int TutorialNumber)
     {
-        MainTutorialImage = TutorialImage[TutorialNumber];
+        MainTutorialImage.sprite = TutorialImage[TutorialNumber];
         MainTutorialExplanation.text = TutorialExplanation[TutorialNumber];
     }
 }

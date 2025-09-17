@@ -21,6 +21,8 @@ public class ObjectDragTransform : MonoBehaviour
     [Header("スクリプトを動的にアタッチされる")]
     [SerializeField] private DeathCount deathCount;     // 死ぬかの判定を行うスクリプト
     [SerializeField] private GoldManager goldManager;     // 金額管理を行うスクリプト
+    [SerializeField] private PuzzleController puzzleController; // パズル全体を管理するスクリプト
+    [SerializeField] private Buff buff;    // バフ管理を行うスクリプト
 
     void Start()
     {
@@ -29,6 +31,8 @@ public class ObjectDragTransform : MonoBehaviour
         // このスクリプトがアタッチされているオブジェクトを生成したときにオブジェクトを取得する
         deathCount = Object.FindFirstObjectByType<DeathCount>();
         goldManager = Object.FindFirstObjectByType<GoldManager>();
+        puzzleController = FindFirstObjectByType<PuzzleController>();
+        puzzleController.ProvisionalBuffs.Add(buff);
     }
 
     void OnMouseDown()
@@ -59,6 +63,15 @@ public class ObjectDragTransform : MonoBehaviour
             deathCount.SetPieceCount(pieceCount * -1);
 
             goldManager.SetGoldCount(sellGold);
+
+            for(int i = 0; i <= puzzleController.ProvisionalBuffs.Count; i++)
+            {
+                if(buff.buffID == puzzleController.ProvisionalBuffs[i].buffID & buff.value == puzzleController.ProvisionalBuffs[i].value)
+                {
+                    puzzleController.ProvisionalBuffs.RemoveAt(i);
+                    break;
+                }
+            }
         }
     }
 

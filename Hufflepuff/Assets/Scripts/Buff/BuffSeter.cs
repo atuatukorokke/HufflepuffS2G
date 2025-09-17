@@ -42,7 +42,7 @@ public class BuffSeter : MonoBehaviour
             switch(buff.buffID)
             {
                 case BuffForID.AtackMethod:
-                    player.Attack = player.Attack * buff.value; // 攻撃力の増加
+                    player.Attack = 1 + (buff.value / 100); // 攻撃力の増加
                     buffName = "攻撃力アップ";
                     buffExplanationText = $"プレイヤーの攻撃力＋<color=#ffd700>{buff.value}％</color>";
                     buffIcon = AttackIcon;
@@ -53,15 +53,17 @@ public class BuffSeter : MonoBehaviour
                     buffExplanationText = $"プレイヤーの無敵時間＋<color=#ffd700>{buff.value}秒</color>";
                     buffIcon = InvincibleIcon;
                     break;
-                case BuffForID.PuzzleTime:
-                    buffName = "パズル時間延長";
-                    buffExplanationText = $"パズル時間が＋<color=#ffd700>{buff.value}秒</color>";
+                case BuffForID.DamageDownLate:
+                    buffName = "お邪魔増加率ダウン";
+                    player.OutPieceLate = 100 - buff.value; // お邪魔ピースが出る確率の減少
+                    buffExplanationText = $"被弾時にお邪魔ピースが出る確率が-<color=#ffd700>{buff.value}%</color>";
                     buffIcon = PuzzleTimeIcon;
                     // パズル時間延長の処理をここに追加
                     break;
-                case BuffForID.CarryOverSpecialGauge:
-                    buffName = "スペシャルゲージ持ち越し";
-                    buffExplanationText = $"スペシャルゲージが<color=#ffd700>{buff.value * 100}％</color>持ち越し可能に";
+                case BuffForID.CoinGetLate:
+                    buffName = "コイン取得量アップ";
+                    player.DefultCoinIncreaseCount = 20 + (int)(20 * buff.value / 100); // コイン取得量の増加
+                    buffExplanationText = $"コインの取得料が＋<color=#ffd700>{buff.value}％</color>";
                     buffIcon = CarryOverSpecialGaugeIcon;
                     // スペシャルゲージ持ち越しの処理をここに追加
                     break;

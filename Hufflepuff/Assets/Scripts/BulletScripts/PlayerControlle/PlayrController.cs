@@ -13,7 +13,7 @@ public class PlayrController : MonoBehaviour
     private Rigidbody2D myRigidbody;
     [SerializeField] private float Speed; // 移動速度
     [SerializeField] private float speedLate = 1.0f; // 移動速度の遅延
-    [Range(0f, 5f)]
+    [Range(1f, 5f)]
     [SerializeField] private float attack;
     [SerializeField] private GameObject straightBulletPrehab; // 直線弾幕のプレハブ
     [SerializeField] private GameObject diffusionBulletPrehab; // 拡散用の弾幕プレハブ
@@ -26,6 +26,7 @@ public class PlayrController : MonoBehaviour
     [SerializeField] private PlayState playState; // プレイヤーの状態
     [SerializeField] private GameObject CutInnCanvas; // カットイン用のキャンバス
     [SerializeField] private PieceCreate pieceCreate; // ピース生成スクリプト
+    [SerializeField] private float outPieceLate; // お邪魔ピースの出現率
 
     [Header("Player Coin")]
     [SerializeField] private int pieceCount = 0; // ピースの数
@@ -49,6 +50,8 @@ public class PlayrController : MonoBehaviour
     public PlayState PlayState { get => playState; set => playState = value; }
     public int CoinCount { get => coinCount; set => coinCount = value; }
     public int PieceCount { get => pieceCount; set => pieceCount = value; }
+    public int DefultCoinIncreaseCount { get => defultCoinIncreaseCount; set => defultCoinIncreaseCount = value; }
+    public float OutPieceLate { get => outPieceLate; set => outPieceLate = value; }
 
     void Start()
     {
@@ -204,14 +207,14 @@ public class PlayrController : MonoBehaviour
                 break;
             case "Present":
                 PieceCount++; // ピースの数を増やす
-                CoinCount += defultCoinIncreaseCount + Random.Range(0, 5); // コインの数を増やす
+                CoinCount += DefultCoinIncreaseCount + Random.Range(0, 5); // コインの数を増やす
                 Destroy(collision.gameObject); // プレゼントを削除
                 break;  
         }
     }
     private IEnumerator ResetInvincibility()
     {
-        pieceCreate.BlockCreate(); // ブロックを生成
+        if(Random.Range(0, 100) < OutPieceLate) pieceCreate.BlockCreate(); // ブロックを生成
         for (int i = 0; i < InvincibleTime; i++)
         {
             GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0); // 赤く点滅

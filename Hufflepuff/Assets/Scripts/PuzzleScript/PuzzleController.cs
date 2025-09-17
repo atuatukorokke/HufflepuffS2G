@@ -12,6 +12,7 @@ public class PuzzleController : MonoBehaviour
 {
     [SerializeField] private PieceMoves pieceMoves;     // 盤面が重なっていないかを確認するスクリプト
     [SerializeField] private DestroyBlock destroyBlock; // ブロックを消すスクリプト
+    public List<Buff> ProvisionalBuffs = new List<Buff>();
 
     private void Start()
     {

@@ -1349,8 +1349,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4292598747
+  m_fontColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1539,7 +1539,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1951044182}
         m_TargetAssemblyTypeName: TutorialManager, Assembly-CSharp
-        m_MethodName: IndexDoen
+        m_MethodName: IndexDown
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2370,14 +2370,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
+  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -4785564858583958652, guid: 58893648fd4c8ac4b85a4ad10acea2f6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3416,10 +3416,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d834f6969a0e674ba02f3b89c9ed277, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TutorialImage: []
-  TutorialExplanation: []
-  MainTutorialImage: {fileID: 0}
-  MainTutorialExplanation: {fileID: 0}
+  TutorialImage:
+  - {fileID: 4369572136041557648, guid: 78ceab7b17845f44d90c2e574c38f31b, type: 3}
+  - {fileID: 4369572136041557648, guid: 78ceab7b17845f44d90c2e574c38f31b, type: 3}
+  - {fileID: -4302955959931391070, guid: 1e4065b6b56745e4e9b26f9b40bdb323, type: 3}
+  - {fileID: 4369572136041557648, guid: 6f7cda15a0812314891f26a9aca62fbb, type: 3}
+  TutorialExplanation:
+  - "\u3042\u3042\u3042\u3042\u3042"
+  - "\u3044\u3044\u3044\u3044\u3044"
+  - "\u3046\u3046\u3046\u3046\u3046"
+  - "\u3048\u3048\u3048\u3048\u3048"
+  MainTutorialImage: {fileID: 1951044183}
+  MainTutorialExplanation: {fileID: 667737876}
   startButton: {fileID: 2000036638}
 --- !u!114 &1951044183
 MonoBehaviour:
@@ -3434,7 +3442,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3686,7 +3694,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2013438672
 RectTransform:
   m_ObjectHideFlags: 0

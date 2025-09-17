@@ -18,7 +18,7 @@ public class DeathCount : MonoBehaviour
     void Start()
     {
         // デバッグ用のピース数
-        SetPieceCount(0);
+        SetPieceCount(21); // 21の倍数
         SetBlockCount(0);
     }
 

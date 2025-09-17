@@ -13,6 +13,8 @@ public class EnemySummoningManagement : MonoBehaviour
     [SerializeField] private GameObject ClearPanel;
     [SerializeField] private GameObject TitleButton;
     [SerializeField] private Animator animator;
+    [SerializeField] private PlayrController playerController; // プレイヤーのコントローラー
+    [SerializeField] private GoldManager goldManager; // 金額管理を行うスクリプト
     private bool waitingForMiddleBoss = false; // 途中でボスが出てくるかどうかのフラグ
     private bool waitingForShop = false; // ショップを開いているかどうかのフラグ
     private AudioSource audioSource; // BGMの再生用オーディオソース
@@ -22,6 +24,8 @@ public class EnemySummoningManagement : MonoBehaviour
 
     private void Start()
     {
+        playerController = FindAnyObjectByType<PlayrController>();
+        goldManager = FindAnyObjectByType<GoldManager>();
         TitleButton.SetActive(false);
         ClearPanel.SetActive(false);
         audioSource = GetComponent<AudioSource>(); // AudioSourceコンポーネントを取得
@@ -67,6 +71,7 @@ public class EnemySummoningManagement : MonoBehaviour
                     break;
                 case EnemyDeployment.state.Shop:
                     var shop = FindAnyObjectByType<ShopOpen>(); // ショップのオブジェクトを取得
+                    goldManager.SetGoldCount(playerController.CoinCount); // 所持金を更新
                     shop.ShopOpenAni();
                     waitingForShop = true; // ショップが開いているフラグを立てる
                     shop.OnShop += () => waitingForShop = false; // ショップが閉じられたらフラグを下げる

@@ -14,6 +14,7 @@ public class PieceMoves : MonoBehaviour
 {
 
     [SerializeField] private PieceMoves pieceMoves;     // 盤面が重なっていないかを確認するスクリプト
+    [SerializeField] private PieceCreate pieceCreate; // ピースを生成するスクリプト
     [SerializeField] private DestroyBlock destroyBlock; // ブロックを消すスクリプト
 
     [Header("0なら配置可能")]
@@ -23,7 +24,7 @@ public class PieceMoves : MonoBehaviour
 
     private void Start()
     {
-
+        pieceCreate = FindAnyObjectByType<PieceCreate>();
     }
 
     /// <summary>
@@ -34,6 +35,7 @@ public class PieceMoves : MonoBehaviour
         if (Colliding == 0)
         {
             Debug.Log("配置可能");
+            pieceCreate.isBlockCreate = true;
             isPiesePossible = true;
         }
         else

@@ -670,6 +670,11 @@ MonoBehaviour:
   sellGold: 8
   deathCount: {fileID: 0}
   goldManager: {fileID: 0}
+  puzzleController: {fileID: 0}
+  buff:
+    buffID: 2
+    value: 30
+    isActive: 0
 --- !u!114 &565760573624443480
 MonoBehaviour:
   m_ObjectHideFlags: 0
