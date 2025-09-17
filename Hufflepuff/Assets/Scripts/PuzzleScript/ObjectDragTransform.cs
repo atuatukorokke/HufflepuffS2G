@@ -63,8 +63,9 @@ public class ObjectDragTransform : MonoBehaviour
             deathCount.SetPieceCount(pieceCount * -1);
 
             goldManager.SetGoldCount(sellGold);
+            FindAnyObjectByType<PieceCreate>().isBlockCreate = true;
 
-            for(int i = 0; i <= puzzleController.ProvisionalBuffs.Count; i++)
+            for (int i = 0; i <= puzzleController.ProvisionalBuffs.Count; i++)
             {
                 if(buff.buffID == puzzleController.ProvisionalBuffs[i].buffID & buff.value == puzzleController.ProvisionalBuffs[i].value)
                 {

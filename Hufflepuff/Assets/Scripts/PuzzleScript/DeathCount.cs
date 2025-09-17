@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class DeathCount : MonoBehaviour
 {
+    [SerializeField] private GameObject GameOberPanel; // ゲームオーバーパネル
+    [SerializeField] private GameObject EnemySummoningManager;
+    [SerializeField] private PlayrController playerController; // プレイヤーのコントローラー
 
     [Header("死亡判定")]
     [SerializeField] private bool isDead = false; // false = 生きてる, true = 死んでる
@@ -17,8 +20,10 @@ public class DeathCount : MonoBehaviour
 
     void Start()
     {
+        GameOberPanel.SetActive(false);
+        playerController = FindAnyObjectByType<PlayrController>();
         // デバッグ用のピース数
-        SetPieceCount(21); // 21の倍数
+        SetPieceCount(5); // 21の倍数
         SetBlockCount(0);
     }
 
@@ -39,7 +44,10 @@ public class DeathCount : MonoBehaviour
         if (pieceCount * 0.2 < blockCount)
         {
             isDead = true;  // ブロック数がピース数の20%を超えたら死ぬ
-            Debug.Log("死んだ");
+            // ゲームオーバーの処理
+            EnemySummoningManager.GetComponent<AudioSource>().Stop(); // 敵の音を止める
+            Time.timeScale = 0f; // ゲームを停止
+            GameOberPanel.SetActive(true);
         }
         else
         {

@@ -5,6 +5,7 @@
 
 using UnityEditor;
 using UnityEngine;
+using TMPro;
 
 public class PieceCreate : MonoBehaviour
 {
@@ -30,6 +31,8 @@ public class PieceCreate : MonoBehaviour
     [SerializeField] private AudioClip blockCreateSE;
     [SerializeField] private AudioClip notBlockCreateSE;
 
+    [SerializeField] private TextMeshProUGUI goldText;
+
     [Header("ブロックを置けるかの判定")]
     public bool isBlockCreate = true; 
 
@@ -44,6 +47,7 @@ public class PieceCreate : MonoBehaviour
     {
         audio = GetComponent<AudioSource>();
         playerController = FindAnyObjectByType<PlayrController>();
+        goldText.text = $"残りのコイン:<color=#ffd700>{goldManager.GetGold().ToString()}</color>";
     }
 
     /// <summary>
@@ -164,6 +168,7 @@ public class PieceCreate : MonoBehaviour
                     Debug.Log("なんか変な値が出てるやでー");
                     break;
             }
+            goldText.text = $"残りのコイン:<color=#ffd700>{goldManager.GetGold().ToString()}</color>";
         }
     }
 
