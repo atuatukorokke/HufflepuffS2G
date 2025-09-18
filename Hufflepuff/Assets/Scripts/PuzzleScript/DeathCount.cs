@@ -1,29 +1,29 @@
 // DeathCount.cs
 // 
-// ƒs[ƒX”‚Æ‚¨×–‚ƒuƒƒbƒN‚ğ”‚¦A€‚Ê‚©‚Ì”»’è‚ğs‚¢‚Ü‚·
+// ãƒ”ãƒ¼ã‚¹æ•°ã¨ãŠé‚ªé­”ãƒ–ãƒ­ãƒƒã‚¯ã‚’æ•°ãˆã€æ­»ã¬ã‹ã®åˆ¤å®šã‚’è¡Œã„ã¾ã™
 // 
 
 using UnityEngine;
 
 public class DeathCount : MonoBehaviour
 {
-    [SerializeField] private GameObject GameOberPanel; // ƒQ[ƒ€ƒI[ƒo[ƒpƒlƒ‹
+    [SerializeField] private GameObject GameOberPanel; // ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ãƒ‘ãƒãƒ«
     [SerializeField] private GameObject EnemySummoningManager;
-    [SerializeField] private PlayrController playerController; // ƒvƒŒƒCƒ„[‚ÌƒRƒ“ƒgƒ[ƒ‰[
+    [SerializeField] private PlayrController playerController; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼
 
-    [Header("€–S”»’è")]
-    [SerializeField] private bool isDead = false; // false = ¶‚«‚Ä‚é, true = €‚ñ‚Å‚é
+    [Header("æ­»äº¡åˆ¤å®š")]
+    [SerializeField] private bool isDead = false; // false = ç”Ÿãã¦ã‚‹, true = æ­»ã‚“ã§ã‚‹
 
-    [Header("ƒuƒƒbƒN”")]
-    [SerializeField] private int pieceCount = 0;    // ƒs[ƒX”
-    [SerializeField] private int blockCount = 0;    // ‚¨×–‚ƒuƒƒbƒN”
+    [Header("ãƒ–ãƒ­ãƒƒã‚¯æ•°")]
+    [SerializeField] private int pieceCount = 0;    // ãƒ”ãƒ¼ã‚¹æ•°
+    [SerializeField] private int blockCount = 0;    // ãŠé‚ªé­”ãƒ–ãƒ­ãƒƒã‚¯æ•°
 
     void Start()
     {
         GameOberPanel.SetActive(false);
         playerController = FindAnyObjectByType<PlayrController>();
-        // ƒfƒoƒbƒO—p‚Ìƒs[ƒX”
-        SetPieceCount(5); // 21‚Ì”{”
+        // ãƒ‡ãƒãƒƒã‚°ç”¨ã®ãƒ”ãƒ¼ã‚¹æ•°
+        SetPieceCount(21); // 21ã®å€æ•°
         SetBlockCount(0);
     }
 
@@ -43,15 +43,15 @@ public class DeathCount : MonoBehaviour
 
         if (pieceCount * 0.2 < blockCount)
         {
-            isDead = true;  // ƒuƒƒbƒN”‚ªƒs[ƒX”‚Ì20%‚ğ’´‚¦‚½‚ç€‚Ê
-            // ƒQ[ƒ€ƒI[ƒo[‚Ìˆ—
-            EnemySummoningManager.GetComponent<AudioSource>().Stop(); // “G‚Ì‰¹‚ğ~‚ß‚é
-            Time.timeScale = 0f; // ƒQ[ƒ€‚ğ’â~
+            isDead = true;  // ãƒ–ãƒ­ãƒƒã‚¯æ•°ãŒãƒ”ãƒ¼ã‚¹æ•°ã®20%ã‚’è¶…ãˆãŸã‚‰æ­»ã¬
+            // ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ã®å‡¦ç†
+            EnemySummoningManager.GetComponent<AudioSource>().Stop(); // æ•µã®éŸ³ã‚’æ­¢ã‚ã‚‹
+            Time.timeScale = 0f; // ã‚²ãƒ¼ãƒ ã‚’åœæ­¢
             GameOberPanel.SetActive(true);
         }
         else
         {
-            isDead = false; // ‚»‚êˆÈŠO‚Í¶‚«‚Ä‚é
+            isDead = false; // ãã‚Œä»¥å¤–ã¯ç”Ÿãã¦ã‚‹
         }
     }
 
