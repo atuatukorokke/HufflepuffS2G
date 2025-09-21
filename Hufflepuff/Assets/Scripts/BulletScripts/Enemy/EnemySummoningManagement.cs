@@ -6,12 +6,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class EnemySummoningManagement : MonoBehaviour
 {
     [SerializeField] private List<EnemyDeployment> enemyDeployment; // エネミーの配置データを格納するリスト
     [SerializeField] private GameObject ClearPanel;
     [SerializeField] private GameObject TitleButton;
+    [SerializeField] private TextMeshProUGUI coinText; // 所持金テキスト
+    [SerializeField] private TextMeshProUGUI pieceText; // ピースの数テキスト
     [SerializeField] private Animator animator;
     [SerializeField] private PlayrController playerController; // プレイヤーのコントローラー
     [SerializeField] private GoldManager goldManager; // 金額管理を行うスクリプト
@@ -73,6 +76,8 @@ public class EnemySummoningManagement : MonoBehaviour
                     yield return new WaitForSeconds(deploment.DelayTime);
                     break;
                 case EnemyDeployment.state.Shop:
+                    coinText.gameObject.SetActive(false); // 所持金テキストを非表示
+                    pieceText.gameObject.SetActive(false); // ピースの数テキストを非表示
                     audioSource.PlayOneShot(OpenPuzzle);
                     audioSource.clip = puzzleBGM; // パズル用のBGMを設定
                     audioSource.Play(); // BGMを再生
@@ -83,6 +88,8 @@ public class EnemySummoningManagement : MonoBehaviour
                     shop.OnShop += () => waitingForShop = false; // ショップが閉じられたらフラグを下げる
                     yield return new WaitUntil(() => !waitingForShop); // ショップが閉じられるまで待機
                     yield return new WaitForSeconds(2f);
+                    coinText.gameObject.SetActive(true); // 所持金テキストを表示
+                    pieceText.gameObject.SetActive(true); // ピースの数テキストを表示
                     break;
             }
         }

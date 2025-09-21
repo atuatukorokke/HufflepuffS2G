@@ -5,6 +5,7 @@
 
 using System.Collections;
 using UnityEngine;
+using TMPro;
 [System.Serializable]
 
 public class PlayrController : MonoBehaviour
@@ -27,6 +28,8 @@ public class PlayrController : MonoBehaviour
     [SerializeField] private GameObject CutInnCanvas; // カットイン用のキャンバス
     [SerializeField] private PieceCreate pieceCreate; // ピース生成スクリプト
     [SerializeField] private float outPieceLate; // お邪魔ピースの出現率
+    [SerializeField] private TextMeshProUGUI coinText; // 所持金テキスト
+    [SerializeField] private TextMeshProUGUI pieceText; // ピースの数テキスト
 
     private AudioSource audio;
     [SerializeField] private AudioClip damageSE;
@@ -68,6 +71,8 @@ public class PlayrController : MonoBehaviour
         currentChargeTime = 0.0f;
         isCharge = true; // ボムのチャージ状態を開始
         isBom = false; // ボムの状態を初期化
+        pieceText.text = $"ピース:<color=#ffd700>{PieceCount.ToString()}</color>";
+        coinText.text = $"コイン:<color=#ffd700>{CoinCount.ToString()}</color>";
     }
 
     void Update()
@@ -219,6 +224,8 @@ public class PlayrController : MonoBehaviour
                 PieceCount++; // ピースの数を増やす
                 CoinCount += DefultCoinIncreaseCount + Random.Range(0, 5); // コインの数を増やす
                 Destroy(collision.gameObject); // プレゼントを削除
+                pieceText.text = $"ピース:<color=#ffd700>{PieceCount.ToString()}</color>";
+                coinText.text = $"コイン:<color=#ffd700>{CoinCount.ToString()}</color>";
                 break;  
         }
     }

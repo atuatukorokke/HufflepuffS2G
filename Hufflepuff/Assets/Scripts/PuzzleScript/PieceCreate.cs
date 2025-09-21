@@ -52,12 +52,12 @@ public class PieceCreate : MonoBehaviour
     /// <summary>
     /// 新しいピースを生成します
     /// </summary>
-    /// <param name="x">0 = ランダム生成, 1 ~ 7 = 対応したピースを生成</param>
-    public void NewPiece(int x)
+    /// <param name="pieceNumber">0 = ランダム生成, 1 ~ 7 = 対応したピースを生成</param>
+    public void NewPiece(int pieceNumber, int buyLate)
     {
-        int rndMino = x;
+        int rndMino = pieceNumber;
         // 入力が０の時1~7の整数をランダムで生成
-        if (x == 0)
+        if (pieceNumber == 0)
         {
             //int rndMino = Random.Range(1, 8);
             rndMino = 3; // デバッグ用に2を固定
@@ -73,10 +73,10 @@ public class PieceCreate : MonoBehaviour
             switch (rndMino)
             {
                 case 1:
-                    if (goldManager.GetGold() >= 10)
+                    if (goldManager.GetGold() >= buyLate)
                     {
                         audio.PlayOneShot(blockCreateSE);
-                        goldManager.SetGoldCount(-10);
+                        goldManager.SetGoldCount(-buyLate);
                         Instantiate(mino1, pos, Quaternion.identity);
                         deathCount.SetPieceCount(1);
                     }
@@ -86,10 +86,10 @@ public class PieceCreate : MonoBehaviour
                     }
                     break;
                 case 2:
-                    if (goldManager.GetGold() >= 10)
+                    if (goldManager.GetGold() >= buyLate)
                     {
                         audio.PlayOneShot(blockCreateSE);
-                        goldManager.SetGoldCount(-10);
+                        goldManager.SetGoldCount(-buyLate);
                         Instantiate(mino2, pos, Quaternion.identity);
                         deathCount.SetPieceCount(2);
                     }
@@ -99,10 +99,10 @@ public class PieceCreate : MonoBehaviour
                     }
                     break;
                 case 3:
-                    if (goldManager.GetGold() >= 10)
+                    if (goldManager.GetGold() >= buyLate)
                     {
                         audio.PlayOneShot(blockCreateSE);
-                        goldManager.SetGoldCount(-10);
+                        goldManager.SetGoldCount(-buyLate);
                         Instantiate(mino3, pos, Quaternion.identity);
                         deathCount.SetPieceCount(3);
                     }
@@ -112,10 +112,10 @@ public class PieceCreate : MonoBehaviour
                     }
                     break;
                 case 4:
-                    if (goldManager.GetGold() >= 10)
+                    if (goldManager.GetGold() >= buyLate)
                     {
                         audio.PlayOneShot(blockCreateSE);
-                        goldManager.SetGoldCount(-10);
+                        goldManager.SetGoldCount(-buyLate);
                         Instantiate(mino4, pos, Quaternion.identity);
                         deathCount.SetPieceCount(4);
                     }
@@ -125,10 +125,10 @@ public class PieceCreate : MonoBehaviour
                     }
                     break;
                 case 5:
-                    if (goldManager.GetGold() >= 10)
+                    if (goldManager.GetGold() >= buyLate)
                     {
                         audio.PlayOneShot(blockCreateSE);
-                        goldManager.SetGoldCount(-10);
+                        goldManager.SetGoldCount(-buyLate);
                         Instantiate(mino5, pos, Quaternion.identity);
                         deathCount.SetPieceCount(5);
                     }
@@ -138,10 +138,10 @@ public class PieceCreate : MonoBehaviour
                     }
                     break;
                 case 6:
-                    if (goldManager.GetGold() >= 10)
+                    if (goldManager.GetGold() >= buyLate)
                     {
                         audio.PlayOneShot(blockCreateSE);
-                        goldManager.SetGoldCount(-10);
+                        goldManager.SetGoldCount(-buyLate);
                         Instantiate(mino6, pos, Quaternion.identity);
                         deathCount.SetPieceCount(6);
                     }
@@ -151,10 +151,10 @@ public class PieceCreate : MonoBehaviour
                     }
                     break;
                 case 7:
-                    if (goldManager.GetGold() >= 10)
+                    if (goldManager.GetGold() >= buyLate)
                     {
                         audio.PlayOneShot(blockCreateSE);
-                        goldManager.SetGoldCount(-10);
+                        goldManager.SetGoldCount(-buyLate);
                         Instantiate(mino9, pos, Quaternion.identity);
                         deathCount.SetPieceCount(9);
                     }

@@ -4,12 +4,14 @@
 // 
 
 using UnityEngine;
+using TMPro;
 
 public class DeathCount : MonoBehaviour
 {
     [SerializeField] private GameObject GameOberPanel; // ゲームオーバーパネル
     [SerializeField] private GameObject EnemySummoningManager;
     [SerializeField] private PlayrController playerController; // プレイヤーのコントローラー
+    [SerializeField] private TextMeshProUGUI goldText; // 所持金テキスト
 
     [Header("死亡判定")]
     [SerializeField] private bool isDead = false; // false = 生きてる, true = 死んでる
@@ -35,6 +37,7 @@ public class DeathCount : MonoBehaviour
     public void SetPieceCount(int newPieceCount)
     {
         pieceCount = pieceCount + newPieceCount;
+        goldText.text = $"残りのコイン:<color=#ffd700>{(playerController.CoinCount).ToString()}</color>";
     }
 
     public void SetBlockCount(int newBlockCount)
