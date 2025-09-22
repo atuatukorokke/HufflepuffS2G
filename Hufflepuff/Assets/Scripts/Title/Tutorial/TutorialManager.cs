@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
-    private int currentTutorialIndex;
-    private int maxTutorialIndex;
+    [SerializeField] private int currentTutorialIndex;
+    [SerializeField] private int maxTutorialIndex;
 
     [Header("0.移動方法 攻撃方法\r\n1.必殺技\r\n2.敵を倒したら\r\n3.パズル説明バフ含む\r\n")]
     [SerializeField] private Sprite[] TutorialImage; // チュートリアル画像格納
@@ -13,6 +13,8 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private Image MainTutorialImage; // メインチュートリアル画像
     [SerializeField] private TextMeshProUGUI MainTutorialExplanation; // メインチュートリアル説明文
     [SerializeField] private GameObject startButton; // スタートボタン
+    [SerializeField] private GameObject leftButton; // 左ボタン
+    [SerializeField] private GameObject rightButton; // 右ボタン
 
     private AudioSource audio;
     [SerializeField] private AudioClip buttonSE;
@@ -24,6 +26,27 @@ public class TutorialManager : MonoBehaviour
         maxTutorialIndex = TutorialImage.Length;
         currentTutorialIndex = 0;
         SetTutorial(currentTutorialIndex);
+    }
+
+    private void Update()
+    {
+        if (currentTutorialIndex == 0)
+        {
+            leftButton.SetActive(false);
+            rightButton.SetActive(true);
+        }
+        
+        if (currentTutorialIndex == maxTutorialIndex - 1)
+        {
+            leftButton.SetActive(true);
+            rightButton.SetActive(false);
+        }
+
+        if(currentTutorialIndex > 0 & currentTutorialIndex < maxTutorialIndex - 1)
+        {
+            leftButton.SetActive(true);
+            rightButton.SetActive(true);
+        }
     }
 
     /// <summary>

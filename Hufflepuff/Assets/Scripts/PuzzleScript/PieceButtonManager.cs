@@ -42,7 +42,7 @@ public class PieceButtonManager : MonoBehaviour
 
     public void minoClick(int number)
     {
-        Pcreate.NewPiece(number, number * 11);
+        Pcreate.NewPiece(number, number * 10);
     }
 
     public void debugPresentClick()

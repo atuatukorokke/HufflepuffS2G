@@ -35,7 +35,7 @@ public class PieceCreate : MonoBehaviour
     [Header("ブロックを置けるかの判定")]
     public bool isBlockCreate = true; 
 
-    private int[,] BlockBoard = new int[5, 5]
+    public int[,] BlockBoard = new int[5, 5]
     {{1, 0, 0, 0, 1},
      {0, 0, 0, 0, 0},
      {0, 0, 0, 0, 0},
@@ -68,13 +68,13 @@ public class PieceCreate : MonoBehaviour
 
         if(isBlockCreate)
         {
-            isBlockCreate = false;
             // プレハブを指定位置に生成
             switch (rndMino)
             {
                 case 1:
                     if (goldManager.GetGold() >= buyLate)
                     {
+                        isBlockCreate = false;
                         audio.PlayOneShot(blockCreateSE);
                         goldManager.SetGoldCount(-buyLate);
                         Instantiate(mino1, pos, Quaternion.identity);
@@ -88,6 +88,7 @@ public class PieceCreate : MonoBehaviour
                 case 2:
                     if (goldManager.GetGold() >= buyLate)
                     {
+                        isBlockCreate = false;
                         audio.PlayOneShot(blockCreateSE);
                         goldManager.SetGoldCount(-buyLate);
                         Instantiate(mino2, pos, Quaternion.identity);
@@ -101,6 +102,7 @@ public class PieceCreate : MonoBehaviour
                 case 3:
                     if (goldManager.GetGold() >= buyLate)
                     {
+                        isBlockCreate = false;
                         audio.PlayOneShot(blockCreateSE);
                         goldManager.SetGoldCount(-buyLate);
                         Instantiate(mino3, pos, Quaternion.identity);
@@ -114,6 +116,7 @@ public class PieceCreate : MonoBehaviour
                 case 4:
                     if (goldManager.GetGold() >= buyLate)
                     {
+                        isBlockCreate = false;
                         audio.PlayOneShot(blockCreateSE);
                         goldManager.SetGoldCount(-buyLate);
                         Instantiate(mino4, pos, Quaternion.identity);
@@ -127,6 +130,7 @@ public class PieceCreate : MonoBehaviour
                 case 5:
                     if (goldManager.GetGold() >= buyLate)
                     {
+                        isBlockCreate = false;
                         audio.PlayOneShot(blockCreateSE);
                         goldManager.SetGoldCount(-buyLate);
                         Instantiate(mino5, pos, Quaternion.identity);
@@ -140,6 +144,7 @@ public class PieceCreate : MonoBehaviour
                 case 6:
                     if (goldManager.GetGold() >= buyLate)
                     {
+                        isBlockCreate = false;
                         audio.PlayOneShot(blockCreateSE);
                         goldManager.SetGoldCount(-buyLate);
                         Instantiate(mino6, pos, Quaternion.identity);
@@ -153,6 +158,7 @@ public class PieceCreate : MonoBehaviour
                 case 7:
                     if (goldManager.GetGold() >= buyLate)
                     {
+                        isBlockCreate = false;
                         audio.PlayOneShot(blockCreateSE);
                         goldManager.SetGoldCount(-buyLate);
                         Instantiate(mino9, pos, Quaternion.identity);
@@ -275,7 +281,8 @@ public class PieceCreate : MonoBehaviour
 
         // 生成位置 盤面の左上を指定
         Vector3 pos = new Vector3(-28.0f - BlockRndX, -7.0f - BlockRndY, 0.0f);
-        Instantiate(block, pos, Quaternion.identity);
+        GameObject Trash = Instantiate(block, pos, Quaternion.identity);
+        Trash.GetComponent<BlockOverlap>().blockPosition = new Vector2Int(BlockRndX, BlockRndY);
 
         deathCount.SetBlockCount(1);
 

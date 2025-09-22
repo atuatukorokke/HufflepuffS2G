@@ -12,6 +12,7 @@ public class DeathCount : MonoBehaviour
     [SerializeField] private GameObject EnemySummoningManager;
     [SerializeField] private PlayrController playerController; // プレイヤーのコントローラー
     [SerializeField] private TextMeshProUGUI goldText; // 所持金テキスト
+    [SerializeField] private TextMeshProUGUI deathLateText; // 死亡率テキスト
 
     [Header("死亡判定")]
     [SerializeField] private bool isDead = false; // false = 生きてる, true = 死んでる
@@ -43,6 +44,7 @@ public class DeathCount : MonoBehaviour
     public void SetBlockCount(int newBlockCount)
     {
         blockCount = blockCount + newBlockCount;
+        deathLateText.text = $"お邪魔:<color=#ff0000>{((int)((float)blockCount / (float)pieceCount * 100)).ToString()}%</color>";
 
         if (pieceCount * 0.2 < blockCount)
         {
