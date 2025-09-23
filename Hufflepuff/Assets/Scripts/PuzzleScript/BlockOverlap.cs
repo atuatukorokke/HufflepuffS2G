@@ -22,14 +22,13 @@ public class BlockOverlap : MonoBehaviour
         pieceCreate = FindAnyObjectByType<PieceCreate>();
         deathCount = FindAnyObjectByType<DeathCount>();
         Collider2D[] overlaps = Physics2D.OverlapBoxAll(transform.position, GetComponent<BoxCollider2D>().bounds.size, 0f);
-        foreach(var col  in overlaps)
+        foreach (var col in overlaps)
         {
-            if(col.gameObject != this.gameObject && col.CompareTag("block"))
+            if (col.gameObject != this.gameObject && col.CompareTag("block"))
             {
-                Destroy(this.gameObject);
                 deathCount.SetBlockCount(-1); // お邪魔ブロック数を減らす
-                pieceCreate.BlockBoard[blockPosition.x, blockPosition.y] = 0; // ブロックの位置を空にする
                 pieceCreate.BlockCreate(); // ブロックを再生成する
+                Destroy(gameObject);
             }
         }
     }

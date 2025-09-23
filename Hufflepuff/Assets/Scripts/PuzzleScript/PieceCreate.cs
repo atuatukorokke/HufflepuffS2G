@@ -275,8 +275,6 @@ public class PieceCreate : MonoBehaviour
             }
         }
 
-        Debug.Log(BlockBoard[BlockRndY, BlockRndX]);
-
         BlockBoard[BlockRndY, BlockRndX] = 1;
 
         // ê∂ê¨à íu î’ñ ÇÃç∂è„ÇéwíË

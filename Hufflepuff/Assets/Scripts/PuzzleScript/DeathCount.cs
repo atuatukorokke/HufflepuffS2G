@@ -21,6 +21,9 @@ public class DeathCount : MonoBehaviour
     [SerializeField] private int pieceCount = 0;    // ピース数
     [SerializeField] private int blockCount = 0;    // お邪魔ブロック数
 
+    public int PieceCount { get => pieceCount; private set => pieceCount = value; }
+    public int BlockCount { get => blockCount; private set => blockCount = value; }
+
     void Start()
     {
         GameOberPanel.SetActive(false);
@@ -37,16 +40,16 @@ public class DeathCount : MonoBehaviour
 
     public void SetPieceCount(int newPieceCount)
     {
-        pieceCount = pieceCount + newPieceCount;
+        PieceCount = PieceCount + newPieceCount;
         goldText.text = $"残りのコイン:<color=#ffd700>{(playerController.CoinCount).ToString()}</color>";
     }
 
     public void SetBlockCount(int newBlockCount)
     {
-        blockCount = blockCount + newBlockCount;
-        deathLateText.text = $"お邪魔:<color=#ff0000>{((int)((float)blockCount / (float)pieceCount * 100)).ToString()}%</color>";
+        BlockCount = BlockCount + newBlockCount;
+        deathLateText.text = $"お邪魔:<color=#ff0000>{((int)((float)BlockCount / (float)PieceCount * 100)).ToString()}%</color>";
 
-        if (pieceCount * 0.2 < blockCount)
+        if (PieceCount * 0.2 < BlockCount)
         {
             isDead = true;  // ブロック数がピース数の20%を超えたら死ぬ
             // ゲームオーバーの処理
@@ -62,7 +65,7 @@ public class DeathCount : MonoBehaviour
 
     public int GetTotalBlock()
     {
-        return pieceCount + blockCount;
+        return PieceCount + BlockCount;
     }
 
 }

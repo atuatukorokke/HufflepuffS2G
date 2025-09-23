@@ -19,6 +19,7 @@ public class EnemySummoningManagement : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private PlayrController playerController; // プレイヤーのコントローラー
     [SerializeField] private GoldManager goldManager; // 金額管理を行うスクリプト
+    [SerializeField] private DeathCount deathCount; // 死ぬかの判定を行うスクリプト
     private bool waitingForMiddleBoss = false; // 途中でボスが出てくるかどうかのフラグ
     private bool waitingForShop = false; // ショップを開いているかどうかのフラグ
     private AudioSource audioSource; // BGMの再生用オーディオソース
@@ -33,6 +34,7 @@ public class EnemySummoningManagement : MonoBehaviour
     {
         playerController = FindAnyObjectByType<PlayrController>();
         goldManager = FindAnyObjectByType<GoldManager>();
+        deathCount = FindAnyObjectByType<DeathCount>();
         TitleButton.SetActive(false);
         ClearPanel.SetActive(false);
         audioSource = GetComponent<AudioSource>(); // AudioSourceコンポーネントを取得
@@ -93,6 +95,10 @@ public class EnemySummoningManagement : MonoBehaviour
                     coinText.gameObject.SetActive(true); // 所持金テキストを表示
                     pieceText.gameObject.SetActive(true); // ピースの数テキストを表示
                     deathLateText.gameObject.SetActive(true); // 死亡率テキストを表示
+                    coinText.text = $"コイン:<color=#ffd700>{playerController.CoinCount.ToString()}</color>";
+                    pieceText.text = $"ピース:<color=#ffd700>{playerController.PieceCount.ToString()}</color>";
+                    deathLateText.text = $"お邪魔:<color=#ff0000>{((int)((float)deathCount.BlockCount / (float)deathCount.PieceCount * 100)).ToString()}%</color>";
+
                     break;
             }
         }

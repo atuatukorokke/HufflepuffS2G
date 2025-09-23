@@ -213,9 +213,9 @@ public class PlayrController : MonoBehaviour
             case "E_Bullet":
                 if(!invincible)
                 {
+                    invincible = true;
                     audio.PlayOneShot(damageSE);
                     Destroy(collision.gameObject);
-                    invincible = true;
                     StartCoroutine(ResetInvincibility()); // 一定時間後に無敵解除
                 }
                 break;
@@ -240,6 +240,7 @@ public class PlayrController : MonoBehaviour
             yield return new WaitForSeconds(0.05f); // 0.1秒ごとに無敵状態を維持
         }
         invincible = false;
+        yield return null;
     }
 }
 
