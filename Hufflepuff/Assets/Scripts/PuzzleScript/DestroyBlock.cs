@@ -15,16 +15,6 @@ public class DestroyBlock : MonoBehaviour
 
     public string targetTag = "block"; // 削除したいタグ名を指定
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     // 呼び出した時ブロック総数が21の倍数ならブロックを消す
     public void DestroyPieceBlock()

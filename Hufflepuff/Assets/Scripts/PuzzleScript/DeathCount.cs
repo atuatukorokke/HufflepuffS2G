@@ -33,11 +33,13 @@ public class DeathCount : MonoBehaviour
         SetBlockCount(0);
     }
 
+    // 場面上にあるピースのマス数を数えます
     public void SetPieceCount(int newPieceCount)
     {
         PieceCount = PieceCount + newPieceCount;
     }
 
+    // お邪魔ブロックの数を数えます
     public void SetBlockCount(int newBlockCount)
     {
         BlockCount = BlockCount + newBlockCount;
@@ -57,6 +59,7 @@ public class DeathCount : MonoBehaviour
         }
     }
 
+    // ピース数とお邪魔ブロックの合計を取得します
     public int GetTotalBlock()
     {
         return PieceCount + BlockCount;

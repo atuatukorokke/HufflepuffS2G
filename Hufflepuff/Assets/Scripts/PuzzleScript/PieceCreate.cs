@@ -5,6 +5,8 @@
 
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class PieceCreate : MonoBehaviour
 {
@@ -237,12 +239,23 @@ public class PieceCreate : MonoBehaviour
     // お邪魔ブロックを生成(呼び出すように変更)
     public void BlockCreate()
     {
-        bool isBlock = false;
+        List<Vector2Int> blockPositions = new List<Vector2Int>(); // 空いている位置のリスト
 
-        int BlockRndX = 0;
-        int BlockRndY = 0;
+        // 空いている位置を検索->リストに追加
+        for (int i = 0; i < 5; i++)
+        {
+            for(int j = 0; j < 5; j++)
+            {
+                if (BlockBoard[i, j] == 0)
+                {
+                    blockPositions.Add(new Vector2Int(i, j));
+                }
+            }
+        }
 
-        while (isBlock == false)
+        Vector2Int randomIndex = blockPositions[Random.Range(0, blockPositions.Count)]; // リストからランダムに選択
+
+        /*while (isBlock == false)
         {
             isBlock = true;
 
@@ -273,14 +286,14 @@ public class PieceCreate : MonoBehaviour
             {
                 isBlock = false;
             }
-        }
+        }*/
 
-        BlockBoard[BlockRndY, BlockRndX] = 1;
+        BlockBoard[randomIndex.x, randomIndex.y] = 1; // 盤面情報を更新
 
         // 生成位置 盤面の左上を指定
-        Vector3 pos = new Vector3(-28.0f - BlockRndX, -7.0f - BlockRndY, 0.0f);
+        Vector3 pos = new Vector3(-28.0f - randomIndex.x, -7.0f - randomIndex.y, 0.0f);
         GameObject Trash = Instantiate(block, pos, Quaternion.identity);
-        Trash.GetComponent<BlockOverlap>().blockPosition = new Vector2Int(BlockRndX, BlockRndY);
+        Trash.GetComponent<BlockOverlap>().blockPosition = new Vector2Int(randomIndex.x, randomIndex.y);
 
         deathCount.SetBlockCount(1);
 

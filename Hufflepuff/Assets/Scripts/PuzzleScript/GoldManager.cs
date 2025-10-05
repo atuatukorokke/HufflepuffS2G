@@ -1,3 +1,8 @@
+// GoldManager.cs
+// 
+// Š‹à‚ğŠÇ—‚µ‚Ü‚·
+// 
+
 using UnityEngine;
 using TMPro;
 
@@ -12,11 +17,7 @@ public class GoldManager : MonoBehaviour
         goldCount = 0;
     }
 
-    void Update()
-    {
-        
-    }
-
+    // Š‹à‚ğ‘Œ¸‚³‚¹‚é
     public void SetGoldCount(int newGoldCount)
     {
         goldCount = goldCount + newGoldCount;
@@ -24,6 +25,7 @@ public class GoldManager : MonoBehaviour
 
     }
 
+    // Œ»İ‚ÌŠ‹à‚ğæ“¾‚µ‚Ü‚·
     public int GetGold()
     {
         return goldCount;
