@@ -315,7 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pieceCount: 4
-  sellGold: 5
+  sellGold: 40
   deathCount: {fileID: 0}
   goldManager: {fileID: 0}
   puzzleController: {fileID: 0}

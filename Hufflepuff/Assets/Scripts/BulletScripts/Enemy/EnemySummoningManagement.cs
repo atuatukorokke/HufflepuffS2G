@@ -16,7 +16,8 @@ public class EnemySummoningManagement : MonoBehaviour
     [SerializeField] private TextMeshProUGUI coinText; // 所持金テキスト
     [SerializeField] private TextMeshProUGUI pieceText; // ピースの数テキスト
     [SerializeField] private TextMeshProUGUI deathLateText; // 死亡率テキスト 
-    [SerializeField] private Animator animator;
+    [SerializeField] private Animator ClearAnimator;
+    [SerializeField] private Animator PuzzleAnimetor;
     [SerializeField] private PlayrController playerController; // プレイヤーのコントローラー
     [SerializeField] private GoldManager goldManager; // 金額管理を行うスクリプト
     [SerializeField] private DeathCount deathCount; // 死ぬかの判定を行うスクリプト
@@ -79,26 +80,17 @@ public class EnemySummoningManagement : MonoBehaviour
                     yield return new WaitForSeconds(deploment.DelayTime);
                     break;
                 case EnemyDeployment.state.Shop:
-                    coinText.gameObject.SetActive(false); // 所持金テキストを非表示
-                    pieceText.gameObject.SetActive(false); // ピースの数テキストを非表示
-                    deathLateText.gameObject.SetActive(false); // 死亡率テキストを非表示
-                    audioSource.PlayOneShot(OpenPuzzle);
-                    audioSource.clip = puzzleBGM; // パズル用のBGMを設定
-                    audioSource.Play(); // BGMを再生
+                    playerController.isShooting = false; // ショップ中は攻撃できないようにする
+                    PuzzleSet();
                     var shop = FindAnyObjectByType<ShopOpen>(); // ショップのオブジェクトを取得
                     goldManager.SetGoldCount(playerController.CoinCount); // 所持金を更新
                     shop.ShopOpenAni();
                     waitingForShop = true; // ショップが開いているフラグを立てる
                     shop.OnShop += () => waitingForShop = false; // ショップが閉じられたらフラグを下げる
                     yield return new WaitUntil(() => !waitingForShop); // ショップが閉じられるまで待機
+                    PuzzleAnimetor.SetBool("SetInstructions", false);
                     yield return new WaitForSeconds(2f);
-                    coinText.gameObject.SetActive(true); // 所持金テキストを表示
-                    pieceText.gameObject.SetActive(true); // ピースの数テキストを表示
-                    deathLateText.gameObject.SetActive(true); // 死亡率テキストを表示
-                    coinText.text = $"コイン:<color=#ffd700>{playerController.CoinCount.ToString()}</color>";
-                    pieceText.text = $"ピース:<color=#ffd700>{playerController.PieceCount.ToString()}</color>";
-                    deathLateText.text = $"お邪魔:<color=#ff0000>{((int)((float)deathCount.BlockCount / (float)deathCount.PieceCount * 100)).ToString()}%</color>";
-
+                    PuzzleOut();
                     break;
             }
         }
@@ -117,6 +109,33 @@ public class EnemySummoningManagement : MonoBehaviour
         return enemy;
     }
 
+    /// <summary>
+    /// パズルモードに切り替えます。
+    /// </summary>
+    private void PuzzleSet()
+    {
+        coinText.gameObject.SetActive(false); // 所持金テキストを非表示
+        pieceText.gameObject.SetActive(false); // ピースの数テキストを非表示
+        deathLateText.gameObject.SetActive(false); // 死亡率テキストを非表示
+        audioSource.PlayOneShot(OpenPuzzle);
+        audioSource.clip = puzzleBGM; // パズル用のBGMを設定
+        audioSource.Play(); // BGMを再生
+        PuzzleAnimetor.SetBool("SetInstructions", true);
+    }
+
+    /// <summary>
+    /// シューティングモードに切り替えます。
+    /// </summary>
+    private void PuzzleOut()
+    {
+        coinText.gameObject.SetActive(true); // 所持金テキストを表示
+        pieceText.gameObject.SetActive(true); // ピースの数テキストを表示
+        deathLateText.gameObject.SetActive(true); // 死亡率テキストを表示
+        coinText.text = $"コイン:<color=#ffd700>{playerController.CoinCount.ToString()}</color>";
+        pieceText.text = $"ピース:<color=#ffd700>{playerController.PieceCount.ToString()}</color>";
+        deathLateText.text = $"お邪魔:<color=#ff0000>{((int)((float)deathCount.BlockCount / (float)deathCount.PieceCount * 100)).ToString()}%</color>";
+    }
+
     private IEnumerator BossDeath()
     {
         FindAnyObjectByType<PlayrController>().Playstate = PlayState.Clear;
@@ -127,7 +146,7 @@ public class EnemySummoningManagement : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         yield return new WaitForSeconds(1f);
-        animator.SetBool("EndGame", true);
+        ClearAnimator.SetBool("EndGame", true);
         yield return new WaitForSeconds(1.7f);
         TitleButton.SetActive(true);
     }

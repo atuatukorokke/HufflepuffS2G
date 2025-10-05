@@ -16,6 +16,7 @@ public class PieceButtonManager : MonoBehaviour
     private PuzzleController puzzleController; // パズル全体を管理するスクリプト
     [SerializeField] private GameObject EnemySummoningManager; // エネミーの配置を管理するスクリプト
     [SerializeField] private AudioClip normalBGM;
+    [SerializeField] GameObject NonTouchPanel; // タッチを無効にするパネル
 
     void Start()
     {
@@ -29,6 +30,7 @@ public class PieceButtonManager : MonoBehaviour
     }
     public void ShopClose()
     {
+        NonTouchPanel.SetActive(true); // タッチを無効にするパネルを表示
         foreach (var buff in puzzleController.ProvisionalBuffs)
         {
             buffManager.AddBuff(buff.buffID, buff.value);

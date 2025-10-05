@@ -33,15 +33,9 @@ public class DeathCount : MonoBehaviour
         SetBlockCount(0);
     }
 
-    void Update()
-    {
-
-    }
-
     public void SetPieceCount(int newPieceCount)
     {
         PieceCount = PieceCount + newPieceCount;
-        goldText.text = $"残りのコイン:<color=#ffd700>{(playerController.CoinCount).ToString()}</color>";
     }
 
     public void SetBlockCount(int newBlockCount)

@@ -128,7 +128,7 @@ public class SpecialMove_Gomi : MonoBehaviour
 
         }
     }
-
+    // ------------------------------------------------------------------------------------------------------------------------------
     /// <summary>
     /// ˆê’iŠK–Ú‚Ì•KE‹Zi‚‘¬ƒ‰ƒ“ƒ_ƒ€’e–‹j
     /// </summary>
@@ -165,7 +165,7 @@ public class SpecialMove_Gomi : MonoBehaviour
         yield return null;
     }
 
-
+    // ------------------------------------------------------------------------------------------------------------------------------
     /// <summary>
     /// “ñ’iŠK–Ú‚Ì•KE‹Z
     /// </summary>
@@ -242,6 +242,7 @@ public class SpecialMove_Gomi : MonoBehaviour
 
     }
 
+    // ------------------------------------------------------------------------------------------------------------------------------
     /// <summary>
     /// O’iŠK–Ú‚Ì•KE‹Zi360“x•ûŒü‚Öƒ‰ƒ“ƒ_ƒ€‘¬“x‚Å’e‚ğ”­Ëj
     /// </summary>
@@ -280,7 +281,7 @@ public class SpecialMove_Gomi : MonoBehaviour
         yield return null;
     }
 
-
+    // ------------------------------------------------------------------------------------------------------------------------------
     /// <summary>
     /// l’iŠK–Ú‚Ì•KE‹Z
     /// </summary>
@@ -457,6 +458,7 @@ public class SpecialMove_Gomi : MonoBehaviour
         yield return null;
     }
 
+    // ------------------------------------------------------------------------------------------------------------------------------
     /// <summary>
     /// ÅI’iŠK–Ú‚Ì•KE‹Z
     /// </summary>
@@ -471,7 +473,7 @@ public class SpecialMove_Gomi : MonoBehaviour
 
         while(boss1Bullet.State == State.final && boss1Bullet.BulletState == BulletState.spell) 
         {
-            // —G‚É’e–‹‚ğ”ò‚Î‚·--------------------------------------------------------------------------------------------------------
+            // —G‚É’e–‹‚ğ”ò‚Î‚·
             float randomTime = 0; // —G‚É’e–‹‚ğ”ò‚Î‚·ŠÔ
             List<GameObject> bullets = new List<GameObject>(); // ’e–‹‚ÌƒŠƒXƒg
             while (randomTime < finalSpecianBom.randomBulletTime) // ’e–‹‚ğ—G‚É”ò‚Î‚·ŠÔ‚ªŒo‰ß‚·‚é‚Ü‚Åƒ‹[ƒv
@@ -492,7 +494,7 @@ public class SpecialMove_Gomi : MonoBehaviour
                 randomTime += 0.01f; // —G‚É’e–‹‚ğ”ò‚Î‚·ŠÔ‚ğXV
             }
             if (boss1Bullet.State != State.final || boss1Bullet.BulletState != BulletState.spell) break; // ó‘Ô‚ª•Ï‚í‚Á‚½‚çƒ‹[ƒv‚ğ”²‚¯‚é
-            // —G‚É”ò‚Î‚µ‚½’e–‹‚ğ’â~‚·‚é----------------------------------------------------------------------------------------------
+            // —G‚É”ò‚Î‚µ‚½’e–‹‚ğ’â~‚·‚é
             yield return new WaitForSeconds(1f); // —G‚É’e–‹‚ğ”ò‚Î‚µ‚½Œã‚Ì‘Ò‹@ŠÔ
             foreach (GameObject bullet in bullets) // —G‚É”ò‚Î‚µ‚½’e–‹‚ğ’â~‚·‚é
             {
@@ -503,7 +505,7 @@ public class SpecialMove_Gomi : MonoBehaviour
                     rb.linearVelocity = Vector2.zero; // ’e‚Ì‘¬“x‚ğƒ[ƒ‚É‚·‚é
                 }
             }
-            // •úËó‚É’e–‹‚ğ”ò‚Î‚·------------------------------------------------------------------------------------------------------
+            // •úËó‚É’e–‹‚ğ”ò‚Î‚·
             if(boss1Bullet.State != State.final || boss1Bullet.BulletState != BulletState.spell) break; // ó‘Ô‚ª•Ï‚í‚Á‚½‚çƒ‹[ƒv‚ğ”²‚¯‚é
             StartCoroutine(PositionMove(new Vector2(Random.Range(1.5f, 8.5f), Random.Range(-4.5f, 4.5f))));
             for (int i = 0; i < finalSpecianBom.radiationBulletCount; i++)
@@ -530,7 +532,7 @@ public class SpecialMove_Gomi : MonoBehaviour
             if (boss1Bullet.State != State.final || boss1Bullet.BulletState != BulletState.spell) break; // ó‘Ô‚ª•Ï‚í‚Á‚½‚çƒ‹[ƒv‚ğ”²‚¯‚é 
             // •úËó‚É’e–‹‚ğ”ò‚Î‚µ‚½Œã‚Ì‘Ò‹@ŠÔ
             yield return new WaitForSeconds(1f); // •úËó‚É’e–‹‚ğ”ò‚Î‚µ‚½Œã‚Ì‘Ò‹@ŠÔ
-            // ‰æ–Ê“à‚Ì’e–‹‚ğƒ‰ƒ“ƒ_ƒ€‚È•ûŒü‚Éˆê’è‚Ì‘¬“x‚Å”ò‚Î‚·--------------------------------------------------------------------------
+            // ‰æ–Ê“à‚Ì’e–‹‚ğƒ‰ƒ“ƒ_ƒ€‚È•ûŒü‚Éˆê’è‚Ì‘¬“x‚Å”ò‚Î‚·
             foreach (GameObject bullet in bullets)
             {
                 if (bullet != null)
@@ -550,6 +552,7 @@ public class SpecialMove_Gomi : MonoBehaviour
         yield return null;  
     }
 
+    // ------------------------------------------------------------------------------------------------------------------------------
     /// <summary>
     /// ƒZƒ~ƒtƒ@ƒCƒiƒ‹
     /// </summary>

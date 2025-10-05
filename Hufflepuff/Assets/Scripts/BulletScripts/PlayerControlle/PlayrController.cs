@@ -52,7 +52,7 @@ public class PlayrController : MonoBehaviour
     [SerializeField] private bool isBom; // ボムの状態
 
 
-    private bool isShooting = false;
+    public bool isShooting = false;
 
     public float Attack { get => attack; set => attack = value; }
     public float InvincibleTime { get => invincibleTime; set => invincibleTime = value; }

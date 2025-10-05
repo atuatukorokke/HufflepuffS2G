@@ -61,7 +61,6 @@ public class FollowingBullet : MonoBehaviour
     /// ShotNum‚Ì”‚¾‚¯’e‚ğ¶¬‚µ‚ÄAmoveDirection‚Ì•ûŒü‚É”ò‚Î‚·
     /// </summary>
     /// <param name="moveDirection">ˆÚ“®•ûŒü</param>
-    /// <returns>‘Ò‚¿ŠÔ0.06•b‚ğ•Ô‚·</returns>
     IEnumerator TimeDelayShot(Vector3 moveDirection)
     {
         if(GetComponent<SpriteRenderer>().isVisible)

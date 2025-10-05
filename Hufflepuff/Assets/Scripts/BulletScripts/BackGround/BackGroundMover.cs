@@ -17,8 +17,6 @@ public class BackGroundMover : MonoBehaviour
     {
         var image = GetComponent<Image>();
         m_copiedMaterial = image.material;
-
-        // マテリアルがnullだったら例外が出ます。
         Assert.IsNotNull(m_copiedMaterial);
     }
 
@@ -29,7 +27,6 @@ public class BackGroundMover : MonoBehaviour
             return;
         }
 
-        // xとyの値が0 ～ 1でリピートするようにする
         var x = Mathf.Repeat(Time.time * m_offsetSpeed.x, k_maxLength);
         var y = Mathf.Repeat(Time.time * m_offsetSpeed.y, k_maxLength);
         var offset = new Vector2(x, y);
@@ -38,7 +35,6 @@ public class BackGroundMover : MonoBehaviour
 
     private void OnDestroy()
     {
-        // ゲームオブジェクト破壊時にマテリアルのコピーも消しておく
         Destroy(m_copiedMaterial);
         m_copiedMaterial = null;
     }
