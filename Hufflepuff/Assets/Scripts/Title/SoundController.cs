@@ -1,3 +1,8 @@
+// SoundController.cs
+//
+// ‰¹ºŠÖŒW‚ğŠÇ—‚µ‚Ü‚·B
+//
+
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;

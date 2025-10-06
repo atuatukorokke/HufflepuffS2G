@@ -1,3 +1,8 @@
+// SceneTransition.cs
+// 
+// ƒV[ƒ“‘JˆÚ‚ğs‚¢‚Ü‚·
+// 
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

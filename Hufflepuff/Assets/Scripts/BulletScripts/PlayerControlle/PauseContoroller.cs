@@ -1,3 +1,8 @@
+// PauseContoroller.cs
+//
+// Pause‰æ–Ê‚ÌŠÇ—‚ğ‚µ‚Ü‚·
+//
+
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine;

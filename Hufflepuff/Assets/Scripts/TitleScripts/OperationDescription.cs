@@ -1,3 +1,8 @@
+// OperationDescription.cs
+//
+// ƒIƒvƒVƒ‡ƒ“ŠÖŒW‚ğŠÇ—‚µ‚Ü‚·
+//
+
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]

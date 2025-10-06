@@ -1,3 +1,8 @@
+// EnemyDeployment.cs
+//
+// エネミー情報です
+//
+
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EnemyDeployment", menuName = "Scriptable Objects/EnemyDeployment")]

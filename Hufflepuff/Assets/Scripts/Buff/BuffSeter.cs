@@ -1,3 +1,8 @@
+// BuffSeter.cs
+//
+// バフをプレイヤーに適応させます
+//
+
 using UnityEngine;
 
 public class BuffSeter : MonoBehaviour
