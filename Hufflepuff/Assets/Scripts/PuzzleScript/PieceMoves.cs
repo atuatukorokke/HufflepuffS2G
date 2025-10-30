@@ -65,17 +65,4 @@ public class PieceMoves : MonoBehaviour
     {
         Colliding = Colliding + newColliding;
     }
-
-    /*
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        //Debug.Log("“–‚½‚Á‚½");
-        Colliding = Colliding + 1;
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        Colliding = Colliding - 1;
-    }
-    */
 }

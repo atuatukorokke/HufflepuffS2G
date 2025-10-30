@@ -96,6 +96,11 @@ public class EnemySummoningManagement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// エネミーを生成します。
+    /// </summary>
+    /// <param name="deployment">エネミーを召喚する際の設定</param>
+    /// <returns></returns>
     private GameObject SpawnEnemy(EnemyDeployment deployment)
     {
         Vector2 position = deployment.GenerationPosition;
@@ -136,11 +141,15 @@ public class EnemySummoningManagement : MonoBehaviour
         deathLateText.text = $"お邪魔:<color=#ff0000>{((int)((float)deathCount.BlockCount / (float)deathCount.PieceCount * 100)).ToString()}%</color>";
     }
 
+    /// <summary>
+    /// ボスが倒された時の処理を行います。
+    /// </summary>
     private IEnumerator BossDeath()
     {
         FindAnyObjectByType<PlayrController>().Playstate = PlayState.Clear;
         ClearPanel.SetActive(true);
-        while(audioSource.volume > 0)
+        // BGMをフェードアウト
+        while (audioSource.volume > 0)
         {
             audioSource.volume -= 0.05f;
             yield return new WaitForSeconds(0.1f);

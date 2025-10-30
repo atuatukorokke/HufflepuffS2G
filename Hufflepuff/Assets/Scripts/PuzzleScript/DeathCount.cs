@@ -8,18 +8,18 @@ using TMPro;
 
 public class DeathCount : MonoBehaviour
 {
-    [SerializeField] private GameObject GameOberPanel; // ゲームオーバーパネル
+    [SerializeField] private GameObject GameOberPanel;              // ゲームオーバーパネル
     [SerializeField] private GameObject EnemySummoningManager;
-    [SerializeField] private PlayrController playerController; // プレイヤーのコントローラー
-    [SerializeField] private TextMeshProUGUI goldText; // 所持金テキスト
-    [SerializeField] private TextMeshProUGUI deathLateText; // 死亡率テキスト
+    [SerializeField] private PlayrController playerController;      // プレイヤーのコントローラー
+    [SerializeField] private TextMeshProUGUI goldText;              // 所持金テキスト
+    [SerializeField] private TextMeshProUGUI deathLateText;         // 死亡率テキスト
 
     [Header("死亡判定")]
-    [SerializeField] private bool isDead = false; // false = 生きてる, true = 死んでる
+    [SerializeField] private bool isDead = false;                   // false = 生きてる, true = 死んでる
 
     [Header("ブロック数")]
-    [SerializeField] private int pieceCount = 0;    // ピース数
-    [SerializeField] private int blockCount = 0;    // お邪魔ブロック数
+    [SerializeField] private int pieceCount = 0;                    // ピース数
+    [SerializeField] private int blockCount = 0;                    // お邪魔ブロック数
 
     public int PieceCount { get => pieceCount; private set => pieceCount = value; }
     public int BlockCount { get => blockCount; private set => blockCount = value; }

@@ -10,17 +10,16 @@ using UnityEngine.UI;
 
 public class PauseContoroller : MonoBehaviour
 {
-    [SerializeField] private GameObject PausePanel;
-    [SerializeField] private GameObject FadeInPanel;
-    [SerializeField] private GameObject VolumeControllerPanel;
-    [SerializeField] private GameObject BuffCheckPanel;
-    [SerializeField] private AudioSource audio;
+    [SerializeField] private GameObject PausePanel;             // ポーズパネル
+    [SerializeField] private GameObject FadeInPanel;            // フェードインパネル
+    [SerializeField] private GameObject VolumeControllerPanel;  // 音量調整パネル
+    [SerializeField] private GameObject BuffCheckPanel;         // バフ確認パネル
+    [SerializeField] private AudioSource audio;             
     private AudioSource audioSource;
-    [SerializeField] private AudioClip pauseOpenSE;
-    [SerializeField] private AudioClip pauseCloseSE;
-    [SerializeField] private AudioClip buttonSE;
+    [SerializeField] private AudioClip pauseOpenSE;             // ポーズ開くSE
+    [SerializeField] private AudioClip pauseCloseSE;            // ポーズ閉じるSE
+    [SerializeField] private AudioClip buttonSE;                // ボタンSE
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -30,10 +29,10 @@ public class PauseContoroller : MonoBehaviour
         BuffCheckPanel.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape)) 
+        // Escapeキーでポーズの開閉
+        if (Input.GetKeyDown(KeyCode.Escape)) 
         {
             if(Time.timeScale == 0)
             {
@@ -77,7 +76,9 @@ public class PauseContoroller : MonoBehaviour
         BuffCheckPanel.SetActive(true);
     }
 
-
+    /// <summary>
+    /// リタイアアニメーション
+    /// </summary>
     private IEnumerator RetireAnim()
     {
         audio.volume = 0;

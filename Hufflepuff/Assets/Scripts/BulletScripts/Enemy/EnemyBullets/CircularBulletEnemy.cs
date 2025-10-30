@@ -1,32 +1,44 @@
+// CircularBulletEnemy.cs
+//
+// 円形弾幕を発射する敵の挙動
+//
+
 using System.Collections;
 using UnityEngine;
 
 public class CircularBulletEnemy : MonoBehaviour
 {
     [Header ("円形弾幕の変数")]
-    [SerializeField] private GameObject BulletPrehab; // 弾幕のプレハブ
-    [SerializeField] private int FlyingNum; // 発射する数
-    [SerializeField] private int frequency; // 発射回数
-    [SerializeField] private float speed; // 弾幕のスピード
-    [SerializeField] private float DeleteTime; // 削除する時間
-    [SerializeField] private float delayTime; // 弾幕を出す間隔
-    private float angleOffset = 0f; // ずらし用の角度
+    [SerializeField] private GameObject BulletPrehab;   // 弾幕のプレハブ
+    [SerializeField] private int FlyingNum;             // 発射する数
+    [SerializeField] private int frequency;             // 発射回数
+    [SerializeField] private float speed;               // 弾幕のスピード
+    [SerializeField] private float DeleteTime;          // 削除する時間
+    [SerializeField] private float delayTime;           // 弾幕を出す間隔
+    private float angleOffset = 0f;                     // ずらし用の角度
 
     [Header("移動用変数")]
-    [SerializeField] private float destination; // 到着座標
-    [SerializeField] private float limitTime; // 移動にかける時間
+    [SerializeField] private float destination;         // 到着座標
+    [SerializeField] private float limitTime;           // 移動にかける時間
 
     private void Start()
     {
         StartCoroutine(CircularBullet(destination, limitTime));
     }
 
+    /// <summary>
+    /// 敵が移動しながら円形弾幕を出すよん
+    /// </summary>
+    /// <param name="targetX">移動先のX座標</param>
+    /// <param name="time">移動に掛ける時間</param>
     private IEnumerator CircularBullet(float targetX, float time)
     {
-        // 移動するよん
+        // 移動する
         // destinationまで移動する
         Vector2 startPosition = transform.position;
         float elapsedTime = 0f;
+
+        // 目的地まで移動
         while (elapsedTime < time)
         {
             transform.position = new Vector2(
@@ -36,10 +48,13 @@ public class CircularBulletEnemy : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+        // 弾幕を出す
         yield return StartCoroutine(ShootIncircle());
         yield return new WaitForSeconds(delayTime + 2.0f);
         elapsedTime = 0f; // 経過時間をリセット
         startPosition = transform.position;
+
+        // 画面外に移動
         while (elapsedTime < 5)
         {
             transform.position = new Vector2(

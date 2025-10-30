@@ -14,20 +14,20 @@ public class EnemyDeployment : ScriptableObject
     /// </summary>
 	public enum state
 	{
-        Smallfry, // 雑魚敵
+        Smallfry,   // 雑魚敵
         middleBoss, // 中ボス
-        Boss, // ボス
-        DelayTime, // 待ち時間
-        Shop, // ショップ
+        Boss,       // ボス
+        DelayTime,  // 待ち時間
+        Shop,       // ショップ
     }
 
-    [SerializeField] private state GetState; // ・雑魚敵　・ボス　・ウェーブの待ち時間
-    [SerializeField] private GameObject enemyPrehab; // エネミーのプレハブ
-    [SerializeField] private float enemyHP; // エネミーのHP
+    [SerializeField] private state GetState;             // ・雑魚敵　・ボス　・ウェーブの待ち時間
+    [SerializeField] private GameObject enemyPrehab;     // エネミーのプレハブ
+    [SerializeField] private float enemyHP;              // エネミーのHP
     [SerializeField] private Vector2 generationPosition; // 生成位置
-    [SerializeField] private int enemyCount; //エネミーの数　
-    [SerializeField] private float delayTime; // ウェーブの待ち時間
-    [SerializeField] private AudioClip bossBGM; // ボス戦用のBGM
+    [SerializeField] private int enemyCount;             //エネミーの数　
+    [SerializeField] private float delayTime;            // ウェーブの待ち時間
+    [SerializeField] private AudioClip bossBGM;          // ボス戦用のBGM
 
     public state GetState1 { get => GetState;}
     public GameObject EnemyPrehab { get => enemyPrehab;}

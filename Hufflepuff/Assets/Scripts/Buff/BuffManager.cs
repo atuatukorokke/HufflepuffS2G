@@ -1,3 +1,8 @@
+// BuffManager.cs
+//
+// // ƒoƒt“à—e‚ÌŠÇ—
+//
+
 using UnityEngine;
 using System.Collections.Generic;
 

@@ -15,24 +15,24 @@ public enum EnemyType
 
 public class MiddleBossBullet : MonoBehaviour
 {
-    [SerializeField] private EnemyType enemyType; // エネミーの状態を管理する列挙型
-    [SerializeField] private BossHealth bossHealth; // ボスのＨＰを管理するスクリプト
-    private float damageLate = 1; // 被ダメージの割合
-    [SerializeField] private GameObject presentBox; // ドロップ用のプレハブ
-    [SerializeField] private GameObject HealthCanvas; // 現在のＨＰバーのキャンバス
-    [SerializeField] private GameObject currentHpbar; // 現在のＨＰバーのオブジェクト
-    [SerializeField] private float maxHp; // ボスの最大ＨＰ
-    private float dangerHp;
-    private bool isDamage;
-    GameObject canvas; // ＨＰバーのキャンバス
+    [SerializeField] private EnemyType enemyType;       // エネミーの状態を管理する列挙型
+    [SerializeField] private BossHealth bossHealth;     // ボスのＨＰを管理するスクリプト
+    private float damageLate = 1;                       // 被ダメージの割合
+    [SerializeField] private GameObject presentBox;     // ドロップ用のプレハブ
+    [SerializeField] private GameObject HealthCanvas;   // 現在のＨＰバーのキャンバス
+    [SerializeField] private GameObject currentHpbar;   // 現在のＨＰバーのオブジェクト
+    [SerializeField] private float maxHp;               // ボスの最大ＨＰ
+    private float dangerHp;                             // ボスの危険域ＨＰ
+    private bool isDamage;                              // ダメージを受けられるかどうかの判定
+    GameObject canvas;                                  // ＨＰバーのキャンバス
 
     [Header("通常弾幕用の変数")]
-    [SerializeField] private GameObject bulletPrefab; // 弾幕のプレハブ
-    [SerializeField] private int shotNum; // 弾幕を出す数
+    [SerializeField] private GameObject bulletPrefab;   // 弾幕のプレハブ
+    [SerializeField] private int shotNum;               // 弾幕を出す数
     [SerializeField] private float radiusShrinkSpeed = 0.05f; // 半径の縮小速度
-    [SerializeField] private float radius = 3.0f; // 弾幕の生成位置の半径
-    [SerializeField] private float bulletSpeed; // 弾幕のスピード
-    [SerializeField] private float bulletDelayTime; // 弾幕を出す間隔
+    [SerializeField] private float radius = 3.0f;       // 弾幕の生成位置の半径
+    [SerializeField] private float bulletSpeed;         // 弾幕のスピード
+    [SerializeField] private float bulletDelayTime;     // 弾幕を出す間隔
 
     /// <summary>
     /// 初期設定をします
@@ -40,12 +40,12 @@ public class MiddleBossBullet : MonoBehaviour
     private void Start()
     {
         isDamage = true;
-        canvas = Instantiate(HealthCanvas, Vector3.zero, Quaternion.identity); // ＨＰバーのキャンバスを生成
-        currentHpbar = canvas.transform.GetChild(0).Find("currentHpBar").gameObject; // 現在のＨＰバーのオブジェクトを取得; // 現在のＨＰバーを取得
+        canvas = Instantiate(HealthCanvas, Vector3.zero, Quaternion.identity);          // ＨＰバーのキャンバスを生成
+        currentHpbar = canvas.transform.GetChild(0).Find("currentHpBar").gameObject;    // 現在のＨＰバーのオブジェクトを取得; // 現在のＨＰバーを取得
         dangerHp = maxHp * 0.3f;
 
         bossHealth = FindAnyObjectByType<BossHealth>(); // ボスのＨＰ管理スクリプトを取得
-        bossHealth.HP = maxHp; // ボスのＨＰを設定
+        bossHealth.HP = maxHp;                          // ボスのＨＰを設定
         StartCoroutine(StartBullet());
     }
 

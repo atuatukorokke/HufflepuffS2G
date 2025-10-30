@@ -1,3 +1,8 @@
+// BuffExplanation.cs
+//
+// バフの説明を表示するためのスクリプト
+//
+
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;

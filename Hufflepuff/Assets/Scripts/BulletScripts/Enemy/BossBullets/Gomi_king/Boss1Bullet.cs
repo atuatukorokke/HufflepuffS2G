@@ -12,52 +12,52 @@ using UnityEngine;
 [System.Serializable]
 public class FastBullet
 {
-    [SerializeField] public GameObject BulletPrehab; // 弾幕のプレハブ
-    [SerializeField] public int FlyingNum; // 発射する数
-    [SerializeField] public int frequency; // 発射回数
-    [SerializeField] public float speed; // 弾幕のスピード
-    [SerializeField] public float DeleteTime; // 削除する時間
-    [SerializeField] public float delayTime; // 弾幕を出す間隔
-    public float angleOffset = 0f; // ずらし用の角度
-    [SerializeField] public float moveSpeed;
+    [SerializeField] public GameObject BulletPrehab;    // 弾幕のプレハブ
+    [SerializeField] public int FlyingNum;              // 発射する数
+    [SerializeField] public int frequency;              // 発射回数
+    [SerializeField] public float speed;                // 弾幕のスピード
+    [SerializeField] public float DeleteTime;           // 削除する時間
+    [SerializeField] public float delayTime;            // 弾幕を出す間隔
+    public float angleOffset = 0f;                      // ずらし用の角度
+    [SerializeField] public float moveSpeed;            // 移動速度
 }
 
 // 二段階目の通常弾幕の変数
 [System.Serializable] 
 public class SecondBullet
 {
-    [SerializeField] public GameObject RevolutionBulletPrehab; // 弾幕のプレハブ
-    [SerializeField] public int FevolutionFlyingNum; // 発射する数
-    [SerializeField] public int FevolutionFrequency; // 発射回数
-    [SerializeField] public float FevolutionSpeed; // 弾幕のスピード
-    [SerializeField] public float FevolutionDeleteTime; // 削除する時間
-    [SerializeField] public float FevolutionDelayTime; // 弾幕を出す間隔
-    public float FevolutionAngleOffset = 0;
+    [SerializeField] public GameObject RevolutionBulletPrehab;  // 弾幕のプレハブ
+    [SerializeField] public int FevolutionFlyingNum;            // 発射する数
+    [SerializeField] public int FevolutionFrequency;            // 発射回数
+    [SerializeField] public float FevolutionSpeed;              // 弾幕のスピード
+    [SerializeField] public float FevolutionDeleteTime;         // 削除する時間
+    [SerializeField] public float FevolutionDelayTime;          // 弾幕を出す間隔
+    public float FevolutionAngleOffset = 0;                     // ずらし用の角度
 }
 
 // 三段階目の通常弾幕の変数
 [System.Serializable] 
 public class ThirdBullet
 {
-    [SerializeField] public GameObject RotationBulletPrehab; // 弾幕のプレハブ
-    [SerializeField] public int RotationFlyingNum; // 発射する数
-    [SerializeField] public int RotationFrequency; // 発射回数
-    [SerializeField] public float RotationSpeed; // 弾幕のスピード
-    [SerializeField] public float RotationDeleteTime; // 削除する時間
-    [SerializeField] public float RotationDelayTime; // 弾幕を出す間隔
-    public float RotationAngleOffset = 0;
+    [SerializeField] public GameObject RotationBulletPrehab;    // 弾幕のプレハブ
+    [SerializeField] public int RotationFlyingNum;              // 発射する数
+    [SerializeField] public int RotationFrequency;              // 発射回数
+    [SerializeField] public float RotationSpeed;                // 弾幕のスピード
+    [SerializeField] public float RotationDeleteTime;           // 削除する時間
+    [SerializeField] public float RotationDelayTime;            // 弾幕を出す間隔
+    public float RotationAngleOffset = 0;                       // ずらし用の角度
 }
 
 // 四段階目の通常弾幕の変数
 [System.Serializable]
 public class FourBullet
 {
-    [SerializeField] public GameObject BulletPrehab;
-    [SerializeField] public int FlyingNum; // 発射する数
-    [SerializeField] public float Speed; // 弾幕のスピード
-    [SerializeField] public float DeleteTime; // 削除するまでの時間
-    [SerializeField] public float DelayTime; // 弾幕を出す間隔
-    [SerializeField] public float AngleSpacing; // 弾同士の角度のズレ
+    [SerializeField] public GameObject BulletPrehab;            // 弾幕のプレハブ
+    [SerializeField] public int FlyingNum;                      // 発射する数
+    [SerializeField] public float Speed;                        // 弾幕のスピード
+    [SerializeField] public float DeleteTime;                   // 削除するまでの時間
+    [SerializeField] public float DelayTime;                    // 弾幕を出す間隔
+    [SerializeField] public float AngleSpacing;                 // 弾同士の角度のズレ
     public float AngleOffset = 0;
 }
 
@@ -65,14 +65,14 @@ public class FourBullet
 [System.Serializable]
 public class FinalBulletValue
 {
-    [SerializeField] public GameObject Prehab; // 弾幕のプレハブ
-    [SerializeField] public int FlyingNum; // 弾幕の数
-    [SerializeField] public float speed; // 弾幕のスピード
-    [SerializeField] public float DeleteTime; // 弾幕の消す時間
-    [SerializeField] public float DelayTime; // 弾幕の消す時間
-    [SerializeField] public float radius; // 半径
-    public Transform player; // プレイヤーのTransform
-    public List<GameObject> bullets = new List<GameObject>();
+    [SerializeField] public GameObject Prehab;                  // 弾幕のプレハブ
+    [SerializeField] public int FlyingNum;                      // 弾幕の数
+    [SerializeField] public float speed;                        // 弾幕のスピード
+    [SerializeField] public float DeleteTime;                   // 弾幕の消す時間
+    [SerializeField] public float DelayTime;                    // 弾幕の消す時間
+    [SerializeField] public float radius;                       // 半径
+    public Transform player;                                    // プレイヤーのTransform
+    public List<GameObject> bullets = new List<GameObject>();   // 生成した弾幕のリスト
 }
 
 //敵の弾幕の状態
@@ -96,22 +96,22 @@ public enum State
 public class Boss1Bullet : MonoBehaviour
 {
     [Header("ボスの全体を管理する変数")]
-    [SerializeField] private State state = State.fast; // 今の攻撃が何段階目かの判別
-    [SerializeField] private BulletState bulletState = BulletState.normal; // HP判別でどの弾幕を撃つか判別する
-    [SerializeField] private float maxHP = 100f; // 敵の最大HP
+    [SerializeField] private State state = State.fast;                      // 今の攻撃が何段階目かの判別
+    [SerializeField] private BulletState bulletState = BulletState.normal;  // HP判別でどの弾幕を撃つか判別する
+    [SerializeField] private float maxHP = 100f;                            // 敵の最大HP
     [Range(0, 100)]
-    [SerializeField] private float currentHP; // 今のHP
-    private bool isSpecialBulletActive = false; // HPが0になったらtrueになる→ラストワード発生
-    private float specialBulletDuration = 15f; // 何秒ラストワードを撃つか
-    private float timer = 0f; // 今何秒たったか
-    private float damageLate = 0f; // ダメージを与える割合
-    [SerializeField] private float attak = 1f; // 攻撃力
-    [SerializeField] private Vector2 spellPos; // 必殺技・セミファイナルを打つときにこの座標に一旦戻る
-    [SerializeField] private SpecialMove_Gomi GomiSpecialMove; // 必殺技のクラス
-    [SerializeField] private bool isInvivle = false; // 必殺技中の一時無敵判定
-    [SerializeField] private GameObject HealthCanvas; // 現在のＨＰバーのキャンバス
-    [SerializeField] private GameObject currentHpbar; // 現在のＨＰバーのオブジェクト
-    [SerializeField] private GameObject CutInnCanvas; // カットイン用のキャンバス
+    [SerializeField] private float currentHP;                               // 今のHP
+    private bool isSpecialBulletActive = false;                             // HPが0になったらtrueになる→ラストワード発生
+    private float specialBulletDuration = 15f;                              // 何秒ラストワードを撃つか
+    private float timer = 0f;                                               // 今何秒たったか
+    private float damageLate = 0f;                                          // ダメージを与える割合
+    [SerializeField] private float attak = 1f;                              // 攻撃力
+    [SerializeField] private Vector2 spellPos;                              // 必殺技・セミファイナルを打つときにこの座標に一旦戻る
+    [SerializeField] private SpecialMove_Gomi GomiSpecialMove;              // 必殺技のクラス
+    [SerializeField] private bool isInvivle = false;                        // 必殺技中の一時無敵判定
+    [SerializeField] private GameObject HealthCanvas;                       // 現在のＨＰバーのキャンバス
+    [SerializeField] private GameObject currentHpbar;                       // 現在のＨＰバーのオブジェクト
+    [SerializeField] private GameObject CutInnCanvas;                       // カットイン用のキャンバス
     GameObject canvas; // ＨＰバーのキャンバス
     public event  System.Action Ondeath;
 

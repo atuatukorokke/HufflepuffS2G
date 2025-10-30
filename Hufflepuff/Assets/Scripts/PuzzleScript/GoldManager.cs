@@ -17,7 +17,10 @@ public class GoldManager : MonoBehaviour
         goldCount = 0;
     }
 
-    // 所持金を増減させる
+    /// <summary>
+    /// 所持金を設定します
+    /// </summary>
+    /// <param name="newGoldCount">コインの増加量</param>
     public void SetGoldCount(int newGoldCount)
     {
         goldCount = goldCount + newGoldCount;
@@ -25,7 +28,10 @@ public class GoldManager : MonoBehaviour
 
     }
 
-    // 現在の所持金を取得します
+    /// <summary>
+    /// 現在の所持金を取得します
+    /// </summary>
+    /// <returns>今のコインの所持量</returns>
     public int GetGold()
     {
         return goldCount;

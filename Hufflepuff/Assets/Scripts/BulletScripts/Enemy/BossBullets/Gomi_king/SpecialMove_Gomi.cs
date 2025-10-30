@@ -6,82 +6,82 @@ using UnityEngine;
 [System.Serializable]
 public class FastSpecialBom
 {
-    [SerializeField] public GameObject BulletPrehab; // ’e–‹‚ÌƒvƒŒƒnƒu
-    [SerializeField] public int ShotNum; // ’e–‹‚ğ‘Å‚Â‰ñ”
-    [SerializeField] public float DelayTime; // ’e–‹‚ğ‘Å‚ÂŠÔŠu
-    [SerializeField] public float speed; // ƒSƒ~[‚Ì‘¬‚³
-    [SerializeField] public float delayTime; // ’e–‹‚ğ‘Å‚Â‚Ü‚Å‚Ì‘Ò‹@ŠÔ
+    [SerializeField] public GameObject BulletPrehab;    // ’e–‹‚ÌƒvƒŒƒnƒu
+    [SerializeField] public int ShotNum;                // ’e–‹‚ğ‘Å‚Â‰ñ”
+    [SerializeField] public float DelayTime;            // ’e–‹‚ğ‘Å‚ÂŠÔŠu
+    [SerializeField] public float speed;                // ƒSƒ~[‚Ì‘¬‚³
+    [SerializeField] public float delayTime;            // ’e–‹‚ğ‘Å‚Â‚Ü‚Å‚Ì‘Ò‹@ŠÔ
 }
 // “ñ’iŠK–Ú-----------------------------------------------------------------------
 [System.Serializable]
 public class SecondSpecialBom
 {
     public GameObject RightBulletPrehab; // ‰EŒü‚«‚ÌƒnƒG
-    public GameObject LeftBulletPrehab; // ¶Œü‚«‚ÌƒnƒG
-    public float delayTime;
-    public int BulletNum; // ‘Å‚Â”
-    public float time; // ‰½•bŒã‚ÉŒã‚ë‚©‚çƒnƒG‚ğo‚·‚©
-    public float speed; // ’e–‹‚Ì‘¬‚³
+    public GameObject LeftBulletPrehab;  // ¶Œü‚«‚ÌƒnƒG
+    public float delayTime;@            // ‰½•bŠÔ‰ñ“]’e‚ğ‘Å‚Â‚©
+    public int BulletNum;                // ‘Å‚Â”
+    public float time;                   // ‰½•bŒã‚ÉŒã‚ë‚©‚çƒnƒG‚ğo‚·‚©
+    public float speed;                  // ’e–‹‚Ì‘¬‚³
     [Range(0, 360)]
-    public float angle;
+    public float angle;                  // ‰ñ“]’e‚ÌŠp“x’²®—p•Ï”
 
 }
 // O’iŠK–Ú-----------------------------------------------------------------------
 [System.Serializable]
 public class ThirdSpecialBom
 {
-    [SerializeField] public GameObject BulletPrehab;
-    [SerializeField] public float maxSpeed;
-    [SerializeField] public float minSpeed;
-    [SerializeField] public float delayTime;
- }
+    [SerializeField] public GameObject BulletPrehab;    // ’e–‹‚ÌƒvƒŒƒnƒu
+    [SerializeField] public float maxSpeed;             // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ÌÅ‘å‘¬‚³
+    [SerializeField] public float minSpeed;             // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ÌÅ¬‘¬‚³
+    [SerializeField] public float delayTime;            // ’e–‹‚ğ‘Å‚Â‚Ü‚Å‚Ì‘Ò‹@ŠÔ
+}
 // l’iŠK–Ú-----------------------------------------------------------------------
 [System.Serializable]
 public class FourSpecialBom
 {
-    [SerializeField] public GameObject BulletPrehab;
-    [SerializeField] public float stopTime; // ~‚Ü‚é‚Ü‚Å‚ÌŠÔ
-    [SerializeField] public int bulletNum; // ‰½”­’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ğŒ‚‚Â‚©
-    [SerializeField] public float circleDelayTime; // ‰~Œ`‚Ì’e–‹‚Å‰½•b‘Ò‹@‚·‚é‚©
-    [SerializeField] public float speed; // ’e–‹‚Ì‘¬‚³
-    [SerializeField] public float angleOffset; // ’e–‹‚ÌŠp“x‚ğ‚¸‚ç‚·‚½‚ß‚Ì•Ï”
-    [SerializeField] public float crossSpeed; // Œğ·ã‚É’e‚ğ“®‚©‚·‚Æ‚«‚Ì‘¬‚³ 
-    [SerializeField] public float expandSpeed; // ŠgUƒXƒs[ƒh
-    [SerializeField] public float rotationSpeed; // –ˆ•b‰ñ“]Šp“xi“xj
-    [SerializeField] public float arcCount; // ’e–‹‚Ì”i’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ì”j
-    [SerializeField] public float arcAngle; // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ÌŠp“x
-    [SerializeField] public float arcSpeed; // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ì‘¬‚³
-    [SerializeField] public float movementSpeed; // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ÌˆÚ“®‘¬“x
-    [SerializeField] public int arcLine; // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ìƒ‰ƒCƒ“”i’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ì”j
+    [SerializeField] public GameObject BulletPrehab;    // ’e–‹‚ÌƒvƒŒƒnƒu
+    [SerializeField] public float stopTime;             // ~‚Ü‚é‚Ü‚Å‚ÌŠÔ
+    [SerializeField] public int bulletNum;              // ‰½”­’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ğŒ‚‚Â‚©
+    [SerializeField] public float circleDelayTime;      // ‰~Œ`‚Ì’e–‹‚Å‰½•b‘Ò‹@‚·‚é‚©
+    [SerializeField] public float speed;                // ’e–‹‚Ì‘¬‚³
+    [SerializeField] public float angleOffset;          // ’e–‹‚ÌŠp“x‚ğ‚¸‚ç‚·‚½‚ß‚Ì•Ï”
+    [SerializeField] public float crossSpeed;           // Œğ·ã‚É’e‚ğ“®‚©‚·‚Æ‚«‚Ì‘¬‚³ 
+    [SerializeField] public float expandSpeed;          // ŠgUƒXƒs[ƒh
+    [SerializeField] public float rotationSpeed;        // –ˆ•b‰ñ“]Šp“xi“xj
+    [SerializeField] public float arcCount;             // ’e–‹‚Ì”i’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ì”j
+    [SerializeField] public float arcAngle;             // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ÌŠp“x
+    [SerializeField] public float arcSpeed;             // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ì‘¬‚³
+    [SerializeField] public float movementSpeed;        // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ÌˆÚ“®‘¬“x
+    [SerializeField] public int arcLine;                // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ìƒ‰ƒCƒ“”i’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ì”j
 
 }
 // ÅI’iŠK–Ú---------------------------------------------------------------------
 [System.Serializable]
 public class FinalSpecianBom
 {
-    [SerializeField] public GameObject BulletPrehab;
-    [SerializeField] public float maxSpeed; // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ÌÅ‘å‘¬‚³
-    [SerializeField] public float minSpeed; // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ÌÅ¬‘¬‚³
-    [SerializeField] public float randomSpeed; // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚Ì‘¬‚³
-    [SerializeField] public float randomBulletTime; // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ğo‚·ŠÔ
-    [SerializeField] public int radiationBulletNum; // •úËó‚Éo‚·’e–‹‚Ì”
-    [SerializeField] public float radiationBulletSpeed; // •úËó‚Éo‚·’e–‹‚Ì‘¬‚³
+    [SerializeField] public GameObject BulletPrehab;        // ’e–‹‚ÌƒvƒŒƒnƒu
+    [SerializeField] public float maxSpeed;                 // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ÌÅ‘å‘¬‚³
+    [SerializeField] public float minSpeed;                 // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ÌÅ¬‘¬‚³
+    [SerializeField] public float randomSpeed;              // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚Ì‘¬‚³
+    [SerializeField] public float randomBulletTime;         // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ğo‚·ŠÔ
+    [SerializeField] public int radiationBulletNum;         // •úËó‚Éo‚·’e–‹‚Ì”
+    [SerializeField] public float radiationBulletSpeed;     // •úËó‚Éo‚·’e–‹‚Ì‘¬‚³
     [SerializeField] public float radiationBulletDelayTime; // •úËó‚Éo‚·’e–‹‚Ìo‚·ŠÔŠu
-    [SerializeField] public float radiationBulletCount; // •úËó‚Éo‚·’e–‹‚Ì”i‰½‰ñ•úËó‚Éo‚·‚©j
-    [SerializeField] public float radiationBulletAngle; // •úËó‚Éo‚·’e–‹‚ÌŠp“x
-    [SerializeField] public float breakTime; // ’â~‚µ‚½’e–‹‚ğ“®‚©‚µ‚½Œã‚Ì‘Ò‹@ŠÔ
-    [SerializeField] public Color bulletColor; // ’e–‹‚ÌF
+    [SerializeField] public float radiationBulletCount;     // •úËó‚Éo‚·’e–‹‚Ì”i‰½‰ñ•úËó‚Éo‚·‚©j
+    [SerializeField] public float radiationBulletAngle;     // •úËó‚Éo‚·’e–‹‚ÌŠp“x
+    [SerializeField] public float breakTime;                // ’â~‚µ‚½’e–‹‚ğ“®‚©‚µ‚½Œã‚Ì‘Ò‹@ŠÔ
+    [SerializeField] public Color bulletColor;              // ’e–‹‚ÌF
 }
 // ƒZƒ~ƒtƒ@ƒCƒiƒ‹-----------------------------------------------------------------
 [System.Serializable]
 public class SpecialFinalAttack
 {
-    public GameObject BulletPrehab; // ’e–‹‚ÌƒvƒŒƒnƒu
-    public int bulletNum; // ’e–‹‚Ì”
-    public float speed; // ’e–‹‚ÌƒXƒs[ƒh
-    public float delayTime; // ’e–‹‚Ìo‚·ŠÔŠu
-    public float angleOffset;
- }
+    public GameObject BulletPrehab;     // ’e–‹‚ÌƒvƒŒƒnƒu
+    public int bulletNum;               // ’e–‹‚Ì”
+    public float speed;                 // ’e–‹‚ÌƒXƒs[ƒh
+    public float delayTime;             // ’e–‹‚Ìo‚·ŠÔŠu
+    public float angleOffset;           // ’e–‹‚ÌŠp“x‚ğ‚¸‚ç‚·‚½‚ß‚Ì•Ï”
+}
 
 public class SpecialMove_Gomi : MonoBehaviour
 {

@@ -9,10 +9,10 @@ using System;
 public class EnemyHealth : MonoBehaviour
 {
     [Range (0, 100)]
-    [SerializeField] public float hP; // エネミーのＨＰ
-    [SerializeField] GameObject prehab; // 箱のプレハブ
-    [SerializeField] private int dropLate; // 箱を落とす確率
-    [SerializeField] private DropManager dropManager; // ドロップ管理のスクリプト
+    [SerializeField] public float hP;                   // エネミーのＨＰ
+    [SerializeField] GameObject prehab;                 // 箱のプレハブ
+    [SerializeField] private int dropLate;              // 箱を落とす確率
+    [SerializeField] private DropManager dropManager;   // ドロップ管理のスクリプト
 
     private void Start()
     {

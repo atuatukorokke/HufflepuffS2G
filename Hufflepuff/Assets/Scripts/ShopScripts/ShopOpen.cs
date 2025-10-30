@@ -1,3 +1,8 @@
+// ShopOpen.cs
+//
+// ショップ画面の開閉を管理
+//
+
 using System;
 using UnityEngine;
 
@@ -58,6 +63,9 @@ public class ShopOpen : MonoBehaviour
         animator.SetBool("EndAnim", true);
     }
 
+    /// <summary>
+    /// ショップカメラの移動
+    /// </summary>
     public void ShopCameraMove()
     {
         shopCamera.gameObject.SetActive(OpenState);

@@ -1,3 +1,8 @@
+// BulletGameManager.cs
+//
+// ゲーム全体の管理
+//
+
 using UnityEngine;
 
 public class BulletGameManager : MonoBehaviour
@@ -5,13 +10,11 @@ public class BulletGameManager : MonoBehaviour
     [SerializeField] private float gameTime = 0.0f; // ゲームの経過時間を管理する変数
     private bool isStart = false;　 // ゲームが開始されているかどうかを管理するフラグ
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         gameTime = 0.0f;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(isStart)

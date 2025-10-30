@@ -14,14 +14,14 @@ public class ObjectDragTransform : MonoBehaviour
     float gridSize = 1.0f;
 
     [Header("ピース情報")]
-    [SerializeField] private int pieceCount = 0;    // ピース数
-    [SerializeField] private int sellGold = 0;     // 金額
+    [SerializeField] private int pieceCount = 0;                // ピース数
+    [SerializeField] private int sellGold = 0;                  // 金額
 
     [Header("スクリプトを動的にアタッチされる")]
-    [SerializeField] private DeathCount deathCount;     // 死ぬかの判定を行うスクリプト
-    [SerializeField] private GoldManager goldManager;     // 金額管理を行うスクリプト
+    [SerializeField] private DeathCount deathCount;             // 死ぬかの判定を行うスクリプト
+    [SerializeField] private GoldManager goldManager;           // 金額管理を行うスクリプト
     [SerializeField] private PuzzleController puzzleController; // パズル全体を管理するスクリプト
-    [SerializeField] private Buff buff;    // バフ管理を行うスクリプト
+    [SerializeField] private Buff buff;                         // バフ管理を行うスクリプト
 
     void Start()
     {

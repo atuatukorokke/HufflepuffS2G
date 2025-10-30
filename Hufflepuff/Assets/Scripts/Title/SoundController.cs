@@ -9,13 +9,14 @@ using UnityEngine.UI;
 
 public class SoundController : MonoBehaviour
 {
-    [SerializeField] private AudioMixer myMixer;
-    [SerializeField] private Slider BGMSlider;
-    [SerializeField] private Slider SESlider;
+    [SerializeField] private AudioMixer myMixer;    // オーディオミキサー
+    [SerializeField] private Slider BGMSlider;      // BGMスライダー
+    [SerializeField] private Slider SESlider;       // SEスライダー
 
     private void Start()
     {
-        if(PlayerPrefs.HasKey("BGMVolume"))
+        // 保存されている音量データがある場合は読み込み、ない場合はデフォルト音量を設定
+        if (PlayerPrefs.HasKey("BGMVolume"))
         {
             LoadVolume();
         }
@@ -27,6 +28,9 @@ public class SoundController : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// BGM音量を設定します
+    /// </summary>
     public void SetBGMVolume()
     {
         float volume = BGMSlider.value;
@@ -34,6 +38,9 @@ public class SoundController : MonoBehaviour
         PlayerPrefs.SetFloat("BGMVolume", volume);
     }
 
+    /// <summary>
+    /// SE音量を設定します
+    /// </summary>
     public void SetSEVolume()
     {
         float volume = SESlider.value;
@@ -41,6 +48,9 @@ public class SoundController : MonoBehaviour
         PlayerPrefs.SetFloat("SEVolume", volume);
     }
 
+    /// <summary>
+    /// 保存されている音量データを読み込みます
+    /// </summary>
     private void LoadVolume()
     {
         BGMSlider.value = PlayerPrefs.GetFloat("BGMVolume");

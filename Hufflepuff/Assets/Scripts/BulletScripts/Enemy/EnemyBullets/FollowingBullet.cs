@@ -1,16 +1,21 @@
+// FollowingBullet.cs
+//
+// 追尾弾の生成
+//
+
 using System.Collections;
 using UnityEngine;
 
 public class FollowingBullet : MonoBehaviour
 {
     [Header("弾幕用の変数")]
-    private GameObject targetObj; // ターゲット(プレイヤー)
-    private Vector2 targetPos; // ターゲット(プレイヤー)との位置関係を入れる
-    [SerializeField] private GameObject BulletPrehab; // 弾幕のプレハブ
-    [SerializeField] private int ShotNum; // 弾幕を出す数
-    [SerializeField] private float speed; // 弾幕のスピード
-    [SerializeField] private float delayTime; // 弾幕を出す間隔
-    [SerializeField] private float destroyTime; // 弾幕を消す時間
+    private GameObject targetObj;                       // ターゲット(プレイヤー)
+    private Vector2 targetPos;                          // ターゲット(プレイヤー)との位置関係を入れる
+    [SerializeField] private GameObject BulletPrehab;   // 弾幕のプレハブ
+    [SerializeField] private int ShotNum;               // 弾幕を出す数
+    [SerializeField] private float speed;               // 弾幕のスピード
+    [SerializeField] private float delayTime;           // 弾幕を出す間隔
+    [SerializeField] private float destroyTime;         // 弾幕を消す時間
     GameObject proj;
 
     [Header("移動用変数")]

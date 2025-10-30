@@ -15,15 +15,25 @@ public class SceneTransition : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    /// <summary>
+    /// メインシーンを読み込みます
+    /// </summary>
     public void LoadScene()
     {
         SceneManager.LoadScene("BulletScene");
     }
 
+    /// <summary>
+    /// スタートアニメーションを再生します   
+    /// </summary>
     public void GetStartAnim()
     {
         animator.SetBool("GetStart", true);
     }
+
+    /// <summary>
+    /// パネルを非表示にします
+    /// </summary>
     public void PanelActive()
     {
         gameObject.SetActive(false);

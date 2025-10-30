@@ -12,44 +12,44 @@ public class PlayrController : MonoBehaviour
 {
     [Header("Player Settings")]
     private Rigidbody2D myRigidbody;
-    [SerializeField] private float Speed; // 移動速度
-    [SerializeField] private float speedLate = 1.0f; // 移動速度の遅延
+    [SerializeField] private float Speed;                       // 移動速度
+    [SerializeField] private float speedLate = 1.0f;            // 移動速度の遅延
     [Range(1f, 5f)]
     [SerializeField] private float attack;
-    [SerializeField] private GameObject straightBulletPrehab; // 直線弾幕のプレハブ
-    [SerializeField] private GameObject diffusionBulletPrehab; // 拡散用の弾幕プレハブ
-    [SerializeField] private float bulletSpeed = 20f; // 弾幕の速度
-    [SerializeField] private Transform gunPort; // 弾幕の発射口
-    [SerializeField] private float delayTime; // 発射してからのディレイ時間
-    [SerializeField] private bool invincible = false; // 無敵判定
-    [SerializeField] private float invincibleTime = 15f; // 無敵時間
-    [SerializeField] private int presentCount = 0; // プレゼントの数
-    [SerializeField] private PlayState playState; // プレイヤーの状態
-    [SerializeField] private GameObject CutInnCanvas; // カットイン用のキャンバス
-    [SerializeField] private PieceCreate pieceCreate; // ピース生成スクリプト
-    [SerializeField] private float outPieceLate; // お邪魔ピースの出現率
-    [SerializeField] private TextMeshProUGUI coinText; // 所持金テキスト
-    [SerializeField] private TextMeshProUGUI pieceText; // ピースの数テキスト
+    [SerializeField] private GameObject straightBulletPrehab;   // 直線弾幕のプレハブ
+    [SerializeField] private GameObject diffusionBulletPrehab;  // 拡散用の弾幕プレハブ
+    [SerializeField] private float bulletSpeed = 20f;           // 弾幕の速度
+    [SerializeField] private Transform gunPort;                 // 弾幕の発射口
+    [SerializeField] private float delayTime;                   // 発射してからのディレイ時間
+    [SerializeField] private bool invincible = false;           // 無敵判定
+    [SerializeField] private float invincibleTime = 15f;        // 無敵時間
+    [SerializeField] private int presentCount = 0;              // プレゼントの数
+    [SerializeField] private PlayState playState;               // プレイヤーの状態
+    [SerializeField] private GameObject CutInnCanvas;           // カットイン用のキャンバス
+    [SerializeField] private PieceCreate pieceCreate;           // ピース生成スクリプト
+    [SerializeField] private float outPieceLate;                // お邪魔ピースの出現率
+    [SerializeField] private TextMeshProUGUI coinText;          // 所持金テキスト
+    [SerializeField] private TextMeshProUGUI pieceText;         // ピースの数テキスト
 
     private AudioSource audio;
-    [SerializeField] private AudioClip damageSE;
-    [SerializeField] private AudioClip presentSE;
-    [SerializeField] private AudioClip specialSE;
+    [SerializeField] private AudioClip damageSE;                // ダメージ音
+    [SerializeField] private AudioClip presentSE;               // プレゼントボックス取得音
+    [SerializeField] private AudioClip specialSE;               // 必殺技音
 
 
     [Header("Player Coin")]
-    [SerializeField] private int pieceCount = 0; // ピースの数
-    [SerializeField] private int coinCount = 0; // コインの数
-    [SerializeField] private int defultCoinIncreaseCount = 20; // デフォルトのコイン増加数
+    [SerializeField] private int pieceCount = 0;                // ピースの数
+    [SerializeField] private int coinCount = 0;                 // コインの数
+    [SerializeField] private int defultCoinIncreaseCount = 20;  // デフォルトのコイン増加数
 
     [Header("Player Bom")]
-    [SerializeField] private GameObject PlayerBomObjerct; // プレイヤーのボムオブジェクト
-    [SerializeField] private float bomAppearTime = 5f; // ボムの出現時間
-    [SerializeField] private float playerBomDelayTime = 5f; // ボムのディレイ時間
-    [SerializeField] private float maxChatgeTime; // ボムの最大チャージ時間
-    [SerializeField] private float currentChargeTime; // ボムのチャージ時間
-    [SerializeField] private bool isCharge = true; // ボムのチャージ状態
-    [SerializeField] private bool isBom; // ボムの状態
+    [SerializeField] private GameObject PlayerBomObjerct;       // プレイヤーのボムオブジェクト
+    [SerializeField] private float bomAppearTime = 5f;          // ボムの出現時間
+    [SerializeField] private float playerBomDelayTime = 5f;     // ボムのディレイ時間
+    [SerializeField] private float maxChatgeTime;               // ボムの最大チャージ時間
+    [SerializeField] private float currentChargeTime;           // ボムのチャージ時間
+    [SerializeField] private bool isCharge = true;              // ボムのチャージ状態
+    [SerializeField] private bool isBom;                        // ボムの状態
 
 
     public bool isShooting = false;
@@ -82,11 +82,13 @@ public class PlayrController : MonoBehaviour
         if(isCharge)
         {
             currentChargeTime += Time.deltaTime; // ボムのチャージ時間を計測
-            if (currentChargeTime >= playerBomDelayTime) // 一定時間経過したらボムのチャージ状態を解除
+
+            // 一定時間経過したらボムのチャージ状態を解除
+            if (currentChargeTime >= playerBomDelayTime) 
             {
-                isCharge = false; // ボムのチャージ状態を解除
-                isBom = true; // ボムの状態を有効にする
-                currentChargeTime = 0.0f; // チャージ時間をリセット
+                isCharge = false;           // ボムのチャージ状態を解除
+                isBom = true;               // ボムの状態を有効にする
+                currentChargeTime = 0.0f;   // チャージ時間をリセット
             }
         }
     }
@@ -206,6 +208,10 @@ public class PlayrController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 他のオブジェクトと衝突した時の処理
+    /// </summary>
+    /// <param name="collision">当たったオブジェクトのコライダー</param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         switch(collision.tag)

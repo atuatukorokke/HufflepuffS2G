@@ -12,17 +12,17 @@ using UnityEngine;
 public class WinderBullet : MonoBehaviour
 {
     [Header("弾幕用変数")]
-    [SerializeField] private GameObject BulletPrehab; // 弾幕のプレハブ
-    [SerializeField] private float speed; // 弾幕のスピード
-    [SerializeField] private float delayTime; // 弾幕を撃つ間隔
-    [SerializeField] private float destroyTime; // 弾幕を消すまでの時間
+    [SerializeField] private GameObject BulletPrehab;   // 弾幕のプレハブ
+    [SerializeField] private float speed;               // 弾幕のスピード
+    [SerializeField] private float delayTime;           // 弾幕を撃つ間隔
+    [SerializeField] private float destroyTime;         // 弾幕を消すまでの時間
     [SerializeField]
     [Range(0, 360)]
     float angle;
 
     [Header("移動用変数")]
-    [SerializeField] private float destination; // 到着座標
-    [SerializeField] private float limitTime; // 移動にかける時間
+    [SerializeField] private float destination;         // 到着座標
+    [SerializeField] private float limitTime;           // 移動にかける時間
 
     GameObject proj;
     void Start()
@@ -30,11 +30,18 @@ public class WinderBullet : MonoBehaviour
         StartCoroutine(WindBulletUpdate(destination, limitTime));
     }
 
+    /// <summary>
+    /// ワインダー弾幕の更新
+    /// </summary>
+    /// <param name="targetX">移動先のX座標</param>
+    /// <param name="time">移動に掛ける時間</param>
     private IEnumerator WindBulletUpdate(float targetX, float time)
     {
         // destinationまで移動する
         Vector2 startPosition = transform.position;
         float elapsedTime = 0f;
+
+        // 移動処理
         while (elapsedTime < time)
         {
             transform.position = new Vector2(
@@ -52,6 +59,9 @@ public class WinderBullet : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ワインダー弾幕の生成
+    /// </summary>
     private IEnumerator WinderBulletCreat()
     {
         float shotTime = 0;

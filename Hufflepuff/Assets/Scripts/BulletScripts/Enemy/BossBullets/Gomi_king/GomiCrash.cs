@@ -7,10 +7,10 @@ using UnityEngine;
 
 public class GomiCrash : MonoBehaviour
 {
-    [SerializeField] private GameObject Prehab;
-    [SerializeField] private float speed;
-    [SerializeField] private int ShotNum;
-    [SerializeField] private float angleOffset;
+    [SerializeField] private GameObject Prehab;     // 弾のプレハブ
+    [SerializeField] private float speed;           // 弾の速度
+    [SerializeField] private int ShotNum;           // 弾の数
+    [SerializeField] private float angleOffset;     // 弾の角度オフセット
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -18,11 +18,16 @@ public class GomiCrash : MonoBehaviour
         StartCoroutine(Crash());
     }
 
+    /// <summary>
+    /// ボスエネミーの必殺技の弾幕
+    /// </summary>
     private IEnumerator Crash()
     {
         yield return new WaitForSeconds(2f);
         float speedLate = 1f;
-        for(int j = 0; j < 6; j++)
+
+        // 6回弾を放つ
+        for (int j = 0; j < 6; j++)
         {
             float angleStep = 360 / ShotNum;
             float angle = angleOffset;
