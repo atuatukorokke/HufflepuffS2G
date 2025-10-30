@@ -1,6 +1,6 @@
 // BuffManager.cs
 //
-// // バフ内容の管理
+// バフ内容の管理
 //
 
 using UnityEngine;

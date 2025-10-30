@@ -172,7 +172,6 @@ public class PieceCreate : MonoBehaviour
                     }
                     break;
                 default:
-                    Debug.Log("なんか変な値が出てるやでー");
                     break;
             }
             goldText.text = $"残りのコイン:<color=#ffd700>{goldManager.GetGold().ToString()}</color>";
@@ -254,39 +253,6 @@ public class PieceCreate : MonoBehaviour
         }
 
         Vector2Int randomIndex = blockPositions[Random.Range(0, blockPositions.Count)]; // リストからランダムに選択
-
-        /*while (isBlock == false)
-        {
-            isBlock = true;
-
-            BlockRndX = Random.Range(0, 5);
-            BlockRndY = Random.Range(0, 5);
-
-            if (BlockBoard[BlockRndY, BlockRndX] == 1)
-            {
-                isBlock = false;
-            }
-
-            if (BlockRndX == 0 && BlockRndY == 0)
-            {
-                isBlock = false;
-            }
-
-            if (BlockRndX == 0 && BlockRndY == 4)
-            {
-                isBlock = false;
-            }
-
-            if (BlockRndX == 4 && BlockRndY == 0)
-            {
-                isBlock = false;
-            }
-
-            if (BlockRndX == 4 && BlockRndY == 4)
-            {
-                isBlock = false;
-            }
-        }*/
 
         BlockBoard[randomIndex.x, randomIndex.y] = 1; // 盤面情報を更新
 
