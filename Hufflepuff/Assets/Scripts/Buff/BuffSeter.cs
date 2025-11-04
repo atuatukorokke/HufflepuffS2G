@@ -46,31 +46,36 @@ public class BuffSeter : MonoBehaviour
         {
             switch(buff.buffID)
             {
+                // 攻撃力アップのバフを適応させる
                 case BuffForID.AtackMethod:
                     player.Attack = 1 + (buff.value / 100); // 攻撃力の増加
                     buffName = "攻撃力アップ";
                     buffExplanationText = $"プレイヤーの攻撃力＋<color=#ffd700>{buff.value}％</color>";
                     buffIcon = AttackIcon;
                     break;
+
+                // 無敵時間延長のバフを適応させる
                 case BuffForID.InvincibleTime:
                     player.InvincibleTime = buff.value; // 無敵時間の増加
                     buffName = "無敵時間延長";
                     buffExplanationText = $"プレイヤーの無敵時間＋<color=#ffd700>{buff.value}秒</color>";
                     buffIcon = InvincibleIcon;
                     break;
+
+                // お邪魔ピース出現率ダウンのバフを適応させる
                 case BuffForID.DamageDownLate:
                     buffName = "お邪魔増加率ダウン";
                     player.OutPieceLate = 100 - buff.value; // お邪魔ピースが出る確率の減少
                     buffExplanationText = $"被弾時にお邪魔ピースが出る確率が-<color=#ffd700>{buff.value}%</color>";
                     buffIcon = PuzzleTimeIcon;
-                    // パズル時間延長の処理をここに追加
                     break;
+
+                // コイン取得量アップのバフを適応させる
                 case BuffForID.CoinGetLate:
                     buffName = "コイン取得量アップ";
                     player.DefultCoinIncreaseCount = 20 + (int)(20 * buff.value / 100); // コイン取得量の増加
                     buffExplanationText = $"コインの取得料が＋<color=#ffd700>{buff.value}％</color>";
                     buffIcon = CarryOverSpecialGaugeIcon;
-                    // スペシャルゲージ持ち越しの処理をここに追加
                     break;
             }
 
