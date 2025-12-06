@@ -255,7 +255,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &45715809
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3932,7 +3932,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &834112521
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7954,7 +7954,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1371168858
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12595,6 +12595,10 @@ PrefabInstance:
       propertyPath: TitleButton
       value: 
       objectReference: {fileID: 1217609743}
+    - target: {fileID: 5624076567885931027, guid: 0f6ac126c8e3a144fa78618bda2991e9, type: 3}
+      propertyPath: CanvasMaster
+      value: 
+      objectReference: {fileID: 1494231035}
     - target: {fileID: 5624076567885931027, guid: 0f6ac126c8e3a144fa78618bda2991e9, type: 3}
       propertyPath: ClearAnimator
       value: 

@@ -13,6 +13,7 @@ public class EnemySummoningManagement : MonoBehaviour
     [SerializeField] private List<EnemyDeployment> enemyDeployment; // エネミーの配置データを格納するリスト
     [SerializeField] private GameObject ClearPanel;
     [SerializeField] private GameObject TitleButton;
+    [SerializeField] private GameObject CanvasMaster;
     [SerializeField] private TextMeshProUGUI coinText; // 所持金テキスト
     [SerializeField] private TextMeshProUGUI pieceText; // ピースの数テキスト
     [SerializeField] private TextMeshProUGUI deathLateText; // 死亡率テキスト 
@@ -147,7 +148,6 @@ public class EnemySummoningManagement : MonoBehaviour
     private IEnumerator BossDeath()
     {
         FindAnyObjectByType<PlayrController>().Playstate = PlayState.Clear;
-        ClearPanel.SetActive(true);
         // BGMをフェードアウト
         while (audioSource.volume > 0)
         {
@@ -155,8 +155,6 @@ public class EnemySummoningManagement : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         yield return new WaitForSeconds(1f);
-        ClearAnimator.SetBool("EndGame", true);
-        yield return new WaitForSeconds(1.7f);
-        TitleButton.SetActive(true);
+        CanvasMaster.GetComponent<Animator>().SetTrigger("GameClear");
     }
 }
