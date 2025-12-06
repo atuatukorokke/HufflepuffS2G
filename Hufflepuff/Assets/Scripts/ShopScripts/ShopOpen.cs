@@ -44,15 +44,7 @@ public class ShopOpen : MonoBehaviour
             playerController.Playstate = PlayState.Shooting;
             isPuzzle = false;
         }
-        animator.SetBool("PuzzleState", true);
-    }
-
-    /// <summary>
-    /// ƒVƒ‡ƒbƒv‰æ–Ê‚ð•Â‚¶‚é
-    /// </summary>
-    public void SetIdelAnim()
-    {
-        animator.SetBool("PuzzleState", false);
+        animator.SetTrigger("SetShop");
     }
 
     /// <summary>
