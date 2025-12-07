@@ -201,7 +201,6 @@ public class Boss1Bullet : MonoBehaviour
     {
         // 今の状態によって通常の弾幕を変化させる
         // ボスによって変化させるのでかなり大変
-        // 楽しいのでワース
         if(!isInvivle)
         {
             switch (state)
@@ -224,6 +223,9 @@ public class Boss1Bullet : MonoBehaviour
             }
         }
     }
+
+    #region 一段階目の通常弾幕
+
     /// <summary>
     /// 一段階目の通常弾幕です
     /// </summary>
@@ -276,6 +278,10 @@ public class Boss1Bullet : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region 二段階目の通常弾幕
+
     /// <summary>
     /// 二段階目の通常弾幕です
     /// </summary>
@@ -320,7 +326,11 @@ public class Boss1Bullet : MonoBehaviour
         yield return null;
 
     }
-    
+
+    #endregion
+
+    #region 三段階目の通常弾幕
+
     /// <summary>
     /// 三段階目の通常弾幕です
     /// </summary>
@@ -359,7 +369,11 @@ public class Boss1Bullet : MonoBehaviour
 
         }
     }
-    
+
+    #endregion
+
+    #region 四段階目の通常弾幕
+
     /// <summary>
     /// 四段階目の通常弾幕です
     /// </summary>
@@ -431,6 +445,10 @@ public class Boss1Bullet : MonoBehaviour
         yield return null;  
     }
 
+    #endregion
+
+    #region 最終段階の通常弾幕
+
     /// <summary>
     /// 最終段階の通常弾幕です
     /// </summary>
@@ -481,6 +499,11 @@ public class Boss1Bullet : MonoBehaviour
         finalBulletValue.bullets.Clear();
         yield return null;
     }
+
+    #endregion
+
+    #region セミファイナル
+
     /// <summary>
     /// セミファイナル
     /// </summary>
@@ -504,6 +527,8 @@ public class Boss1Bullet : MonoBehaviour
         yield return null;
     }
 
+    #endregion
+
     /// <summary>
     /// エネミーの状態回復とStateの更新をします
     /// </summary>
@@ -517,7 +542,10 @@ public class Boss1Bullet : MonoBehaviour
             currentHP = maxHP; // HPを回復
             if (!isInvivle)
             {
-                currentHpbar.transform.localScale = new Vector3(currentHP / maxHP, currentHpbar.transform.localScale.y, currentHpbar.transform.localScale.z); // HPバーの更新
+                currentHpbar.transform.localScale = new Vector3(
+                    currentHP / maxHP, 
+                    currentHpbar.transform.localScale.y, 
+                    currentHpbar.transform.localScale.z); // HPバーの更新
             }
             yield return StartCoroutine(BulletUpdate());
         }
@@ -532,7 +560,10 @@ public class Boss1Bullet : MonoBehaviour
         currentHP -= damage; // HPを減らす
         if (!isInvivle)
         {
-            currentHpbar.transform.localScale = new Vector3(currentHP / maxHP, currentHpbar.transform.localScale.y, currentHpbar.transform.localScale.z); // HPバーの更新        
+            currentHpbar.transform.localScale = new Vector3(
+                currentHP / maxHP, 
+                currentHpbar.transform.localScale.y, 
+                currentHpbar.transform.localScale.z); // HPバーの更新        
         }
 
         if (currentHP <= maxHP * 0.2f && BulletState == BulletState.normal)

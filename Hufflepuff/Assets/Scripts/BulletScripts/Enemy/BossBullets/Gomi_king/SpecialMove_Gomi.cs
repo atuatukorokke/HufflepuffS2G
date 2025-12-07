@@ -128,6 +128,9 @@ public class SpecialMove_Gomi : MonoBehaviour
 
         }
     }
+
+    #region 一段階目の必殺技
+
     // ------------------------------------------------------------------------------------------------------------------------------
     /// <summary>
     /// 一段階目の必殺技（高速ランダム弾幕）
@@ -164,6 +167,10 @@ public class SpecialMove_Gomi : MonoBehaviour
         // 状態遷移などでループを抜けたら終了
         yield return null;
     }
+
+    #endregion
+
+    #region 二段階目の必殺技
 
     // ------------------------------------------------------------------------------------------------------------------------------
     /// <summary>
@@ -242,6 +249,10 @@ public class SpecialMove_Gomi : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region 三段階目の必殺技
+
     // ------------------------------------------------------------------------------------------------------------------------------
     /// <summary>
     /// 三段階目の必殺技（360度方向へランダム速度で弾を発射）
@@ -280,6 +291,10 @@ public class SpecialMove_Gomi : MonoBehaviour
         // 状態が変化したら終了
         yield return null;
     }
+
+    #endregion
+
+    #region 四段階目の必殺技
 
     // ------------------------------------------------------------------------------------------------------------------------------
     /// <summary>
@@ -457,6 +472,9 @@ public class SpecialMove_Gomi : MonoBehaviour
         }
         yield return null;
     }
+    #endregion
+
+    #region 最終段階目の必殺技
 
     // ------------------------------------------------------------------------------------------------------------------------------
     /// <summary>
@@ -552,6 +570,10 @@ public class SpecialMove_Gomi : MonoBehaviour
         yield return null;  
     }
 
+    #endregion
+
+    #region セミファイナル
+
     // ------------------------------------------------------------------------------------------------------------------------------
     /// <summary>
     /// セミファイナル
@@ -618,6 +640,9 @@ public class SpecialMove_Gomi : MonoBehaviour
         // 条件を抜けた場合にコルーチンを終了
         yield return null;
     }
+    #endregion
+
+    #region 移動処理
 
     /// <summary>
     /// 必殺技発動時にボスが特定の位置へ滑らかに移動する処理
@@ -678,4 +703,6 @@ public class SpecialMove_Gomi : MonoBehaviour
         // コルーチンを終了
         yield return null;
     }
+
+    #endregion
 }
