@@ -18,10 +18,8 @@ public class BuffManager : MonoBehaviour
     public void AddBuff(BuffForID forId, float value)
     {
         // リストが空の場合は新規追加、そうでない場合は既存のバフを更新または新規追加
-        if (datas.Count == 0)
-        {
-            datas.Add(new Buff { buffID = forId, value = value });
-        }
+        if (datas == null) datas.Add(new Buff { buffID = forId, value = value });
+
         else
         {
             // 既存のバフを更新、存在しない場合は新規追加

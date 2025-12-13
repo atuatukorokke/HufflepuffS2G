@@ -14,20 +14,17 @@ public class EnemySummoningManagement : MonoBehaviour
     [SerializeField] private GameObject ClearPanel;
     [SerializeField] private GameObject TitleButton;
     [SerializeField] private GameObject CanvasMaster;
-    [SerializeField] private TextMeshProUGUI coinText; // 所持金テキスト
-    [SerializeField] private TextMeshProUGUI pieceText; // ピースの数テキスト
-    [SerializeField] private TextMeshProUGUI deathLateText; // 死亡率テキスト 
+    [SerializeField] private TextMeshProUGUI coinText;              // 所持金テキスト
+    [SerializeField] private TextMeshProUGUI pieceText;             // ピースの数テキスト
+    [SerializeField] private TextMeshProUGUI deathLateText;         // 死亡率テキスト 
     [SerializeField] private Animator ClearAnimator;
-    [SerializeField] private Animator PuzzleAnimetor;
-    [SerializeField] private PlayrController playerController; // プレイヤーのコントローラー
-    [SerializeField] private GoldManager goldManager; // 金額管理を行うスクリプト
-    [SerializeField] private DeathCount deathCount; // 死ぬかの判定を行うスクリプト
-    private bool waitingForMiddleBoss = false; // 途中でボスが出てくるかどうかのフラグ
-    private bool waitingForShop = false; // ショップを開いているかどうかのフラグ
-    private AudioSource audioSource; // BGMの再生用オーディオソース
-    private float fadeInTime = 2;
-    private float fadeOutTime = 0;
-    private bool isFateIn = false;
+    [SerializeField] private PlayrController playerController;      // プレイヤーのコントローラー
+    [SerializeField] private GoldManager goldManager;               // 金額管理を行うスクリプト
+    [SerializeField] private DeathCount deathCount;                 // 死ぬかの判定を行うスクリプト
+    private bool waitingForMiddleBoss = false;                      // 途中でボスが出てくるかどうかのフラグ
+    private bool waitingForShop = false;                            // パズル画面が閉じられるまでの待機フラグ
+    public bool isPuzzle = false;                                  // パズル中かどうか(パズル画面を閉じるボタンの二度押し防止のために使う)
+    private AudioSource audioSource;                                // BGMの再生用オーディオソース
 
     [SerializeField] private AudioClip OpenPuzzle;
     [SerializeField] private AudioClip puzzleBGM;
@@ -53,43 +50,63 @@ public class EnemySummoningManagement : MonoBehaviour
         {
             switch(deploment.GetState1)
             {
-                case EnemyDeployment.state.Smallfry: // 雑魚敵の配置
+                // 雑魚敵の配置
+                case EnemyDeployment.state.Smallfry:
+
+                    // 指定された数だけ生成
                     for (int i = 0; i < deploment.EnemyCount; i++)
                     {
                         SpawnEnemy(deploment);
                         yield return new WaitForSeconds(deploment.DelayTime);
                     }
                     break;
+                // 中ボスの配置
+                case EnemyDeployment.state.middleBoss:
 
-                case EnemyDeployment.state.middleBoss: // 中ボスの配置
+                    // 中ボスの生成
                     GameObject middleBoss = SpawnEnemy(deploment);
-                    waitingForMiddleBoss = true; // 中ボスが出てくるフラグを立てる
+
+                    // 中ボスが出てくるフラグを立てて、中ボスが倒されるまで待機
+                    waitingForMiddleBoss = true;
                     BossHealth health = middleBoss.GetComponent<BossHealth>();
-                    health.OnDeath += () => waitingForMiddleBoss = false; // 中ボスが倒されたらフラグを下げる
-                    yield return new WaitUntil(() => !waitingForMiddleBoss); // 中ボスが倒されるまで待機
+                    health.OnDeath += () => waitingForMiddleBoss = false; 
+                    yield return new WaitUntil(() => !waitingForMiddleBoss); 
                     break;
-                case EnemyDeployment.state.Boss: // ボスの配置
+                // ボスの配置
+                case EnemyDeployment.state.Boss:
                     GameObject Bosss = Instantiate(deploment.EnemyPrehab, deploment.GenerationPosition, Quaternion.identity);
-                    audioSource.clip = deploment.BossBGM; // ボス戦用のBGMを設定
-                    audioSource.Play(); // BGMを再生
+
+                    // ボス戦用のBGMを設定して再生
+                    audioSource.clip = deploment.BossBGM; 
+                    audioSource.Play(); 
 
                     // ボスが倒された時の処理
                     Boss1Bullet BossBullet = Bosss.GetComponent<Boss1Bullet>();
                     BossBullet.Ondeath += () => StartCoroutine(BossDeath());  
                     break;
+                // 配置後の待ち時間
                 case EnemyDeployment.state.DelayTime:
                     yield return new WaitForSeconds(deploment.DelayTime);
                     break;
+                // パズル画面を開く
                 case EnemyDeployment.state.Shop:
-                    playerController.isShooting = false; // ショップ中は攻撃できないようにする
+
+                    // ショップ中は攻撃できないようにする
+                    playerController.isShooting = false;
                     PuzzleSet();
-                    var shop = FindAnyObjectByType<ShopOpen>(); // ショップのオブジェクトを取得
-                    goldManager.SetGoldCount(playerController.CoinCount); // 所持金を更新
+
+                    // ショップのオブジェクトを取得して所持金の更新
+                    var shop = FindAnyObjectByType<ShopOpen>(); 
+                    goldManager.SetGoldCount(playerController.CoinCount);
                     shop.ShopOpenAni();
-                    waitingForShop = true; // ショップが開いているフラグを立てる
-                    shop.OnShop += () => waitingForShop = false; // ショップが閉じられたらフラグを下げる
-                    yield return new WaitUntil(() => !waitingForShop); // ショップが閉じられるまで待機
-                    PuzzleAnimetor.SetBool("SetInstructions", false);
+
+                    // ショップが開いているフラグを立てる
+                    waitingForShop = true;
+                    isPuzzle = true;
+
+                    // ショップが閉じられたらフラグを下げる動作を与えて、ショップが閉じられるまで待機
+                    shop.OnShop += () => waitingForShop = false;
+                    yield return new WaitUntil(() => !waitingForShop);
                     yield return new WaitForSeconds(2f);
                     PuzzleOut();
                     break;
@@ -126,7 +143,6 @@ public class EnemySummoningManagement : MonoBehaviour
         audioSource.PlayOneShot(OpenPuzzle);
         audioSource.clip = puzzleBGM; // パズル用のBGMを設定
         audioSource.Play(); // BGMを再生
-        PuzzleAnimetor.SetBool("SetInstructions", true);
     }
 
     /// <summary>

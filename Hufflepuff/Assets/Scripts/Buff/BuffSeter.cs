@@ -23,14 +23,6 @@ public class BuffSeter : MonoBehaviour
     private string buffExplanationText; // バフの説明文
     private Sprite buffIcon; // バフのアイコン
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            ApplyBuffs();
-        }
-    }
-
     /// <summary>
     /// 各バフの適応をさせます
     /// </summary>

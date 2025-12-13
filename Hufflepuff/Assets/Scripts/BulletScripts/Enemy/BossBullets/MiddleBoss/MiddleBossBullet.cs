@@ -6,6 +6,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum EnemyType
 {
@@ -19,8 +20,7 @@ public class MiddleBossBullet : MonoBehaviour
     [SerializeField] private BossHealth bossHealth;     // ボスのＨＰを管理するスクリプト
     private float damageLate = 1;                       // 被ダメージの割合
     [SerializeField] private GameObject presentBox;     // ドロップ用のプレハブ
-    [SerializeField] private GameObject HealthCanvas;   // 現在のＨＰバーのキャンバス
-    [SerializeField] private GameObject currentHpbar;   // 現在のＨＰバーのオブジェクト
+    [SerializeField] private Image HealthBar;           // HPバー
     [SerializeField] private float maxHp;               // ボスの最大ＨＰ
     private float dangerHp;                             // ボスの危険域ＨＰ
     private bool isDamage;                              // ダメージを受けられるかどうかの判定
@@ -40,8 +40,6 @@ public class MiddleBossBullet : MonoBehaviour
     private void Start()
     {
         isDamage = true;
-        canvas = Instantiate(HealthCanvas, Vector3.zero, Quaternion.identity);          // ＨＰバーのキャンバスを生成
-        currentHpbar = canvas.transform.GetChild(0).Find("currentHpBar").gameObject;    // 現在のＨＰバーのオブジェクトを取得; // 現在のＨＰバーを取得
         dangerHp = maxHp * 0.3f;
 
         bossHealth = FindAnyObjectByType<BossHealth>(); // ボスのＨＰ管理スクリプトを取得
@@ -128,7 +126,7 @@ public class MiddleBossBullet : MonoBehaviour
         {
             Destroy(collision.gameObject); // プレイヤーの弾を消す
             bossHealth.HP -= damageLate; // エネミーのHPを減らす
-            currentHpbar.transform.localScale = new Vector3(bossHealth.HP / maxHp, currentHpbar.transform.localScale.y, currentHpbar.transform.localScale.z); // 現在のHPバーを更新
+            HealthBar.fillAmount = bossHealth.HP / maxHp;
 
             if (bossHealth.HP <= dangerHp && enemyType == EnemyType.noemal)
             {
@@ -150,7 +148,7 @@ public class MiddleBossBullet : MonoBehaviour
         if(collision.CompareTag("P_Bom") && isDamage)
         {
             bossHealth.HP -= damageLate;
-            currentHpbar.transform.localScale = new Vector3(bossHealth.HP / maxHp, currentHpbar.transform.localScale.y, currentHpbar.transform.localScale.z); // 現在のHPバーを更新
+            HealthBar.fillAmount = bossHealth.HP / maxHp; // 現在のHPバーを更新
 
             if (bossHealth.HP <= dangerHp && enemyType == EnemyType.noemal)
             {
