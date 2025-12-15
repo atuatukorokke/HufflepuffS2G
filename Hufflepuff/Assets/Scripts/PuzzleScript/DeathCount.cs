@@ -8,7 +8,7 @@ using TMPro;
 
 public class DeathCount : MonoBehaviour
 {
-    [SerializeField] private GameObject GameOberPanel;              // ゲームオーバーパネル
+    [SerializeField] private Animator CanvasAnim;                    // メインキャンバスのアニメーター
     [SerializeField] private GameObject EnemySummoningManager;
     [SerializeField] private PlayrController playerController;      // プレイヤーのコントローラー
     [SerializeField] private TextMeshProUGUI goldText;              // 所持金テキスト
@@ -26,7 +26,6 @@ public class DeathCount : MonoBehaviour
 
     void Start()
     {
-        GameOberPanel.SetActive(false);
         playerController = FindAnyObjectByType<PlayrController>();
         // デバッグ用のピース数
         SetPieceCount(21); // 21の倍数
@@ -50,8 +49,8 @@ public class DeathCount : MonoBehaviour
             isDead = true;  // ブロック数がピース数の20%を超えたら死ぬ
             // ゲームオーバーの処理
             EnemySummoningManager.GetComponent<AudioSource>().Stop(); // 敵の音を止める
-            Time.timeScale = 0f; // ゲームを停止
-            GameOberPanel.SetActive(true);
+            Time.timeScale = 0.0f;
+            CanvasAnim.SetTrigger("isDead");
         }
         else
         {

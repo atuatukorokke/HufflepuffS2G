@@ -23,6 +23,7 @@ public class ShopOpen : MonoBehaviour
         OpenState = true;
         shopCamera.gameObject.SetActive(false);
         animator = GetComponent<Animator>();
+        animator.updateMode = AnimatorUpdateMode.UnscaledTime;
     }
 
     /// <summary>

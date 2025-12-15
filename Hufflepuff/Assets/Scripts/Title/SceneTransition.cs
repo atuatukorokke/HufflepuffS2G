@@ -20,7 +20,7 @@ public class SceneTransition : MonoBehaviour
     /// </summary>
     public void LoadScene()
     {
-        SceneManager.LoadScene("BulletScene");
+        SceneManager.LoadScene("MainGameScene");
     }
 
     /// <summary>
