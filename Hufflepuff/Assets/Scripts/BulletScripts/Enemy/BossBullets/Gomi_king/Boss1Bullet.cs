@@ -110,6 +110,7 @@ public class Boss1Bullet : MonoBehaviour
     [SerializeField] private Vector2 spellPos;                              // 必殺技・セミファイナルを打つときにこの座標に一旦戻る
     [SerializeField] private SpecialMove_Gomi GomiSpecialMove;              // 必殺技のクラス
     [SerializeField] private bool isInvivle = false;                        // 必殺技中の一時無敵判定
+    [SerializeField] private bool isDead = false;                           // ボスの死亡判定
     [SerializeField] private Image HealthBar;                               // ボスの体力表示用画像
     [SerializeField] private GameObject CutInnCanvas;                       // カットイン用のキャンバス
     GameObject canvas; // ＨＰバーのキャンバス
@@ -138,6 +139,7 @@ public class Boss1Bullet : MonoBehaviour
     {
         // 初期位置から指定場所へ移動する
         currentHP = maxHP;
+        isDead = false;
         StartCoroutine(StartPositionMove()); // 初期位置から指定位置へ移動
     }
 
@@ -167,8 +169,9 @@ public class Boss1Bullet : MonoBehaviour
         if (isSpecialBulletActive)
         {
             timer += Time.deltaTime;
-            if (timer >= specialBulletDuration)
+            if (timer >= specialBulletDuration && !isDead)
             {
+                isDead = true;
                 Destroy(canvas); // ＨＰバーのキャンバスを消す
                 Ondeath?.Invoke();
                 BulletDelete(); // 弾幕を消す
