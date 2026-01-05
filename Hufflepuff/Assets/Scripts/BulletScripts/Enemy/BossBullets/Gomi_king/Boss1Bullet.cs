@@ -555,28 +555,37 @@ public class Boss1Bullet : MonoBehaviour
     /// <param name="damage">与ダメージ</param>
     private IEnumerator TakeDamage(float damage)
     {
-        currentHP -= damage; // HPを減らす
+        currentHP -= damage;
+
+        // HPバーの更新
         if (!isInvivle)
         {
             HealthBar.fillAmount = currentHP / maxHP;
         }
 
+        // HPが20%以下になったら必殺技に移行
         if (currentHP <= maxHP * 0.2f && BulletState == BulletState.normal)
         {
             BulletDelete();
             BulletState = BulletState.spell; // 弾幕の変更
             GomiSpecialMove.BomJudgement(state);
-            GameObject CutInObj = Instantiate(CutInnCanvas, new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject CutInObj = Instantiate(
+                CutInnCanvas,
+                new Vector3(0, 0, 0),
+                Quaternion.identity);
         }
+        // HPが0になったら次の状態に移行
         else if (currentHP <= 0 && !isInvivle)
         {
             BulletDelete();
+            // 最終段階なら最終技に移行
             if (state == State.final)
             {
                 isInvivle = true;
                 BulletState = BulletState.special; // 弾幕の変更
                 yield return StartCoroutine(SpecialFinalBullet());
             }
+            // それ以外なら次の段階に移行
             else
             {
                 yield return StartCoroutine(TransitionToNextState());
