@@ -7751,7 +7751,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "50\u5186\u3000\uFF11\xD7\uFF15\n\u304A\u90AA\u9B54\u751F\u6210\u7387\u30FC10%["
+  m_text: "50\u5186\u3000\uFF11\xD7\uFF15\n\u304A\u90AA\u9B54\u751F\u6210\u7387\u30FC10%"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6bb30e7cf98169f4d9bc84d589b42eb8, type: 2}
   m_sharedMaterial: {fileID: -115688029643217363, guid: 6bb30e7cf98169f4d9bc84d589b42eb8, type: 2}
