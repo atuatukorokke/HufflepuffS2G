@@ -111,10 +111,12 @@ public class Boss1Bullet : MonoBehaviour
     [SerializeField] private SpecialMove_Gomi GomiSpecialMove;              // 必殺技のクラス
     [SerializeField] private bool isInvivle = false;                        // 必殺技中の一時無敵判定
     [SerializeField] private bool isDead = false;                           // ボスの死亡判定
+    [SerializeField] private AudioClip deadSE;                              // 死亡時のSE
     [SerializeField] private Image HealthBar;                               // ボスの体力表示用画像
     [SerializeField] private GameObject CutInnCanvas;                       // カットイン用のキャンバス
     GameObject canvas; // ＨＰバーのキャンバス
     public event  System.Action Ondeath;
+    private AudioSource audio;
 
     [Header("一段階目の通常弾幕の変数")]
     [SerializeField] private FastBullet fastBulletValue;
@@ -138,6 +140,7 @@ public class Boss1Bullet : MonoBehaviour
     void Start()
     {
         // 初期位置から指定場所へ移動する
+        audio = GetComponent<AudioSource>();
         currentHP = maxHP;
         isDead = false;
         StartCoroutine(StartPositionMove()); // 初期位置から指定位置へ移動
@@ -173,6 +176,7 @@ public class Boss1Bullet : MonoBehaviour
             {
                 isDead = true;
                 Destroy(canvas); // ＨＰバーのキャンバスを消す
+                audio.PlayOneShot(deadSE);
                 Ondeath?.Invoke();
                 BulletDelete(); // 弾幕を消す
                 Destroy(gameObject);

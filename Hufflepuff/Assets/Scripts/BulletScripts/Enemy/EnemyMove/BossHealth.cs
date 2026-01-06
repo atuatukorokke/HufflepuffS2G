@@ -5,10 +5,17 @@ public class BossHealth : MonoBehaviour
 {
     [Range(0, 100)]
     [SerializeField] private float hP; // エネミーのＨＰ
+    [SerializeField] private AudioClip deadSE;
+    private AudioSource audio;
 
     public float HP { get => hP; set => hP = value; }
 
     public event Action OnDeath; // 中ボス撃破通知用イベント
+
+    private void Start()
+    {
+        audio = GetComponent<AudioSource>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -23,6 +30,7 @@ public class BossHealth : MonoBehaviour
                     Destroy(objects);
                 }
                 OnDeath?.Invoke(); // 中ボス撃破通知イベントを発火
+                audio.PlayOneShot(deadSE);
                 Destroy(this.gameObject); // エネミーの消滅
             }
         }
@@ -36,6 +44,7 @@ public class BossHealth : MonoBehaviour
                     Destroy(objects);
                 }
                 OnDeath?.Invoke(); // 中ボス撃破通知イベントを発火
+                audio.PlayOneShot(deadSE);
                 Destroy(this.gameObject); // エネミーの消滅
             }
         }

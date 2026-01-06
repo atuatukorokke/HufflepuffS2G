@@ -136,9 +136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 465611cbe5c29034782ebfc622f86ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 10
+  Speed: 5
   speedLate: 1
-  attack: 0
+  attack: 1
   straightBulletPrehab: {fileID: 4187297226051304241, guid: f48007527bc2abe41847e7e45f02a502, type: 3}
   diffusionBulletPrehab: {fileID: 593574743847144491, guid: ee453264fe7b5a14cbb1926460b63099, type: 3}
   bulletSpeed: 20
@@ -149,6 +149,13 @@ MonoBehaviour:
   presentCount: 0
   playState: 0
   CutInnCanvas: {fileID: 3651732272002953837, guid: 46c61a03d4ff8a24fb52eea426da4552, type: 3}
+  pieceCreate: {fileID: 0}
+  outPieceLate: 0
+  coinText: {fileID: 0}
+  pieceText: {fileID: 0}
+  damageSE: {fileID: 0}
+  presentSE: {fileID: 0}
+  specialSE: {fileID: 0}
   pieceCount: 0
   coinCount: 0
   defultCoinIncreaseCount: 20
@@ -159,6 +166,7 @@ MonoBehaviour:
   currentChargeTime: 0
   isCharge: 0
   isBom: 0
+  isShooting: 0
 --- !u!58 &8603824806522729282
 CircleCollider2D:
   m_ObjectHideFlags: 0

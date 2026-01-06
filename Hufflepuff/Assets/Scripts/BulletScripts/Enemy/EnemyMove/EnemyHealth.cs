@@ -14,9 +14,13 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private int dropLate;              // 箱を落とす確率
     [SerializeField] private DropManager dropManager;   // ドロップ管理のスクリプト
 
+    [SerializeField] private AudioClip deadSE;          // 死亡時のSE
+    AudioSource audio;
+
     private void Start()
     {
         dropManager = FindAnyObjectByType<DropManager>();
+        audio = GetComponent<AudioSource>();
         dropLate = dropManager.DropLate;
     }
 
@@ -32,6 +36,7 @@ public class EnemyHealth : MonoBehaviour
                 GameObject present = Instantiate(prehab, transform.position, Quaternion.identity); // 箱の生成
                 present.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-2, 0); // 箱を下に落とす
                 dropLate = dropManager.LateReset();
+                audio.PlayOneShot(deadSE);
                 Destroy(gameObject); // エネミーの消滅
             }
         }
@@ -45,6 +50,7 @@ public class EnemyHealth : MonoBehaviour
             if (hP == 0)
             {
                 // ピースのドロップ
+                audio.PlayOneShot(deadSE);
                 GameObject present = Instantiate(prehab, transform.position, Quaternion.identity); // 箱の生成
                 present.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-2, 0); // 箱を下に落とす
                 dropLate = dropManager.LateReset();

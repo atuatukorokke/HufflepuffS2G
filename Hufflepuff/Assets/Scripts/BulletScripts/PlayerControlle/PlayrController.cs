@@ -103,7 +103,7 @@ public class PlayrController : MonoBehaviour
         // プレイヤーの移動速度を制御する
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            speedLate = 0.5f;
+            speedLate = 2f;
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
