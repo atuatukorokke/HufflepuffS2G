@@ -127,21 +127,21 @@ MonoBehaviour:
     angleOffset: 0
     moveSpeed: 1
   secondBulletValue:
-    RevolutionBulletPrehab: {fileID: 7961033102418890308, guid: 5a84cc53ed5784746a7066f9c74ef0b3, type: 3}
-    FevolutionFlyingNum: 15
-    FevolutionFrequency: 0
-    FevolutionSpeed: 5
-    FevolutionDeleteTime: 5
-    FevolutionDelayTime: 0.1
-    FevolutionAngleOffset: 0
+    BulletPrefab: {fileID: 7961033102418890308, guid: 5a84cc53ed5784746a7066f9c74ef0b3, type: 3}
+    FlyingNum: 5
+    Frequency: 5
+    Speed: 5
+    DeleteTime: 5
+    DelayTime: 5
+    AngleOffset: 5
   thirdBulletValue:
-    RotationBulletPrehab: {fileID: 7961033102418890308, guid: 5a84cc53ed5784746a7066f9c74ef0b3, type: 3}
-    RotationFlyingNum: 4
-    RotationFrequency: 0
-    RotationSpeed: 4
-    RotationDeleteTime: 10
-    RotationDelayTime: 0.1
-    RotationAngleOffset: 0
+    bulletPrefab: {fileID: 4416596193334731641, guid: b30b6ef3a31771b46a0587aacb8bd0b0, type: 3}
+    flyingNum: 10
+    frequency: 20
+    speed: 5
+    deleteTime: 5
+    delayTime: 5
+    angleOffset: 5
   FourBulletValue:
     BulletPrehab: {fileID: 8122776338678338232, guid: c34af014c73c3f142b12ef14b13cf32c, type: 3}
     FlyingNum: 6
