@@ -128,12 +128,12 @@ MonoBehaviour:
     moveSpeed: 1
   secondBulletValue:
     BulletPrefab: {fileID: 7961033102418890308, guid: 5a84cc53ed5784746a7066f9c74ef0b3, type: 3}
-    FlyingNum: 5
-    Frequency: 5
+    FlyingNum: 15
+    Frequency: 15
     Speed: 5
-    DeleteTime: 5
-    DelayTime: 5
-    AngleOffset: 5
+    DeleteTime: 15
+    DelayTime: 0.2
+    AngleOffset: 1
   thirdBulletValue:
     bulletPrefab: {fileID: 4416596193334731641, guid: b30b6ef3a31771b46a0587aacb8bd0b0, type: 3}
     flyingNum: 10

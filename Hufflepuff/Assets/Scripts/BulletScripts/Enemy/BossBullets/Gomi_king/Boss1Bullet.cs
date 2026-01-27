@@ -133,7 +133,6 @@ public class Boss1Bullet : MonoBehaviour
         {
             StartCoroutine(HandleBulletPattern());
         }
-
         
         yield return null;
     }
@@ -173,6 +172,9 @@ public class Boss1Bullet : MonoBehaviour
 
     private void SetPattern(INormalBulletPattern pattern)
     {
+        if (bulletState != BulletState.normal)
+            return;
+
         if(fireRoutine != null)
         {
             StopCoroutine(fireRoutine);
@@ -189,7 +191,7 @@ public class Boss1Bullet : MonoBehaviour
     /// <summary>
     /// セミファイナル
     /// </summary>
-    private IEnumerator SpecialFinalBullet()//
+    private IEnumerator SpecialFinalBullet()
     {
         isSpecialBulletActive = true;
 
@@ -218,7 +220,7 @@ public class Boss1Bullet : MonoBehaviour
     /// <summary>
     /// エネミーの状態回復とStateの更新をします
     /// </summary>
-    private IEnumerator TransitionToNextState()//
+    private IEnumerator TransitionToNextState()
     {
         if (state < State.final)
         {
@@ -238,7 +240,7 @@ public class Boss1Bullet : MonoBehaviour
     /// エネミーにダメージを与えます
     /// </summary>
     /// <param name="damage">与ダメージ</param>
-    private IEnumerator TakeDamage(float damage)//
+    private IEnumerator TakeDamage(float damage)
     {
         currentHP -= damage;
 
@@ -251,7 +253,15 @@ public class Boss1Bullet : MonoBehaviour
         // HPが20%以下になったら必殺技に移行
         if (currentHP <= maxHP * 0.2f && BulletState == BulletState.normal)
         {
-            BulletDelete();
+            // 通常弾幕を完全停止
+            if(fireRoutine != null)
+            {
+                StopCoroutine(fireRoutine);
+                fireRoutine = null;
+            }
+            currentPattern?.Clear();
+            currentPattern = null;
+
             BulletState = BulletState.spell; // 弾幕の変更
             GomiSpecialMove.BomJudgement(state);
             GameObject CutInObj = Instantiate(
@@ -281,7 +291,7 @@ public class Boss1Bullet : MonoBehaviour
     /// <summary>
     /// エネミーの弾幕をすべて消します
     /// </summary>
-    private void BulletDelete()//
+    private void BulletDelete()
     {
         GameObject[] objects = GameObject.FindGameObjectsWithTag("E_Bullet");
         if(state == State.final)

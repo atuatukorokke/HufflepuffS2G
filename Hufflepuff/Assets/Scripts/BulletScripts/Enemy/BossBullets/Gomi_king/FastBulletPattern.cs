@@ -14,11 +14,11 @@ public class FastBullet
     public float angleOffset = 0f;                              // ‚¸‚ç‚µ—p‚ÌŠp“x
     public float moveSpeed;                                     // ˆÚ“®‘¬“x
 }
-
 public class FastBulletPattern : INormalBulletPattern
 {
     private FastBullet config;
     private Transform boss;
+    private Coroutine moveRoutine;
 
     public FastBulletPattern(FastBullet config, Transform boss)
     {
@@ -33,33 +33,62 @@ public class FastBulletPattern : INormalBulletPattern
 
     public IEnumerator Fire()
     {
-        while(true)
+        while (true)
         {
-            float angleStep = 360f / config.angleOffset;
-            float angle = config.angleOffset;
-
-            for(int i = 0; i < config.FlyingNum; i++)
+            for (int f = 0; f < config.frequency; f++)
             {
-                float x = Mathf.Cos(angle * Mathf.Deg2Rad);
-                float y = Mathf.Sin(angle * Mathf.Deg2Rad);
-                Vector3 dir = new (x, y, 0);
+                float angleStep = 360f / config.FlyingNum;
+                float angle = config.angleOffset;
 
-                GameObject bullet = GameObject.Instantiate(
-                    config.BulletPrehab,
-                    boss.position,
-                    Quaternion.identity);
+                for (int i = 0; i < config.FlyingNum; i++)
+                {
+                    float x = Mathf.Cos(angle * Mathf.Deg2Rad);
+                    float y = Mathf.Sin(angle * Mathf.Deg2Rad);
+                    Vector3 dir = new(x, y, 0);
 
-                bullet.GetComponent<Rigidbody2D>().linearVelocity = dir * config.speed;
-                angle += angleStep;
+                    GameObject bullet = GameObject.Instantiate(
+                        config.BulletPrehab,
+                        boss.position,
+                        Quaternion.identity);
+
+                    bullet.GetComponent<Rigidbody2D>().linearVelocity = dir * config.speed;
+
+                    angle += angleStep;
+                }
+
+                config.angleOffset += 10;
+                if (config.angleOffset >= 360f)
+                    config.angleOffset -= 360f;
+
+                yield return new WaitForSeconds(config.delayTime);
             }
-            config.angleOffset += 10;
-            yield return new WaitForSeconds(config.delayTime);
+
+            yield return MoveToRandomPos();
+        }
+    }
+
+    private IEnumerator MoveToRandomPos()
+    {
+        Vector2 target = new Vector2(
+            Random.Range(1.5f, 8.5f),
+            Random.Range(-4.5f, 4.5f)
+        );
+
+        Vector2 start = boss.position;
+        float t = 0f;
+        float duration = config.moveSpeed;
+
+        while (t < duration)
+        {
+            boss.position = Vector2.Lerp(start, target, t / duration);
+            t += Time.deltaTime;
+            yield return null;
         }
     }
 
     public void Clear()
     {
-        foreach(var bullet in GameObject.FindGameObjectsWithTag("E_Bullet"))
+        foreach (var bullet in GameObject.FindGameObjectsWithTag("E_Bullet"))
             GameObject.Destroy(bullet);
     }
 }
