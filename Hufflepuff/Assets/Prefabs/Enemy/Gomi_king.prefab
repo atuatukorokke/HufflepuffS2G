@@ -109,7 +109,7 @@ MonoBehaviour:
   bulletState: 0
   maxHP: 300
   currentHP: 100
-  attak: 1
+  attak: 10
   spellPos: {x: 6, y: 0}
   GomiSpecialMove: {fileID: 3092607265527844790}
   isInvivle: 0
@@ -236,14 +236,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spellPos: {x: 6, y: 0}
-  boss1Bullet: {fileID: 780350193236948880}
-  fastSpecialBom:
+  boss: {fileID: 780350193236948880}
+  fast:
     BulletPrehab: {fileID: 3591624035391491214, guid: 479c6fdb9eba609408ea39594e45b54f, type: 3}
     ShotNum: 3
-    DelayTime: 0.2
+    bulletDelayTime: 0.2
     speed: 0.5
     delayTime: 5
-  secondSpecialBom:
+  second:
     RightBulletPrehab: {fileID: 5736442091953159142, guid: 24210d9295e194640bf535a5c778d128, type: 3}
     LeftBulletPrehab: {fileID: 5580179878717300200, guid: 92e46a3e9d628b34b849809d1d1b0961, type: 3}
     delayTime: 5
@@ -251,12 +251,12 @@ MonoBehaviour:
     time: 5
     speed: 5
     angle: 0
-  thirdSpecialBom:
+  third:
     BulletPrehab: {fileID: 5769044862919052364, guid: f32c617cd933adb4089ec951cff1f86a, type: 3}
     maxSpeed: 1
     minSpeed: 3
     delayTime: 20
-  fourSpecialBom:
+  four:
     BulletPrehab: {fileID: 4416596193334731641, guid: b30b6ef3a31771b46a0587aacb8bd0b0, type: 3}
     stopTime: 0.7
     bulletNum: 30
@@ -271,7 +271,7 @@ MonoBehaviour:
     arcSpeed: 3
     movementSpeed: 2
     arcLine: 10
-  finalSpecianBom:
+  final:
     BulletPrehab: {fileID: 5769044862919052364, guid: f32c617cd933adb4089ec951cff1f86a, type: 3}
     maxSpeed: 3
     minSpeed: 2
@@ -284,7 +284,7 @@ MonoBehaviour:
     radiationBulletAngle: 150
     breakTime: 3
     bulletColor: {r: 0, g: 0, b: 0, a: 1}
-  specialFinalAttack:
+  special:
     BulletPrehab: {fileID: 4173998257336814873, guid: 6a56cbcb4569e9243861e25981ffc25f, type: 3}
     bulletNum: 20
     speed: 5

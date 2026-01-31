@@ -186,36 +186,24 @@ public class Boss1Bullet : MonoBehaviour
         fireRoutine = StartCoroutine(currentPattern.Fire());
     }
 
-    #region セミファイナル
-
-    /// <summary>
-    /// セミファイナル
-    /// </summary>
-    private IEnumerator SpecialFinalBullet()
+    public IEnumerator MoveToSpellPosWithInvincible(Transform boss, Vector2 spellPos, Boss1Bullet owner)
     {
-        isSpecialBulletActive = true;
+        owner.SetInvincible(true);   // ★ 移動中だけ無敵
 
-        // 移動にかける時間
-        float limitTime = 0.5f;
-        // 移動にかかった時間
-        float elapsedTime = 0f;
-        Vector2 startPosition = transform.position;
+        float t = 0f;
+        float duration = 0.5f;
+        Vector2 start = boss.position;
 
-        // randomPosにlimitTimeかけて移動する
-        while (elapsedTime < limitTime)
+        while (t < duration)
         {
-            transform.position = new Vector2(
-                Mathf.Lerp(startPosition.x, spellPos.x, elapsedTime / limitTime),
-                Mathf.Lerp(startPosition.y, spellPos.y, elapsedTime / limitTime)
-                );
-            elapsedTime += Time.deltaTime;
+            boss.position = Vector2.Lerp(start, spellPos, t / duration);
+            t += Time.deltaTime;
             yield return null;
         }
-        yield return StartCoroutine(GomiSpecialMove.FinalSpecialAttack());
-        yield return null;
+
+        owner.SetInvincible(false);  // ★ 移動が終わったら被弾可能に戻す
     }
 
-    #endregion
 
     /// <summary>
     /// エネミーの状態回復とStateの更新をします
@@ -237,9 +225,10 @@ public class Boss1Bullet : MonoBehaviour
     }
 
     /// <summary>
-    /// エネミーにダメージを与えます
+    /// プレイヤーの弾幕が当たった時に
+    /// ボスにダメージを与えます
     /// </summary>
-    /// <param name="damage">与ダメージ</param>
+    /// <param name="damage">ボスの被ダメージ</param>
     private IEnumerator TakeDamage(float damage)
     {
         currentHP -= damage;
@@ -253,20 +242,15 @@ public class Boss1Bullet : MonoBehaviour
         // HPが20%以下になったら必殺技に移行
         if (currentHP <= maxHP * 0.2f && BulletState == BulletState.normal)
         {
-            // 通常弾幕を完全停止
-            if(fireRoutine != null)
-            {
-                StopCoroutine(fireRoutine);
-                fireRoutine = null;
-            }
-            currentPattern?.Clear();
-            currentPattern = null;
+           StopNormalPattern();
+            BulletState = BulletState.spell;
 
-            BulletState = BulletState.spell; // 弾幕の変更
-            GomiSpecialMove.BomJudgement(state);
+            var spellPattern = GomiSpecialMove.GetPattern(state, transform, spellPos);
+            spellPattern.Initialize();
+            StartCoroutine(spellPattern.Execute());
             GameObject CutInObj = Instantiate(
                 CutInnCanvas,
-                new Vector3(0, 0, 0),
+                Vector3.zero,
                 Quaternion.identity);
         }
         // HPが0になったら次の状態に移行
@@ -277,8 +261,11 @@ public class Boss1Bullet : MonoBehaviour
             if (state == State.final)
             {
                 isInvivle = true;
-                BulletState = BulletState.special; // 弾幕の変更
-                yield return StartCoroutine(SpecialFinalBullet());
+                BulletState = BulletState.special;
+
+                var semiFinal = GomiSpecialMove.GetSemiFinalPattern();
+                semiFinal.Initialize();
+                yield return StartCoroutine(semiFinal.Execute());
             }
             // それ以外なら次の段階に移行
             else
@@ -286,7 +273,18 @@ public class Boss1Bullet : MonoBehaviour
                 yield return StartCoroutine(TransitionToNextState());
             }
         }
-    } 
+    }
+
+    private void StopNormalPattern()
+    {
+        if (fireRoutine != null)
+        {
+            StopCoroutine(fireRoutine);
+            fireRoutine = null;
+        }
+        currentPattern?.Clear();
+        currentPattern = null;
+    }
 
     /// <summary>
     /// エネミーの弾幕をすべて消します
@@ -303,7 +301,12 @@ public class Boss1Bullet : MonoBehaviour
             Destroy(bullet);
         }
     }
-    
+
+    public void SetInvincible(bool value)
+    {
+        isInvivle = value;
+    }
+
     /// <summary>
     /// プレイヤーの弾幕に当たった際に作動します
     /// </summary>

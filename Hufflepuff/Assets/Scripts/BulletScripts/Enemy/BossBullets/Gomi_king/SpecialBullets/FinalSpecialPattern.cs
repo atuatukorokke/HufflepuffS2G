@@ -1,0 +1,145 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[System.Serializable]
+public class FinalSpecianBom
+{
+    [SerializeField] public GameObject BulletPrehab;        // ’e–‹‚ÌƒvƒŒƒnƒu
+    [SerializeField] public float maxSpeed;                 // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ÌÅ‘å‘¬‚³
+    [SerializeField] public float minSpeed;                 // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ÌÅ¬‘¬‚³
+    [SerializeField] public float randomSpeed;              // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚Ì‘¬‚³
+    [SerializeField] public float randomBulletTime;         // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ğo‚·ŠÔ
+    [SerializeField] public int radiationBulletNum;         // •úËó‚Éo‚·’e–‹‚Ì”
+    [SerializeField] public float radiationBulletSpeed;     // •úËó‚Éo‚·’e–‹‚Ì‘¬‚³
+    [SerializeField] public float radiationBulletDelayTime; // •úËó‚Éo‚·’e–‹‚Ìo‚·ŠÔŠu
+    [SerializeField] public float radiationBulletCount;     // •úËó‚Éo‚·’e–‹‚Ì”i‰½‰ñ•úËó‚Éo‚·‚©j
+    [SerializeField] public float radiationBulletAngle;     // •úËó‚Éo‚·’e–‹‚ÌŠp“x
+    [SerializeField] public float breakTime;                // ’â~‚µ‚½’e–‹‚ğ“®‚©‚µ‚½Œã‚Ì‘Ò‹@ŠÔ
+    [SerializeField] public Color bulletColor;              // ’e–‹‚ÌF
+}
+
+public class FinalSpecialPattern : ISpellPattern
+{
+    private FinalSpecianBom config;
+    private Transform boss;
+    private Vector2 spellPos;
+    private Boss1Bullet owner;
+
+    public FinalSpecialPattern(FinalSpecianBom config, Transform boss, Vector2 spellPos, Boss1Bullet owner)
+    {
+        this.config = config;
+        this.boss = boss;
+        this.spellPos = spellPos;
+        this.owner = owner;
+    }
+
+    public void Initialize() { }
+
+    public IEnumerator Execute()
+    {
+        yield return owner.MoveToSpellPosWithInvincible(boss, spellPos, owner);
+
+        while (owner.State == State.final && owner.BulletState == BulletState.spell)
+        {
+            // ‡@ ƒ‰ƒ“ƒ_ƒ€’e–‹
+            float time = 0f;
+            List<GameObject> bullets = new();
+
+            while (time < config.randomBulletTime)
+            {
+                float angle = Random.Range(0f, 360f);
+                float speed = Random.Range(config.minSpeed, config.maxSpeed);
+
+                Vector2 dir = Quaternion.Euler(0, 0, angle) * Vector2.right;
+
+                GameObject bullet = GameObject.Instantiate(
+                    config.BulletPrehab,
+                    boss.position,
+                    Quaternion.identity
+                );
+
+                bullet.GetComponent<Rigidbody2D>().linearVelocity = dir * speed;
+
+                bullets.Add(bullet);
+
+                yield return new WaitForSeconds(0.01f);
+                time += 0.01f;
+            }
+
+            // ‡A ’â~
+            yield return new WaitForSeconds(1f);
+
+            foreach (var b in bullets)
+            {
+                if (b == null) continue;
+                b.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+                b.GetComponent<SpriteRenderer>().color = config.bulletColor;
+            }
+
+            // ‡B •úËó’e–‹
+            Vector2 randomPos = new(Random.Range(1.5f, 8.5f), Random.Range(-4.5f, 4.5f));
+            CoroutineRunner.Start(PositionMove(randomPos));
+
+            for (int i = 0; i < config.radiationBulletCount; i++)
+            {
+                float startAngle = 180f - config.radiationBulletAngle / 2f;
+                float angleStep = config.radiationBulletAngle / (config.radiationBulletNum - 1);
+
+                for (int j = 0; j < config.radiationBulletNum; j++)
+                {
+                    float angle = startAngle + j * angleStep;
+                    float rad = angle * Mathf.Deg2Rad;
+
+                    Vector2 dir = new(Mathf.Cos(rad), Mathf.Sin(rad));
+
+                    GameObject bullet = GameObject.Instantiate(
+                        config.BulletPrehab,
+                        boss.position,
+                        Quaternion.identity
+                    );
+
+                    bullet.GetComponent<Rigidbody2D>().linearVelocity =
+                        dir * (config.radiationBulletSpeed - j * 0.1f);
+                }
+
+                yield return new WaitForSeconds(config.radiationBulletDelayTime);
+            }
+
+            // ‡C ƒ‰ƒ“ƒ_ƒ€•ûŒü‚É”ò‚Î‚·
+            yield return new WaitForSeconds(1f);
+
+            foreach (var b in bullets)
+            {
+                if (b == null) continue;
+
+                float angle = Random.Range(0f, 360f);
+                Vector2 dir = Quaternion.Euler(0, 0, angle) * Vector2.right;
+
+                b.GetComponent<Rigidbody2D>().linearVelocity = dir * config.randomSpeed;
+            }
+
+            yield return new WaitForSeconds(config.breakTime);
+        }
+    }
+
+    private IEnumerator PositionMove(Vector2 target)
+    {
+        float t = 0f;
+        float duration = 1f;
+        Vector2 start = boss.position;
+
+        while (t < duration)
+        {
+            boss.position = Vector2.Lerp(start, target, t / duration);
+            t += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    public void Clear()
+    {
+        foreach (var b in GameObject.FindGameObjectsWithTag("E_Bullet"))
+            GameObject.Destroy(b);
+    }
+}
