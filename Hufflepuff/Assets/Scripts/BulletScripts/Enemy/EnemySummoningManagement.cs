@@ -23,20 +23,26 @@ public class EnemySummoningManagement : MonoBehaviour
     [SerializeField] private DeathCount deathCount;                 // 死ぬかの判定を行うスクリプト
     private bool waitingForMiddleBoss = false;                      // 途中でボスが出てくるかどうかのフラグ
     private bool waitingForShop = false;                            // パズル画面が閉じられるまでの待機フラグ
-    public bool isPuzzle = false;                                  // パズル中かどうか(パズル画面を閉じるボタンの二度押し防止のために使う)
+    public bool isPuzzle = false;                                   // パズル中かどうか(パズル画面を閉じるボタンの二度押し防止のために使う)
     private AudioSource audioSource;                                // BGMの再生用オーディオソース
+    private Camera mainCamera;                                      // メインカメラ
 
     [SerializeField] private AudioClip OpenPuzzle;
     [SerializeField] private AudioClip puzzleBGM;
 
-    private void Start()
+    private void Awake()
     {
         playerController = FindAnyObjectByType<PlayrController>();
         goldManager = FindAnyObjectByType<GoldManager>();
         deathCount = FindAnyObjectByType<DeathCount>();
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    private void Start()
+    {
+        mainCamera = Camera.main;
         TitleButton.SetActive(false);
         ClearPanel.SetActive(false);
-        audioSource = GetComponent<AudioSource>(); // AudioSourceコンポーネントを取得
         StartCoroutine(Enumerator()); // エネミーの配置を開始
     }
 
@@ -164,6 +170,10 @@ public class EnemySummoningManagement : MonoBehaviour
     private IEnumerator BossDeath()
     {
         FindAnyObjectByType<PlayrController>().Playstate = PlayState.Clear;
+        coinText.gameObject.SetActive(false);
+        pieceText.gameObject.SetActive(false);
+        deathLateText.gameObject.SetActive(false);
+        yield return StartCoroutine(CameraZoomToPlayer());
         // BGMをフェードアウト
         while (audioSource.volume > 0)
         {
@@ -172,5 +182,32 @@ public class EnemySummoningManagement : MonoBehaviour
         }
         yield return new WaitForSeconds(1f);
         CanvasMaster.GetComponent<Animator>().SetTrigger("GameClear");
+    }
+
+    private IEnumerator CameraZoomToPlayer()
+    {
+        float duration = 2f;
+        float elaapsed = 0f;
+
+        float startSize = mainCamera.orthographicSize;
+        float targetSize = 2.5f;
+
+        Vector3 startPos = mainCamera.transform.position;
+        Vector3 targetPos = new Vector3(
+            playerController.transform.position.x,
+            playerController.transform.position.y,
+            mainCamera.transform.position.z);
+
+        while(elaapsed < duration)
+        {
+            float t = elaapsed / duration;
+            mainCamera.orthographicSize = Mathf.Lerp(startSize, targetSize, t);
+            mainCamera.transform.position = Vector3.Lerp(startPos, targetPos, t);
+            elaapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        mainCamera.transform.position = targetPos;
+        mainCamera.orthographicSize = targetSize;
     }
 }

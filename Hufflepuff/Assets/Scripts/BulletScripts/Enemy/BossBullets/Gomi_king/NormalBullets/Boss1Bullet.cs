@@ -261,6 +261,7 @@ public class Boss1Bullet : MonoBehaviour
             if (state == State.final)
             {
                 isInvivle = true;
+                isSpecialBulletActive = true;
                 BulletState = BulletState.special;
 
                 var semiFinal = GomiSpecialMove.GetSemiFinalPattern();

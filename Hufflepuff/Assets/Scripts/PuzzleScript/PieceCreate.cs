@@ -11,15 +11,7 @@ using Unity.VisualScripting;
 public class PieceCreate : MonoBehaviour
 {
     [Header("各種ピース")]
-    [SerializeField] public GameObject mino1;
-    [SerializeField] public GameObject mino2;
-    [SerializeField] public GameObject mino3;
-    [SerializeField] public GameObject mino4;
-    [SerializeField] public GameObject mino5;
-    [SerializeField] public GameObject mino6;
-    [SerializeField] public GameObject mino9;
-
-    [SerializeField] public GameObject block;
+    [SerializeField] private GameObject[] pieces;
 
     [Header("スクリプトをアタッチ")]
     [SerializeField] private DeathCount deathCount;     // 死ぬかの判定を行うスクリプト
@@ -27,6 +19,8 @@ public class PieceCreate : MonoBehaviour
     [SerializeField] private PieceMoves pieceMoves;     // 盤面が重なっていないかを確認するスクリプト
     [SerializeField] private DestroyBlock destroyBlock; // ブロックを消すスクリプト
     [SerializeField] private PlayrController playerController; // プレイヤーのコントローラー
+    private ClearCountSet clearCountSet;
+    private int[] pieceCountNum = { 1, 2, 3, 4, 5, 6, 9, 1};
 
     private AudioSource audio;
     [SerializeField] private AudioClip blockCreateSE;
@@ -44,10 +38,15 @@ public class PieceCreate : MonoBehaviour
      {0, 0, 0, 0, 0},
      {1, 0, 0, 0, 1}};
 
-    private void Start()
+    private void Awake()
     {
         audio = GetComponent<AudioSource>();
+        clearCountSet = FindAnyObjectByType<ClearCountSet>();
         playerController = FindAnyObjectByType<PlayrController>();
+    }
+
+    private void Start()
+    {
         goldText.text = $"残りのコイン:<color=#ffd700>{goldManager.GetGold().ToString()}</color>";
     }
 
@@ -57,7 +56,7 @@ public class PieceCreate : MonoBehaviour
     /// <param name="pieceNumber">0 = ランダム生成, 1 ~ 7 = 対応したピースを生成</param>
     public void NewPiece(int pieceNumber, int buyLate)
     {
-        int rndMino = pieceNumber;
+        int rndMino = pieceNumber - 1;
         // 入力が０の時1~7の整数をランダムで生成
         if (pieceNumber == 0)
         {
@@ -70,110 +69,21 @@ public class PieceCreate : MonoBehaviour
 
         if(isBlockCreate)
         {
-            // プレハブを指定位置に生成
-            switch (rndMino)
+            if(goldManager.GetGold() >= buyLate)
             {
-                case 1:
-                    if (goldManager.GetGold() >= buyLate)
-                    {
-                        isBlockCreate = false;
-                        audio.PlayOneShot(blockCreateSE);
-                        goldManager.SetGoldCount(-buyLate);
-                        Instantiate(mino1, pos, Quaternion.identity);
-                        deathCount.SetPieceCount(1);
-                    }
-                    else
-                    {
-                        audio.PlayOneShot(notBlockCreateSE);
-                    }
-                    break;
-                case 2:
-                    if (goldManager.GetGold() >= buyLate)
-                    {
-                        isBlockCreate = false;
-                        audio.PlayOneShot(blockCreateSE);
-                        goldManager.SetGoldCount(-buyLate);
-                        Instantiate(mino2, pos, Quaternion.identity);
-                        deathCount.SetPieceCount(2);
-                    }
-                    else
-                    {
-                        audio.PlayOneShot(notBlockCreateSE);
-                    }
-                    break;
-                case 3:
-                    if (goldManager.GetGold() >= buyLate)
-                    {
-                        isBlockCreate = false;
-                        audio.PlayOneShot(blockCreateSE);
-                        goldManager.SetGoldCount(-buyLate);
-                        Instantiate(mino3, pos, Quaternion.identity);
-                        deathCount.SetPieceCount(3);
-                    }
-                    else
-                    {
-                        audio.PlayOneShot(notBlockCreateSE);
-                    }
-                    break;
-                case 4:
-                    if (goldManager.GetGold() >= buyLate)
-                    {
-                        isBlockCreate = false;
-                        audio.PlayOneShot(blockCreateSE);
-                        goldManager.SetGoldCount(-buyLate);
-                        Instantiate(mino4, pos, Quaternion.identity);
-                        deathCount.SetPieceCount(4);
-                    }
-                    else
-                    {
-                        audio.PlayOneShot(notBlockCreateSE);
-                    }
-                    break;
-                case 5:
-                    if (goldManager.GetGold() >= buyLate)
-                    {
-                        isBlockCreate = false;
-                        audio.PlayOneShot(blockCreateSE);
-                        goldManager.SetGoldCount(-buyLate);
-                        Instantiate(mino5, pos, Quaternion.identity);
-                        deathCount.SetPieceCount(5);
-                    }
-                    else
-                    {
-                        audio.PlayOneShot(notBlockCreateSE);
-                    }
-                    break;
-                case 6:
-                    if (goldManager.GetGold() >= buyLate)
-                    {
-                        isBlockCreate = false;
-                        audio.PlayOneShot(blockCreateSE);
-                        goldManager.SetGoldCount(-buyLate);
-                        Instantiate(mino6, pos, Quaternion.identity);
-                        deathCount.SetPieceCount(6);
-                    }
-                    else
-                    {
-                        audio.PlayOneShot(notBlockCreateSE);
-                    }
-                    break;
-                case 7:
-                    if (goldManager.GetGold() >= buyLate)
-                    {
-                        isBlockCreate = false;
-                        audio.PlayOneShot(blockCreateSE);
-                        goldManager.SetGoldCount(-buyLate);
-                        Instantiate(mino9, pos, Quaternion.identity);
-                        deathCount.SetPieceCount(9);
-                    }
-                    else
-                    {
-                        audio.PlayOneShot(notBlockCreateSE);
-                    }
-                    break;
-                default:
-                    break;
+                isBlockCreate = false;
+                audio.PlayOneShot(blockCreateSE);
+                goldManager.SetGoldCount(-buyLate);
+                Instantiate(pieces[rndMino], pos, Quaternion.identity);
+                clearCountSet.PieceUseCount(rndMino);
+                deathCount.SetPieceCount(pieceCountNum[rndMino]);
             }
+            else
+            {
+                audio.PlayOneShot(notBlockCreateSE);
+            }
+
+            
             goldText.text = $"残りのコイン:<color=#ffd700>{goldManager.GetGold().ToString()}</color>";
         }
     }
@@ -188,45 +98,15 @@ public class PieceCreate : MonoBehaviour
             audio.PlayOneShot(blockCreateSE);
             isBlockCreate = false;
             playerController.PieceCount -= 1;
-            int rndMino = Random.Range(1, 8);
+            int rndMino = Random.Range(0, pieces.Length - 1);
 
             // 生成位置
             Vector3 pos = new Vector3(-40.0f, -11.0f, 0.0f);
 
             // プレハブを指定位置に生成
-            switch (rndMino)
-            {
-                case 1:
-                    Instantiate(mino1, pos, Quaternion.identity);
-                    deathCount.SetPieceCount(1);
-                    break;
-                case 2:
-                    Instantiate(mino2, pos, Quaternion.identity);
-                    deathCount.SetPieceCount(2);
-                    break;
-                case 3:
-                    Instantiate(mino3, pos, Quaternion.identity);
-                    deathCount.SetPieceCount(3);
-                    break;
-                case 4:
-                    Instantiate(mino4, pos, Quaternion.identity);
-                    deathCount.SetPieceCount(4);
-                    break;
-                case 5:
-                    Instantiate(mino5, pos, Quaternion.identity);
-                    deathCount.SetPieceCount(5);
-                    break;
-                case 6:
-                    Instantiate(mino6, pos, Quaternion.identity);
-                    deathCount.SetPieceCount(6);
-                    break;
-                case 7:
-                    Instantiate(mino9, pos, Quaternion.identity);
-                    deathCount.SetPieceCount(9);
-                    break;
-                default:
-                    break;
-            }
+            Instantiate(pieces[rndMino], pos, Quaternion.identity);
+            clearCountSet.PieceUseCount(rndMino);
+            deathCount.SetPieceCount(pieceCountNum[rndMino]);
         }
         else
         {
@@ -258,10 +138,11 @@ public class PieceCreate : MonoBehaviour
 
         // 生成位置 盤面の左上を指定
         Vector3 pos = new Vector3(-28.0f - randomIndex.x, -7.0f - randomIndex.y, 0.0f);
-        GameObject Trash = Instantiate(block, pos, Quaternion.identity);
+        GameObject Trash = Instantiate(pieces[pieces.Length - 1], pos, Quaternion.identity);
+        clearCountSet.PieceUseCount(pieces.Length - 1);
         Trash.GetComponent<BlockOverlap>().blockPosition = new Vector2Int(randomIndex.x, randomIndex.y);
 
-        deathCount.SetBlockCount(1);
+        deathCount.SetBlockCount(pieceCountNum[pieceCountNum.Length - 1]);
 
         if (pieceMoves.GetPiecePossible())
         {
