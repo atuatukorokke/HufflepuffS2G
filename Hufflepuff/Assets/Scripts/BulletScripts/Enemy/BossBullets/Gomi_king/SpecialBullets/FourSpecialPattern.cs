@@ -45,13 +45,14 @@ public class FourSpecialPattern : ISpellPattern
 
         while (owner.State == State.four && owner.BulletState == BulletState.spell)
         {
-            // á@ â~å`íeñã Å® í‚é~ Å® ägéU
             for (int i = 0; i < 3; i++)
             {
                 List<GameObject> bullets = new();
-
+                
                 for (int k = 0; k < 2; k++)
                 {
+                    if (owner.State != State.four || owner.BulletState != BulletState.spell) break;
+
                     float angleStep = 360f / config.bulletNum;
                     float angle = config.angleOffset;
 
@@ -77,6 +78,8 @@ public class FourSpecialPattern : ISpellPattern
 
                 yield return new WaitForSeconds(config.stopTime);
 
+                if (owner.State != State.four || owner.BulletState != BulletState.spell) break;
+
                 foreach (var b in bullets)
                 {
                     if (b == null) continue;
@@ -88,12 +91,15 @@ public class FourSpecialPattern : ISpellPattern
                 CoroutineRunner.Start(ExpandMove(bullets));
             }
 
-            // áA ÉâÉìÉ_ÉÄà⁄ìÆ Å® êÓèÛíeñã Å® é©ã@ë_Ç¢
+            if (owner.State != State.four || owner.BulletState != BulletState.spell) break;
+
             Vector2 randomPos = new(Random.Range(2f, 8.5f), Random.Range(-4.5f, 4.5f));
             CoroutineRunner.Start(PositionMove(randomPos));
 
             for (int i = 0; i < 3; i++)
             {
+                if (owner.State != State.four || owner.BulletState != BulletState.spell) break;
+
                 List<GameObject> bullets = new();
 
                 float startAngle = 180f - config.arcAngle / 2f;

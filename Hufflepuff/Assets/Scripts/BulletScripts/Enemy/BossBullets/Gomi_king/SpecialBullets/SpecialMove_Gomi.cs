@@ -32,9 +32,9 @@ public class SpecialMove_Gomi : MonoBehaviour
             _ => null
         };
     }
-    public ISpellPattern GetSemiFinalPattern()
+    public ISpellPattern GetSemiFinalPattern(Vector2 spellPos)
     {
-        return new SemiFinalPattern(special, transform, boss);
+        return new SemiFinalPattern(special, transform, spellPos, boss);
     }
 
     public IEnumerator MoveToSpellPosWithInvincible(Transform boss, Vector2 spellPos, Boss1Bullet owner)

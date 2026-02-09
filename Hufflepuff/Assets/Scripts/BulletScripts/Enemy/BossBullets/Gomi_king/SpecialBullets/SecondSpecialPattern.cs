@@ -70,6 +70,8 @@ public class SecondSpecialPattern : ISpellPattern
 
             for (int i = 0; i < config.BulletNum; i++)
             {
+                if (owner.BulletState != BulletState.spell) break;
+
                 Vector2 pos = new(-9f, Random.Range(-4.5f, 4.5f));
                 GameObject bullet = GameObject.Instantiate(config.RightBulletPrehab, pos, Quaternion.identity);
 

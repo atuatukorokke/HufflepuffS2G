@@ -109,7 +109,7 @@ MonoBehaviour:
   bulletState: 0
   maxHP: 300
   currentHP: 100
-  attak: 10
+  attak: 1
   spellPos: {x: 6, y: 0}
   GomiSpecialMove: {fileID: 3092607265527844790}
   isInvivle: 0
@@ -129,19 +129,19 @@ MonoBehaviour:
   secondBulletValue:
     BulletPrefab: {fileID: 7961033102418890308, guid: 5a84cc53ed5784746a7066f9c74ef0b3, type: 3}
     FlyingNum: 15
-    Frequency: 15
+    Frequency: 0
     Speed: 5
-    DeleteTime: 15
-    DelayTime: 0.2
-    AngleOffset: 1
+    DeleteTime: 5
+    DelayTime: 0.1
+    AngleOffset: 0
   thirdBulletValue:
     bulletPrefab: {fileID: 4416596193334731641, guid: b30b6ef3a31771b46a0587aacb8bd0b0, type: 3}
-    flyingNum: 10
-    frequency: 20
-    speed: 5
-    deleteTime: 5
-    delayTime: 5
-    angleOffset: 5
+    flyingNum: 4
+    frequency: 0
+    speed: 4
+    deleteTime: 10
+    delayTime: 0.1
+    angleOffset: 0
   FourBulletValue:
     BulletPrehab: {fileID: 8122776338678338232, guid: c34af014c73c3f142b12ef14b13cf32c, type: 3}
     FlyingNum: 6
@@ -241,7 +241,7 @@ MonoBehaviour:
     BulletPrehab: {fileID: 3591624035391491214, guid: 479c6fdb9eba609408ea39594e45b54f, type: 3}
     ShotNum: 3
     bulletDelayTime: 0.2
-    speed: 0.5
+    speed: 5
     delayTime: 5
   second:
     RightBulletPrehab: {fileID: 5736442091953159142, guid: 24210d9295e194640bf535a5c778d128, type: 3}
@@ -287,8 +287,8 @@ MonoBehaviour:
   special:
     BulletPrehab: {fileID: 4173998257336814873, guid: 6a56cbcb4569e9243861e25981ffc25f, type: 3}
     bulletNum: 20
-    speed: 5
-    delayTime: 0.3
+    speed: 7
+    delayTime: 0.05
     angleOffset: 0
 --- !u!82 &-5952361761886967412
 AudioSource:

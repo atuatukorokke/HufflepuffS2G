@@ -5,18 +5,18 @@ using UnityEngine;
 [System.Serializable]
 public class FinalSpecianBom
 {
-    [SerializeField] public GameObject BulletPrehab;        // ’e–‹‚ÌƒvƒŒƒnƒu
-    [SerializeField] public float maxSpeed;                 // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ÌÅ‘å‘¬‚³
-    [SerializeField] public float minSpeed;                 // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ÌÅ¬‘¬‚³
-    [SerializeField] public float randomSpeed;              // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚Ì‘¬‚³
-    [SerializeField] public float randomBulletTime;         // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ğo‚·ŠÔ
-    [SerializeField] public int radiationBulletNum;         // •úËó‚Éo‚·’e–‹‚Ì”
-    [SerializeField] public float radiationBulletSpeed;     // •úËó‚Éo‚·’e–‹‚Ì‘¬‚³
-    [SerializeField] public float radiationBulletDelayTime; // •úËó‚Éo‚·’e–‹‚Ìo‚·ŠÔŠu
-    [SerializeField] public float radiationBulletCount;     // •úËó‚Éo‚·’e–‹‚Ì”i‰½‰ñ•úËó‚Éo‚·‚©j
-    [SerializeField] public float radiationBulletAngle;     // •úËó‚Éo‚·’e–‹‚ÌŠp“x
-    [SerializeField] public float breakTime;                // ’â~‚µ‚½’e–‹‚ğ“®‚©‚µ‚½Œã‚Ì‘Ò‹@ŠÔ
-    [SerializeField] public Color bulletColor;              // ’e–‹‚ÌF
+    public GameObject BulletPrehab;        // ’e–‹‚ÌƒvƒŒƒnƒu
+    public float maxSpeed;                 // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ÌÅ‘å‘¬‚³
+    public float minSpeed;                 // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ÌÅ¬‘¬‚³
+    public float randomSpeed;              // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚Ì‘¬‚³
+    public float randomBulletTime;         // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ğo‚·ŠÔ
+    public int radiationBulletNum;         // •úËó‚Éo‚·’e–‹‚Ì”
+    public float radiationBulletSpeed;     // •úËó‚Éo‚·’e–‹‚Ì‘¬‚³
+    public float radiationBulletDelayTime; // •úËó‚Éo‚·’e–‹‚Ìo‚·ŠÔŠu
+    public float radiationBulletCount;     // •úËó‚Éo‚·’e–‹‚Ì”i‰½‰ñ•úËó‚Éo‚·‚©j
+    public float radiationBulletAngle;     // •úËó‚Éo‚·’e–‹‚ÌŠp“x
+    public float breakTime;                // ’â~‚µ‚½’e–‹‚ğ“®‚©‚µ‚½Œã‚Ì‘Ò‹@ŠÔ
+    public Color bulletColor;              // ’e–‹‚ÌF
 }
 
 public class FinalSpecialPattern : ISpellPattern
@@ -42,15 +42,15 @@ public class FinalSpecialPattern : ISpellPattern
 
         while (owner.State == State.final && owner.BulletState == BulletState.spell)
         {
-            // ‡@ ƒ‰ƒ“ƒ_ƒ€’e–‹
             float time = 0f;
             List<GameObject> bullets = new();
 
             while (time < config.randomBulletTime)
             {
+                if (owner.State != State.final || owner.BulletState != BulletState.spell) break;
+
                 float angle = Random.Range(0f, 360f);
                 float speed = Random.Range(config.minSpeed, config.maxSpeed);
-
                 Vector2 dir = Quaternion.Euler(0, 0, angle) * Vector2.right;
 
                 GameObject bullet = GameObject.Instantiate(
@@ -67,7 +67,8 @@ public class FinalSpecialPattern : ISpellPattern
                 time += 0.01f;
             }
 
-            // ‡A ’â~
+            if (owner.State != State.final || owner.BulletState != BulletState.spell) break;
+
             yield return new WaitForSeconds(1f);
 
             foreach (var b in bullets)
@@ -77,12 +78,15 @@ public class FinalSpecialPattern : ISpellPattern
                 b.GetComponent<SpriteRenderer>().color = config.bulletColor;
             }
 
-            // ‡B •úËó’e–‹
+            if (owner.State != State.final || owner.BulletState != BulletState.spell) break;
+
             Vector2 randomPos = new(Random.Range(1.5f, 8.5f), Random.Range(-4.5f, 4.5f));
             CoroutineRunner.Start(PositionMove(randomPos));
 
             for (int i = 0; i < config.radiationBulletCount; i++)
             {
+                if (owner.State != State.final || owner.BulletState != BulletState.spell) break;
+
                 float startAngle = 180f - config.radiationBulletAngle / 2f;
                 float angleStep = config.radiationBulletAngle / (config.radiationBulletNum - 1);
 
@@ -106,7 +110,8 @@ public class FinalSpecialPattern : ISpellPattern
                 yield return new WaitForSeconds(config.radiationBulletDelayTime);
             }
 
-            // ‡C ƒ‰ƒ“ƒ_ƒ€•ûŒü‚É”ò‚Î‚·
+            if (owner.State != State.final || owner.BulletState != BulletState.spell) break;
+
             yield return new WaitForSeconds(1f);
 
             foreach (var b in bullets)

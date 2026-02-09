@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using System.ComponentModel.Design.Serialization;
 
 [System.Serializable]
 public class SpecialFinalAttack
@@ -13,14 +15,20 @@ public class SpecialFinalAttack
 
 public class SemiFinalPattern : ISpellPattern
 {
+    private const float decreasingLate = 0.5f;
+    private const float mainDelayTime = 0.2f;
+    private const float bulletCreatRadius = 1.5f;
+
     private SpecialFinalAttack config;
     private Transform boss;
+    private Vector2 spellPos;
     private Boss1Bullet owner;
 
-    public SemiFinalPattern(SpecialFinalAttack config, Transform boss, Boss1Bullet owner)
+    public SemiFinalPattern(SpecialFinalAttack config, Transform boss, Vector2 spellPos,  Boss1Bullet owner)
     {
         this.config = config;
         this.boss = boss;
+        this.spellPos = spellPos;
         this.owner = owner;
     }
 
@@ -31,27 +39,44 @@ public class SemiFinalPattern : ISpellPattern
         float angleStep = 360f / config.bulletNum;
         float angle = config.angleOffset;
 
+        yield return owner.MoveToSpellPosWithInvincible(boss, spellPos, owner);
+
         while (owner.State == State.final && owner.BulletState == BulletState.special)
         {
-            for (int i = 0; i < config.bulletNum; i++)
+            float radius = bulletCreatRadius;
+            Vector2 offset = Random.insideUnitSphere * radius;
+            Vector3 randomPos = boss.position + (Vector3)offset;
+
+            List<GameObject> bullets = new List<GameObject>();
+            for(int i = 0; i < config.bulletNum; i++)
             {
-                float rad = angle * Mathf.Deg2Rad;
+                float dirX = Mathf.Cos(angle * Mathf.Deg2Rad);
+                float dirY = Mathf.Sin(angle * Mathf.Deg2Rad);
+                Vector3 moveDirection = new Vector3(dirX, dirY, 0);
 
-                Vector2 dir = new(Mathf.Cos(rad), Mathf.Sin(rad));
+                GameObject proj = GameObject.Instantiate(config.BulletPrehab, randomPos, Quaternion.identity);
+                proj.GetComponent<Rigidbody2D>().linearVelocity = moveDirection.normalized * config.speed;
 
-                GameObject bullet = GameObject.Instantiate(
-                    config.BulletPrehab,
-                    boss.position,
-                    Quaternion.identity
-                );
-
-                bullet.GetComponent<Rigidbody2D>().linearVelocity = dir * config.speed;
-
+                bullets.Add(proj);
                 angle += angleStep;
             }
+            yield return new WaitForSeconds(mainDelayTime);
+
+            // íeñãÇÃÉXÉsÅ[ÉhÇè≠ÇµíxÇ≠Ç∑ÇÈ
+            foreach(GameObject obj in bullets)
+            {
+                if(bullets != null)
+                {
+                    obj.GetComponent<Rigidbody2D>().linearVelocity *= decreasingLate;
+                }
+            }
+            config.angleOffset += 10;
+            if (config.angleOffset >= 360)
+                config.angleOffset = 0;
 
             yield return new WaitForSeconds(config.delayTime);
         }
+        yield return null;
     }
 
     public void Clear()

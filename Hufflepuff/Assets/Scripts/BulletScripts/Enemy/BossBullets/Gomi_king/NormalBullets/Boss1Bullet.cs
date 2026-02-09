@@ -264,7 +264,7 @@ public class Boss1Bullet : MonoBehaviour
                 isSpecialBulletActive = true;
                 BulletState = BulletState.special;
 
-                var semiFinal = GomiSpecialMove.GetSemiFinalPattern();
+                var semiFinal = GomiSpecialMove.GetSemiFinalPattern(spellPos);
                 semiFinal.Initialize();
                 yield return StartCoroutine(semiFinal.Execute());
             }
