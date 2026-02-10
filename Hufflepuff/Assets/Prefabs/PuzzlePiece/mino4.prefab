@@ -315,6 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pieceCount: 4
+  pieceNumber: 3
   sellGold: 40
   deathCount: {fileID: 0}
   goldManager: {fileID: 0}

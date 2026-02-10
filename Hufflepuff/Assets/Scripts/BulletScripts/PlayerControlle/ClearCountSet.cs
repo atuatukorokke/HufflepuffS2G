@@ -37,6 +37,15 @@ public class ClearCountSet : MonoBehaviour
         string rank = GetRank(score);
 
         rankText.text = $"RANK\n{rank}";
+        rankText.color = GetRankColor(rank);
+    }
+
+    public void PieceSellCount(int id)
+    {
+        pieceCount[id]--;
+
+        if (pieceCount[id] < 0)
+            pieceCount[id] = 0;
     }
 
     private int CalculateScore()
@@ -52,10 +61,23 @@ public class ClearCountSet : MonoBehaviour
 
     private string GetRank(int score)
     {
-        if (score >= 3000) return "S";
-        if (score >= 2000) return "A";
-        if (score >= 1000) return "B";
-        if (score >= 500) return "C";
+        if (score >= 100) return "S";
+        if (score >= 80) return "A";
+        if (score >= 50) return "B";
+        if (score >= 20) return "C";
         return "D";
+    }
+
+    private Color GetRankColor(string rank)
+    {
+        switch(rank)
+        {
+            case "S": return new Color(1f, 0.84f, 0f); // ã‡êF
+            case "A": return new Color(0.6f, 0.2f, 1f); // éá
+            case "B": return new Color(0.2f, 0.4f, 1f); // ê¬
+            case "C": return new Color(0.2f, 1f, 0.4f); // óŒ
+            case "D": return new Color(1f, 0.2f, 0.2f); // ê‘
+        }
+        return Color.white;
     }
 }

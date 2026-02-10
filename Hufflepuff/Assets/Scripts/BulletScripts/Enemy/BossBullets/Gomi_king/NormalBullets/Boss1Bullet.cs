@@ -242,8 +242,9 @@ public class Boss1Bullet : MonoBehaviour
         // HPが20%以下になったら必殺技に移行
         if (currentHP <= maxHP * 0.2f && BulletState == BulletState.normal)
         {
-           StopNormalPattern();
+            StopNormalPattern();
             BulletState = BulletState.spell;
+            damageLate = 0.2f;
 
             var spellPattern = GomiSpecialMove.GetPattern(state, transform, spellPos);
             spellPattern.Initialize();

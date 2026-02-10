@@ -15,6 +15,7 @@ public class ObjectDragTransform : MonoBehaviour
 
     [Header("ピース情報")]
     [SerializeField] private int pieceCount = 0;                // ピース数
+    [SerializeField] private int pieceNumber = 0;               // 個別番号
     [SerializeField] private int sellGold = 0;                  // 金額
 
     [Header("スクリプトを動的にアタッチされる")]
@@ -59,6 +60,7 @@ public class ObjectDragTransform : MonoBehaviour
         {
             Destroy(gameObject);
 
+            FindAnyObjectByType<ClearCountSet>().PieceSellCount(pieceNumber);
             deathCount.SetPieceCount(pieceCount * -1);
 
             goldManager.SetGoldCount(sellGold);
