@@ -5,18 +5,21 @@ using UnityEngine;
 [System.Serializable]
 public class FinalSpecianBom
 {
-    public GameObject BulletPrehab;        // 弾幕のプレハブ
-    public float maxSpeed;                 // ランダムな弾幕の最大速さ
-    public float minSpeed;                 // ランダムな弾幕の最小速さ
-    public float randomSpeed;              // ランダムな弾幕の速さ
-    public float randomBulletTime;         // ランダムな弾幕を出す時間
-    public int radiationBulletNum;         // 放射状に出す弾幕の数
-    public float radiationBulletSpeed;     // 放射状に出す弾幕の速さ
-    public float radiationBulletDelayTime; // 放射状に出す弾幕の出す間隔
-    public float radiationBulletCount;     // 放射状に出す弾幕の数（何回放射状に出すか）
-    public float radiationBulletAngle;     // 放射状に出す弾幕の角度
-    public float breakTime;                // 停止した弾幕を動かした後の待機時間
-    public Color bulletColor;              // 弾幕の色
+    public GameObject BulletPrehab;         // 弾幕のプレハブ
+    public float maxSpeed;                  // ランダムな弾幕の最大速さ
+    public float minSpeed;                  // ランダムな弾幕の最小速さ
+    public float randomSpeed;               // ランダムな弾幕の速さ
+    public float randomBulletTime;          // ランダムな弾幕を出す時間
+    public int radiationBulletNum;          // 放射状に出す弾幕の数
+    public float radiationBulletSpeed;      // 放射状に出す弾幕の速さ
+    public float radiationBulletDelayTime;  // 放射状に出す弾幕の出す間隔
+    public float radiationBulletCount;      // 放射状に出す弾幕の数（何回放射状に出すか）
+    public float radiationBulletAngle;      // 放射状に出す弾幕の角度
+    public float breakTime;                 // 停止した弾幕を動かした後の待機時間
+    public Color bulletColor;               // 弾幕の色
+    public AudioClip mainBulletSE;          // 最初に撃つ弾幕の効果音
+    public AudioClip bulletStopSE;          // 弾幕の動きを止めるときの効果音
+    public AudioClip subBulletSE;           // 次の弾幕を撃つ時の効果音
 }
 
 public class FinalSpecialPattern : ISpellPattern
@@ -43,11 +46,16 @@ public class FinalSpecialPattern : ISpellPattern
         while (owner.State == State.final && owner.BulletState == BulletState.spell)
         {
             float time = 0f;
+            int creatCount = 0;
+
             List<GameObject> bullets = new();
 
             while (time < config.randomBulletTime)
             {
                 if (owner.State != State.final || owner.BulletState != BulletState.spell) break;
+
+                creatCount++;
+                if (creatCount % 10 == 0) owner.Audio.PlayOneShot(config.mainBulletSE);
 
                 float angle = Random.Range(0f, 360f);
                 float speed = Random.Range(config.minSpeed, config.maxSpeed);
@@ -77,6 +85,7 @@ public class FinalSpecialPattern : ISpellPattern
                 b.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
                 b.GetComponent<SpriteRenderer>().color = config.bulletColor;
             }
+            owner.Audio.PlayOneShot(config.bulletStopSE);
 
             if (owner.State != State.final || owner.BulletState != BulletState.spell) break;
 
@@ -86,6 +95,8 @@ public class FinalSpecialPattern : ISpellPattern
             for (int i = 0; i < config.radiationBulletCount; i++)
             {
                 if (owner.State != State.final || owner.BulletState != BulletState.spell) break;
+
+                owner.Audio.PlayOneShot(config.subBulletSE);
 
                 float startAngle = 180f - config.radiationBulletAngle / 2f;
                 float angleStep = config.radiationBulletAngle / (config.radiationBulletNum - 1);

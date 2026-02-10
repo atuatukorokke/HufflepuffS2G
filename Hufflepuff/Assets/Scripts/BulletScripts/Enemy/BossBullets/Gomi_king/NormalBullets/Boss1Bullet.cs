@@ -72,11 +72,16 @@ public class Boss1Bullet : MonoBehaviour
     public State State { get => state; set => state = value; }
     public BulletState BulletState { get => bulletState; set => bulletState = value; }
     public float DamageLate { get => damageLate; set => damageLate = value; }
+    public AudioSource Audio { get => audio; set => audio = value; }
+
+    private void Awake()
+    {
+        Audio = GetComponent<AudioSource>();
+    }
 
     void Start()
     {
         // 初期位置から指定場所へ移動する
-        audio = GetComponent<AudioSource>();
         currentHP = maxHP;
         isDead = false;
         StartCoroutine(StartPositionMove()); // 初期位置から指定位置へ移動
@@ -115,7 +120,7 @@ public class Boss1Bullet : MonoBehaviour
             {
                 isDead = true;
                 Destroy(canvas); // ＨＰバーのキャンバスを消す
-                audio.PlayOneShot(deadSE);
+                Audio.PlayOneShot(deadSE);
                 Ondeath?.Invoke();
                 BulletDelete(); // 弾幕を消す
                 Destroy(gameObject);
@@ -189,9 +194,10 @@ public class Boss1Bullet : MonoBehaviour
     public IEnumerator MoveToSpellPosWithInvincible(Transform boss, Vector2 spellPos, Boss1Bullet owner)
     {
         owner.SetInvincible(true);   // ★ 移動中だけ無敵
+        damageLate = 0f;
 
         float t = 0f;
-        float duration = 0.5f;
+        float duration = 1.5f;
         Vector2 start = boss.position;
 
         while (t < duration)
@@ -201,6 +207,7 @@ public class Boss1Bullet : MonoBehaviour
             yield return null;
         }
 
+        damageLate = 0.2f;
         owner.SetInvincible(false);  // ★ 移動が終わったら被弾可能に戻す
     }
 
@@ -244,7 +251,6 @@ public class Boss1Bullet : MonoBehaviour
         {
             StopNormalPattern();
             BulletState = BulletState.spell;
-            damageLate = 0.2f;
 
             var spellPattern = GomiSpecialMove.GetPattern(state, transform, spellPos);
             spellPattern.Initialize();

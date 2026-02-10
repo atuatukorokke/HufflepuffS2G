@@ -4,15 +4,16 @@ using UnityEngine;
 [System.Serializable]
 public class SecondSpecialBom
 {
-    public GameObject RightBulletPrehab; // ‰EŒü‚«‚ÌƒnƒG
-    public GameObject LeftBulletPrehab;  // ¶Œü‚«‚ÌƒnƒG
-    public float delayTime;@            // ‰½•bŠÔ‰ñ“]’e‚ğ‘Å‚Â‚©
-    public int BulletNum;                // ‘Å‚Â”
-    public float time;                   // ‰½•bŒã‚ÉŒã‚ë‚©‚çƒnƒG‚ğo‚·‚©
-    public float speed;                  // ’e–‹‚Ì‘¬‚³
+    public GameObject RightBulletPrehab;    // ‰EŒü‚«‚ÌƒnƒG
+    public GameObject LeftBulletPrehab;     // ¶Œü‚«‚ÌƒnƒG
+    public float delayTime;@               // ‰½•bŠÔ‰ñ“]’e‚ğ‘Å‚Â‚©
+    public int BulletNum;                   // ‘Å‚Â”
+    public float time;                      // ‰½•bŒã‚ÉŒã‚ë‚©‚çƒnƒG‚ğo‚·‚©
+    public float speed;                     // ’e–‹‚Ì‘¬‚³
     [Range(0, 360)]
-    public float angle;                  // ‰ñ“]’e‚ÌŠp“x’²®—p•Ï”
-
+    public float angle;                     // ‰ñ“]’e‚ÌŠp“x’²®—p•Ï”
+    public AudioClip mainBulletSE;          // ’e–‹‚ğŒ‚‚Â‚Æ‚«‚ÌŒø‰Ê‰¹
+    public AudioClip leftBulletSE;          // Œã”¼‚Ì’e–‹‚ğŒ‚‚Â‚Æ‚«‚ÌŒø‰Ê‰¹
 }
 
 public class SecondSpecialPattern : ISpellPattern
@@ -43,6 +44,7 @@ public class SecondSpecialPattern : ISpellPattern
             while (shotTime < config.delayTime)
             {
                 if (owner.BulletState != BulletState.spell) break;
+                owner.Audio.PlayOneShot(config.mainBulletSE);
 
                 for (int i = -3; i < 3; i++)
                 {
@@ -72,6 +74,8 @@ public class SecondSpecialPattern : ISpellPattern
             {
                 if (owner.BulletState != BulletState.spell) break;
 
+                owner.Audio.PlayOneShot(config.leftBulletSE);
+
                 Vector2 pos = new(-9f, Random.Range(-4.5f, 4.5f));
                 GameObject bullet = GameObject.Instantiate(config.RightBulletPrehab, pos, Quaternion.identity);
 
@@ -84,21 +88,6 @@ public class SecondSpecialPattern : ISpellPattern
             shotTime = 0f;
         }
     }
-
-    private IEnumerator MoveToSpellPos()
-    {
-        float t = 0f;
-        float duration = 0.5f;
-        Vector2 start = boss.position;
-
-        while (t < duration)
-        {
-            boss.position = Vector2.Lerp(start, spellPos, t / duration);
-            t += Time.deltaTime;
-            yield return null;
-        }
-    }
-
     public void Clear()
     {
         foreach (var b in GameObject.FindGameObjectsWithTag("E_Bullet"))

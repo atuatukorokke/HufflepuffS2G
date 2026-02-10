@@ -5,21 +5,23 @@ using UnityEngine;
 [System.Serializable]
 public class FourSpecialBom
 {
-    public GameObject BulletPrehab;    // ’e–‹‚ÌƒvƒŒƒnƒu
-    public float stopTime;             // ~‚Ü‚é‚Ü‚Å‚ÌŠÔ
-    public int bulletNum;              // ‰½”­’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ğŒ‚‚Â‚©
-    public float circleDelayTime;      // ‰~Œ`‚Ì’e–‹‚Å‰½•b‘Ò‹@‚·‚é‚©
-    public float speed;                // ’e–‹‚Ì‘¬‚³
-    public float angleOffset;          // ’e–‹‚ÌŠp“x‚ğ‚¸‚ç‚·‚½‚ß‚Ì•Ï”
-    public float crossSpeed;           // Œğ·ã‚É’e‚ğ“®‚©‚·‚Æ‚«‚Ì‘¬‚³ 
-    public float expandSpeed;          // ŠgUƒXƒs[ƒh
-    public float rotationSpeed;        // –ˆ•b‰ñ“]Šp“xi“xj
-    public float arcCount;             // ’e–‹‚Ì”i’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ì”j
-    public float arcAngle;             // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ÌŠp“x
-    public float arcSpeed;             // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ì‘¬‚³
-    public float movementSpeed;        // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ÌˆÚ“®‘¬“x
-    public int arcLine;                // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ìƒ‰ƒCƒ“”i’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ì”j
-
+    public GameObject BulletPrehab;     // ’e–‹‚ÌƒvƒŒƒnƒu
+    public float stopTime;              // ~‚Ü‚é‚Ü‚Å‚ÌŠÔ
+    public int bulletNum;               // ‰½”­’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ğŒ‚‚Â‚©
+    public float circleDelayTime;       // ‰~Œ`‚Ì’e–‹‚Å‰½•b‘Ò‹@‚·‚é‚©
+    public float speed;                 // ’e–‹‚Ì‘¬‚³
+    public float angleOffset;           // ’e–‹‚ÌŠp“x‚ğ‚¸‚ç‚·‚½‚ß‚Ì•Ï”
+    public float crossSpeed;            // Œğ·ã‚É’e‚ğ“®‚©‚·‚Æ‚«‚Ì‘¬‚³ 
+    public float expandSpeed;           // ŠgUƒXƒs[ƒh
+    public float rotationSpeed;         // –ˆ•b‰ñ“]Šp“xi“xj
+    public float arcCount;              // ’e–‹‚Ì”i’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ì”j
+    public float arcAngle;              // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ÌŠp“x
+    public float arcSpeed;              // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ì‘¬‚³
+    public float movementSpeed;         // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ÌˆÚ“®‘¬“x
+    public int arcLine;                 // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ìƒ‰ƒCƒ“”i’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ì”j
+    public AudioClip mainBulletSE;      // Å‰‚Ì’e–‹‚ğo‚·‚Æ‚«‚ÌŒø‰Ê‰¹
+    public AudioClip subBulletSE;       // Ÿ‚Éo‚·’e–‹‚ÌŒø‰Ê‰¹
+    public AudioClip movementSE;        // ’e–‹‚ğ“®‚©‚·‚Æ‚«‚ÌŒø‰Ê‰¹
 }
 
 public class FourSpecialPattern : ISpellPattern
@@ -48,7 +50,8 @@ public class FourSpecialPattern : ISpellPattern
             for (int i = 0; i < 3; i++)
             {
                 List<GameObject> bullets = new();
-                
+                owner.Audio.PlayOneShot(config.mainBulletSE);
+
                 for (int k = 0; k < 2; k++)
                 {
                     if (owner.State != State.four || owner.BulletState != BulletState.spell) break;
@@ -107,6 +110,8 @@ public class FourSpecialPattern : ISpellPattern
 
                 for (int j = 0; j < config.arcCount; j++)
                 {
+                    owner.Audio.PlayOneShot(config.subBulletSE);
+
                     for (int k = 0; k < config.arcLine; k++)
                     {
                         float angle = startAngle + j * angleStep;
@@ -134,20 +139,6 @@ public class FourSpecialPattern : ISpellPattern
             }
 
             yield return PositionMove(spellPos);
-        }
-    }
-
-    private IEnumerator MoveToSpellPos()
-    {
-        float t = 0f;
-        float duration = 0.5f;
-        Vector2 start = boss.position;
-
-        while (t < duration)
-        {
-            boss.position = Vector2.Lerp(start, spellPos, t / duration);
-            t += Time.deltaTime;
-            yield return null;
         }
     }
 
@@ -187,6 +178,7 @@ public class FourSpecialPattern : ISpellPattern
         yield return new WaitForSeconds(1f);
 
         Transform player = GameObject.FindGameObjectWithTag("Player").transform;
+        owner.Audio.PlayOneShot(config.movementSE);
 
         foreach (var b in bullets)
         {

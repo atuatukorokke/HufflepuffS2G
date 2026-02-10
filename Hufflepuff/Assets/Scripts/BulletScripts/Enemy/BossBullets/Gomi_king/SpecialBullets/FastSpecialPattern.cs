@@ -4,11 +4,12 @@ using UnityEngine;
 [System.Serializable]
 public class FastSpecialBom
 {
-    [SerializeField] public GameObject BulletPrehab;    // ’e–‹‚ÌƒvƒŒƒnƒu
-    [SerializeField] public int ShotNum;                // ’e–‹‚ğ‘Å‚Â‰ñ”
-    [SerializeField] public float bulletDelayTime;            // ’e–‹‚ğ‘Å‚ÂŠÔŠu
-    [SerializeField] public float speed;                // ƒSƒ~[‚Ì‘¬‚³
-    [SerializeField] public float delayTime;            // ’e–‹‚ğ‘Å‚Â‚Ü‚Å‚Ì‘Ò‹@ŠÔ
+    public GameObject BulletPrehab;     // ’e–‹‚ÌƒvƒŒƒnƒu
+    public int ShotNum;                 // ’e–‹‚ğ‘Å‚Â‰ñ”
+    public float bulletDelayTime;       // ’e–‹‚ğ‘Å‚ÂŠÔŠu
+    public float speed;                 // ƒSƒ~[‚Ì‘¬‚³
+    public float delayTime;             // ’e–‹‚ğ‘Å‚Â‚Ü‚Å‚Ì‘Ò‹@ŠÔ
+    public AudioClip bulletSE;          // ’e–‹‚ğŒ‚‚Â‚Æ‚«‚ÌŒø‰Ê‰¹
 }
 public class FastSpecialPattern : ISpellPattern
 {
@@ -29,12 +30,14 @@ public class FastSpecialPattern : ISpellPattern
 
     public IEnumerator Execute()
     {
-        yield return MoveToSpellPos();
+        yield return owner.MoveToSpellPosWithInvincible(boss, spellPos, owner);
 
         while (owner.State == State.fast && owner.BulletState == BulletState.spell)
         {
             for (int i = 0; i < config.ShotNum; i++)
             {
+                owner.Audio.PlayOneShot(config.bulletSE);
+
                 float dirX = Random.Range(-8.5f, 1.5f) - boss.position.x;
                 float dirY = Random.Range(-4.5f, 4.5f) - boss.position.y;
 

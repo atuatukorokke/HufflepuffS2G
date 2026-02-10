@@ -11,6 +11,7 @@ public class SpecialFinalAttack
     public float speed;                 // ’e–‹‚ÌƒXƒs[ƒh
     public float delayTime;             // ’e–‹‚Ìo‚·ŠÔŠu
     public float angleOffset;           // ’e–‹‚ÌŠp“x‚ğ‚¸‚ç‚·‚½‚ß‚Ì•Ï”
+    public AudioClip bulletSE;          // ’e–‹‚ğŒ‚‚Â‚Æ‚«‚ÌŒø‰Ê‰¹
 }
 
 public class SemiFinalPattern : ISpellPattern
@@ -48,6 +49,7 @@ public class SemiFinalPattern : ISpellPattern
             Vector3 randomPos = boss.position + (Vector3)offset;
 
             List<GameObject> bullets = new List<GameObject>();
+            owner.Audio.PlayOneShot(config.bulletSE);
             for(int i = 0; i < config.bulletNum; i++)
             {
                 float dirX = Mathf.Cos(angle * Mathf.Deg2Rad);

@@ -243,6 +243,7 @@ MonoBehaviour:
     bulletDelayTime: 0.2
     speed: 5
     delayTime: 5
+    bulletSE: {fileID: 8300000, guid: 989a6ece70d66c64dae807e11573af9d, type: 3}
   second:
     RightBulletPrehab: {fileID: 5736442091953159142, guid: 24210d9295e194640bf535a5c778d128, type: 3}
     LeftBulletPrehab: {fileID: 5580179878717300200, guid: 92e46a3e9d628b34b849809d1d1b0961, type: 3}
@@ -251,11 +252,14 @@ MonoBehaviour:
     time: 5
     speed: 5
     angle: 0
+    mainBulletSE: {fileID: 8300000, guid: 6567397141d4d8341aa98e2769ff5fe7, type: 3}
+    leftBulletSE: {fileID: 8300000, guid: 1c974e2fd00c04d4cbe1f487c2878c71, type: 3}
   third:
     BulletPrehab: {fileID: 5769044862919052364, guid: f32c617cd933adb4089ec951cff1f86a, type: 3}
     maxSpeed: 1
     minSpeed: 3
     delayTime: 20
+    bulletSE: {fileID: 8300000, guid: 065f2cc1fc4611749b3aee0de764d8a6, type: 3}
   four:
     BulletPrehab: {fileID: 4416596193334731641, guid: b30b6ef3a31771b46a0587aacb8bd0b0, type: 3}
     stopTime: 0.7
@@ -271,6 +275,9 @@ MonoBehaviour:
     arcSpeed: 3
     movementSpeed: 2
     arcLine: 10
+    mainBulletSE: {fileID: 8300000, guid: c1166f95c89eb8547bc0f356fbfb4729, type: 3}
+    subBulletSE: {fileID: 8300000, guid: d8a04e460b218f74e9e7427179e1965f, type: 3}
+    movementSE: {fileID: 8300000, guid: 1bdebb7d9dbb2224eb07b8f76a3ffe12, type: 3}
   final:
     BulletPrehab: {fileID: 5769044862919052364, guid: f32c617cd933adb4089ec951cff1f86a, type: 3}
     maxSpeed: 3
@@ -284,12 +291,16 @@ MonoBehaviour:
     radiationBulletAngle: 150
     breakTime: 3
     bulletColor: {r: 0, g: 0, b: 0, a: 1}
+    mainBulletSE: {fileID: 8300000, guid: 1c974e2fd00c04d4cbe1f487c2878c71, type: 3}
+    bulletStopSE: {fileID: 8300000, guid: c1166f95c89eb8547bc0f356fbfb4729, type: 3}
+    subBulletSE: {fileID: 8300000, guid: 065f2cc1fc4611749b3aee0de764d8a6, type: 3}
   special:
     BulletPrehab: {fileID: 4173998257336814873, guid: 6a56cbcb4569e9243861e25981ffc25f, type: 3}
-    bulletNum: 20
+    bulletNum: 50
     speed: 7
     delayTime: 0.05
     angleOffset: 0
+    bulletSE: {fileID: 8300000, guid: 8da2f1df22ed852448f812ce9f1529d1, type: 3}
 --- !u!82 &-5952361761886967412
 AudioSource:
   m_ObjectHideFlags: 0

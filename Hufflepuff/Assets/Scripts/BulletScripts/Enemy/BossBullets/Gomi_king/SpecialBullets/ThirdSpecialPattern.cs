@@ -4,10 +4,11 @@ using UnityEngine;
 [System.Serializable]
 public class ThirdSpecialBom
 {
-    public GameObject BulletPrehab;    // ’e–‹‚ÌƒvƒŒƒnƒu
-    public float maxSpeed;             // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ÌÅ‘å‘¬‚³
-    public float minSpeed;             // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ÌÅ¬‘¬‚³
-    public float delayTime;            // ’e–‹‚ğ‘Å‚Â‚Ü‚Å‚Ì‘Ò‹@ŠÔ
+    public GameObject BulletPrehab;     // ’e–‹‚ÌƒvƒŒƒnƒu
+    public float maxSpeed;              // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ÌÅ‘å‘¬‚³
+    public float minSpeed;              // ƒ‰ƒ“ƒ_ƒ€‚È’e–‹‚ÌÅ¬‘¬‚³
+    public float delayTime;             // ’e–‹‚ğ‘Å‚Â‚Ü‚Å‚Ì‘Ò‹@ŠÔ
+    public AudioClip bulletSE;          // ’e–‹‚ğŒ‚‚Â‚Æ‚«‚ÌŒø‰Ê‰¹
 }
 
 public class ThirdSpecialPattern : ISpellPattern
@@ -30,9 +31,15 @@ public class ThirdSpecialPattern : ISpellPattern
     public IEnumerator Execute()
     {
         yield return owner.MoveToSpellPosWithInvincible(boss, spellPos, owner);
+        int creatCount = 0;
 
         while (owner.State == State.third && owner.BulletState == BulletState.spell)
         {
+            owner.Audio.PlayOneShot(config.bulletSE);
+
+            creatCount++;
+            if (creatCount % 10 == 0) owner.Audio.PlayOneShot(config.bulletSE);
+
             float angle = Random.Range(0f, 360f);
             float speed = Random.Range(config.minSpeed, config.maxSpeed);
 
@@ -47,20 +54,6 @@ public class ThirdSpecialPattern : ISpellPattern
             bullet.GetComponent<Rigidbody2D>().linearVelocity = dir * speed;
 
             yield return new WaitForSeconds(0.01f);
-        }
-    }
-
-    private IEnumerator MoveToSpellPos()
-    {
-        float t = 0f;
-        float duration = 0.5f;
-        Vector2 start = boss.position;
-
-        while (t < duration)
-        {
-            boss.position = Vector2.Lerp(start, spellPos, t / duration);
-            t += Time.deltaTime;
-            yield return null;
         }
     }
 
