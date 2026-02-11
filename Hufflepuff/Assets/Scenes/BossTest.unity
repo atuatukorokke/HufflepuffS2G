@@ -288,6 +288,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gomi_king
       objectReference: {fileID: 0}
+    - target: {fileID: 3092607265527844790, guid: 8f62a60e2e19e1241ba53a672468ac31, type: 3}
+      propertyPath: final.bulletStopSE
+      value: 
+      objectReference: {fileID: 8300000, guid: 192ddb6eff5d27049beb7caf1050d802, type: 3}
     - target: {fileID: 8861759956308253484, guid: 8f62a60e2e19e1241ba53a672468ac31, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.23

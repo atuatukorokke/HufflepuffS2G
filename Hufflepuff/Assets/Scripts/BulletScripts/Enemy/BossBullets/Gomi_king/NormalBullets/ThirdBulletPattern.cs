@@ -13,17 +13,20 @@ public class ThirdBullet
     public float deleteTime;                            // íœ‚·‚éŠÔ
     public float delayTime;                             // ’e–‹‚ğo‚·ŠÔŠu
     public float angleOffset = 0;                       // ‚¸‚ç‚µ—p‚ÌŠp“x
+    public AudioClip bulletSE;                          // ’e–‹‚ğo‚³‚Æ‚«‚ÌŒø‰Ê‰¹
 }
 
 public class ThirdBulletPattern : INormalBulletPattern
 {
     private ThirdBullet config;
     private Transform boss;
+    private Boss1Bullet owner;
 
-    public ThirdBulletPattern(ThirdBullet config, Transform boss)
+    public ThirdBulletPattern(ThirdBullet config, Transform boss, Boss1Bullet owner)
     {
         this.config = config;
         this.boss = boss;
+        this.owner = owner;
     }
 
     public void Initialize()
@@ -37,6 +40,8 @@ public class ThirdBulletPattern : INormalBulletPattern
         {
             float angleStep = 360f / config.flyingNum;
             float angle = config.angleOffset;
+
+            owner.Audio.PlayOneShot(config.bulletSE);
 
             for (int i = 0; i < config.flyingNum; i++)
             {

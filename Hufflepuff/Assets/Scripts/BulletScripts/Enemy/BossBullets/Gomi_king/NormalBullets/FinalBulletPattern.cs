@@ -14,6 +14,8 @@ public class FinalBulletValue
     public float radius;                                        // 半径
     public Transform player;                                    // プレイヤーのTransform
     public List<GameObject> bullets = new List<GameObject>();   // 生成した弾幕のリスト
+    public AudioClip bulletSE;                                  // 弾幕を出すときの効果音
+    public AudioClip bulletMoveSE;                              // 弾幕を動かすときの効果音
 }
 
 public class FinalBulletPattern : INormalBulletPattern
@@ -21,11 +23,13 @@ public class FinalBulletPattern : INormalBulletPattern
     private FinalBulletValue config;
     private Transform boss;
     private List<GameObject> bullets = new List<GameObject>();
+    private Boss1Bullet owner;
 
-    public FinalBulletPattern(FinalBulletValue config, Transform boss)
+    public FinalBulletPattern(FinalBulletValue config, Transform boss, Boss1Bullet owner)
     {
         this.config = config;
         this.boss = boss;
+        this.owner = owner;
     }
 
     public void Initialize()
@@ -42,6 +46,8 @@ public class FinalBulletPattern : INormalBulletPattern
             // 円形に弾を配置
             for (int i = 0; i < config.FlyingNum; i++)
             {
+                owner.Audio.PlayOneShot(config.bulletSE);
+
                 float angle = (360f / config.FlyingNum) * i;
 
                 Vector3 spawnPos = boss.position + new Vector3(
@@ -74,6 +80,7 @@ public class FinalBulletPattern : INormalBulletPattern
             config.player = GameObject.Find("Player").transform;
 
         Vector3 targetPos = config.player.position;
+        owner.Audio.PlayOneShot(config.bulletMoveSE);
 
         foreach (GameObject bullet in bullets)
         {

@@ -9,18 +9,16 @@ using System;
 public class EnemyHealth : MonoBehaviour
 {
     [Range (0, 100)]
-    [SerializeField] public float hP;                   // エネミーのＨＰ
-    [SerializeField] GameObject prehab;                 // 箱のプレハブ
-    [SerializeField] private int dropLate;              // 箱を落とす確率
-    [SerializeField] private DropManager dropManager;   // ドロップ管理のスクリプト
-
-    [SerializeField] private AudioClip deadSE;          // 死亡時のSE
-    AudioSource audio;
+    [SerializeField] public float hP;                       // エネミーのＨＰ
+    [SerializeField] GameObject prehab;                     // 箱のプレハブ
+    [SerializeField] private int dropLate;                  // 箱を落とす確率
+    [SerializeField] private DropManager dropManager;       // ドロップ管理のスクリプト
+    [SerializeField] private GameObject EexplosionEffect;   // 爆発のエフェクト
+    
 
     private void Start()
     {
         dropManager = FindAnyObjectByType<DropManager>();
-        audio = GetComponent<AudioSource>();
         dropLate = dropManager.DropLate;
     }
 
@@ -33,10 +31,10 @@ public class EnemyHealth : MonoBehaviour
             if(hP <= 0)
             {
                 // ピースのドロップ
+                Instantiate(EexplosionEffect, transform.position, Quaternion.identity);
                 GameObject present = Instantiate(prehab, transform.position, Quaternion.identity); // 箱の生成
                 present.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-2, 0); // 箱を下に落とす
                 dropLate = dropManager.LateReset();
-                audio.PlayOneShot(deadSE);
                 Destroy(gameObject); // エネミーの消滅
             }
         }
@@ -46,15 +44,14 @@ public class EnemyHealth : MonoBehaviour
     {
         if(collision.CompareTag("P_Bom"))
         {
-            hP--; // ボムに当たったらエネミーのＨＰを減らす
+            hP--;
             if (hP == 0)
             {
-                // ピースのドロップ
-                audio.PlayOneShot(deadSE);
-                GameObject present = Instantiate(prehab, transform.position, Quaternion.identity); // 箱の生成
-                present.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-2, 0); // 箱を下に落とす
+                Instantiate(EexplosionEffect, transform.position, Quaternion.identity);
+                GameObject present = Instantiate(prehab, transform.position, Quaternion.identity);
+                present.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-2, 0);
                 dropLate = dropManager.LateReset();
-                Destroy(gameObject); // エネミーの消滅
+                Destroy(gameObject);
             }
         }
     }

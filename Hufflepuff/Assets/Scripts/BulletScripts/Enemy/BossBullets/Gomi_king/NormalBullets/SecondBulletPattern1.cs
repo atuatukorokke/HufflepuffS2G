@@ -5,24 +5,27 @@ using UnityEngine;
 [System.Serializable]
 public class SecondBullet
 {
-    public GameObject BulletPrefab;                   // 弾幕のプレハブ
-    public int FlyingNum;                             // 発射する数
-    public int Frequency;                             // 発射回数
-    public float Speed;                               // 弾幕のスピード
-    public float DeleteTime;                          // 削除する時間
-    public float DelayTime;                           // 弾幕を出す間隔
-    public float AngleOffset = 0;                     // ずらし用の角度
+    public GameObject BulletPrefab;                 // 弾幕のプレハブ
+    public int FlyingNum;                           // 発射する数
+    public int Frequency;                           // 発射回数
+    public float Speed;                             // 弾幕のスピード
+    public float DeleteTime;                        // 削除する時間
+    public float DelayTime;                         // 弾幕を出す間隔
+    public float AngleOffset = 0;                   // ずらし用の角度
+    public AudioClip bulletSE;                      // 弾幕を出すときの効果音
 }
 
 public class SecondBulletPattern : INormalBulletPattern
 {
     private SecondBullet config;
     private Transform boss;
+    private Boss1Bullet owner;
 
-    public SecondBulletPattern(SecondBullet config, Transform boss)
+    public SecondBulletPattern(SecondBullet config, Transform boss, Boss1Bullet owner)
     {
         this.config = config;
         this.boss = boss;
+        this.owner = owner;
     }
 
     /// <summary>
@@ -38,7 +41,9 @@ public class SecondBulletPattern : INormalBulletPattern
         float angleStep = 360f / config.FlyingNum;
         float angle = config.AngleOffset;
 
-        for(int i = 0; i < config.FlyingNum; i++)
+        owner.Audio.PlayOneShot(config.bulletSE);
+
+        for (int i = 0; i < config.FlyingNum; i++)
         {
             float dirX = Mathf.Cos(angle * Mathf.Deg2Rad);
             float dirY = Mathf.Sin(angle * Mathf.Deg2Rad);

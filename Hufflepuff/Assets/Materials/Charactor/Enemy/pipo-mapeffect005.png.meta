@@ -1,0 +1,593 @@
+fileFormatVersion: 2
+guid: 702bd6808a279274d8998827fd605095
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3946718467184119153
+    second: pipo-mapeffect005_0
+  - first:
+      213: -1782079355627177158
+    second: pipo-mapeffect005_1
+  - first:
+      213: -3398495271188147005
+    second: pipo-mapeffect005_2
+  - first:
+      213: 6688911182905241111
+    second: pipo-mapeffect005_3
+  - first:
+      213: 9073982609318962430
+    second: pipo-mapeffect005_4
+  - first:
+      213: -6109885486686333578
+    second: pipo-mapeffect005_5
+  - first:
+      213: -2395093122237172719
+    second: pipo-mapeffect005_6
+  - first:
+      213: -1304592966282375497
+    second: pipo-mapeffect005_7
+  - first:
+      213: -7432311790194454973
+    second: pipo-mapeffect005_8
+  - first:
+      213: 9142446726827164254
+    second: pipo-mapeffect005_9
+  - first:
+      213: -1669130423750782190
+    second: pipo-mapeffect005_10
+  - first:
+      213: 999727260415068190
+    second: pipo-mapeffect005_11
+  - first:
+      213: 96903137188784172
+    second: pipo-mapeffect005_12
+  - first:
+      213: 6744721824528414682
+    second: pipo-mapeffect005_13
+  - first:
+      213: 3803292600610455495
+    second: pipo-mapeffect005_14
+  - first:
+      213: -8262238794610975995
+    second: pipo-mapeffect005_15
+  - first:
+      213: -8768579001506897175
+    second: pipo-mapeffect005_16
+  - first:
+      213: 2053443932347858603
+    second: pipo-mapeffect005_17
+  - first:
+      213: -2045486386578624872
+    second: pipo-mapeffect005_18
+  - first:
+      213: -4144280852302257405
+    second: pipo-mapeffect005_19
+  - first:
+      213: -2833742992127515740
+    second: pipo-mapeffect005_20
+  - first:
+      213: 8278130255819546509
+    second: pipo-mapeffect005_21
+  - first:
+      213: -6518552859270204012
+    second: pipo-mapeffect005_22
+  - first:
+      213: -7112635850848798017
+    second: pipo-mapeffect005_23
+  - first:
+      213: 9074310968583344750
+    second: pipo-mapeffect005_24
+  - first:
+      213: 1409662941353943798
+    second: pipo-mapeffect005_25
+  - first:
+      213: 2053753427323623671
+    second: pipo-mapeffect005_26
+  - first:
+      213: -4431359858693730529
+    second: pipo-mapeffect005_27
+  - first:
+      213: -6082890624560509443
+    second: pipo-mapeffect005_28
+  - first:
+      213: -3959570149390543982
+    second: pipo-mapeffect005_29
+  - first:
+      213: 388384211241824931
+    second: pipo-mapeffect005_30
+  - first:
+      213: -3900584761066786810
+    second: pipo-mapeffect005_31
+  - first:
+      213: 6966463372250260036
+    second: pipo-mapeffect005_32
+  - first:
+      213: -6982475596793856045
+    second: pipo-mapeffect005_33
+  - first:
+      213: -8228981625092452168
+    second: pipo-mapeffect005_34
+  - first:
+      213: 7895403080906688788
+    second: pipo-mapeffect005_35
+  - first:
+      213: 7997725205692840962
+    second: pipo-mapeffect005_36
+  - first:
+      213: 7301820985207328331
+    second: pipo-mapeffect005_37
+  - first:
+      213: 1976700394061563529
+    second: pipo-mapeffect005_38
+  - first:
+      213: 8746825664819167530
+    second: pipo-mapeffect005_39
+  - first:
+      213: 4362858502235389599
+    second: pipo-mapeffect005_40
+  - first:
+      213: 3696200354219900876
+    second: pipo-mapeffect005_41
+  - first:
+      213: -1566455528745809794
+    second: pipo-mapeffect005_42
+  - first:
+      213: 5601476044633982139
+    second: pipo-mapeffect005_43
+  - first:
+      213: 5672741042735585224
+    second: pipo-mapeffect005_44
+  - first:
+      213: -1619491943872615951
+    second: pipo-mapeffect005_45
+  - first:
+      213: 1612467220683257673
+    second: pipo-mapeffect005_46
+  - first:
+      213: -9045906378938618803
+    second: pipo-mapeffect005_47
+  - first:
+      213: 8820916105686316859
+    second: pipo-mapeffect005_48
+  - first:
+      213: 1183754472856331621
+    second: pipo-mapeffect005_49
+  - first:
+      213: -107304641494682923
+    second: pipo-mapeffect005_50
+  - first:
+      213: 7186794543237945272
+    second: pipo-mapeffect005_51
+  - first:
+      213: 5266057332532746163
+    second: pipo-mapeffect005_52
+  - first:
+      213: -5488717843778242586
+    second: pipo-mapeffect005_53
+  - first:
+      213: -8169519023787208400
+    second: pipo-mapeffect005_54
+  - first:
+      213: -4330468833526203617
+    second: pipo-mapeffect005_55
+  - first:
+      213: 6325255292908045979
+    second: pipo-mapeffect005_56
+  - first:
+      213: -7015540236327859816
+    second: pipo-mapeffect005_57
+  - first:
+      213: -4653935007016271997
+    second: pipo-mapeffect005_58
+  - first:
+      213: 4994094502680820803
+    second: pipo-mapeffect005_59
+  - first:
+      213: 1867178894883674888
+    second: pipo-mapeffect005_60
+  - first:
+      213: 7917512811151339055
+    second: pipo-mapeffect005_61
+  - first:
+      213: 318514314225708964
+    second: pipo-mapeffect005_62
+  - first:
+      213: 1946114102451456902
+    second: pipo-mapeffect005_63
+  - first:
+      213: 4256350414558960317
+    second: pipo-mapeffect005_64
+  - first:
+      213: -5616481020663903648
+    second: pipo-mapeffect005_65
+  - first:
+      213: -482436072193750624
+    second: pipo-mapeffect005_66
+  - first:
+      213: -3983872250238051251
+    second: pipo-mapeffect005_67
+  - first:
+      213: 7959471480836032697
+    second: pipo-mapeffect005_68
+  - first:
+      213: 4766426740389821709
+    second: pipo-mapeffect005_69
+  - first:
+      213: -167910300105780574
+    second: pipo-mapeffect005_70
+  - first:
+      213: -7805894816318198523
+    second: pipo-mapeffect005_71
+  - first:
+      213: 4587195571811565104
+    second: pipo-mapeffect005_72
+  - first:
+      213: 6513248908602435620
+    second: pipo-mapeffect005_73
+  - first:
+      213: -197041944496546920
+    second: pipo-mapeffect005_74
+  - first:
+      213: -7259546696091759198
+    second: pipo-mapeffect005_75
+  - first:
+      213: -1627255974502504971
+    second: pipo-mapeffect005_76
+  - first:
+      213: 77572909282282096
+    second: pipo-mapeffect005_77
+  - first:
+      213: 2991833925793514691
+    second: pipo-mapeffect005_78
+  - first:
+      213: -4965881186205516098
+    second: pipo-mapeffect005_79
+  - first:
+      213: -5065510163444369726
+    second: pipo-mapeffect005_80
+  - first:
+      213: 2362140888427510528
+    second: pipo-mapeffect005_81
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: pipo-mapeffect005_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 360
+        height: 360
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f823407f6707a39c0800000000000000
+      internalID: -3946718467184119153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pipo-mapeffect005_1
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 0
+        width: 360
+        height: 360
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3bf8469448c447e0800000000000000
+      internalID: -1782079355627177158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pipo-mapeffect005_2
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 0
+        width: 360
+        height: 360
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c45cfd8e8e16d0d0800000000000000
+      internalID: -3398495271188147005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pipo-mapeffect005_3
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 0
+        width: 360
+        height: 360
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71e643f0849c3dc50800000000000000
+      internalID: 6688911182905241111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pipo-mapeffect005_4
+      rect:
+        serializedVersion: 2
+        x: 1440
+        y: 0
+        width: 360
+        height: 360
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef4678e6b134ded70800000000000000
+      internalID: 9073982609318962430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pipo-mapeffect005_5
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 0
+        width: 360
+        height: 360
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6751fbb7583553ba0800000000000000
+      internalID: -6109885486686333578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pipo-mapeffect005_6
+      rect:
+        serializedVersion: 2
+        x: 2160
+        y: 0
+        width: 360
+        height: 360
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 114721dbe7be2ced0800000000000000
+      internalID: -2395093122237172719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pipo-mapeffect005_7
+      rect:
+        serializedVersion: 2
+        x: 2520
+        y: 0
+        width: 360
+        height: 360
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb99f93b57749104e985a56f2e430818
+      internalID: -1304592966282375497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pipo-mapeffect005_8
+      rect:
+        serializedVersion: 2
+        x: 2880
+        y: 0
+        width: 360
+        height: 360
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2d6384789834934e9c4130e12e40bcf
+      internalID: -7432311790194454973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pipo-mapeffect005_9
+      rect:
+        serializedVersion: 2
+        x: 3240
+        y: 0
+        width: 360
+        height: 360
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed56d77b75b462b48bc69fbea5e5d9a9
+      internalID: 9142446726827164254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 95b669aebb625554aad41b4b5a7e79f9
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      pipo-mapeffect005_0: -3946718467184119153
+      pipo-mapeffect005_1: -1782079355627177158
+      pipo-mapeffect005_2: -3398495271188147005
+      pipo-mapeffect005_3: 6688911182905241111
+      pipo-mapeffect005_4: 9073982609318962430
+      pipo-mapeffect005_5: -6109885486686333578
+      pipo-mapeffect005_6: -2395093122237172719
+      pipo-mapeffect005_7: -1304592966282375497
+      pipo-mapeffect005_8: -7432311790194454973
+      pipo-mapeffect005_9: 9142446726827164254
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

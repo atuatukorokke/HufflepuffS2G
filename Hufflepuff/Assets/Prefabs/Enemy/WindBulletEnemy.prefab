@@ -200,7 +200,7 @@ MonoBehaviour:
   prehab: {fileID: 8988514118765363044, guid: 3d20a48ec3ab95142b0c37d5bb1544ca, type: 3}
   dropLate: 0
   dropManager: {fileID: 0}
-  deadSE: {fileID: 8300000, guid: 4f3bad4b7e3277a41bad1261b749e4e9, type: 3}
+  EexplosionEffect: {fileID: 1943405208567130809, guid: 02d2b7a5283b5e54e999ef4c1d187b02, type: 3}
 --- !u!82 &-9137052497983958422
 AudioSource:
   m_ObjectHideFlags: 0

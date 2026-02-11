@@ -114,7 +114,7 @@ MonoBehaviour:
   GomiSpecialMove: {fileID: 3092607265527844790}
   isInvivle: 0
   isDead: 0
-  deadSE: {fileID: 8300000, guid: 4f3bad4b7e3277a41bad1261b749e4e9, type: 3}
+  EexplosionEffect: {fileID: 1943405208567130809, guid: 02d2b7a5283b5e54e999ef4c1d187b02, type: 3}
   HealthBar: {fileID: 8420287458845455398}
   CutInnCanvas: {fileID: 2189008657571246229, guid: ae20aef9b3c14554b8835813ec596f63, type: 3}
   fastBulletValue:
@@ -126,6 +126,7 @@ MonoBehaviour:
     delayTime: 0.1
     angleOffset: 0
     moveSpeed: 1
+    bulletSE: {fileID: 8300000, guid: 1c974e2fd00c04d4cbe1f487c2878c71, type: 3}
   secondBulletValue:
     BulletPrefab: {fileID: 7961033102418890308, guid: 5a84cc53ed5784746a7066f9c74ef0b3, type: 3}
     FlyingNum: 15
@@ -134,6 +135,7 @@ MonoBehaviour:
     DeleteTime: 5
     DelayTime: 0.1
     AngleOffset: 0
+    bulletSE: {fileID: 8300000, guid: 1c974e2fd00c04d4cbe1f487c2878c71, type: 3}
   thirdBulletValue:
     bulletPrefab: {fileID: 4416596193334731641, guid: b30b6ef3a31771b46a0587aacb8bd0b0, type: 3}
     flyingNum: 4
@@ -142,6 +144,7 @@ MonoBehaviour:
     deleteTime: 10
     delayTime: 0.1
     angleOffset: 0
+    bulletSE: {fileID: 8300000, guid: 1c974e2fd00c04d4cbe1f487c2878c71, type: 3}
   FourBulletValue:
     BulletPrehab: {fileID: 8122776338678338232, guid: c34af014c73c3f142b12ef14b13cf32c, type: 3}
     FlyingNum: 6
@@ -150,6 +153,7 @@ MonoBehaviour:
     DelayTime: 0.15
     AngleSpacing: 5
     AngleOffset: 0
+    bulletSE: {fileID: 8300000, guid: 1bdebb7d9dbb2224eb07b8f76a3ffe12, type: 3}
   finalBulletValue:
     Prehab: {fileID: 4416596193334731641, guid: b30b6ef3a31771b46a0587aacb8bd0b0, type: 3}
     FlyingNum: 20
@@ -159,6 +163,8 @@ MonoBehaviour:
     radius: 3
     player: {fileID: 0}
     bullets: []
+    bulletSE: {fileID: 8300000, guid: 065f2cc1fc4611749b3aee0de764d8a6, type: 3}
+    bulletMoveSE: {fileID: 8300000, guid: 1bdebb7d9dbb2224eb07b8f76a3ffe12, type: 3}
 --- !u!70 &6045031437138032910
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

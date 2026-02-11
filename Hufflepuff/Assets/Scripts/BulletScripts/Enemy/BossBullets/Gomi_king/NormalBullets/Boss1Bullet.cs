@@ -43,7 +43,7 @@ public class Boss1Bullet : MonoBehaviour
     [SerializeField] private SpecialMove_Gomi GomiSpecialMove;              // 必殺技のクラス
     [SerializeField] private bool isInvivle = false;                        // 必殺技中の一時無敵判定
     [SerializeField] private bool isDead = false;                           // ボスの死亡判定
-    [SerializeField] private AudioClip deadSE;                              // 死亡時のSE
+    [SerializeField] private GameObject EexplosionEffect;                   // 爆発のエフェクト
     [SerializeField] private Image HealthBar;                               // ボスの体力表示用画像
     [SerializeField] private GameObject CutInnCanvas;                       // カットイン用のキャンバス
     GameObject canvas;                                                      // ＨＰバーのキャンバス
@@ -120,7 +120,7 @@ public class Boss1Bullet : MonoBehaviour
             {
                 isDead = true;
                 Destroy(canvas); // ＨＰバーのキャンバスを消す
-                Audio.PlayOneShot(deadSE);
+                Instantiate(EexplosionEffect, transform.position, Quaternion.identity);
                 Ondeath?.Invoke();
                 BulletDelete(); // 弾幕を消す
                 Destroy(gameObject);
@@ -152,23 +152,23 @@ public class Boss1Bullet : MonoBehaviour
         switch (state)
         {
             case State.fast:
-                SetPattern(new FastBulletPattern(fastBulletValue, transform));
+                SetPattern(new FastBulletPattern(fastBulletValue, transform, this));
                 break;
 
             case State.second:
-                SetPattern(new SecondBulletPattern(secondBulletValue, transform));
+                SetPattern(new SecondBulletPattern(secondBulletValue, transform, this));
                 break;
 
             case State.third:
-                SetPattern(new ThirdBulletPattern(thirdBulletValue, transform));
+                SetPattern(new ThirdBulletPattern(thirdBulletValue, transform, this));
                 break;
 
             case State.four:
-                SetPattern(new FourBulletPattern(FourBulletValue, transform));
+                SetPattern(new FourBulletPattern(FourBulletValue, transform, this));
                 break;
 
             case State.final:
-                SetPattern(new FinalBulletPattern(finalBulletValue, transform));
+                SetPattern(new FinalBulletPattern(finalBulletValue, transform, this));
                 break;
         }
 

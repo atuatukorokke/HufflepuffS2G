@@ -11,7 +11,8 @@ public class FourBullet
     public float DeleteTime;                                    // íœ‚·‚é‚Ü‚Å‚ÌŠÔ
     public float DelayTime;                                     // ’e–‹‚ğo‚·ŠÔŠu
     public float AngleSpacing;                                  // ’e“¯m‚ÌŠp“x‚ÌƒYƒŒ
-    public float AngleOffset = 0;
+    public float AngleOffset = 0;                               // ’e–‹‚ÌŠp“x‚ÌƒYƒŒ”ä—¦
+    public AudioClip bulletSE;                                  // ’e–‹‚ğo‚·‚Æ‚«‚ÌŒø‰Ê‰¹
 }
 
 public class FourBulletPattern : INormalBulletPattern
@@ -20,11 +21,13 @@ public class FourBulletPattern : INormalBulletPattern
     private Transform boss;
     private Coroutine fireRoutine;
     private Coroutine moveRoutine;
+    private Boss1Bullet owner;
 
-    public FourBulletPattern(FourBullet config, Transform boss)
+    public FourBulletPattern(FourBullet config, Transform boss, Boss1Bullet owner)
     {
         this.config = config;
         this.boss = boss;
+        this.owner = owner;
     }
 
     public void Initialize()
@@ -53,15 +56,14 @@ public class FourBulletPattern : INormalBulletPattern
             GameObject.Destroy(bullet);
     }
 
-    // ---------------------------------------------------------
-    // ’e–‹”­Ë
-    // ---------------------------------------------------------
     private IEnumerator FireBullets()
     {
         while (true)
         {
             float angleStep = 360f / config.FlyingNum;
             float baseAngle = config.AngleOffset;
+
+            owner.Audio.PlayOneShot(config.bulletSE);
 
             for (int i = 0; i < config.FlyingNum; i++)
             {

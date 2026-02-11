@@ -106,8 +106,8 @@ MonoBehaviour:
   enemyType: 0
   bossHealth: {fileID: 0}
   presentBox: {fileID: 8988514118765363044, guid: 3d20a48ec3ab95142b0c37d5bb1544ca, type: 3}
-  healthBar: {fileID: 0}
-  currentHpBar: {fileID: 0}
+  HealthBar: {fileID: 0}
+  maxHp: 0
   bulletPrefab: {fileID: 4173998257336814873, guid: 6a56cbcb4569e9243861e25981ffc25f, type: 3}
   shotNum: 4
   radiusShrinkSpeed: 0.05
@@ -191,3 +191,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hP: 100
+  EexplosionEffect: {fileID: 1943405208567130809, guid: 02d2b7a5283b5e54e999ef4c1d187b02, type: 3}
