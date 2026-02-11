@@ -1,24 +1,32 @@
+// ========================================
+//
 // PieceMoves.cs
-// 
-// 旧パズルピースの動きを制御をします
-// ピース数の重なりをカウントします
-// 
+//
+// ========================================
+//
+// ピースの設置可否を判定するクラス。
+// ・衝突数（Colliding）をカウントして、置ける状態かどうかを判断
+// ・置ける場合は SE 再生＋フラグ更新
+// ・置けない場合も SE 再生＋フラグ更新
+//
+// ========================================
 
 using UnityEngine;
 
 public class PieceMoves : MonoBehaviour
 {
+    [SerializeField] private PieceMoves pieceMoves;     // ピースの重なり判定スクリプト
+    [SerializeField] private PieceCreate pieceCreate;   // ピース生成スクリプト
+    [SerializeField] private DestroyBlock destroyBlock; // ブロック削除スクリプト
 
-    [SerializeField] private PieceMoves pieceMoves;     // 盤面が重なっていないかを確認するスクリプト
-    [SerializeField] private PieceCreate pieceCreate; // ピースを生成するスクリプト
-    [SerializeField] private DestroyBlock destroyBlock; // ブロックを消すスクリプト
     private AudioSource audio;
-    [SerializeField] private AudioClip putSE;
-    [SerializeField] private AudioClip removeSE;
+    [SerializeField] private AudioClip putSE;           // 設置可能時のSE
+    [SerializeField] private AudioClip removeSE;        // 設置不可時のSE
 
-    [Header("0なら配置可能")]
-    [SerializeField] private int Colliding = 0;
-    [Header("配置不可の時はfalse, 配置可能ならtrue")]
+    [Header("0なら設置可能")]
+    [SerializeField] private int Colliding = 0;         // 衝突数（0なら設置可能）
+
+    [Header("設置可能ならtrue")]
     [SerializeField] private bool isPiesePossible = false;
 
     private void Start()
@@ -28,7 +36,7 @@ public class PieceMoves : MonoBehaviour
     }
 
     /// <summary>
-    /// コライダーを確認して、重なっていた時にCollidingをtrueにする
+    /// 設置可能かどうかを判定し、SE とフラグを更新する
     /// </summary>
     public void PiecePossible()
     {
@@ -43,9 +51,11 @@ public class PieceMoves : MonoBehaviour
             audio.PlayOneShot(removeSE);
             isPiesePossible = false;
         }
-
     }
 
+    /// <summary>
+    /// 設置可能かどうかを返す（呼び出し時に SE も再生）
+    /// </summary>
     public bool GetPiecePossible()
     {
         if (Colliding == 0)
@@ -58,9 +68,13 @@ public class PieceMoves : MonoBehaviour
             audio.PlayOneShot(removeSE);
             isPiesePossible = false;
         }
+
         return isPiesePossible;
     }
 
+    /// <summary>
+    /// 衝突数を加算・減算する
+    /// </summary>
     public void SetColliding(int newColliding)
     {
         Colliding = Colliding + newColliding;

@@ -1,7 +1,15 @@
+// ========================================
+//
 // EnemySummoningManagement.cs
 //
-// エネミーの配置や召喚などの管理を行います。
+// ========================================
 //
+// ステージ進行に応じて敵を出現させる管理クラス。
+// ・EnemyDeployment（ScriptableObject）を順番に読み取り、敵・中ボス・ボス・ショップを制御
+// ・中ボス撃破待ち、ショップ待ちなどのフロー管理
+// ・ボス撃破後の演出（カメラズーム、BGMフェードアウト、クリア演出）も担当
+//
+// ========================================
 
 using System.Collections;
 using System.Collections.Generic;
@@ -43,77 +51,87 @@ public class EnemySummoningManagement : MonoBehaviour
         mainCamera = Camera.main;
         TitleButton.SetActive(false);
         ClearPanel.SetActive(false);
-        StartCoroutine(Enumerator()); // エネミーの配置を開始
+
+        StartCoroutine(Enumerator());
     }
 
     /// <summary>
-    /// エネミーの配置を行います。
+    /// EnemyDeployment の内容に従って敵を順番に出現させる。
     /// </summary>
-    /// <returns></returns>
     public IEnumerator Enumerator()
     {
-        foreach(var deploment in enemyDeployment)
+        foreach (var deploment in enemyDeployment)
         {
-            switch(deploment.GetState1)
+            switch (deploment.GetState1)
             {
-                // 雑魚敵の配置
+                // -----------------------------------------
+                // 雑魚の出現
+                // -----------------------------------------
                 case EnemyDeployment.state.Smallfry:
-
-                    // 指定された数だけ生成
                     for (int i = 0; i < deploment.EnemyCount; i++)
                     {
                         SpawnEnemy(deploment);
                         yield return new WaitForSeconds(deploment.DelayTime);
                     }
                     break;
-                // 中ボスの配置
-                case EnemyDeployment.state.middleBoss:
 
-                    // 中ボスの生成
+                // -----------------------------------------
+                // 中ボスの出現
+                // -----------------------------------------
+                case EnemyDeployment.state.middleBoss:
                     GameObject middleBoss = SpawnEnemy(deploment);
 
-                    // 中ボスが出てくるフラグを立てて、中ボスが倒されるまで待機
                     waitingForMiddleBoss = true;
                     BossHealth health = middleBoss.GetComponent<BossHealth>();
-                    health.OnDeath += () => waitingForMiddleBoss = false; 
-                    yield return new WaitUntil(() => !waitingForMiddleBoss); 
+
+                    health.OnDeath += () => waitingForMiddleBoss = false;
+
+                    yield return new WaitUntil(() => !waitingForMiddleBoss);
                     break;
-                // ボスの配置
+
+                // -----------------------------------------
+                // ボスの出現
+                // -----------------------------------------
                 case EnemyDeployment.state.Boss:
-                    GameObject Bosss = Instantiate(deploment.EnemyPrehab, deploment.GenerationPosition, Quaternion.identity);
+                    GameObject bossObj = Instantiate(
+                        deploment.EnemyPrehab,
+                        deploment.GenerationPosition,
+                        Quaternion.identity
+                    );
 
-                    // ボス戦用のBGMを設定して再生
-                    audioSource.clip = deploment.BossBGM; 
-                    audioSource.Play(); 
+                    audioSource.clip = deploment.BossBGM;
+                    audioSource.Play();
 
-                    // ボスが倒された時の処理
-                    Boss1Bullet BossBullet = Bosss.GetComponent<Boss1Bullet>();
-                    BossBullet.Ondeath += () => StartCoroutine(BossDeath());  
+                    Boss1Bullet bossBullet = bossObj.GetComponent<Boss1Bullet>();
+                    bossBullet.Ondeath += () => StartCoroutine(BossDeath());
                     break;
-                // 配置後の待ち時間
+
+                // -----------------------------------------
+                // 待機時間
+                // -----------------------------------------
                 case EnemyDeployment.state.DelayTime:
                     yield return new WaitForSeconds(deploment.DelayTime);
                     break;
-                // パズル画面を開く
-                case EnemyDeployment.state.Shop:
 
-                    // ショップ中は攻撃できないようにする
+                // -----------------------------------------
+                // ショップの出現
+                // -----------------------------------------
+                case EnemyDeployment.state.Shop:
                     playerController.isShooting = false;
                     PuzzleSet();
 
-                    // ショップのオブジェクトを取得して所持金の更新
-                    var shop = FindAnyObjectByType<ShopOpen>(); 
+                    var shop = FindAnyObjectByType<ShopOpen>();
                     goldManager.SetGoldCount(playerController.CoinCount);
                     shop.ShopOpenAni();
 
-                    // ショップが開いているフラグを立てる
                     waitingForShop = true;
                     isPuzzle = true;
 
-                    // ショップが閉じられたらフラグを下げる動作を与えて、ショップが閉じられるまで待機
                     shop.OnShop += () => waitingForShop = false;
+
                     yield return new WaitUntil(() => !waitingForShop);
                     yield return new WaitForSeconds(2f);
+
                     PuzzleOut();
                     break;
             }
@@ -121,16 +139,15 @@ public class EnemySummoningManagement : MonoBehaviour
     }
 
     /// <summary>
-    /// エネミーを生成します。
+    /// 敵を生成し、HPを設定する。
     /// </summary>
-    /// <param name="deployment">エネミーを召喚する際の設定</param>
-    /// <returns></returns>
     private GameObject SpawnEnemy(EnemyDeployment deployment)
     {
         Vector2 position = deployment.GenerationPosition;
         GameObject enemy = Instantiate(deployment.EnemyPrehab, position, Quaternion.identity);
+
         EnemyHealth health = enemy.GetComponent<EnemyHealth>();
-        if(health != null)
+        if (health != null)
         {
             health.SetHealth(deployment.EnemyHP);
         }
@@ -139,55 +156,65 @@ public class EnemySummoningManagement : MonoBehaviour
     }
 
     /// <summary>
-    /// パズルモードに切り替えます。
+    /// パズルモードへ移行（UI非表示・BGM変更）
     /// </summary>
     private void PuzzleSet()
     {
-        coinText.gameObject.SetActive(false); // 所持金テキストを非表示
-        pieceText.gameObject.SetActive(false); // ピースの数テキストを非表示
-        deathLateText.gameObject.SetActive(false); // 死亡率テキストを非表示
+        coinText.gameObject.SetActive(false);
+        pieceText.gameObject.SetActive(false);
+        deathLateText.gameObject.SetActive(false);
+
         audioSource.PlayOneShot(OpenPuzzle);
-        audioSource.clip = puzzleBGM; // パズル用のBGMを設定
-        audioSource.Play(); // BGMを再生
+        audioSource.clip = puzzleBGM;
+        audioSource.Play();
     }
 
     /// <summary>
-    /// シューティングモードに切り替えます。
+    /// パズル終了 → 通常UIへ戻す
     /// </summary>
     private void PuzzleOut()
     {
-        coinText.gameObject.SetActive(true); // 所持金テキストを表示
-        pieceText.gameObject.SetActive(true); // ピースの数テキストを表示
-        deathLateText.gameObject.SetActive(true); // 死亡率テキストを表示
-        coinText.text = $"コイン:<color=#ffd700>{playerController.CoinCount.ToString()}</color>";
-        pieceText.text = $"ピース:<color=#ffd700>{playerController.PieceCount.ToString()}</color>";
-        deathLateText.text = $"お邪魔:<color=#ff0000>{((int)((float)deathCount.BlockCount / (float)deathCount.PieceCount * 100)).ToString()}%</color>";
+        coinText.gameObject.SetActive(true);
+        pieceText.gameObject.SetActive(true);
+        deathLateText.gameObject.SetActive(true);
+
+        coinText.text = $"コイン:<color=#ffd700>{playerController.CoinCount}</color>";
+        pieceText.text = $"ピース:<color=#ffd700>{playerController.PieceCount}</color>";
+        deathLateText.text =
+            $"死亡率:<color=#ff0000>{((int)((float)deathCount.BlockCount / (float)deathCount.PieceCount * 100))}%</color>";
     }
 
     /// <summary>
-    /// ボスが倒された時の処理を行います。
+    /// ボス撃破後の演出（カメラズーム → BGMフェード → クリア演出）
     /// </summary>
     private IEnumerator BossDeath()
     {
         FindAnyObjectByType<PlayrController>().Playstate = PlayState.Clear;
+
         coinText.gameObject.SetActive(false);
         pieceText.gameObject.SetActive(false);
         deathLateText.gameObject.SetActive(false);
+
         yield return StartCoroutine(CameraZoomToPlayer());
-        // BGMをフェードアウト
+
         while (audioSource.volume > 0)
         {
             audioSource.volume -= 0.05f;
             yield return new WaitForSeconds(0.1f);
         }
+
         yield return new WaitForSeconds(1f);
+
         CanvasMaster.GetComponent<Animator>().SetTrigger("GameClear");
     }
 
+    /// <summary>
+    /// カメラをプレイヤーへズームさせる演出
+    /// </summary>
     private IEnumerator CameraZoomToPlayer()
     {
         float duration = 2f;
-        float elaapsed = 0f;
+        float elapsed = 0f;
 
         float startSize = mainCamera.orthographicSize;
         float targetSize = 2.5f;
@@ -196,14 +223,17 @@ public class EnemySummoningManagement : MonoBehaviour
         Vector3 targetPos = new Vector3(
             playerController.transform.position.x,
             playerController.transform.position.y,
-            mainCamera.transform.position.z);
+            mainCamera.transform.position.z
+        );
 
-        while(elaapsed < duration)
+        while (elapsed < duration)
         {
-            float t = elaapsed / duration;
+            float t = elapsed / duration;
+
             mainCamera.orthographicSize = Mathf.Lerp(startSize, targetSize, t);
             mainCamera.transform.position = Vector3.Lerp(startPos, targetPos, t);
-            elaapsed += Time.deltaTime;
+
+            elapsed += Time.deltaTime;
             yield return null;
         }
 

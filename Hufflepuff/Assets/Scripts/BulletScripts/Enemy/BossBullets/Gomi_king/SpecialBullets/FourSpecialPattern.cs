@@ -1,3 +1,16 @@
+// ========================================
+//
+// FourSpecialPattern.cs
+//
+// ========================================
+//
+// l’iŠK–Ú‚Ì•KE‹ZiƒXƒyƒ‹ƒJ[ƒhjƒpƒ^[ƒ“B
+// E‰~Œ`’e‚Ì‘½’i¶¬ ¨ ’â~ ¨ ŠgU‰ñ“] ¨ •úË’e ¨ —U“±’e ¨ ‹x~
+// E•¡”ƒtƒF[ƒY‚ğ˜A‘±‚Ås‚¤‚“ï“xƒXƒyƒ‹
+// EISpellPattern ‚É€‹’
+//
+// ========================================
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,23 +18,23 @@ using UnityEngine;
 [System.Serializable]
 public class FourSpecialBom
 {
-    public GameObject BulletPrehab;     // ’e–‹‚ÌƒvƒŒƒnƒu
-    public float stopTime;              // ~‚Ü‚é‚Ü‚Å‚ÌŠÔ
-    public int bulletNum;               // ‰½”­’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ğŒ‚‚Â‚©
-    public float circleDelayTime;       // ‰~Œ`‚Ì’e–‹‚Å‰½•b‘Ò‹@‚·‚é‚©
-    public float speed;                 // ’e–‹‚Ì‘¬‚³
-    public float angleOffset;           // ’e–‹‚ÌŠp“x‚ğ‚¸‚ç‚·‚½‚ß‚Ì•Ï”
-    public float crossSpeed;            // Œğ·ã‚É’e‚ğ“®‚©‚·‚Æ‚«‚Ì‘¬‚³ 
-    public float expandSpeed;           // ŠgUƒXƒs[ƒh
-    public float rotationSpeed;         // –ˆ•b‰ñ“]Šp“xi“xj
-    public float arcCount;              // ’e–‹‚Ì”i’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ì”j
-    public float arcAngle;              // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ÌŠp“x
-    public float arcSpeed;              // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ì‘¬‚³
-    public float movementSpeed;         // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚ÌˆÚ“®‘¬“x
-    public int arcLine;                 // ’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ìƒ‰ƒCƒ“”i’e–‹‚Ì‚Ü‚Æ‚Ü‚è‚Ì”j
-    public AudioClip mainBulletSE;      // Å‰‚Ì’e–‹‚ğo‚·‚Æ‚«‚ÌŒø‰Ê‰¹
-    public AudioClip subBulletSE;       // Ÿ‚Éo‚·’e–‹‚ÌŒø‰Ê‰¹
-    public AudioClip movementSE;        // ’e–‹‚ğ“®‚©‚·‚Æ‚«‚ÌŒø‰Ê‰¹
+    public GameObject BulletPrehab;     // ’e‚ÌƒvƒŒƒnƒu
+    public float stopTime;              // ’e‚ğ’â~‚³‚¹‚éŠÔ
+    public int bulletNum;               // ‰~Œ`‚É¶¬‚·‚é’e‚Ì”
+    public float circleDelayTime;       // ‰~Œ`¶¬‚ÌŠÔŠu
+    public float speed;                 // ’e‚Ì‘¬“x
+    public float angleOffset;           // ”­ËŠp“x‚Ì‚¸‚ç‚µ
+    public float crossSpeed;            // ƒNƒƒX’e‚Ì‘¬“x
+    public float expandSpeed;           // ŠgU‘¬“x
+    public float rotationSpeed;         // ‰ñ“]‘¬“x
+    public float arcCount;              // •úË’e‚Ì’i”
+    public float arcAngle;              // •úË’e‚ÌŠp“x”ÍˆÍ
+    public float arcSpeed;              // •úË’e‚Ì‘¬“x
+    public float movementSpeed;         // —U“±’e‚ÌˆÚ“®‘¬“x
+    public int arcLine;                 // •úË’e‚Ìƒ‰ƒCƒ“”
+    public AudioClip mainBulletSE;      // ƒƒCƒ“’e‚ÌŒø‰Ê‰¹
+    public AudioClip subBulletSE;       // •úË’e‚ÌŒø‰Ê‰¹
+    public AudioClip movementSE;        // —U“±’e‚ÌŒø‰Ê‰¹
 }
 
 public class FourSpecialPattern : ISpellPattern
@@ -41,17 +54,27 @@ public class FourSpecialPattern : ISpellPattern
 
     public void Initialize() { }
 
+    /// <summary>
+    /// l’iŠK–ÚƒXƒyƒ‹‚ÌƒƒCƒ“ˆ—B
+    /// –³“GˆÚ“® ¨ ‰~Œ`’e ¨ ’â~ ¨ ŠgU‰ñ“] ¨ •úË’e ¨ —U“±’e ¨ ‹x~ ‚Ìƒ‹[ƒvB
+    /// </summary>
     public IEnumerator Execute()
     {
+        // –³“Gó‘Ô‚ÅƒXƒyƒ‹ˆÊ’u‚ÖˆÚ“®
         yield return owner.MoveToSpellPosWithInvincible(boss, spellPos, owner);
 
+        // l’iŠK–Ú‚©‚Â spell ó‘Ô‚ÌŠÔ‚ÍƒXƒyƒ‹‚ğ‘±‚¯‚é
         while (owner.State == State.four && owner.BulletState == BulletState.spell)
         {
+            // -------------------------------
+            // ‰~Œ`’e ¨ ’â~ ¨ ŠgU‰ñ“]ƒtƒF[ƒY
+            // -------------------------------
             for (int i = 0; i < 3; i++)
             {
                 List<GameObject> bullets = new();
                 owner.Audio.PlayOneShot(config.mainBulletSE);
 
+                // ‰~Œ`’e‚ğ2’iŠK‚Å¶¬i‘¬“xˆá‚¢j
                 for (int k = 0; k < 2; k++)
                 {
                     if (owner.State != State.four || owner.BulletState != BulletState.spell) break;
@@ -59,6 +82,7 @@ public class FourSpecialPattern : ISpellPattern
                     float angleStep = 360f / config.bulletNum;
                     float angle = config.angleOffset;
 
+                    // ‰~Œ`‚É’e‚ğ¶¬
                     for (int j = 0; j < config.bulletNum; j++)
                     {
                         float x = Mathf.Cos(angle * Mathf.Deg2Rad);
@@ -79,6 +103,7 @@ public class FourSpecialPattern : ISpellPattern
                     }
                 }
 
+                // ’e‚ğ’â~‚³‚¹‚é
                 yield return new WaitForSeconds(config.stopTime);
 
                 if (owner.State != State.four || owner.BulletState != BulletState.spell) break;
@@ -89,16 +114,22 @@ public class FourSpecialPattern : ISpellPattern
                     b.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
                 }
 
+                // ’â~ŒãAŠgU‰ñ“]‚ğŠJn
                 yield return new WaitForSeconds(config.stopTime);
-
                 CoroutineRunner.Start(ExpandMove(bullets));
             }
 
             if (owner.State != State.four || owner.BulletState != BulletState.spell) break;
 
+            // -------------------------------
+            // ƒ{ƒXˆÚ“®ƒtƒF[ƒY
+            // -------------------------------
             Vector2 randomPos = new(Random.Range(2f, 8.5f), Random.Range(-4.5f, 4.5f));
             CoroutineRunner.Start(PositionMove(randomPos));
 
+            // -------------------------------
+            // •úË’eƒtƒF[ƒY
+            // -------------------------------
             for (int i = 0; i < 3; i++)
             {
                 if (owner.State != State.four || owner.BulletState != BulletState.spell) break;
@@ -108,6 +139,7 @@ public class FourSpecialPattern : ISpellPattern
                 float startAngle = 180f - config.arcAngle / 2f;
                 float angleStep = config.arcAngle / (config.arcCount - 1);
 
+                // •úË’e‚ğ arcCount ~ arcLine ¶¬
                 for (int j = 0; j < config.arcCount; j++)
                 {
                     owner.Audio.PlayOneShot(config.subBulletSE);
@@ -134,14 +166,21 @@ public class FourSpecialPattern : ISpellPattern
                     yield return new WaitForSeconds(0.01f);
                 }
 
+                // —U“±’eƒtƒF[ƒY‚ÖˆÚs
                 CoroutineRunner.Start(BulletMover(bullets));
                 yield return new WaitForSeconds(0.7f);
             }
 
+            // -------------------------------
+            // ƒXƒyƒ‹ˆÊ’u‚Ö–ß‚é
+            // -------------------------------
             yield return PositionMove(spellPos);
         }
     }
 
+    /// <summary>
+    /// ’â~‚µ‚½’e‚ğ‰ñ“]‚³‚¹‚È‚ª‚çŠgU‚³‚¹‚éB
+    /// </summary>
     private IEnumerator ExpandMove(List<GameObject> bullets)
     {
         while (owner.State == State.four && owner.BulletState == BulletState.spell)
@@ -155,7 +194,10 @@ public class FourSpecialPattern : ISpellPattern
 
                 Vector3 dir = b.transform.position - boss.position;
 
+                // ‹ô”’e‚ÆŠï”’e‚Å‰ñ“]•ûŒü‚ğ•Ï‚¦‚é
                 dir = Quaternion.Euler(0, 0, (i % 2 == 0 ? delta : -delta)) * dir;
+
+                // ŠgU
                 dir += dir.normalized * config.expandSpeed * Time.deltaTime;
 
                 b.transform.position = boss.position + dir;
@@ -165,8 +207,12 @@ public class FourSpecialPattern : ISpellPattern
         }
     }
 
+    /// <summary>
+    /// •úË’e‚ğ’â~ ¨ —U“±’e‚Æ‚µ‚ÄƒvƒŒƒCƒ„[‚ÖŒü‚¯‚Ä”­ËB
+    /// </summary>
     private IEnumerator BulletMover(List<GameObject> bullets)
     {
+        // ’â~
         yield return new WaitForSeconds(1f);
 
         foreach (var b in bullets)
@@ -175,6 +221,7 @@ public class FourSpecialPattern : ISpellPattern
             b.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
         }
 
+        // —U“±ŠJn
         yield return new WaitForSeconds(1f);
 
         Transform player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -191,6 +238,9 @@ public class FourSpecialPattern : ISpellPattern
         }
     }
 
+    /// <summary>
+    /// ƒ{ƒX‚ğw’èˆÊ’u‚ÖˆÚ“®‚³‚¹‚éB
+    /// </summary>
     private IEnumerator PositionMove(Vector2 target)
     {
         float t = 0f;
@@ -205,6 +255,9 @@ public class FourSpecialPattern : ISpellPattern
         }
     }
 
+    /// <summary>
+    /// ‚±‚Ìƒpƒ^[ƒ“‚Å¶¬‚³‚ê‚½’e‚ğ‚·‚×‚Äíœ‚·‚éB
+    /// </summary>
     public void Clear()
     {
         foreach (var b in GameObject.FindGameObjectsWithTag("E_Bullet"))

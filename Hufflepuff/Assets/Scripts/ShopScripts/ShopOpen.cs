@@ -1,20 +1,25 @@
+// ======================================== 
+// 
 // ShopOpen.cs
-//
-// ショップ画面の開閉を管理
-//
+// 
+// ========================================
+// 
+// ショップ画面の開閉を管理します
+// 
+// ========================================
 
 using System;
 using UnityEngine;
 
 public class ShopOpen : MonoBehaviour
 {
-    [SerializeField] private Vector2 startPos;
-    [SerializeField] private Animator animator;
-    [SerializeField] private Camera shopCamera;
-    [SerializeField] private bool OpenState;
-    public event Action OnShop;
-    private PlayrController playerController;
-    [SerializeField] private bool isPuzzle = false;
+    [SerializeField] private Vector2 startPos;      // 最初の位置
+    [SerializeField] private Animator animator;     // アニメーター
+    [SerializeField] private Camera shopCamera;     // パズル画面を移す用のカメラ
+    [SerializeField] private bool OpenState;        // パズル画面を開いているかのフラグ
+    public event Action OnShop;                     // パズル画面を閉じるときのアクション
+    private PlayrController playerController;       // プレイヤーコントローラー
+    [SerializeField] private bool isPuzzle = false; // パズル画面を開いているかのフラグ
 
     private void Start()
     {
@@ -31,7 +36,9 @@ public class ShopOpen : MonoBehaviour
     /// </summary>
     public void ShopOpenAni()
     {
-        transform.localPosition = startPos; // 初期位置に戻す
+        // 初期位置に戻す
+        transform.localPosition = startPos; 
+
         // プレイヤーがパズルをしているかどうかを判別
         if(!isPuzzle)
         {

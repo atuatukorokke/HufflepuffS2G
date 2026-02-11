@@ -1,56 +1,71 @@
-// PlayerControlle.cs
+// ========================================
 //
-// 矢印キーで移動・Zキーで弾幕
+// PlayrController.cs
 //
+// ========================================
+//
+// プレイヤーの操作・攻撃・被弾処理・ボム・コイン/ピース管理など、
+// シューティングパートの中心となるクラス。
+// ・矢印キーで移動（Shiftで低速移動）
+// ・Zキーで弾幕発射（直線＋攻撃力に応じて拡散）
+// ・Xキーでボム発動（無敵＋広範囲攻撃）
+// ・プレゼント取得でコイン/ピース増加
+// ・被弾時は無敵時間＋点滅演出
+//
+// ========================================
 
 using System.Collections;
 using UnityEngine;
 using TMPro;
-[System.Serializable]
 
+[System.Serializable]
 public class PlayrController : MonoBehaviour
 {
     [Header("Player Settings")]
     private Rigidbody2D myRigidbody;
-    [SerializeField] private float Speed;                       // 移動速度
-    [SerializeField] private float speedLate = 1.0f;            // 移動速度の遅延
+    [SerializeField] private float Speed;
+    [SerializeField] private float speedLate = 1.0f;
+
     [Range(1f, 5f)]
     [SerializeField] private float attack;
-    [SerializeField] private GameObject straightBulletPrehab;   // 直線弾幕のプレハブ
-    [SerializeField] private GameObject diffusionBulletPrehab;  // 拡散用の弾幕プレハブ
-    [SerializeField] private float bulletSpeed = 20f;           // 弾幕の速度
-    [SerializeField] private Transform gunPort;                 // 弾幕の発射口
-    [SerializeField] private float delayTime;                   // 発射してからのディレイ時間
-    [SerializeField] private bool invincible = false;           // 無敵判定
-    [SerializeField] private float invincibleTime = 15f;        // 無敵時間
-    [SerializeField] private int presentCount = 0;              // プレゼントの数
-    [SerializeField] private PlayState playState;               // プレイヤーの状態
-    [SerializeField] private GameObject CutInnCanvas;           // カットイン用のキャンバス
-    [SerializeField] private PieceCreate pieceCreate;           // ピース生成スクリプト
-    [SerializeField] private float outPieceLate;                // お邪魔ピースの出現率
-    [SerializeField] private TextMeshProUGUI coinText;          // 所持金テキスト
-    [SerializeField] private TextMeshProUGUI pieceText;         // ピースの数テキスト
+
+    [SerializeField] private GameObject straightBulletPrehab;
+    [SerializeField] private GameObject diffusionBulletPrehab;
+    [SerializeField] private float bulletSpeed = 20f;
+    [SerializeField] private Transform gunPort;
+    [SerializeField] private float delayTime;
+
+    [SerializeField] private bool invincible = false;
+    [SerializeField] private float invincibleTime = 15f;
+
+    [SerializeField] private int presentCount = 0;
+    [SerializeField] private PlayState playState;
+
+    [SerializeField] private GameObject CutInnCanvas;
+    [SerializeField] private PieceCreate pieceCreate;
+    [SerializeField] private float outPieceLate;
+
+    [SerializeField] private TextMeshProUGUI coinText;
+    [SerializeField] private TextMeshProUGUI pieceText;
 
     private AudioSource audio;
-    [SerializeField] private AudioClip damageSE;                // ダメージ音
-    [SerializeField] private AudioClip presentSE;               // プレゼントボックス取得音
-    [SerializeField] private AudioClip specialSE;               // 必殺技音
-
+    [SerializeField] private AudioClip damageSE;
+    [SerializeField] private AudioClip presentSE;
+    [SerializeField] private AudioClip specialSE;
 
     [Header("Player Coin")]
-    [SerializeField] private int pieceCount = 0;                // ピースの数
-    [SerializeField] private int coinCount = 0;                 // コインの数
-    [SerializeField] private int defultCoinIncreaseCount = 20;  // デフォルトのコイン増加数
+    [SerializeField] private int pieceCount = 0;
+    [SerializeField] private int coinCount = 0;
+    [SerializeField] private int defultCoinIncreaseCount = 20;
 
     [Header("Player Bom")]
-    [SerializeField] private GameObject PlayerBomObjerct;       // プレイヤーのボムオブジェクト
-    [SerializeField] private float bomAppearTime = 5f;          // ボムの出現時間
-    [SerializeField] private float playerBomDelayTime = 5f;     // ボムのディレイ時間
-    [SerializeField] private float maxChatgeTime;               // ボムの最大チャージ時間
-    [SerializeField] private float currentChargeTime;           // ボムのチャージ時間
-    [SerializeField] private bool isCharge = true;              // ボムのチャージ状態
-    [SerializeField] private bool isBom;                        // ボムの状態
-
+    [SerializeField] private GameObject PlayerBomObjerct;
+    [SerializeField] private float bomAppearTime = 5f;
+    [SerializeField] private float playerBomDelayTime = 5f;
+    [SerializeField] private float maxChatgeTime;
+    [SerializeField] private float currentChargeTime;
+    [SerializeField] private bool isCharge = true;
+    [SerializeField] private bool isBom;
 
     public bool isShooting = false;
 
@@ -62,197 +77,204 @@ public class PlayrController : MonoBehaviour
     public int DefultCoinIncreaseCount { get => defultCoinIncreaseCount; set => defultCoinIncreaseCount = value; }
     public float OutPieceLate { get => outPieceLate; set => outPieceLate = value; }
 
-    void Start()
+    private void Start()
     {
         audio = GetComponent<AudioSource>();
-        Playstate = PlayState.Shooting; // 初期状態をシューティングに設定
+        Playstate = PlayState.Shooting;
+
         myRigidbody = GetComponent<Rigidbody2D>();
         pieceCreate = FindAnyObjectByType<PieceCreate>();
+
         currentChargeTime = 0.0f;
-        isCharge = true; // ボムのチャージ状態を開始
-        isBom = false; // ボムの状態を初期化
-        pieceText.text = $"ピース:<color=#ffd700>{PieceCount.ToString()}</color>";
-        coinText.text = $"コイン:<color=#ffd700>{CoinCount.ToString()}</color>";
+        isCharge = true;
+        isBom = false;
+
+        pieceText.text = $"ピース:<color=#ffd700>{PieceCount}</color>";
+        coinText.text = $"コイン:<color=#ffd700>{CoinCount}</color>";
     }
 
-    void Update()
+    private void Update()
     {
-        if(Playstate == PlayState.Shooting) PlayerMove();
+        if (Playstate == PlayState.Shooting)
+            PlayerMove();
 
-        if(isCharge)
+        if (isCharge)
         {
-            currentChargeTime += Time.deltaTime; // ボムのチャージ時間を計測
+            currentChargeTime += Time.deltaTime;
 
-            // 一定時間経過したらボムのチャージ状態を解除
-            if (currentChargeTime >= playerBomDelayTime) 
+            if (currentChargeTime >= playerBomDelayTime)
             {
-                isCharge = false;           // ボムのチャージ状態を解除
-                isBom = true;               // ボムの状態を有効にする
-                currentChargeTime = 0.0f;   // チャージ時間をリセット
+                isCharge = false;
+                isBom = true;
+                currentChargeTime = 0.0f;
             }
         }
     }
 
     /// <summary>
-    /// プレイヤーの基本操作
-    /// ・矢印キーによる移動
-    /// ・Zキーを押してる間、弾幕を出す
+    /// プレイヤーの移動・攻撃・ボム操作
     /// </summary>
     private void PlayerMove()
     {
-        // プレイヤーの移動速度を制御する
         if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
             speedLate = 2f;
-        }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            speedLate = 1.0f; // スペースキーを離したら通常の速度に戻す
-        }
+            speedLate = 1.0f;
 
         float x = Input.GetAxisRaw("Horizontal") * Speed * Time.deltaTime * speedLate;
         float y = Input.GetAxisRaw("Vertical") * Speed * Time.deltaTime * speedLate;
+
         transform.position = new Vector2(
             Mathf.Clamp(transform.position.x + x, -8.5f, 8.0f),
-            Mathf.Clamp(transform.position.y + y, -4.5f, 4.5f));
-        if(Input.GetKeyDown(KeyCode.Z))
+            Mathf.Clamp(transform.position.y + y, -4.5f, 4.5f)
+        );
+
+        if (Input.GetKeyDown(KeyCode.Z))
         {
-            if(!isShooting)
+            if (!isShooting)
             {
                 isShooting = true;
-                // 直線状に弾幕を飛ばす
                 StartCoroutine(BulletCreat());
-                // 拡散するように弾幕を飛ばす
                 if (Attack >= 2) StartCoroutine(DiffusionBullet(3));
             }
         }
 
-        // Xキーを押したらカットインからのボムの発動
-        // ボム発動中は無敵
-        // 一定時間後にボムが消えて、無敵も解除
-        // 発動が終わったらボムのチャージを開始する
-        if(Input.GetKeyDown(KeyCode.X) && isBom)
-        {
+        if (Input.GetKeyDown(KeyCode.X) && isBom)
             StartCoroutine(Bom());
-        }
 
-        if(Input.GetKeyUp(KeyCode.Z))
-        {
+        if (Input.GetKeyUp(KeyCode.Z))
             isShooting = false;
-        }
     }
 
+    /// <summary>
+    /// ボム発動（無敵＋広範囲攻撃）
+    /// </summary>
     private IEnumerator Bom()
     {
         audio.PlayOneShot(specialSE);
-        isBom = false; // ボムの二度撃ちを防止
-        Instantiate(CutInnCanvas, new Vector3(0, 0, 0), Quaternion.identity);
+        isBom = false;
+
+        Instantiate(CutInnCanvas, Vector3.zero, Quaternion.identity);
+
         GameObject Bom = Instantiate(PlayerBomObjerct, transform.position, Quaternion.identity);
-        Destroy(Bom, bomAppearTime); // 一定時間後にボムを削除
-        invincible = true; // ボム発動中は無敵
+        Destroy(Bom, bomAppearTime);
+
+        invincible = true;
+
         float time = 0;
-        while(time >= bomAppearTime)
+        while (time >= bomAppearTime)
         {
             yield return new WaitForSeconds(0.1f);
             time += 0.1f;
         }
-        invincible = false; // 一定時間後に無敵を解除
-        isCharge = true; // ボムのチャージ状態を開始
+
+        invincible = false;
+        isCharge = true;
     }
+
     /// <summary>
-    /// 直線状に弾幕を出します
+    /// 直線弾幕
     /// </summary>
-    /// <returns>nullを返す</returns>
     private IEnumerator BulletCreat()
     {
-        while(isShooting)
+        while (isShooting)
         {
             GameObject bullet = Instantiate(
-            straightBulletPrehab, //弾幕
-            gunPort.position, // 位置
-            straightBulletPrehab.transform.rotation //回転                  
+                straightBulletPrehab,
+                gunPort.position,
+                straightBulletPrehab.transform.rotation
             );
 
             bullet.GetComponent<Rigidbody2D>().linearVelocity = new Vector3(1, 0, 0) * bulletSpeed;
-            yield return new WaitForSeconds(delayTime); //1発打ったら待ち
-        }
-        
-        yield return null;
-    }
 
-    /// <summary>
-    /// 放射状に弾幕を出します
-    /// </summary>
-    private IEnumerator DiffusionBullet(int bulletCount)
-    {
-        while(isShooting)
-        {
-            Vector2 player = transform.up.normalized; // プレイヤーの向き
-
-            float spreadAngle = 30f; // 放射状の角度
-
-            float baseAbgle = Mathf.Atan2(player.x, player.y) * Mathf.Rad2Deg; // プレイヤーの向きの角度
-            float angleStep = spreadAngle / (bulletCount - 1); // 弾幕の間隔
-            float startAngle = baseAbgle - (spreadAngle / 2); // 開始角度
-
-            for (int i = 0; i < bulletCount; i++)
-            {
-                float angle = startAngle + angleStep * i; // 弾幕の角度
-                float rad = angle * Mathf.Deg2Rad; // ラジアンに変換
-                Vector2 direction = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)); // 方向ベクトル
-
-                GameObject bullet = Instantiate(diffusionBulletPrehab, transform.position, Quaternion.identity);
-                bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * bulletSpeed; // 弾幕の速度を設定
-            }
             yield return new WaitForSeconds(delayTime);
         }
     }
 
     /// <summary>
-    /// 他のオブジェクトと衝突した時の処理
+    /// 拡散弾幕
     /// </summary>
-    /// <param name="collision">当たったオブジェクトのコライダー</param>
+    private IEnumerator DiffusionBullet(int bulletCount)
+    {
+        while (isShooting)
+        {
+            Vector2 player = transform.up.normalized;
+
+            float spreadAngle = 30f;
+            float baseAngle = Mathf.Atan2(player.x, player.y) * Mathf.Rad2Deg;
+            float angleStep = spreadAngle / (bulletCount - 1);
+            float startAngle = baseAngle - (spreadAngle / 2);
+
+            for (int i = 0; i < bulletCount; i++)
+            {
+                float angle = startAngle + angleStep * i;
+                float rad = angle * Mathf.Deg2Rad;
+
+                Vector2 direction = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+
+                GameObject bullet = Instantiate(diffusionBulletPrehab, transform.position, Quaternion.identity);
+                bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * bulletSpeed;
+            }
+
+            yield return new WaitForSeconds(delayTime);
+        }
+    }
+
+    /// <summary>
+    /// 被弾・プレゼント取得処理
+    /// </summary>
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        switch(collision.tag)
+        switch (collision.tag)
         {
             case "E_Bullet":
-                if(!invincible)
+                if (!invincible)
                 {
                     invincible = true;
                     audio.PlayOneShot(damageSE);
                     Destroy(collision.gameObject);
-                    StartCoroutine(ResetInvincibility()); // 一定時間後に無敵解除
+                    StartCoroutine(ResetInvincibility());
                 }
                 break;
+
             case "Present":
                 audio.PlayOneShot(presentSE);
-                PieceCount++; // ピースの数を増やす
-                CoinCount += DefultCoinIncreaseCount + Random.Range(0, 5); // コインの数を増やす
-                Destroy(collision.gameObject); // プレゼントを削除
-                pieceText.text = $"ピース:<color=#ffd700>{PieceCount.ToString()}</color>";
-                coinText.text = $"コイン:<color=#ffd700>{CoinCount.ToString()}</color>";
-                break;  
+
+                PieceCount++;
+                CoinCount += DefultCoinIncreaseCount + Random.Range(0, 5);
+
+                Destroy(collision.gameObject);
+
+                pieceText.text = $"ピース:<color=#ffd700>{PieceCount}</color>";
+                coinText.text = $"コイン:<color=#ffd700>{CoinCount}</color>";
+                break;
         }
     }
+
+    /// <summary>
+    /// 無敵時間の点滅演出
+    /// </summary>
     private IEnumerator ResetInvincibility()
     {
-        if(Random.Range(0, 100) < OutPieceLate) pieceCreate.BlockCreate(); // ブロックを生成
+        if (Random.Range(0, 100) < OutPieceLate)
+            pieceCreate.BlockCreate();
+
         for (int i = 0; i < InvincibleTime; i++)
         {
-            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0); // 赤く点滅
-            yield return new WaitForSeconds(0.05f); // 0.1秒ごとに無敵状態を維持
-            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1); // 元の色に戻す
-            yield return new WaitForSeconds(0.05f); // 0.1秒ごとに無敵状態を維持
+            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+            yield return new WaitForSeconds(0.05f);
+
+            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+            yield return new WaitForSeconds(0.05f);
         }
+
         invincible = false;
-        yield return null;
     }
 }
 
-public enum  PlayState
+public enum PlayState
 {
-    Shooting, // シューティング中
-    Puzzle, // パズル中
-    Clear, // ゲームクリア時のアニメーション中
+    Shooting,
+    Puzzle,
+    Clear,
 }

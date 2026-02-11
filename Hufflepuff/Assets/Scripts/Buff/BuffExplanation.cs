@@ -1,7 +1,14 @@
+// ========================================
+//
 // BuffExplanation.cs
 //
-// バフの説明を表示するためのスクリプト
+// ========================================
 //
+// バフの名前・説明・アイコンを UI に表示するためのクラス。
+// ・SetBuffExplanation() を呼ぶだけで UI が更新される
+// ・ショップ画面やバフ確認パネルで使用
+//
+// ========================================
 
 using UnityEngine;
 using TMPro;
@@ -9,12 +16,12 @@ using UnityEngine.UI;
 
 public class BuffExplanation : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI buffNameTxt;
-    [SerializeField] private TextMeshProUGUI buffExplanationTxt;
-    [SerializeField] private Image buffIcon;
-    
+    [SerializeField] private TextMeshProUGUI buffNameTxt;        // バフ名
+    [SerializeField] private TextMeshProUGUI buffExplanationTxt; // バフ説明文
+    [SerializeField] private Image buffIcon;                     // バフアイコン
+
     /// <summary>
-    /// 各バフ情報をセットする
+    /// バフ情報を UI に反映する
     /// </summary>
     public void SetBuffExplanation(string Name, string Explanation, Sprite Icon)
     {

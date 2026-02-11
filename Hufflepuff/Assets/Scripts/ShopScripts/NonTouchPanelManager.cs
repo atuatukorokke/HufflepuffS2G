@@ -1,14 +1,28 @@
+// ========================================
+// 
+// NonTouchPanelManager.cs
+// 
+// ========================================
+// 
+// 画面に触れないようにパネルを出します
+//
+// ========================================
+
+
 using UnityEngine;
 
 public class NonTouchPanelManager : MonoBehaviour
 {
-    private Animator animator;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private Animator animator;      // アニメーター
+
     void Start()
     {
         animator = GetComponent<Animator>();
     }
 
+    /// <summary>
+    /// アニメーションからパネルを出します
+    /// </summary>
     public void SetBoolAnim()
     {
         animator.SetBool("SetInstructions", false);

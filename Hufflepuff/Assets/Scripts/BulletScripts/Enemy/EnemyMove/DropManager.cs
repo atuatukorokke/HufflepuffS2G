@@ -1,20 +1,31 @@
+// ========================================
+//
 // DropManager.cs
 //
-// 箱を落とす確率を管理します
+// ========================================
 //
+// 敵がアイテムをドロップする確率（レート）を管理するクラス。
+// ・DropLate をカウントダウンしてドロップ発生を制御
+// ・LateChange() でレートを1減らす
+// ・LateReset() でレートを初期値に戻す
+//
+// ========================================
 
 using UnityEngine;
 
 public class DropManager : MonoBehaviour
 {
-    [SerializeField] private int dropLate = 10; // 箱を落とす確率
+    [SerializeField] private int dropLate = 10; // ドロップ発生レート（小さいほど出やすい）
 
-    public int DropLate { get => dropLate; set => dropLate = value; }
+    public int DropLate
+    {
+        get => dropLate;
+        set => dropLate = value;
+    }
 
     /// <summary>
-    /// ドロップ確率の更新をします
+    /// ドロップレートを1減らす。
     /// </summary>
-    /// <returns>新しい確率です</returns>
     public int LateChange()
     {
         DropLate--;
@@ -22,9 +33,8 @@ public class DropManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ドロップ確率のリセットをします
+    /// ドロップレートを初期値（10）にリセットする。
     /// </summary>
-    /// <returns>新しい確率です</returns>
     public int LateReset()
     {
         DropLate = 10;

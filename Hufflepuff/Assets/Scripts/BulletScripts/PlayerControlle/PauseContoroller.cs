@@ -1,7 +1,15 @@
+// ========================================
+//
 // PauseContoroller.cs
 //
-// Pause画面の管理をします
+// ========================================
 //
+// ポーズ画面の管理を行うクラス。
+// ・EscapeキーでポーズON/OFFを切り替え
+// ・音量設定パネル、バフ確認パネルの切り替え
+// ・リタイア時のフェード演出とタイトル遷移
+//
+// ========================================
 
 using System.Collections;
 using UnityEngine.SceneManagement;
@@ -10,31 +18,34 @@ using UnityEngine.UI;
 
 public class PauseContoroller : MonoBehaviour
 {
-    [SerializeField] private GameObject PausePanel;             // ポーズパネル
-    [SerializeField] private GameObject FadeInPanel;            // フェードインパネル
-    [SerializeField] private GameObject VolumeControllerPanel;  // 音量調整パネル
-    [SerializeField] private GameObject BuffCheckPanel;         // バフ確認パネル
-    [SerializeField] private AudioSource audio;             
-    private AudioSource audioSource;
-    [SerializeField] private AudioClip pauseOpenSE;             // ポーズ開くSE
-    [SerializeField] private AudioClip pauseCloseSE;            // ポーズ閉じるSE
-    [SerializeField] private AudioClip buttonSE;                // ボタンSE
+    [SerializeField] private GameObject PausePanel;            // ポーズパネル
+    [SerializeField] private GameObject FadeInPanel;           // フェードインパネル
+    [SerializeField] private GameObject VolumeControllerPanel; // 音量設定パネル
+    [SerializeField] private GameObject BuffCheckPanel;        // バフ確認パネル
 
-    void Start()
+    [SerializeField] private AudioSource audio;                // BGM用
+    private AudioSource audioSource;                           // SE用
+
+    [SerializeField] private AudioClip pauseOpenSE;            // ポーズを開くSE
+    [SerializeField] private AudioClip pauseCloseSE;           // ポーズを閉じるSE
+    [SerializeField] private AudioClip buttonSE;               // ボタンSE
+
+    private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+
         PausePanel.SetActive(false);
         FadeInPanel.SetActive(false);
         VolumeControllerPanel.SetActive(true);
         BuffCheckPanel.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
-        // Escapeキーでポーズの開閉
-        if (Input.GetKeyDown(KeyCode.Escape)) 
+        // Escapeキーでポーズ切り替え
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(Time.timeScale == 0)
+            if (Time.timeScale == 0)
             {
                 audioSource.PlayOneShot(pauseCloseSE);
                 PausePanel.SetActive(false);
@@ -57,8 +68,9 @@ public class PauseContoroller : MonoBehaviour
         FadeInPanel.SetActive(true);
         StartCoroutine(RetireAnim());
     }
+
     /// <summary>
-    /// 音量調整パネルを開く
+    /// 音量設定パネルを開く
     /// </summary>
     public void VolumeControllerOpen()
     {
@@ -66,6 +78,7 @@ public class PauseContoroller : MonoBehaviour
         VolumeControllerPanel.SetActive(true);
         BuffCheckPanel.SetActive(false);
     }
+
     /// <summary>
     /// バフ確認パネルを開く
     /// </summary>
@@ -77,18 +90,19 @@ public class PauseContoroller : MonoBehaviour
     }
 
     /// <summary>
-    /// リタイアアニメーション
+    /// リタイア時のフェード演出
     /// </summary>
     private IEnumerator RetireAnim()
     {
         audio.volume = 0;
         Time.timeScale = 1.0f;
-        for(int i = 0; i < 255; i++)
+
+        for (int i = 0; i < 255; i++)
         {
             FadeInPanel.GetComponent<Image>().color += new Color32(0, 0, 0, 1);
             yield return new WaitForSeconds(0.01f);
         }
+
         SceneManager.LoadScene("Title");
-        yield return null;
     }
 }

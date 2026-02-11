@@ -1,19 +1,30 @@
+// ========================================
+//
+// TitleScene.cs
+//
+// ========================================
+//
+// タイトル画面のフェード演出とシーン遷移を管理するクラス。
+// ・ボタン押下でフェードイン → アニメーション再生
+// ・アニメーションイベントから Title シーンを読み込む
+//
+// ========================================
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class TitleScene : MonoBehaviour
 {
-    [SerializeField] private GameObject FadeInPanel;    // フェードイン用のパネル
-    [SerializeField] private Animator animator;         // フェードイン用のアニメーター
+    [SerializeField] private GameObject FadeInPanel; // フェードイン用パネル
+    [SerializeField] private Animator animator;      // フェードアニメーション用アニメーター
 
-    void Start()
+    private void Start()
     {
         FadeInPanel.SetActive(false);
-        
     }
 
     /// <summary>
-    /// タイトルアニメーションを再生します
+    /// タイトルのフェードインアニメーションを開始する
     /// </summary>
     public void TitleAnim()
     {
@@ -22,7 +33,7 @@ public class TitleScene : MonoBehaviour
     }
 
     /// <summary>
-    /// タイトルシーンを読み込みます
+    /// Title シーンを読み込む（アニメーションイベントから呼ばれる）
     /// </summary>
     public void LoadScene()
     {

@@ -1,21 +1,34 @@
+// ========================================
+//
+// FinalBulletPattern.cs
+//
+// ========================================
+//
+// 最終段階の通常弾幕パターン。
+// ・ボスの周囲に円形に弾を生成
+// ・一定数生成後、全弾をプレイヤーへ向けて一斉発射
+// ・INormalBulletPattern に準拠
+//
+// ========================================
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//最終段階の通常弾幕
+// 最終段階の弾幕設定データ
 [System.Serializable]
 public class FinalBulletValue
 {
-    public GameObject Prehab;                                   // 弾幕のプレハブ
-    public int FlyingNum;                                       // 弾幕の数
-    public float speed;                                         // 弾幕のスピード
-    public float DeleteTime;                                    // 弾幕の消す時間
-    public float DelayTime;                                     // 弾幕の消す時間
-    public float radius;                                        // 半径
-    public Transform player;                                    // プレイヤーのTransform
-    public List<GameObject> bullets = new List<GameObject>();   // 生成した弾幕のリスト
-    public AudioClip bulletSE;                                  // 弾幕を出すときの効果音
-    public AudioClip bulletMoveSE;                              // 弾幕を動かすときの効果音
+    public GameObject Prehab;                                   // 弾のプレハブ
+    public int FlyingNum;                                       // 生成する弾の数
+    public float speed;                                         // 弾の速度
+    public float DeleteTime;                                    // 弾が消えるまでの時間
+    public float DelayTime;                                     // 弾生成の間隔
+    public float radius;                                        // ボスからの距離（円形配置の半径）
+    public Transform player;                                    // プレイヤーの Transform
+    public List<GameObject> bullets = new List<GameObject>();   // 生成した弾のリスト
+    public AudioClip bulletSE;                                  // 弾生成時の効果音
+    public AudioClip bulletMoveSE;                              // 弾移動開始時の効果音
 }
 
 public class FinalBulletPattern : INormalBulletPattern
@@ -32,18 +45,26 @@ public class FinalBulletPattern : INormalBulletPattern
         this.owner = owner;
     }
 
+    /// <summary>
+    /// パターン開始時の初期化処理。
+    /// </summary>
     public void Initialize()
     {
         bullets.Clear();
     }
 
+    /// <summary>
+    /// 弾幕を撃ち続けるメインループ。
+    /// 円形生成 → 一斉発射 → 待機 → 繰り返し。
+    /// </summary>
     public IEnumerator Fire()
     {
+        // 弾幕を無限に繰り返す
         while (true)
         {
             bullets.Clear();
 
-            // 円形に弾を配置
+            // ボスの周囲に円形に弾を生成する
             for (int i = 0; i < config.FlyingNum; i++)
             {
                 owner.Audio.PlayOneShot(config.bulletSE);
@@ -64,24 +85,32 @@ public class FinalBulletPattern : INormalBulletPattern
 
                 bullets.Add(bullet);
 
+                // 次の弾を生成するまで待機
                 yield return new WaitForSeconds(config.DelayTime);
             }
 
-            // 一斉発射
+            // 生成した弾をプレイヤーへ向けて一斉発射する
             yield return CoroutineRunner.Start(MoveBullets());
 
+            // 次の弾幕まで少し待機
             yield return new WaitForSeconds(0.5f);
         }
     }
 
+    /// <summary>
+    /// 生成した弾をプレイヤーへ向けて一斉に移動させる。
+    /// </summary>
     private IEnumerator MoveBullets()
     {
+        // プレイヤーが未設定なら検索して取得
         if (config.player == null)
             config.player = GameObject.Find("Player").transform;
 
         Vector3 targetPos = config.player.position;
+
         owner.Audio.PlayOneShot(config.bulletMoveSE);
 
+        // 全弾をプレイヤー方向へ移動させる
         foreach (GameObject bullet in bullets)
         {
             if (bullet == null) continue;
@@ -94,6 +123,9 @@ public class FinalBulletPattern : INormalBulletPattern
         yield return null;
     }
 
+    /// <summary>
+    /// このパターンで生成された弾をすべて削除する。
+    /// </summary>
     public void Clear()
     {
         bullets.Clear();

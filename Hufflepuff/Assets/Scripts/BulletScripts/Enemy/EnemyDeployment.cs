@@ -1,39 +1,46 @@
+// ========================================
+//
 // EnemyDeployment.cs
 //
-// エネミー情報です
+// ========================================
 //
+// 敵の出現情報をまとめた ScriptableObject。
+// ・雑魚 / 中ボス / ボス / 待機 / ショップ の5種類の状態を管理
+// ・敵のプレハブ、HP、出現位置、出現数、待機時間、BGM などを保持
+// ・WaveManager や StageManager がこれを読み取って敵を生成する
+//
+// ========================================
 
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EnemyDeployment", menuName = "Scriptable Objects/EnemyDeployment")]
-
 public class EnemyDeployment : ScriptableObject
 {
     /// <summary>
-    /// 各データの種類
+    /// 敵の種類（出現状態）
     /// </summary>
-	public enum state
-	{
-        Smallfry,   // 雑魚敵
+    public enum state
+    {
+        Smallfry,   // 雑魚
         middleBoss, // 中ボス
         Boss,       // ボス
-        DelayTime,  // 待ち時間
+        DelayTime,  // 待機
         Shop,       // ショップ
     }
 
-    [SerializeField] private state GetState;             // ・雑魚敵　・ボス　・ウェーブの待ち時間
-    [SerializeField] private GameObject enemyPrehab;     // エネミーのプレハブ
-    [SerializeField] private float enemyHP;              // エネミーのHP
-    [SerializeField] private Vector2 generationPosition; // 生成位置
-    [SerializeField] private int enemyCount;             //エネミーの数　
-    [SerializeField] private float delayTime;            // ウェーブの待ち時間
-    [SerializeField] private AudioClip bossBGM;          // ボス戦用のBGM
+    [SerializeField] private state GetState;             // 敵の種類
+    [SerializeField] private GameObject enemyPrehab;     // 敵のプレハブ
+    [SerializeField] private float enemyHP;              // 敵のHP
+    [SerializeField] private Vector2 generationPosition; // 出現位置
+    [SerializeField] private int enemyCount;             // 出現数
+    [SerializeField] private float delayTime;            // 待機時間（Wave間など）
+    [SerializeField] private AudioClip bossBGM;          // ボス戦用BGM
 
-    public state GetState1 { get => GetState;}
-    public GameObject EnemyPrehab { get => enemyPrehab;}
-    public int EnemyCount { get => enemyCount; }
-    public float DelayTime { get => delayTime; }
-    public Vector2 GenerationPosition { get => generationPosition; }
-    public float EnemyHP { get => enemyHP;}
+    public state GetState1 => GetState;
+    public GameObject EnemyPrehab => enemyPrehab;
+    public int EnemyCount => enemyCount;
+    public float DelayTime => delayTime;
+    public Vector2 GenerationPosition => generationPosition;
+    public float EnemyHP => enemyHP;
     public AudioClip BossBGM { get => bossBGM; set => bossBGM = value; }
 }

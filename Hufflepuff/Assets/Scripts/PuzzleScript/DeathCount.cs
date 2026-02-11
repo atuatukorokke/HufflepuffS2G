@@ -1,67 +1,90 @@
+// ========================================
+//
 // DeathCount.cs
-// 
-// ピース数とお邪魔ブロックを数え、死ぬかの判定を行います
-// 
+//
+// ========================================
+//
+// ピース数とお邪魔ブロック数を管理し、死亡判定を行うクラス。
+// ・ピース数とブロック数を加算管理
+// ・ブロック率（ブロック数 ÷ ピース数）を UI に反映
+// ・20% を超えたら死亡判定 → ゲームオーバー演出
+//
+// ========================================
 
 using UnityEngine;
 using TMPro;
 
 public class DeathCount : MonoBehaviour
 {
-    [SerializeField] private Animator CanvasAnim;                    // メインキャンバスのアニメーター
-    [SerializeField] private GameObject EnemySummoningManager;
-    [SerializeField] private PlayrController playerController;      // プレイヤーのコントローラー
-    [SerializeField] private TextMeshProUGUI goldText;              // 所持金テキスト
-    [SerializeField] private TextMeshProUGUI deathLateText;         // 死亡率テキスト
+    [SerializeField] private Animator CanvasAnim;               // メインキャンバスのアニメーター
+    [SerializeField] private GameObject EnemySummoningManager;  // 敵管理オブジェクト
+    [SerializeField] private PlayrController playerController;  // プレイヤー
+    [SerializeField] private TextMeshProUGUI goldText;          // 所持金テキスト
+    [SerializeField] private TextMeshProUGUI deathLateText;     // 死亡率テキスト
 
     [Header("死亡判定")]
-    [SerializeField] private bool isDead = false;                   // false = 生きてる, true = 死んでる
+    [SerializeField] private bool isDead = false;               // false = 生存, true = 死亡
 
     [Header("ブロック数")]
-    [SerializeField] private int pieceCount = 0;                    // ピース数
-    [SerializeField] private int blockCount = 0;                    // お邪魔ブロック数
+    [SerializeField] private int pieceCount = 0;                // ピース数
+    [SerializeField] private int blockCount = 0;                // お邪魔ブロック数
 
     public int PieceCount { get => pieceCount; private set => pieceCount = value; }
     public int BlockCount { get => blockCount; private set => blockCount = value; }
 
-    void Start()
+    private void Start()
     {
         playerController = FindAnyObjectByType<PlayrController>();
-        // デバッグ用のピース数
+
+        // デバッグ用初期値
         SetPieceCount(21); // 21の倍数
         SetBlockCount(0);
     }
 
-    // 場面上にあるピースのマス数を数えます
+    /// <summary>
+    /// ピース数を加算する
+    /// </summary>
     public void SetPieceCount(int newPieceCount)
     {
         PieceCount = PieceCount + newPieceCount;
     }
 
-    // お邪魔ブロックの数を数えます
+    /// <summary>
+    /// お邪魔ブロック数を加算し、死亡判定を行う
+    /// </summary>
     public void SetBlockCount(int newBlockCount)
     {
         BlockCount = BlockCount + newBlockCount;
-        deathLateText.text = $"お邪魔:<color=#ff0000>{((int)((float)BlockCount / (float)PieceCount * 100)).ToString()}%</color>";
 
+        // -----------------------------------------
+        // 死亡率（ブロック率）を UI に反映
+        // -----------------------------------------
+        deathLateText.text =
+            $"お邪魔:<color=#ff0000>{((int)((float)BlockCount / (float)PieceCount * 100)).ToString()}%</color>";
+
+        // -----------------------------------------
+        // 死亡判定（ブロック数がピース数の20%を超えたら死亡）
+        // -----------------------------------------
         if (PieceCount * 0.2 < BlockCount)
         {
-            isDead = true;  // ブロック数がピース数の20%を超えたら死ぬ
-            // ゲームオーバーの処理
-            EnemySummoningManager.GetComponent<AudioSource>().Stop(); // 敵の音を止める
-            Time.timeScale = 0.0f;
-            CanvasAnim.SetTrigger("isDead");
+            isDead = true;
+
+            // ゲームオーバー処理
+            EnemySummoningManager.GetComponent<AudioSource>().Stop(); // 敵の音を停止
+            Time.timeScale = 0.0f;                                    // ゲーム停止
+            CanvasAnim.SetTrigger("isDead");                          // 死亡アニメーション
         }
         else
         {
-            isDead = false; // それ以外は生きてる
+            isDead = false;
         }
     }
 
-    // ピース数とお邪魔ブロックの合計を取得します
+    /// <summary>
+    /// ピース数 + ブロック数の合計を返す
+    /// </summary>
     public int GetTotalBlock()
     {
         return PieceCount + BlockCount;
     }
-
 }

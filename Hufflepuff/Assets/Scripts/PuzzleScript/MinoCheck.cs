@@ -1,27 +1,37 @@
+// ========================================
+//
 // MinoCheck.cs
-// 
-// ピースが盤面外やほかのピースを重なっている時にPieceMovesに値を送ります
-// 
+//
+// ========================================
+//
+// ピースが盤面外に出たかどうかを検知し、PieceMoves に状態を通知するクラス。
+// ・トリガーに入ったら「衝突中」扱い
+// ・トリガーから出たら「衝突解除」扱い
+// ・PieceMoves 側で衝突数をカウントして判定に利用
+//
+// ========================================
 
 using UnityEngine;
 
 public class MinoCheck : MonoBehaviour
 {
-    [SerializeField] private PieceMoves pieceMoves;     // 盤面が重なっていないかを確認するスクリプト
+    [SerializeField] private PieceMoves pieceMoves; // ピースの衝突状態を管理するスクリプト
 
-    void Start()
+    private void Start()
     {
-        // このスクリプトがアタッチされているオブジェクトを生成したときにオブジェクトを取得する
+        // このスクリプトがアタッチされたオブジェクト生成時に PieceMoves を取得
         pieceMoves = Object.FindFirstObjectByType<PieceMoves>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // ピースがトリガー内に入った → 衝突数を +1
         pieceMoves.SetColliding(1);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        // ピースがトリガーから出た → 衝突数を -1
         pieceMoves.SetColliding(-1);
     }
 }

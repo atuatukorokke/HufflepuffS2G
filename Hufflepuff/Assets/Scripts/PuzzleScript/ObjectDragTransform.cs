@@ -1,74 +1,96 @@
-// ObjectDragTransform
-// 
-// オブジェクトをドラッグアンドドロップで移動させます
-// 
+// ========================================
+//
+// ObjectDragTransform.cs
+//
+// ========================================
+//
+// オブジェクトをドラッグ＆ドロップで移動させるクラス。
+// ・マウスドラッグで移動
+// ・Xキーで 90° 回転
+// ・Cキーで売却（ピース削除・ゴールド加算・バフ削除）
+// ・ドロップ時にグリッドへスナップ
+//
+// ========================================
 
 using UnityEngine;
 
 public class ObjectDragTransform : MonoBehaviour
 {
-    private Vector3 offset;
-    private Camera mainCamera;
-    private bool isDragging = false;
+    private Vector3 offset;                                     // マウス位置との差分
+    private Camera mainCamera;                                  // メインカメラ
+    private bool isDragging = false;                            // ドラッグ中かどうか
 
-    float gridSize = 1.0f;
+    float gridSize = 1.0f;                                      // グリッドサイズ
 
     [Header("ピース情報")]
     [SerializeField] private int pieceCount = 0;                // ピース数
-    [SerializeField] private int pieceNumber = 0;               // 個別番号
-    [SerializeField] private int sellGold = 0;                  // 金額
+    [SerializeField] private int pieceNumber = 0;               // ピース番号
+    [SerializeField] private int sellGold = 0;                  // 売却時のゴールド
 
-    [Header("スクリプトを動的にアタッチされる")]
-    [SerializeField] private DeathCount deathCount;             // 死ぬかの判定を行うスクリプト
-    [SerializeField] private GoldManager goldManager;           // 金額管理を行うスクリプト
-    [SerializeField] private PuzzleController puzzleController; // パズル全体を管理するスクリプト
-    [SerializeField] private Buff buff;                         // バフ管理を行うスクリプト
+    [Header("スクリプト参照")]
+    [SerializeField] private DeathCount deathCount;             // ピース数管理
+    [SerializeField] private GoldManager goldManager;           // ゴールド管理
+    [SerializeField] private PuzzleController puzzleController; // パズル管理
+    [SerializeField] private Buff buff;                         // このピースが持つバフ
 
-    void Start()
+    private void Start()
     {
         mainCamera = Camera.main;
 
-        // このスクリプトがアタッチされているオブジェクトを生成したときにオブジェクトを取得する
+        // 必要なスクリプトを自動取得
         deathCount = Object.FindFirstObjectByType<DeathCount>();
         goldManager = Object.FindFirstObjectByType<GoldManager>();
         puzzleController = FindFirstObjectByType<PuzzleController>();
+
+        // このピースのバフを仮バフリストに追加
         puzzleController.ProvisionalBuffs.Add(buff);
     }
 
-    void OnMouseDown()
+    private void OnMouseDown()
     {
         offset = transform.position - GetMouseWorldPosition();
         isDragging = true;
     }
 
-    void OnMouseDrag()
+    private void OnMouseDrag()
     {
         if (isDragging)
         {
+            // ドラッグ中はマウス位置に追従
             transform.position = GetMouseWorldPosition() + offset;
         }
 
-        // 現在ドラッグしているオブジェクトをXキーで90度回転
+        // -----------------------------------------
+        // Xキーで 90° 回転
+        // -----------------------------------------
         if (isDragging & Input.GetKeyDown(KeyCode.X))
         {
             float currentZ = transform.eulerAngles.z;
             transform.eulerAngles = new Vector3(0, 0, currentZ + 90f);
         }
 
-        // 現在ドラッグしているオブジェクトをCキーで売却
+        // -----------------------------------------
+        // Cキーで売却処理
+        // -----------------------------------------
         if (isDragging & Input.GetKeyDown(KeyCode.C))
         {
             Destroy(gameObject);
 
+            // ピース売却処理
             FindAnyObjectByType<ClearCountSet>().PieceSellCount(pieceNumber);
             deathCount.SetPieceCount(pieceCount * -1);
-
             goldManager.SetGoldCount(sellGold);
+
+            // ブロック生成フラグ
             FindAnyObjectByType<PieceCreate>().isBlockCreate = true;
 
+            // -----------------------------------------
+            // 仮バフリストから一致するバフを削除
+            // -----------------------------------------
             for (int i = 0; i <= puzzleController.ProvisionalBuffs.Count; i++)
             {
-                if(buff.buffID == puzzleController.ProvisionalBuffs[i].buffID & buff.value == puzzleController.ProvisionalBuffs[i].value)
+                if (buff.buffID == puzzleController.ProvisionalBuffs[i].buffID &
+                    buff.value == puzzleController.ProvisionalBuffs[i].value)
                 {
                     puzzleController.ProvisionalBuffs.RemoveAt(i);
                     break;
@@ -77,20 +99,23 @@ public class ObjectDragTransform : MonoBehaviour
         }
     }
 
-    void OnMouseUp()
+    private void OnMouseUp()
     {
         isDragging = false;
 
-        // ピース同士が重なっていたら元の位置に戻す
-
-        // 位置を取得して、xとyを四捨五入して整数にスナップ
+        // -----------------------------------------
+        // グリッドにスナップ
+        // -----------------------------------------
         Vector3 pos = transform.position;
         pos.x = Mathf.Round(pos.x / gridSize) * gridSize;
         pos.y = Mathf.Round(pos.y / gridSize) * gridSize;
         transform.position = pos;
     }
 
-    Vector3 GetMouseWorldPosition()
+    /// <summary>
+    /// マウス位置をワールド座標に変換
+    /// </summary>
+    private Vector3 GetMouseWorldPosition()
     {
         Vector3 mousePoint = Input.mousePosition;
         mousePoint.z = mainCamera.WorldToScreenPoint(transform.position).z;

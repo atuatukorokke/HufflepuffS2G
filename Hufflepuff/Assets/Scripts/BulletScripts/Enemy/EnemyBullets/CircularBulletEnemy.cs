@@ -1,24 +1,32 @@
+// ========================================
+//
 // CircularBulletEnemy.cs
 //
-// 円形弾幕を発射する敵の挙動
+// ========================================
 //
+// 円形弾幕を発射しながら移動する雑魚敵の挙動。
+// ・指定座標まで移動 → 円形弾幕を複数回発射 → 画面外へ退場
+// ・FlyingNum × frequency の弾を角度ずらしで生成
+// ・ISpellPattern ではなく単体挙動の敵用スクリプト
+//
+// ========================================
 
 using System.Collections;
 using UnityEngine;
 
 public class CircularBulletEnemy : MonoBehaviour
 {
-    [Header ("円形弾幕の変数")]
-    [SerializeField] private GameObject BulletPrehab;   // 弾幕のプレハブ
-    [SerializeField] private int FlyingNum;             // 発射する数
+    [Header("円形弾幕の設定")]
+    [SerializeField] private GameObject BulletPrehab;   // 弾のプレハブ
+    [SerializeField] private int FlyingNum;             // 一度に発射する弾の数
     [SerializeField] private int frequency;             // 発射回数
-    [SerializeField] private float speed;               // 弾幕のスピード
-    [SerializeField] private float DeleteTime;          // 削除する時間
-    [SerializeField] private float delayTime;           // 弾幕を出す間隔
-    private float angleOffset = 0f;                     // ずらし用の角度
+    [SerializeField] private float speed;               // 弾の速度
+    [SerializeField] private float DeleteTime;          // 弾を消すまでの時間
+    [SerializeField] private float delayTime;           // 発射間隔
+    private float angleOffset = 0f;                     // 発射角度のずらし
 
-    [Header("移動用変数")]
-    [SerializeField] private float destination;         // 到着座標
+    [Header("移動設定")]
+    [SerializeField] private float destination;         // 移動先のX座標
     [SerializeField] private float limitTime;           // 移動にかける時間
 
     private void Start()
@@ -27,57 +35,63 @@ public class CircularBulletEnemy : MonoBehaviour
     }
 
     /// <summary>
-    /// 敵が移動しながら円形弾幕を出すよん
+    /// 敵が移動しながら円形弾幕を発射する処理。
     /// </summary>
-    /// <param name="targetX">移動先のX座標</param>
-    /// <param name="time">移動に掛ける時間</param>
     private IEnumerator CircularBullet(float targetX, float time)
     {
-        // 移動する
-        // destinationまで移動する
         Vector2 startPosition = transform.position;
         float elapsedTime = 0f;
 
-        // 目的地まで移動
+        // -------------------------------
+        // 指定座標まで移動
+        // -------------------------------
         while (elapsedTime < time)
         {
             transform.position = new Vector2(
                 Mathf.Lerp(startPosition.x, targetX, elapsedTime / time),
                 startPosition.y
-                );
+            );
+
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        // 弾幕を出す
+
+        // -------------------------------
+        // 円形弾幕を発射
+        // -------------------------------
         yield return StartCoroutine(ShootIncircle());
+
+        // 少し待機
         yield return new WaitForSeconds(delayTime + 2.0f);
-        elapsedTime = 0f; // 経過時間をリセット
+
+        // -------------------------------
+        // 画面外へ退場
+        // -------------------------------
+        elapsedTime = 0f;
         startPosition = transform.position;
 
-        // 画面外に移動
-        while (elapsedTime < 5)
+        while (elapsedTime < 5f)
         {
             transform.position = new Vector2(
-                Mathf.Lerp(startPosition.x, -10, elapsedTime / 5),
-                Mathf.Lerp(startPosition.y, -10, elapsedTime / 5)
-                );
+                Mathf.Lerp(startPosition.x, -10f, elapsedTime / 5f),
+                Mathf.Lerp(startPosition.y, -10f, elapsedTime / 5f)
+            );
+
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        Destroy(gameObject); // 5秒後にオブジェクトを削除
+
+        Destroy(gameObject);
     }
 
     /// <summary>
-    /// 弾幕を円形に出します
+    /// 円形弾幕を FlyingNum × frequency 回生成する。
     /// </summary>
     private IEnumerator ShootIncircle()
     {
-        // 弾の横間隔の計算
         float angleStep = 360f / FlyingNum;
         float angle = angleOffset;
 
-        // frequencyの回数だけ弾幕を生成する
-        // FlyingNumは一回の生成で何個弾幕を作り出すか
         for (int i = 0; i < frequency; i++)
         {
             for (int j = 0; j < FlyingNum; j++)
@@ -92,11 +106,14 @@ public class CircularBulletEnemy : MonoBehaviour
 
                 angle += angleStep;
 
-                Destroy(proj, DeleteTime); // 何秒後に弾幕を消す
-
+                Destroy(proj, DeleteTime);
             }
-            angleOffset += 10f; // ここを変えれば回転速度が変わる
-            if (angleOffset >= 360) angleOffset -= 360f; // 範囲内を保つ
+
+            // 発射角度をずらして回転させる
+            angleOffset += 10f;
+            if (angleOffset >= 360f)
+                angleOffset -= 360f;
+
             yield return new WaitForSeconds(delayTime);
         }
     }
