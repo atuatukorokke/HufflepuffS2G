@@ -57,9 +57,12 @@ public class FastSpecialPattern : ISpellPattern
         // 一段階目かつ必殺技状態の間は撃ち続ける
         while (owner.State == State.fast && owner.BulletState == BulletState.spell)
         {
+
             // ShotNum 回、ランダム方向へ弾を撃つ
             for (int i = 0; i < config.ShotNum; i++)
             {
+                if (owner.State != State.fast || owner.BulletState != BulletState.spell) break;
+
                 owner.Audio.PlayOneShot(config.bulletSE);
 
                 // ランダム方向を決定

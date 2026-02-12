@@ -268,6 +268,9 @@ public class Boss1Bullet : MonoBehaviour
     /// </summary>
     private IEnumerator TakeDamage(float damage)
     {
+        if (BulletState == BulletState.special)
+            yield break;
+
         currentHP -= damage;
 
         // 無敵でない場合のみ HP バー更新
@@ -294,7 +297,7 @@ public class Boss1Bullet : MonoBehaviour
             BulletDelete();
 
             // final 段階 → セミファイナルへ
-            if (state == State.final && BulletState == BulletState.spell)
+            if (state == State.final)
             {
                 isInvivle = true;
                 isSpecialBulletActive = true;

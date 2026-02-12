@@ -55,8 +55,6 @@ public class ThirdSpecialPattern : ISpellPattern
         // 三段階目かつ spell 状態の間はスペルを続ける
         while (owner.State == State.third && owner.BulletState == BulletState.spell)
         {
-            owner.Audio.PlayOneShot(config.bulletSE);
-
             creatCount++;
 
             // 10発ごとに追加で効果音を鳴らす

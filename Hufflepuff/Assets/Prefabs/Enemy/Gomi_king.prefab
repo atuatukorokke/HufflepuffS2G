@@ -262,8 +262,8 @@ MonoBehaviour:
     leftBulletSE: {fileID: 8300000, guid: 1c974e2fd00c04d4cbe1f487c2878c71, type: 3}
   third:
     BulletPrehab: {fileID: 5769044862919052364, guid: f32c617cd933adb4089ec951cff1f86a, type: 3}
-    maxSpeed: 1
-    minSpeed: 3
+    maxSpeed: 2
+    minSpeed: 5
     delayTime: 20
     bulletSE: {fileID: 8300000, guid: 065f2cc1fc4611749b3aee0de764d8a6, type: 3}
   four:
@@ -286,8 +286,8 @@ MonoBehaviour:
     movementSE: {fileID: 8300000, guid: 1bdebb7d9dbb2224eb07b8f76a3ffe12, type: 3}
   final:
     BulletPrehab: {fileID: 5769044862919052364, guid: f32c617cd933adb4089ec951cff1f86a, type: 3}
-    maxSpeed: 3
-    minSpeed: 2
+    maxSpeed: 5
+    minSpeed: 3
     randomSpeed: 1.5
     randomBulletTime: 4
     radiationBulletNum: 5
