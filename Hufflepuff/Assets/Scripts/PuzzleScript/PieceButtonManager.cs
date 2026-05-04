@@ -4,29 +4,34 @@
 //
 // ========================================
 //
-// ƒ{ƒ^ƒ““ü—Í‚É‰‚¶‚Äƒs[ƒX¶¬‚âƒfƒoƒbƒO‘€ì‚ğs‚¤ƒNƒ‰ƒXB
-// EƒVƒ‡ƒbƒv‚ğ•Â‚¶‚½Û‚É‰¼ƒoƒt‚ğ–{“K—p
-// EƒvƒŒƒCƒ„[‚ÌƒRƒCƒ“XV
-// EBGM ‚ÌØ‚è‘Ö‚¦
-// Eƒs[ƒX¶¬ƒ{ƒ^ƒ“ / ƒfƒoƒbƒOƒ{ƒ^ƒ“‚Ìˆ—
+// ãƒœã‚¿ãƒ³å…¥åŠ›ã«å¿œã˜ã¦ãƒ”ãƒ¼ã‚¹ç”Ÿæˆã‚„ãƒ‡ãƒãƒƒã‚°æ“ä½œã‚’è¡Œã†ã‚¯ãƒ©ã‚¹ã€‚
+// ãƒ»ã‚·ãƒ§ãƒƒãƒ—ã‚’é–‰ã˜ãŸéš›ã«ä»®ãƒãƒ•ã‚’æœ¬é©ç”¨
+// ãƒ»ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚³ã‚¤ãƒ³æ›´æ–°
+// ãƒ»BGM ã®åˆ‡ã‚Šæ›¿ãˆ
+// ãƒ»ãƒ”ãƒ¼ã‚¹ç”Ÿæˆãƒœã‚¿ãƒ³ / ãƒ‡ãƒãƒƒã‚°ãƒœã‚¿ãƒ³ã®å‡¦ç†
 //
 // ========================================
 
 using UnityEngine;
+using TMPro;
 
 public class PieceButtonManager : MonoBehaviour
 {
-    private PieceCreate Pcreate;                            // ƒs[ƒX¶¬ƒXƒNƒŠƒvƒg
-    private ShopOpen shop;                                  // ƒVƒ‡ƒbƒvŠJ•ÂƒXƒNƒŠƒvƒg
-    private BuffSeter buffSeter;                            // ƒoƒt“K—pƒXƒNƒŠƒvƒg
-    private BuffManager buffManager;                        // ƒoƒtƒf[ƒ^ŠÇ—
-    private PlayrController playerController;               // ƒvƒŒƒCƒ„[‘€ìƒXƒNƒŠƒvƒg
-    private GoldManager goldManager;                        // ƒS[ƒ‹ƒhŠÇ—
-    private PuzzleController puzzleController;              // ƒpƒYƒ‹ŠÇ—
-    private EnemySummoningManagement enemySummoningManager; // “G¢Š«ŠÇ—
-    [SerializeField] private AudioClip normalBGM;           // ’Êí‚ÌBGM
+    private PieceCreate Pcreate;                            // ãƒ”ãƒ¼ã‚¹ç”Ÿæˆã‚¹ã‚¯ãƒªãƒ—ãƒˆ
+    private ShopOpen shop;                                  // ã‚·ãƒ§ãƒƒãƒ—é–‹é–‰ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
+    private BuffSeter buffSeter;                            // ãƒãƒ•é©ç”¨ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
+    private BuffManager buffManager;                        // ãƒãƒ•ãƒ‡ãƒ¼ã‚¿ç®¡ç†
+    private PlayrController playerController;               // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æ“ä½œã‚¹ã‚¯ãƒªãƒ—ãƒˆ
+    private GoldManager goldManager;                        // ã‚´ãƒ¼ãƒ«ãƒ‰ç®¡ç†
+    private PuzzleController puzzleController;              // ãƒ‘ã‚ºãƒ«ç®¡ç†
+    private EnemySummoningManagement enemySummoningManager; // æ•µå¬å–šç®¡ç†
+    [SerializeField] private AudioClip normalBGM;           // é€šå¸¸æ™‚ã®BGM
+    [SerializeField] private GameObject shopPanell;         // ã‚·ãƒ§ãƒƒãƒ—ãƒ‘ãƒãƒ«
 
-    private void Start()
+    [Header("ãƒ—ãƒ¬ã‚¼ãƒ³ãƒˆãƒœãƒƒã‚¯ã‚¹UI")]
+    [SerializeField] private TMP_Text presentBoxCountText;  // ãƒ—ãƒ¬ã‚¼ãƒ³ãƒˆãƒœãƒƒã‚¯ã‚¹æ®‹æ•°è¡¨ç¤º
+
+    private void Awake()
     {
         puzzleController = FindAnyObjectByType<PuzzleController>();
         goldManager = FindAnyObjectByType<GoldManager>();
@@ -38,46 +43,87 @@ public class PieceButtonManager : MonoBehaviour
         enemySummoningManager = FindAnyObjectByType<EnemySummoningManagement>();
     }
 
+    private void Start()
+    {
+        shopPanell.SetActive(false);
+    }
+
     /// <summary>
-    /// ƒVƒ‡ƒbƒv‚ğ•Â‚¶A‰¼ƒoƒt‚ğ–{“K—p‚·‚é
+    /// ã‚·ãƒ§ãƒƒãƒ—ã‚’é–‰ã˜ã€ä»®ãƒãƒ•ã‚’æœ¬é©ç”¨ã™ã‚‹
     /// </summary>
     public void ShopClose()
     {
-        // ƒpƒYƒ‹ó‘Ô‚È‚ç’Êíó‘Ô‚Ö–ß‚·
+        // ãƒ‘ã‚ºãƒ«çŠ¶æ…‹ãªã‚‰é€šå¸¸çŠ¶æ…‹ã¸æˆ»ã™
         if (enemySummoningManager.isPuzzle)
         {
+            // --- é€€å‡ºãƒã‚§ãƒƒã‚¯ ---
+            ObjectDragTransform[] allPieces = FindObjectsByType<ObjectDragTransform>(FindObjectsSortMode.None);
+            foreach (var piece in allPieces)
+            {
+                // å³åŠåˆ†ï¼ˆãƒ‘ã‚ºãƒ«é ˜åŸŸï¼‰ã«ã‚ã‚‹ãƒ”ãƒ¼ã‚¹ã‚’ãƒã‚§ãƒƒã‚¯
+                if (piece.transform.position.x > puzzleController.PuzzleBorderX)
+                {
+                    if (piece.LocalColliding != 0)
+                    {
+                        Debug.Log("é…ç½®ã§ããªã„ãƒ”ãƒ¼ã‚¹ãŒã‚ã‚‹ãŸã‚ã€ãƒ‘ã‚ºãƒ«ç”»é¢ã‹ã‚‰å‡ºã‚‰ã‚Œã¾ã›ã‚“ã€‚");
+                        return; // é€€å‡ºã‚­ãƒ£ãƒ³ã‚»ãƒ«
+                    }
+                }
+            }
+
             enemySummoningManager.isPuzzle = false;
 
-            // -----------------------------------------
-            // ‰¼ƒoƒt‚ğ–{ƒoƒt‚Æ‚µ‚Ä“o˜^
-            // -----------------------------------------
-            foreach (var buff in puzzleController.ProvisionalBuffs) // © ‰¼ƒoƒt‚ğ‡”Ô‚Éˆ—
+            // --- ãƒãƒ•ã®åæ˜  ---
+            // ä»¥å‰ã®ãƒãƒ•ã‚’ä¸€æ—¦ã‚¯ãƒªã‚¢ã—ã€ç¾åœ¨ã®ç›¤é¢ã®çŠ¶æ…‹ã‹ã‚‰å†é›†è¨ˆã™ã‚‹
+            buffManager.datas.Clear();
+            int appliedBuffCount = 0;
+
+            // 1. ç¢ºå®šæ¸ˆã¿ï¼ˆéå»ã«ç›¤é¢ã‹ã‚‰æ¶ˆæ»…ã—ãŸãƒ”ãƒ¼ã‚¹ï¼‰ã®ãƒãƒ•ã‚’è¿½åŠ 
+            foreach (var buff in puzzleController.ConfirmedBuffs)
             {
                 if (buff != null)
                 {
                     buffManager.AddBuff(buff.buffID, buff.value);
+                    appliedBuffCount++;
                 }
             }
 
-            // ƒoƒt‚ğƒvƒŒƒCƒ„[‚Ö“K—p
+            // 2. ç¾åœ¨ç›¤é¢ä¸Šã«ã‚ã‚‹ãƒ”ãƒ¼ã‚¹ã®ãƒãƒ•ã‚’è¿½åŠ 
+            foreach (var piece in allPieces)
+            {
+                // å³åŠåˆ†ï¼ˆãƒ‘ã‚ºãƒ«é ˜åŸŸï¼‰ã«ã‚ã‚‹ãƒ”ãƒ¼ã‚¹ã®ãƒãƒ•ã®ã¿ã‚’é©ç”¨
+                if (piece.transform.position.x > puzzleController.PuzzleBorderX)
+                {
+                    Buff buff = piece.PieceBuff;
+                    if (buff != null)
+                    {
+                        buffManager.AddBuff(buff.buffID, buff.value);
+                        appliedBuffCount++;
+                    }
+                }
+            }
+
+            Debug.Log($"ãƒãƒ•å†é›†è¨ˆå®Œäº†: ç›¤é¢åˆ¤å®šç”¨Xåº§æ¨™é–¾å€¤ = {puzzleController.PuzzleBorderX}, åæ˜ ã•ã‚ŒãŸãƒãƒ•ä»˜ããƒ”ãƒ¼ã‚¹æ•° = {appliedBuffCount}");
+
+            // ãƒãƒ•ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¸é©ç”¨
             buffSeter.ApplyBuffs();
 
-            // ŠƒRƒCƒ“‚ğXV
+            // æ‰€æŒã‚³ã‚¤ãƒ³ã‚’æ›´æ–°
             playerController.CoinCount = goldManager.GetGold();
 
             // -----------------------------------------
-            // BGM ‚ğ’Êíó‘Ô‚É–ß‚·
+            // BGM ã‚’é€šå¸¸çŠ¶æ…‹ã«æˆ»ã™
             // -----------------------------------------
             enemySummoningManager.GetComponent<AudioSource>().clip = normalBGM;
             enemySummoningManager.GetComponent<AudioSource>().Play();
 
-            // ƒVƒ‡ƒbƒv‚ğ•Â‚¶‚éƒAƒjƒ[ƒVƒ‡ƒ“
+            // ã‚·ãƒ§ãƒƒãƒ—ã‚’é–‰ã˜ã‚‹ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
             shop.ShopOpenAni();
         }
     }
 
     /// <summary>
-    /// ƒs[ƒX¶¬ƒ{ƒ^ƒ“
+    /// ãƒ”ãƒ¼ã‚¹ç”Ÿæˆãƒœã‚¿ãƒ³
     /// </summary>
     public void minoClick(int number)
     {
@@ -85,7 +131,7 @@ public class PieceButtonManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ƒfƒoƒbƒOFƒvƒŒƒ[ƒ“ƒg¶¬
+    /// ãƒ‡ãƒãƒƒã‚°ï¼šãƒ—ãƒ¬ã‚¼ãƒ³ãƒˆç”Ÿæˆ
     /// </summary>
     public void debugPresentClick()
     {
@@ -93,10 +139,53 @@ public class PieceButtonManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ƒfƒoƒbƒOFƒuƒƒbƒN¶¬
+    /// ãƒ‡ãƒãƒƒã‚°ï¼šãƒ–ãƒ­ãƒƒã‚¯ç”Ÿæˆ
     /// </summary>
     public void debugBlockClick()
     {
         Pcreate.BlockCreate();
+    }
+
+    /// <summary>
+    /// ãƒ—ãƒ¬ã‚¼ãƒ³ãƒˆãƒœãƒƒã‚¯ã‚¹ã‚’é–‹ã‘ã‚‹ãƒœã‚¿ãƒ³ç”¨ã®ãƒ¡ã‚½ãƒƒãƒ‰
+    /// </summary>
+    public void OpenPresentBox()
+    {
+        if (Pcreate != null)
+        {
+            Pcreate.PresentBox();
+            UpdatePresentBoxText(); // æ®‹æ•°ãƒ†ã‚­ã‚¹ãƒˆã®æ›´æ–°
+        }
+    }
+
+    /// <summary>
+    /// ãƒ—ãƒ¬ã‚¼ãƒ³ãƒˆãƒœãƒƒã‚¯ã‚¹ã®æ®‹æ•°ã‚’UIã«åæ˜ ã™ã‚‹
+    /// </summary>
+    public void UpdatePresentBoxText()
+    {
+        if (presentBoxCountText != null && playerController != null)
+        {
+            presentBoxCountText.text = $"ãƒ—ãƒ¬ã‚¼ãƒ³ãƒˆ: {playerController.PieceCount}";
+        }
+    }
+
+    /// <summary>
+    /// ã‚·ãƒ§ãƒƒãƒ—ç”»é¢ã‚’é–‹ãã¾ã™
+    /// </summary>
+    public void ShopPanelOpen()
+    {
+        if (shopPanell != null)
+        {
+            // ç¾åœ¨ã®çŠ¶æ…‹ã‚’åè»¢ã•ã›ã‚‹
+            bool isActive = !shopPanell.activeSelf;
+            shopPanell.SetActive(isActive);
+
+            // é–‹ã„ãŸæ™‚ã ã‘è³¼å…¥å›æ•°ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
+            if (isActive && Pcreate != null)
+            {
+                Pcreate.ResetShopBuyCount();
+                UpdatePresentBoxText(); // ã‚·ãƒ§ãƒƒãƒ—ã‚’é–‹ã„ãŸæ™‚ã«æ®‹æ•°ã‚’æ›´æ–°
+            }
+        }
     }
 }

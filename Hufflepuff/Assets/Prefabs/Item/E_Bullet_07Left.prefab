@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 44299311446191104}
   - component: {fileID: 4302118825116420879}
   - component: {fileID: 5470981197510101624}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: E_Bullet_07Left
   m_TagString: E_Bullet
   m_Icon: {fileID: 0}

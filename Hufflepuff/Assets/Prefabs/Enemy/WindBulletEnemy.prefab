@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5103154413373633983}
   - component: {fileID: -5969629230045699903}
   - component: {fileID: -9137052497983958422}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WindBulletEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}

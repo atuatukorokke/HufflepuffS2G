@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -5014215127722495316}
   - component: {fileID: 4860778488025678091}
   - component: {fileID: 8464413403623622710}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mino2
   m_TagString: block
   m_Icon: {fileID: 0}
@@ -157,7 +157,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4125420702631279219}
   - component: {fileID: 4806340042890938114}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DebugSquare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +244,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4441970477275866347}
   - component: {fileID: 2842933743386215089}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -331,7 +331,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1346953569735438240}
   - component: {fileID: 4786525891248894905}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -418,7 +418,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6348673149699035535}
   - component: {fileID: 481407280342641172}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: banana_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}

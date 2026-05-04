@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6584715250213623084}
   - component: {fileID: 4600551513253512851}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1685875980368591160}
   - component: {fileID: 8426102852287922575}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6877745385265582564}
   - component: {fileID: 8727997178886293961}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -271,7 +271,7 @@ GameObject:
   m_Component:
   - component: {fileID: 686202032798486180}
   - component: {fileID: 4061955894456935836}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,7 +358,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7530890243378751759}
   - component: {fileID: 8329299421655974036}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DebugSquare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -445,7 +445,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2353160133515497248}
   - component: {fileID: 6521127944502138653}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -532,7 +532,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4070313866701916491}
   - component: {fileID: 5424818959411738698}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: pai_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -622,7 +622,7 @@ GameObject:
   - component: {fileID: -3062637332274636180}
   - component: {fileID: 4849121574842843775}
   - component: {fileID: 5460726375892972501}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mino6
   m_TagString: block
   m_Icon: {fileID: 0}
@@ -770,7 +770,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5646719114390927763}
   - component: {fileID: 2230256797852085761}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

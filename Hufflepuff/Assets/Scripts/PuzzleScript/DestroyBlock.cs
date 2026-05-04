@@ -4,10 +4,10 @@
 //
 // ========================================
 //
-// ƒvƒŒƒCƒ„[‚ª“Á’èğŒ‚ğ–‚½‚µ‚½‚Æ‚«Aw’èƒ^ƒO‚ÌƒuƒƒbƒN‚ğ
-// ˆêŠ‡íœ‚·‚éƒNƒ‰ƒXB
-// E‘ƒuƒƒbƒN”iƒs[ƒX{‚¨×–‚j‚ª 21 ‚Ì”{”‚È‚ç‘Síœ
-// EíœŒã‚Í”Õ–Ê‚ğ‰Šú‰»
+// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç‰¹å®šæ¡ä»¶ã‚’æº€ãŸã—ãŸã¨ãã€æŒ‡å®šã‚¿ã‚°ã®ãƒ–ãƒ­ãƒƒã‚¯ã‚’
+// ä¸€æ‹¬å‰Šé™¤ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+// ãƒ»ç·ãƒ–ãƒ­ãƒƒã‚¯æ•°ï¼ˆãƒ”ãƒ¼ã‚¹ï¼‹ãŠé‚ªé­”ï¼‰ãŒ 21 ã®å€æ•°ãªã‚‰å…¨å‰Šé™¤
+// ãƒ»å‰Šé™¤å¾Œã¯ç›¤é¢ã‚’åˆæœŸåŒ–
 //
 // ========================================
 
@@ -15,40 +15,57 @@ using UnityEngine;
 
 public class DestroyBlock : MonoBehaviour
 {
-    [Header("ƒXƒNƒŠƒvƒgQÆ")]
-    [SerializeField] private DeathCount deathCount;   // ƒs[ƒX”E‚¨×–‚ƒuƒƒbƒN”‚ÌŠÇ—
-    [SerializeField] private PieceMoves pieceMoves;   // ƒuƒƒbƒN‚Ìd‚È‚è”»’è‚È‚Ç‚ğs‚¤ƒXƒNƒŠƒvƒg
-    [SerializeField] private PieceCreate pieceCreate; // ƒs[ƒX¶¬ƒXƒNƒŠƒvƒg
+    [Header("ã‚¹ã‚¯ãƒªãƒ—ãƒˆå‚ç…§")]
+    [SerializeField] private DeathCount deathCount;   // ãƒ”ãƒ¼ã‚¹æ•°ãƒ»ãŠé‚ªé­”ãƒ–ãƒ­ãƒƒã‚¯æ•°ã®ç®¡ç†
+    [SerializeField] private PieceMoves pieceMoves;   // ãƒ–ãƒ­ãƒƒã‚¯ã®é‡ãªã‚Šåˆ¤å®šãªã©ã‚’è¡Œã†ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
+    [SerializeField] private PieceCreate pieceCreate; // ãƒ”ãƒ¼ã‚¹ç”Ÿæˆã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 
-    public string targetTag = "block"; // íœ‘ÎÛ‚Ìƒ^ƒO
+    public string targetTag = "block"; // å‰Šé™¤å¯¾è±¡ã®ã‚¿ã‚°
 
     /// <summary>
-    /// ‘ƒuƒƒbƒN”‚ª 21 ‚Ì”{”‚È‚çA‘ÎÛƒ^ƒO‚ÌƒuƒƒbƒN‚ğ‘Síœ‚·‚é
+    /// ç·ãƒ–ãƒ­ãƒƒã‚¯æ•°ãŒ 21 ã®å€æ•°ãªã‚‰ã€å¯¾è±¡ã‚¿ã‚°ã®ãƒ–ãƒ­ãƒƒã‚¯ã‚’å…¨å‰Šé™¤ã™ã‚‹
     /// </summary>
     public void DestroyPieceBlock()
     {
-        int TotalBlock = deathCount.GetTotalBlock();
+        // -----------------------------------------
+        // ãƒ‘ã‚ºãƒ«é ˜åŸŸã«ã‚ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ã®æ•°ã‚’ã‚«ã‚¦ãƒ³ãƒˆã™ã‚‹
+        // -----------------------------------------
+        GameObject[] allBlocks = GameObject.FindGameObjectsWithTag(targetTag);
+        int placedBlockCount = 0;
+        
+        PuzzleController pc = Object.FindAnyObjectByType<PuzzleController>();
+        float borderX = pc != null ? pc.PuzzleBorderX : 0f;
 
-        // -----------------------------------------
-        // 21 ‚Ì”{”‚©‚Ç‚¤‚©‚ğ”»’è
-        // -----------------------------------------
-        if (TotalBlock % 21 == 0)
+        foreach (var block in allBlocks)
         {
-            // -----------------------------------------
-            // w’èƒ^ƒO‚ÌƒIƒuƒWƒFƒNƒg‚ğ‚·‚×‚Äæ“¾
-            // -----------------------------------------
-            GameObject[] objectsToDelete = GameObject.FindGameObjectsWithTag(targetTag);
-
-            // -----------------------------------------
-            // æ“¾‚µ‚½ƒuƒƒbƒN‚ğ‡”Ô‚Éíœ
-            // -----------------------------------------
-            foreach (GameObject obj in objectsToDelete) // © ‘SƒuƒƒbƒN‚ğ1‚Â‚¸‚Âˆ—
+            if (block.transform.position.x > borderX)
             {
-                Destroy(obj);
+                placedBlockCount += block.GetComponent<ObjectDragTransform>().PieceCount;
+            }
+        }
+
+        // -----------------------------------------
+        // ãƒ‘ã‚ºãƒ«é ˜åŸŸã®ãƒ–ãƒ­ãƒƒã‚¯ãŒ21å€‹ï¼ˆä»¥ä¸Šï¼‰ãªã‚‰ç›¤é¢ã‚’æ›´æ–°
+        // -----------------------------------------
+        if (placedBlockCount >= 21)
+        {
+            if (pc != null)
+            {
+                pc.SaveCurrentBoardBuffs();
+                Debug.Log("æ¶ˆå»å‰ã«ãƒãƒ•ã‚’ç¢ºå®šãƒªã‚¹ãƒˆã«ä¿å­˜ã—ã¾ã—ãŸã€‚");
+            }
+
+            // ãƒ‘ã‚ºãƒ«é ˜åŸŸã«ã‚ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ã®ã¿ã‚’æ¶ˆå»
+            foreach (GameObject obj in allBlocks)
+            {
+                if (obj.transform.position.x > borderX)
+                {
+                    Destroy(obj);
+                }
             }
 
             // -----------------------------------------
-            // ƒuƒƒbƒN”Õ–Ê‚ğ‰Šú‰»
+            // ç›¤é¢åˆæœŸåŒ–
             // -----------------------------------------
             pieceCreate.BlockBoardInitialize();
         }

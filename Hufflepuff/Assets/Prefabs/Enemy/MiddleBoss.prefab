@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5039878819333432006}
   - component: {fileID: 3973271017713597531}
   - component: {fileID: -7542055118444845476}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MiddleBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,7 +303,7 @@ GameObject:
   - component: {fileID: 8940746061157760670}
   - component: {fileID: 5594391158592854388}
   - component: {fileID: 3295090118634519334}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -404,7 +404,7 @@ GameObject:
   - component: {fileID: 6308456326936056188}
   - component: {fileID: 2123242360364798989}
   - component: {fileID: 6034106475038033380}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}

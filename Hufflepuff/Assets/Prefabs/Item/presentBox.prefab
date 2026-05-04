@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2010904848639613493}
   - component: {fileID: 1765588551332085719}
   - component: {fileID: 5074078105715150041}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: presentBox
   m_TagString: Present
   m_Icon: {fileID: 0}

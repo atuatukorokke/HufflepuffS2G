@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4769583251282865747}
   - component: {fileID: 3092607265527844790}
   - component: {fileID: -5952361761886967412}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Gomi_king
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -416,7 +416,7 @@ GameObject:
   - component: {fileID: 4179973725944382265}
   - component: {fileID: 1516343507743159701}
   - component: {fileID: 4852139212171078143}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -517,7 +517,7 @@ GameObject:
   - component: {fileID: 4954309250173462784}
   - component: {fileID: 5566379177519013589}
   - component: {fileID: 8420287458845455398}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}

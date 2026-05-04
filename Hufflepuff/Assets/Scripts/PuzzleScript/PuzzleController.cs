@@ -4,10 +4,10 @@
 //
 // ========================================
 //
-// ƒvƒŒƒCƒ„[‚Ì“ü—Í‚ğó‚¯æ‚èAƒpƒYƒ‹‘€ì‚ğŠÇ—‚·‚éƒNƒ‰ƒXB
-// EZƒL[‚Åƒs[ƒX‚Ìİ’u”»’è‚ğÀs
-// Eİ’u‰Â”\‚È‚ç‚¨×–‚ƒuƒƒbƒNíœˆ—‚ğŒÄ‚Ño‚·
-// E‰¼ƒoƒtƒŠƒXƒgiProvisionalBuffsj‚ÍƒVƒ‡ƒbƒvŠm’è‘O‚Ìˆê•Û‘¶—p
+// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å…¥åŠ›ã‚’å—ã‘å–ã‚Šã€ãƒ‘ã‚ºãƒ«æ“ä½œã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+// ãƒ»Zã‚­ãƒ¼ã§ãƒ”ãƒ¼ã‚¹ã®è¨­ç½®åˆ¤å®šã‚’å®Ÿè¡Œ
+// ãƒ»è¨­ç½®å¯èƒ½ãªã‚‰ãŠé‚ªé­”ãƒ–ãƒ­ãƒƒã‚¯å‰Šé™¤å‡¦ç†ã‚’å‘¼ã³å‡ºã™
+// ãƒ»ä»®ãƒãƒ•ãƒªã‚¹ãƒˆï¼ˆProvisionalBuffsï¼‰ã¯ã‚·ãƒ§ãƒƒãƒ—ç¢ºå®šå‰ã®ä¸€æ™‚ä¿å­˜ç”¨
 //
 // ========================================
 
@@ -16,10 +16,16 @@ using UnityEngine;
 
 public class PuzzleController : MonoBehaviour
 {
-    [SerializeField] private PieceMoves pieceMoves;             // ƒs[ƒX‚Ìİ’u‰Â”Û”»’è
-    [SerializeField] private DestroyBlock destroyBlock;         // ‚¨×–‚ƒuƒƒbƒNíœˆ—
-    [SerializeField] private PlayrController playerController;  // ƒvƒŒƒCƒ„[î•ñ
-    public List<Buff> ProvisionalBuffs = new List<Buff>();      // ƒoƒtƒŠƒXƒgiƒVƒ‡ƒbƒvŠm’è‘Oj
+    [SerializeField] private PieceMoves pieceMoves;             // ãƒ”ãƒ¼ã‚¹ã®è¨­ç½®å¯å¦åˆ¤å®š
+    [SerializeField] private DestroyBlock destroyBlock;         // ãŠé‚ªé­”ãƒ–ãƒ­ãƒƒã‚¯å‰Šé™¤å‡¦ç†
+    [SerializeField] private PlayrController playerController;  // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æƒ…å ±
+
+    [Header("ãƒ‘ã‚ºãƒ«é ˜åŸŸã¨ã‚·ãƒ§ãƒƒãƒ—é ˜åŸŸã®å¢ƒç•ŒXåº§æ¨™")]
+    [SerializeField] private float puzzleBorderX = 0f;
+    public float PuzzleBorderX => puzzleBorderX;
+
+    public List<Buff> ProvisionalBuffs = new List<Buff>();
+    public List<Buff> ConfirmedBuffs = new List<Buff>();
 
     private void Start()
     {
@@ -29,18 +35,37 @@ public class PuzzleController : MonoBehaviour
     private void Update()
     {
         // -----------------------------------------
-        // ZƒL[‚Åƒs[ƒX‚ğİ’u‚µ‚æ‚¤‚Æ‚·‚é
+        // Zã‚­ãƒ¼ã§ãƒ”ãƒ¼ã‚¹ã‚’è¨­ç½®ã—ã‚ˆã†ã¨ã™ã‚‹
         // -----------------------------------------
         if (Input.GetKeyDown(KeyCode.Z) && playerController.Playstate == PlayState.Puzzle)
         {
-            pieceMoves.PiecePossible(); // İ’u‰Â”\‚©‚Ç‚¤‚©‚ğ”»’è
+            pieceMoves.PiecePossible(); // è¨­ç½®å¯èƒ½ã‹ã©ã†ã‹ã‚’åˆ¤å®š
 
             // -----------------------------------------
-            // İ’u‰Â”\‚È‚ç‚¨×–‚ƒuƒƒbƒNíœˆ—‚ğÀs
+            // è¨­ç½®å¯èƒ½ãªã‚‰ãŠé‚ªé­”ãƒ–ãƒ­ãƒƒã‚¯å‰Šé™¤å‡¦ç†ã‚’å®Ÿè¡Œ
             // -----------------------------------------
             if (pieceMoves.GetPiecePossible())
             {
                 destroyBlock.DestroyPieceBlock();
+            }
+        }
+    }
+
+    /// <summary>
+    /// ç¾åœ¨ãƒ‘ã‚ºãƒ«é ˜åŸŸã«ã‚ã‚‹ãƒ”ãƒ¼ã‚¹ã®ãƒãƒ•ã‚’æŠ½å‡ºã—ã¦ç¢ºå®šæ¸ˆã¿ãƒªã‚¹ãƒˆã«ä¿å­˜ã™ã‚‹
+    /// </summary>
+    public void SaveCurrentBoardBuffs()
+    {
+        ObjectDragTransform[] allPieces = Object.FindObjectsByType<ObjectDragTransform>(FindObjectsSortMode.None);
+        foreach (var piece in allPieces)
+        {
+            if (piece.transform.position.x > puzzleBorderX)
+            {
+                Buff buff = piece.PieceBuff;
+                if (buff != null)
+                {
+                    ConfirmedBuffs.Add(new Buff { buffID = buff.buffID, value = buff.value, isActive = buff.isActive });
+                }
             }
         }
     }

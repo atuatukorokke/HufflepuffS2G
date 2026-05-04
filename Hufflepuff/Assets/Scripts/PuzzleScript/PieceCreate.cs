@@ -4,12 +4,12 @@
 //
 // ========================================
 //
-// ƒs[ƒX¶¬EƒvƒŒƒ[ƒ“ƒg¶¬E‚¨×–‚ƒuƒƒbƒN¶¬‚ğŠÇ—‚·‚éƒNƒ‰ƒXB
-// EƒVƒ‡ƒbƒvw“ü‚Ìƒs[ƒX¶¬
-// EƒvƒŒƒ[ƒ“ƒgƒ{ƒbƒNƒX‚©‚ç‚Ìƒ‰ƒ“ƒ_ƒ€¶¬
-// E‚¨×–‚ƒuƒƒbƒN‚Ìƒ‰ƒ“ƒ_ƒ€”z’u
-// E”Õ–ÊŠÇ—iBlockBoardj
-// E¶¬‚ÌƒJƒEƒ“ƒgXVASE Ä¶AUI XV
+// ãƒ”ãƒ¼ã‚¹ç”Ÿæˆãƒ»ãƒ—ãƒ¬ã‚¼ãƒ³ãƒˆç”Ÿæˆãƒ»ãŠé‚ªé­”ãƒ–ãƒ­ãƒƒã‚¯ç”Ÿæˆã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+// ãƒ»ã‚·ãƒ§ãƒƒãƒ—è³¼å…¥æ™‚ã®ãƒ”ãƒ¼ã‚¹ç”Ÿæˆ
+// ãƒ»ãƒ—ãƒ¬ã‚¼ãƒ³ãƒˆãƒœãƒƒã‚¯ã‚¹ã‹ã‚‰ã®ãƒ©ãƒ³ãƒ€ãƒ ç”Ÿæˆ
+// ãƒ»ãŠé‚ªé­”ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒ©ãƒ³ãƒ€ãƒ é…ç½®
+// ãƒ»ç›¤é¢ç®¡ç†ï¼ˆBlockBoardï¼‰
+// ãƒ»ç”Ÿæˆæ™‚ã®ã‚«ã‚¦ãƒ³ãƒˆæ›´æ–°ã€SE å†ç”Ÿã€UI æ›´æ–°
 //
 // ========================================
 
@@ -19,18 +19,22 @@ using System.Collections.Generic;
 
 public class PieceCreate : MonoBehaviour
 {
-    [Header("¶¬ƒs[ƒX")]
+    [Header("ç”Ÿæˆãƒ”ãƒ¼ã‚¹")]
     [SerializeField] private GameObject[] pieces;
 
-    [Header("ƒXƒNƒŠƒvƒgQÆ")]
-    [SerializeField] private DeathCount deathCount;             // ƒs[ƒX”EƒuƒƒbƒN”ŠÇ—
-    [SerializeField] private GoldManager goldManager;           // ƒS[ƒ‹ƒhŠÇ—
-    [SerializeField] private PieceMoves pieceMoves;             // ƒs[ƒX‚Ìd‚È‚è”»’è
-    [SerializeField] private DestroyBlock destroyBlock;         // ƒuƒƒbƒNíœˆ—
-    [SerializeField] private PlayrController playerController;  // ƒvƒŒƒCƒ„[
+    public GameObject[] Pieces => pieces;
+
+    private int shopBuyCount = 0;
+
+    [Header("ã‚¹ã‚¯ãƒªãƒ—ãƒˆå‚ç…§")]
+    [SerializeField] private DeathCount deathCount;             // ãƒ”ãƒ¼ã‚¹æ•°ãƒ»ãƒ–ãƒ­ãƒƒã‚¯æ•°ç®¡ç†
+    [SerializeField] private GoldManager goldManager;           // ã‚´ãƒ¼ãƒ«ãƒ‰ç®¡ç†
+    [SerializeField] private PieceMoves pieceMoves;             // ãƒ”ãƒ¼ã‚¹ã®é‡ãªã‚Šåˆ¤å®š
+    [SerializeField] private DestroyBlock destroyBlock;         // ãƒ–ãƒ­ãƒƒã‚¯å‰Šé™¤å‡¦ç†
+    [SerializeField] private PlayrController playerController;  // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
     private ClearCountSet clearCountSet;
 
-    private int[] pieceCountNum = { 1, 2, 3, 4, 5, 6, 9, 1 };   // ƒs[ƒX‚²‚Æ‚Ìƒ}ƒX”
+    private int[] pieceCountNum = { 1, 2, 3, 4, 5, 6, 9, 1 };   // ãƒ”ãƒ¼ã‚¹ã”ã¨ã®ãƒã‚¹æ•°
 
     private AudioSource audio;
     [SerializeField] private AudioClip blockCreateSE;
@@ -38,10 +42,10 @@ public class PieceCreate : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI goldText;
 
-    [Header("ƒuƒƒbƒN¶¬‰Â”Û")]
+    [Header("ãƒ–ãƒ­ãƒƒã‚¯ç”Ÿæˆå¯å¦")]
     public bool isBlockCreate = true;
 
-    // ”Õ–Êi5~5j
+    // ç›¤é¢ï¼ˆ5Ã—5ï¼‰
     public int[,] BlockBoard = new int[5, 5]
     {
         {1, 0, 0, 0, 1},
@@ -60,80 +64,93 @@ public class PieceCreate : MonoBehaviour
 
     private void Start()
     {
-        goldText.text = $"¡‰ñ‚ÌƒRƒCƒ“:<color=#ffd700>{goldManager.GetGold()}</color>";
+        goldText.text = $"ã‚³ã‚¤ãƒ³:<color=#ffd700>{goldManager.GetGold()}</color>";
     }
 
     /// <summary>
-    /// V‚µ‚¢ƒs[ƒX‚ğ¶¬‚·‚é
+    /// æ–°ã—ã„ãƒ”ãƒ¼ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
     /// </summary>
     public void NewPiece(int pieceNumber, int buyLate)
     {
         int rndMino = pieceNumber - 1;
 
-        // ƒ‰ƒ“ƒ_ƒ€¶¬iƒfƒoƒbƒO—pj
+        // ãƒ©ãƒ³ãƒ€ãƒ ç”Ÿæˆï¼ˆãƒ‡ãƒãƒƒã‚°ç”¨ï¼‰
         if (pieceNumber == 0)
         {
             rndMino = 3;
         }
 
-        Vector3 pos = new Vector3(-40.0f, -11.0f, 0.0f);
+        // ã‚·ãƒ§ãƒƒãƒ—ã§è³¼å…¥ã•ã‚ŒãŸå›æ•°ã«å¿œã˜ã¦ä½ç½®ã‚’ãšã‚‰ã™ï¼ˆæ¨ªã«3å€‹ã¾ã§ã€ä»¥é™ã¯ä¸‹ã¸ï¼‰
+        float offsetX = (shopBuyCount % 3) * 2.0f;
+        float offsetY = (shopBuyCount / 3) * 2.0f;
+        Vector3 pos = new Vector3(-42.0f + offsetX, -5.0f - offsetY, 0.0f);
 
-        if (isBlockCreate)
+        if (goldManager.GetGold() >= buyLate)
         {
-            if (goldManager.GetGold() >= buyLate)
-            {
-                isBlockCreate = false;
-                audio.PlayOneShot(blockCreateSE);
+            audio.PlayOneShot(blockCreateSE);
 
-                goldManager.SetGoldCount(-buyLate);
-                Instantiate(pieces[rndMino], pos, Quaternion.identity);
+            goldManager.SetGoldCount(-buyLate);
+            Instantiate(pieces[rndMino], pos, Quaternion.identity);
 
-                clearCountSet.PieceUseCount(rndMino);
-                deathCount.SetPieceCount(pieceCountNum[rndMino]);
-            }
-            else
-            {
-                audio.PlayOneShot(notBlockCreateSE);
-            }
+            clearCountSet.PieceUseCount(rndMino);
+            deathCount.SetPieceCount(pieceCountNum[rndMino]);
 
-            goldText.text = $"¡‰ñ‚ÌƒRƒCƒ“:<color=#ffd700>{goldManager.GetGold()}</color>";
+            shopBuyCount++; // è³¼å…¥å›æ•°ã‚’ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆ
         }
+        else
+        {
+            Debug.Log("ã‚´ãƒ¼ãƒ«ãƒ‰ãŒè¶³ã‚Šã¾ã›ã‚“");
+        }
+
+        goldText.text = $"ã‚³ã‚¤ãƒ³:<color=#ffd700>{goldManager.GetGold()}</color>";
     }
 
     /// <summary>
-    /// ƒvƒŒƒ[ƒ“ƒg‚©‚çƒs[ƒX‚ğ¶¬‚·‚é
+    /// ãƒ—ãƒ¬ã‚¼ãƒ³ãƒˆã‹ã‚‰ãƒ”ãƒ¼ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
     /// </summary>
     public void PresentBox()
     {
-        if (playerController.PieceCount > 0 && isBlockCreate)
+        if (playerController.PieceCount > 0)
         {
             audio.PlayOneShot(blockCreateSE);
-            isBlockCreate = false;
 
             playerController.PieceCount -= 1;
 
             int rndMino = Random.Range(0, pieces.Length - 1);
-            Vector3 pos = new Vector3(-40.0f, -11.0f, 0.0f);
+
+            float offsetX = (shopBuyCount % 3) * 2.0f;
+            float offsetY = (shopBuyCount / 3) * 2.0f;
+            Vector3 pos = new Vector3(-42.0f + offsetX, -5.0f - offsetY, 0.0f);
 
             Instantiate(pieces[rndMino], pos, Quaternion.identity);
 
             clearCountSet.PieceUseCount(rndMino);
             deathCount.SetPieceCount(pieceCountNum[rndMino]);
+
+            shopBuyCount++;
         }
         else
         {
-            audio.PlayOneShot(notBlockCreateSE);
+            Debug.Log("ãƒ”ãƒ¼ã‚¹ãŒè¶³ã‚Šã¾ã›ã‚“");
         }
     }
 
     /// <summary>
-    /// ‚¨×–‚ƒuƒƒbƒN‚ğ¶¬‚·‚é
+    /// ã‚·ãƒ§ãƒƒãƒ—ã‚’é–‹ã„ãŸã¨ãç­‰ã«ã‚«ã‚¦ãƒ³ãƒˆã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
+    /// </summary>
+    public void ResetShopBuyCount()
+    {
+        shopBuyCount = 0;
+    }
+
+    /// <summary>
+    /// ãŠé‚ªé­”ãƒ–ãƒ­ãƒƒã‚¯ã‚’ç”Ÿæˆã™ã‚‹
     /// </summary>
     public void BlockCreate()
     {
         List<Vector2Int> blockPositions = new List<Vector2Int>();
 
-        // ‹ó‚«ƒ}ƒX‚ğƒŠƒXƒg‰»
+        // ç©ºããƒã‚¹ã‚’ãƒªã‚¹ãƒˆåŒ–
         for (int i = 0; i < 5; i++)
         {
             for (int j = 0; j < 5; j++)
@@ -145,13 +162,13 @@ public class PieceCreate : MonoBehaviour
             }
         }
 
-        // ƒ‰ƒ“ƒ_ƒ€‚È‹ó‚«ƒ}ƒX‚ğ‘I‘ğ
+        // ãƒ©ãƒ³ãƒ€ãƒ ãªç©ºããƒã‚¹ã‚’é¸æŠ
         Vector2Int randomIndex = blockPositions[Random.Range(0, blockPositions.Count)];
 
         BlockBoard[randomIndex.x, randomIndex.y] = 1;
 
-        // ¶¬ˆÊ’u
-        Vector3 pos = new Vector3(-28.0f - randomIndex.x, -7.0f - randomIndex.y, 0.0f);
+        // ç”Ÿæˆä½ç½®
+        Vector3 pos = new Vector3(-2.0f - randomIndex.x, -7.0f - randomIndex.y, 0.0f);
 
         GameObject Trash = Instantiate(pieces[pieces.Length - 1], pos, Quaternion.identity);
         clearCountSet.PieceUseCount(pieces.Length - 1);
@@ -160,7 +177,7 @@ public class PieceCreate : MonoBehaviour
 
         deathCount.SetBlockCount(pieceCountNum[pieceCountNum.Length - 1]);
 
-        // ƒs[ƒX‚ª’u‚¯‚éó‘Ô‚È‚çƒuƒƒbƒNíœˆ—
+        // ãƒ”ãƒ¼ã‚¹ãŒç½®ã‘ã‚‹çŠ¶æ…‹ãªã‚‰ãƒ–ãƒ­ãƒƒã‚¯å‰Šé™¤å‡¦ç†
         if (pieceMoves.GetPiecePossible())
         {
             destroyBlock.DestroyPieceBlock();
@@ -168,7 +185,7 @@ public class PieceCreate : MonoBehaviour
     }
 
     /// <summary>
-    /// ‚¨×–‚ƒuƒƒbƒN‚Ì”Õ–Ê‚ğ‰Šú‰»‚·‚é
+    /// ãŠé‚ªé­”ãƒ–ãƒ­ãƒƒã‚¯ã®ç›¤é¢ã‚’åˆæœŸåŒ–ã™ã‚‹
     /// </summary>
     public void BlockBoardInitialize()
     {

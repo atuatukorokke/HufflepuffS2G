@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8286471732744176919}
   - component: {fileID: 7760552728529292492}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3635312784020267472}
   - component: {fileID: 769354333107594395}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2454842009884049940}
   - component: {fileID: 78072491624286212}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DebugSquare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: 3069835234146411771}
   - component: {fileID: 7705124320591109404}
   - component: {fileID: 4296158907262233759}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mino4
   m_TagString: block
   m_Icon: {fileID: 0}
@@ -420,7 +420,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6624992490059642876}
   - component: {fileID: 8774846905330335697}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: sakuranbo_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -507,7 +507,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5052349061869816292}
   - component: {fileID: 8698731424603704242}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -594,7 +594,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8917984217515095037}
   - component: {fileID: 5427619893141756680}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

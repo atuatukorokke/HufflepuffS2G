@@ -4,10 +4,10 @@
 //
 // ========================================
 //
-// ƒs[ƒX‚ª”Õ–ÊŠO‚Éo‚½‚©‚Ç‚¤‚©‚ğŒŸ’m‚µAPieceMoves ‚Éó‘Ô‚ğ’Ê’m‚·‚éƒNƒ‰ƒXB
-// EƒgƒŠƒK[‚É“ü‚Á‚½‚çuÕ“Ë’†vˆµ‚¢
-// EƒgƒŠƒK[‚©‚ço‚½‚çuÕ“Ë‰ğœvˆµ‚¢
-// EPieceMoves ‘¤‚ÅÕ“Ë”‚ğƒJƒEƒ“ƒg‚µ‚Ä”»’è‚É—˜—p
+// ãƒ”ãƒ¼ã‚¹ãŒç›¤é¢å¤–ã«å‡ºãŸã‹ã©ã†ã‹ã‚’æ¤œçŸ¥ã—ã€PieceMoves ã«çŠ¶æ…‹ã‚’é€šçŸ¥ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+// ãƒ»ãƒˆãƒªã‚¬ãƒ¼ã«å…¥ã£ãŸã‚‰ã€Œè¡çªä¸­ã€æ‰±ã„
+// ãƒ»ãƒˆãƒªã‚¬ãƒ¼ã‹ã‚‰å‡ºãŸã‚‰ã€Œè¡çªè§£é™¤ã€æ‰±ã„
+// ãƒ»PieceMoves å´ã§è¡çªæ•°ã‚’ã‚«ã‚¦ãƒ³ãƒˆã—ã¦åˆ¤å®šã«åˆ©ç”¨
 //
 // ========================================
 
@@ -15,23 +15,28 @@ using UnityEngine;
 
 public class MinoCheck : MonoBehaviour
 {
-    [SerializeField] private PieceMoves pieceMoves; // ƒs[ƒX‚ÌÕ“Ëó‘Ô‚ğŠÇ—‚·‚éƒXƒNƒŠƒvƒg
+    [SerializeField] private PieceMoves pieceMoves; // ãƒ”ãƒ¼ã‚¹ã®è¡çªçŠ¶æ…‹ã‚’ç®¡ç†ã™ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
+    private ObjectDragTransform dragTransform;
 
     private void Start()
     {
-        // ‚±‚ÌƒXƒNƒŠƒvƒg‚ªƒAƒ^ƒbƒ`‚³‚ê‚½ƒIƒuƒWƒFƒNƒg¶¬‚É PieceMoves ‚ğæ“¾
+        // ã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆãŒã‚¢ã‚¿ãƒƒãƒã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆæ™‚ã« PieceMoves ã‚’å–å¾—
         pieceMoves = Object.FindFirstObjectByType<PieceMoves>();
+        dragTransform = GetComponentInParent<ObjectDragTransform>();
+        if (dragTransform == null) dragTransform = GetComponent<ObjectDragTransform>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // ƒs[ƒX‚ªƒgƒŠƒK[“à‚É“ü‚Á‚½ ¨ Õ“Ë”‚ğ +1
+        // ãƒ”ãƒ¼ã‚¹ãŒãƒˆãƒªã‚¬ãƒ¼å†…ã«å…¥ã£ãŸ â†’ è¡çªæ•°ã‚’ +1
         pieceMoves.SetColliding(1);
+        if (dragTransform != null) dragTransform.AddLocalColliding(1);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        // ƒs[ƒX‚ªƒgƒŠƒK[‚©‚ço‚½ ¨ Õ“Ë”‚ğ -1
+        // ãƒ”ãƒ¼ã‚¹ãŒãƒˆãƒªã‚¬ãƒ¼ã‹ã‚‰å‡ºãŸ â†’ è¡çªæ•°ã‚’ -1
         pieceMoves.SetColliding(-1);
+        if (dragTransform != null) dragTransform.AddLocalColliding(-1);
     }
 }

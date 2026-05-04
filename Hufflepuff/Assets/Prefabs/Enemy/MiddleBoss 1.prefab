@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7596625760392331060}
   - component: {fileID: 4497664134989379909}
   - component: {fileID: 8212779768559835963}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MiddleBoss 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

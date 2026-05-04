@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8286471732744176919}
   - component: {fileID: 7760552728529292492}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 208188746108907476}
   - component: {fileID: 1156713941518663856}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DebugSquare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 4919848788376516991}
   - component: {fileID: 8235327955293184370}
   - component: {fileID: 5292293150555803136}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: block
   m_TagString: block
   m_Icon: {fileID: 0}
@@ -226,6 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pieceCount: 0
+  pieceNumber: 0
   sellGold: 0
   deathCount: {fileID: 0}
   goldManager: {fileID: 0}
@@ -345,7 +346,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7098853597234326967}
   - component: {fileID: 6601464839089026960}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -410,7 +411,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7923191138829521897, guid: ca430e463e973b7418730d3bf27aa5ba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -4,11 +4,11 @@
 //
 // ========================================
 //
-// ƒIƒuƒWƒFƒNƒg‚ğƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚ÅˆÚ“®‚³‚¹‚éƒNƒ‰ƒXB
-// Eƒ}ƒEƒXƒhƒ‰ƒbƒO‚ÅˆÚ“®
-// EXƒL[‚Å 90‹ ‰ñ“]
-// ECƒL[‚Å”„‹piƒs[ƒXíœEƒS[ƒ‹ƒh‰ÁZEƒoƒtíœj
-// Eƒhƒƒbƒv‚ÉƒOƒŠƒbƒh‚ÖƒXƒiƒbƒv
+// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒ‰ãƒ©ãƒƒã‚°ï¼†ãƒ‰ãƒ­ãƒƒãƒ—ã§ç§»å‹•ã•ã›ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+// ãƒ»ãƒã‚¦ã‚¹ãƒ‰ãƒ©ãƒƒã‚°ã§ç§»å‹•
+// ãƒ»Xã‚­ãƒ¼ã§ 90Â° å›è»¢
+// ãƒ»Cã‚­ãƒ¼ã§å£²å´ï¼ˆãƒ”ãƒ¼ã‚¹å‰Šé™¤ãƒ»ã‚´ãƒ¼ãƒ«ãƒ‰åŠ ç®—ãƒ»ãƒãƒ•å‰Šé™¤ï¼‰
+// ãƒ»ãƒ‰ãƒ­ãƒƒãƒ—æ™‚ã«ã‚°ãƒªãƒƒãƒ‰ã¸ã‚¹ãƒŠãƒƒãƒ—
 //
 // ========================================
 
@@ -16,33 +16,46 @@ using UnityEngine;
 
 public class ObjectDragTransform : MonoBehaviour
 {
-    private Vector3 offset;                                     // ƒ}ƒEƒXˆÊ’u‚Æ‚Ì·•ª
-    private Camera mainCamera;                                  // ƒƒCƒ“ƒJƒƒ‰
-    private bool isDragging = false;                            // ƒhƒ‰ƒbƒO’†‚©‚Ç‚¤‚©
+    private Vector3 offset;                                     // ãƒã‚¦ã‚¹ä½ç½®ã¨ã®å·®åˆ†
+    private Camera mainCamera;                                  // ãƒ¡ã‚¤ãƒ³ã‚«ãƒ¡ãƒ©
+    private bool isDragging = false;                            // ãƒ‰ãƒ©ãƒƒã‚°ä¸­ã‹ã©ã†ã‹
 
-    float gridSize = 1.0f;                                      // ƒOƒŠƒbƒhƒTƒCƒY
+    float gridSize = 1.0f;                                      // ã‚°ãƒªãƒƒãƒ‰ã‚µã‚¤ã‚º
 
-    [Header("ƒs[ƒXî•ñ")]
-    [SerializeField] private int pieceCount = 0;                // ƒs[ƒX”
-    [SerializeField] private int pieceNumber = 0;               // ƒs[ƒX”Ô†
-    [SerializeField] private int sellGold = 0;                  // ”„‹p‚ÌƒS[ƒ‹ƒh
+    [Header("ãƒ”ãƒ¼ã‚¹æƒ…å ±")]
+    [SerializeField] private int pieceCount = 0;                // ãƒ”ãƒ¼ã‚¹æ•°
+    [SerializeField] private int pieceNumber = 0;               // ãƒ”ãƒ¼ã‚¹ç•ªå·
+    [SerializeField] private int sellGold = 0;                  // å£²å´æ™‚ã®ã‚´ãƒ¼ãƒ«ãƒ‰
 
-    [Header("ƒXƒNƒŠƒvƒgQÆ")]
-    [SerializeField] private DeathCount deathCount;             // ƒs[ƒX”ŠÇ—
-    [SerializeField] private GoldManager goldManager;           // ƒS[ƒ‹ƒhŠÇ—
-    [SerializeField] private PuzzleController puzzleController; // ƒpƒYƒ‹ŠÇ—
-    [SerializeField] private Buff buff;                         // ‚±‚Ìƒs[ƒX‚ª‚Âƒoƒt
+    [Header("ã‚¹ã‚¯ãƒªãƒ—ãƒˆå‚ç…§")]
+    [SerializeField] private DeathCount deathCount;             // ãƒ”ãƒ¼ã‚¹æ•°ç®¡ç†
+    [SerializeField] private GoldManager goldManager;           // ã‚´ãƒ¼ãƒ«ãƒ‰ç®¡ç†
+    [SerializeField] private PuzzleController puzzleController; // ãƒ‘ã‚ºãƒ«ç®¡ç†
+    [SerializeField] private Buff buff;                         // ã“ã®ãƒ”ãƒ¼ã‚¹ãŒæŒã¤ãƒãƒ•
+
+    public int SellGold => sellGold;
+    public Buff PieceBuff => buff;
+
+    private int localColliding = 0;                             // è‡ªèº«ã®è¡çªæ•°
+    public int LocalColliding => localColliding;
+
+    public int PieceCount { get => pieceCount; set => pieceCount = value; }
+
+    public void AddLocalColliding(int amount)
+    {
+        localColliding += amount;
+    }
 
     private void Start()
     {
         mainCamera = Camera.main;
 
-        // •K—v‚ÈƒXƒNƒŠƒvƒg‚ğ©“®æ“¾
+        // å¿…è¦ãªã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’è‡ªå‹•å–å¾—
         deathCount = Object.FindFirstObjectByType<DeathCount>();
         goldManager = Object.FindFirstObjectByType<GoldManager>();
         puzzleController = FindFirstObjectByType<PuzzleController>();
 
-        // ‚±‚Ìƒs[ƒX‚Ìƒoƒt‚ğ‰¼ƒoƒtƒŠƒXƒg‚É’Ç‰Á
+        // è³¼å…¥ï¼ˆç”Ÿæˆï¼‰ã—ãŸãƒ”ãƒ¼ã‚¹ã®ãƒãƒ•ã‚’ä¸€æ™‚ä¿å­˜ãƒªã‚¹ãƒˆã«ç™»éŒ²
         puzzleController.ProvisionalBuffs.Add(buff);
     }
 
@@ -56,12 +69,12 @@ public class ObjectDragTransform : MonoBehaviour
     {
         if (isDragging)
         {
-            // ƒhƒ‰ƒbƒO’†‚Íƒ}ƒEƒXˆÊ’u‚É’Ç]
+            // ãƒ‰ãƒ©ãƒƒã‚°ä¸­ã¯ãƒã‚¦ã‚¹ä½ç½®ã«è¿½å¾“
             transform.position = GetMouseWorldPosition() + offset;
         }
 
         // -----------------------------------------
-        // XƒL[‚Å 90‹ ‰ñ“]
+        // Xã‚­ãƒ¼ã§ 90Â° å›è»¢
         // -----------------------------------------
         if (isDragging & Input.GetKeyDown(KeyCode.X))
         {
@@ -70,26 +83,26 @@ public class ObjectDragTransform : MonoBehaviour
         }
 
         // -----------------------------------------
-        // CƒL[‚Å”„‹pˆ—
+        // Cã‚­ãƒ¼ã§å£²å´å‡¦ç†
         // -----------------------------------------
         if (isDragging & Input.GetKeyDown(KeyCode.C))
         {
             Destroy(gameObject);
 
-            // ƒs[ƒX”„‹pˆ—
+            // ãƒ”ãƒ¼ã‚¹å£²å´å‡¦ç†
             FindAnyObjectByType<ClearCountSet>().PieceSellCount(pieceNumber);
-            deathCount.SetPieceCount(pieceCount * -1);
+            deathCount.SetPieceCount(PieceCount * -1);
             goldManager.SetGoldCount(sellGold);
 
-            // ƒuƒƒbƒN¶¬ƒtƒ‰ƒO
+            // ãƒ–ãƒ­ãƒƒã‚¯ç”Ÿæˆãƒ•ãƒ©ã‚°
             FindAnyObjectByType<PieceCreate>().isBlockCreate = true;
 
             // -----------------------------------------
-            // ‰¼ƒoƒtƒŠƒXƒg‚©‚çˆê’v‚·‚éƒoƒt‚ğíœ
+            // ä»®ãƒãƒ•ãƒªã‚¹ãƒˆã‹ã‚‰ä¸€è‡´ã™ã‚‹ãƒãƒ•ã‚’å‰Šé™¤
             // -----------------------------------------
-            for (int i = 0; i <= puzzleController.ProvisionalBuffs.Count; i++)
+            for (int i = 0; i < puzzleController.ProvisionalBuffs.Count; i++)
             {
-                if (buff.buffID == puzzleController.ProvisionalBuffs[i].buffID &
+                if (buff.buffID == puzzleController.ProvisionalBuffs[i].buffID &&
                     buff.value == puzzleController.ProvisionalBuffs[i].value)
                 {
                     puzzleController.ProvisionalBuffs.RemoveAt(i);
@@ -104,7 +117,7 @@ public class ObjectDragTransform : MonoBehaviour
         isDragging = false;
 
         // -----------------------------------------
-        // ƒOƒŠƒbƒh‚ÉƒXƒiƒbƒv
+        // ã‚°ãƒªãƒƒãƒ‰ã«ã‚¹ãƒŠãƒƒãƒ—
         // -----------------------------------------
         Vector3 pos = transform.position;
         pos.x = Mathf.Round(pos.x / gridSize) * gridSize;
@@ -113,7 +126,7 @@ public class ObjectDragTransform : MonoBehaviour
     }
 
     /// <summary>
-    /// ƒ}ƒEƒXˆÊ’u‚ğƒ[ƒ‹ƒhÀ•W‚É•ÏŠ·
+    /// ãƒã‚¦ã‚¹ä½ç½®ã‚’ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã«å¤‰æ›
     /// </summary>
     private Vector3 GetMouseWorldPosition()
     {

@@ -31,7 +31,7 @@ public class GoldManager : MonoBehaviour
     public void SetGoldCount(int newGoldCount)
     {
         goldCount = goldCount + newGoldCount;
-        goldText.text = $"今回のコイン:<color=#ffd700>{goldCount}</color>";
+        goldText.text = $"コイン:<color=#ffd700>{goldCount}</color>";
     }
 
     /// <summary>
