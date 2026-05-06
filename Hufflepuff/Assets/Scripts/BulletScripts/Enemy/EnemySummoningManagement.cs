@@ -4,10 +4,10 @@
 //
 // ========================================
 //
-// ƒXƒe[ƒWis‚É‰‚¶‚Ä“G‚ğoŒ»‚³‚¹‚éŠÇ—ƒNƒ‰ƒXB
-// EEnemyDeploymentiScriptableObjectj‚ğ‡”Ô‚É“Ç‚İæ‚èA“GE’†ƒ{ƒXEƒ{ƒXEƒVƒ‡ƒbƒv‚ğ§Œä
-// E’†ƒ{ƒXŒ‚”j‘Ò‚¿AƒVƒ‡ƒbƒv‘Ò‚¿‚È‚Ç‚Ìƒtƒ[ŠÇ—
-// Eƒ{ƒXŒ‚”jŒã‚Ì‰‰oiƒJƒƒ‰ƒY[ƒ€ABGMƒtƒF[ƒhƒAƒEƒgAƒNƒŠƒA‰‰oj‚à’S“–
+// ã‚¹ãƒ†ãƒ¼ã‚¸é€²è¡Œã«å¿œã˜ã¦æ•µã‚’å‡ºç¾ã•ã›ã‚‹ç®¡ç†ã‚¯ãƒ©ã‚¹ã€‚
+// ãƒ»EnemyDeploymentï¼ˆScriptableObjectï¼‰ã‚’é †ç•ªã«èª­ã¿å–ã‚Šã€æ•µãƒ»ä¸­ãƒœã‚¹ãƒ»ãƒœã‚¹ãƒ»ã‚·ãƒ§ãƒƒãƒ—ã‚’åˆ¶å¾¡
+// ãƒ»ä¸­ãƒœã‚¹æ’ƒç ´å¾…ã¡ã€ã‚·ãƒ§ãƒƒãƒ—å¾…ã¡ãªã©ã®ãƒ•ãƒ­ãƒ¼ç®¡ç†
+// ãƒ»ãƒœã‚¹æ’ƒç ´å¾Œã®æ¼”å‡ºï¼ˆã‚«ãƒ¡ãƒ©ã‚ºãƒ¼ãƒ ã€BGMãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆã€ã‚¯ãƒªã‚¢æ¼”å‡ºï¼‰ã‚‚æ‹…å½“
 //
 // ========================================
 
@@ -18,22 +18,26 @@ using TMPro;
 
 public class EnemySummoningManagement : MonoBehaviour
 {
-    [SerializeField] private List<EnemyDeployment> enemyDeployment; // ƒGƒlƒ~[‚Ì”z’uƒf[ƒ^‚ğŠi”[‚·‚éƒŠƒXƒg
+    [SerializeField] private TextAsset stageCSV;                    // CSV file
+    [SerializeField] private List<GameObject> availableEnemyPrefabs;
+    [SerializeField] private List<AudioClip> availableBossBGMs;
+    private List<EnemyDeployment> enemyDeployment = new List<EnemyDeployment>(); // Generated from CSV
+
     [SerializeField] private GameObject ClearPanel;
     [SerializeField] private GameObject TitleButton;
     [SerializeField] private GameObject CanvasMaster;
-    [SerializeField] private TextMeshProUGUI coinText;              // Š‹àƒeƒLƒXƒg
-    [SerializeField] private TextMeshProUGUI pieceText;             // ƒs[ƒX‚Ì”ƒeƒLƒXƒg
-    [SerializeField] private TextMeshProUGUI deathLateText;         // €–S—¦ƒeƒLƒXƒg 
+    [SerializeField] private TextMeshProUGUI coinText;              // æ‰€æŒé‡‘ãƒ†ã‚­ã‚¹ãƒˆ
+    [SerializeField] private TextMeshProUGUI pieceText;             // ãƒ”ãƒ¼ã‚¹ã®æ•°ãƒ†ã‚­ã‚¹ãƒˆ
+    [SerializeField] private TextMeshProUGUI deathLateText;         // æ­»äº¡ç‡ãƒ†ã‚­ã‚¹ãƒˆ 
     [SerializeField] private Animator ClearAnimator;
-    [SerializeField] private PlayrController playerController;      // ƒvƒŒƒCƒ„[‚ÌƒRƒ“ƒgƒ[ƒ‰[
-    [SerializeField] private GoldManager goldManager;               // ‹àŠzŠÇ—‚ğs‚¤ƒXƒNƒŠƒvƒg
-    [SerializeField] private DeathCount deathCount;                 // €‚Ê‚©‚Ì”»’è‚ğs‚¤ƒXƒNƒŠƒvƒg
-    private bool waitingForMiddleBoss = false;                      // “r’†‚Åƒ{ƒX‚ªo‚Ä‚­‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
-    private bool waitingForShop = false;                            // ƒpƒYƒ‹‰æ–Ê‚ª•Â‚¶‚ç‚ê‚é‚Ü‚Å‚Ì‘Ò‹@ƒtƒ‰ƒO
-    public bool isPuzzle = false;                                   // ƒpƒYƒ‹’†‚©‚Ç‚¤‚©(ƒpƒYƒ‹‰æ–Ê‚ğ•Â‚¶‚éƒ{ƒ^ƒ“‚Ì“ñ“x‰Ÿ‚µ–h~‚Ì‚½‚ß‚Ég‚¤)
-    private AudioSource audioSource;                                // BGM‚ÌÄ¶—pƒI[ƒfƒBƒIƒ\[ƒX
-    private Camera mainCamera;                                      // ƒƒCƒ“ƒJƒƒ‰
+    [SerializeField] private PlayrController playerController;      // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼
+    [SerializeField] private GoldManager goldManager;               // é‡‘é¡ç®¡ç†ã‚’è¡Œã†ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
+    [SerializeField] private DeathCount deathCount;                 // æ­»ã¬ã‹ã®åˆ¤å®šã‚’è¡Œã†ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
+    private bool waitingForMiddleBoss = false;                      // é€”ä¸­ã§ãƒœã‚¹ãŒå‡ºã¦ãã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°
+    private bool waitingForShop = false;                            // ãƒ‘ã‚ºãƒ«ç”»é¢ãŒé–‰ã˜ã‚‰ã‚Œã‚‹ã¾ã§ã®å¾…æ©Ÿãƒ•ãƒ©ã‚°
+    public bool isPuzzle = false;                                   // ãƒ‘ã‚ºãƒ«ä¸­ã‹ã©ã†ã‹(ãƒ‘ã‚ºãƒ«ç”»é¢ã‚’é–‰ã˜ã‚‹ãƒœã‚¿ãƒ³ã®äºŒåº¦æŠ¼ã—é˜²æ­¢ã®ãŸã‚ã«ä½¿ã†)
+    private AudioSource audioSource;                                // BGMã®å†ç”Ÿç”¨ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚½ãƒ¼ã‚¹
+    private Camera mainCamera;                                      // ãƒ¡ã‚¤ãƒ³ã‚«ãƒ¡ãƒ©
 
     [SerializeField] private AudioClip OpenPuzzle;
     [SerializeField] private AudioClip puzzleBGM;
@@ -44,6 +48,66 @@ public class EnemySummoningManagement : MonoBehaviour
         goldManager = FindAnyObjectByType<GoldManager>();
         deathCount = FindAnyObjectByType<DeathCount>();
         audioSource = GetComponent<AudioSource>();
+
+        LoadCSV();
+    }
+
+    private void LoadCSV()
+    {
+        if (stageCSV == null)
+        {
+            Debug.LogError("stageCSV is not assigned!");
+            return;
+        }
+
+        string[] lines = stageCSV.text.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+        
+        // Skip header line (i = 1)
+        for (int i = 1; i < lines.Length; i++)
+        {
+            string[] columns = lines[i].Split(',');
+
+            if (columns.Length < 8) continue;
+
+            EnemyDeployment data = new EnemyDeployment();
+
+            // State
+            if (System.Enum.TryParse(columns[0], out EnemyDeployment.state stateEnum))
+            {
+                data.GetState1 = stateEnum;
+            }
+
+            // EnemyPrefab
+            string prefabName = columns[1].Trim();
+            if (!string.IsNullOrEmpty(prefabName))
+            {
+                data.EnemyPrehab = availableEnemyPrefabs.Find(p => p != null && p.name == prefabName);
+            }
+
+            // EnemyHP
+            float.TryParse(columns[2], out data.EnemyHP);
+
+            // PosX
+            float.TryParse(columns[3], out float posX);
+            // PosY
+            float.TryParse(columns[4], out float posY);
+            data.GenerationPosition = new Vector2(posX, posY);
+
+            // EnemyCount
+            int.TryParse(columns[5], out data.EnemyCount);
+
+            // DelayTime
+            float.TryParse(columns[6], out data.DelayTime);
+
+            // BossBGM
+            string bgmName = columns[7].Trim();
+            if (!string.IsNullOrEmpty(bgmName))
+            {
+                data.BossBGM = availableBossBGMs.Find(b => b != null && b.name == bgmName);
+            }
+
+            enemyDeployment.Add(data);
+        }
     }
 
     private void Start()
@@ -56,7 +120,7 @@ public class EnemySummoningManagement : MonoBehaviour
     }
 
     /// <summary>
-    /// EnemyDeployment ‚Ì“à—e‚É]‚Á‚Ä“G‚ğ‡”Ô‚ÉoŒ»‚³‚¹‚éB
+    /// EnemyDeployment ã®å†…å®¹ã«å¾“ã£ã¦æ•µã‚’é †ç•ªã«å‡ºç¾ã•ã›ã‚‹ã€‚
     /// </summary>
     public IEnumerator Enumerator()
     {
@@ -65,7 +129,7 @@ public class EnemySummoningManagement : MonoBehaviour
             switch (deploment.GetState1)
             {
                 // -----------------------------------------
-                // G‹›‚ÌoŒ»
+                // é›‘é­šã®å‡ºç¾
                 // -----------------------------------------
                 case EnemyDeployment.state.Smallfry:
                     for (int i = 0; i < deploment.EnemyCount; i++)
@@ -76,7 +140,7 @@ public class EnemySummoningManagement : MonoBehaviour
                     break;
 
                 // -----------------------------------------
-                // ’†ƒ{ƒX‚ÌoŒ»
+                // ä¸­ãƒœã‚¹ã®å‡ºç¾
                 // -----------------------------------------
                 case EnemyDeployment.state.middleBoss:
                     GameObject middleBoss = SpawnEnemy(deploment);
@@ -90,7 +154,7 @@ public class EnemySummoningManagement : MonoBehaviour
                     break;
 
                 // -----------------------------------------
-                // ƒ{ƒX‚ÌoŒ»
+                // ãƒœã‚¹ã®å‡ºç¾
                 // -----------------------------------------
                 case EnemyDeployment.state.Boss:
                     GameObject bossObj = Instantiate(
@@ -107,14 +171,14 @@ public class EnemySummoningManagement : MonoBehaviour
                     break;
 
                 // -----------------------------------------
-                // ‘Ò‹@ŠÔ
+                // å¾…æ©Ÿæ™‚é–“
                 // -----------------------------------------
                 case EnemyDeployment.state.DelayTime:
                     yield return new WaitForSeconds(deploment.DelayTime);
                     break;
 
                 // -----------------------------------------
-                // ƒVƒ‡ƒbƒv‚ÌoŒ»
+                // ã‚·ãƒ§ãƒƒãƒ—ã®å‡ºç¾
                 // -----------------------------------------
                 case EnemyDeployment.state.Shop:
                     playerController.isShooting = false;
@@ -139,7 +203,7 @@ public class EnemySummoningManagement : MonoBehaviour
     }
 
     /// <summary>
-    /// “G‚ğ¶¬‚µAHP‚ğİ’è‚·‚éB
+    /// æ•µã‚’ç”Ÿæˆã—ã€HPã‚’è¨­å®šã™ã‚‹ã€‚
     /// </summary>
     private GameObject SpawnEnemy(EnemyDeployment deployment)
     {
@@ -156,7 +220,7 @@ public class EnemySummoningManagement : MonoBehaviour
     }
 
     /// <summary>
-    /// ƒpƒYƒ‹ƒ‚[ƒh‚ÖˆÚsiUI”ñ•\¦EBGM•ÏXj
+    /// ãƒ‘ã‚ºãƒ«ãƒ¢ãƒ¼ãƒ‰ã¸ç§»è¡Œï¼ˆUIéè¡¨ç¤ºãƒ»BGMå¤‰æ›´ï¼‰
     /// </summary>
     private void PuzzleSet()
     {
@@ -170,7 +234,7 @@ public class EnemySummoningManagement : MonoBehaviour
     }
 
     /// <summary>
-    /// ƒpƒYƒ‹I—¹ ¨ ’ÊíUI‚Ö–ß‚·
+    /// ãƒ‘ã‚ºãƒ«çµ‚äº† â†’ é€šå¸¸UIã¸æˆ»ã™
     /// </summary>
     private void PuzzleOut()
     {
@@ -178,14 +242,14 @@ public class EnemySummoningManagement : MonoBehaviour
         pieceText.gameObject.SetActive(true);
         deathLateText.gameObject.SetActive(true);
 
-        coinText.text = $"ƒRƒCƒ“:<color=#ffd700>{playerController.CoinCount}</color>";
-        pieceText.text = $"ƒs[ƒX:<color=#ffd700>{playerController.PieceCount}</color>";
+        coinText.text = $"ã‚³ã‚¤ãƒ³:<color=#ffd700>{playerController.CoinCount}</color>";
+        pieceText.text = $"ãƒ”ãƒ¼ã‚¹:<color=#ffd700>{playerController.PieceCount}</color>";
         deathLateText.text =
-            $"€–S—¦:<color=#ff0000>{((int)((float)deathCount.BlockCount / (float)deathCount.PieceCount * 100))}%</color>";
+            $"æ­»äº¡ç‡:<color=#ff0000>{((int)((float)deathCount.BlockCount / (float)deathCount.PieceCount * 100))}%</color>";
     }
 
     /// <summary>
-    /// ƒ{ƒXŒ‚”jŒã‚Ì‰‰oiƒJƒƒ‰ƒY[ƒ€ ¨ BGMƒtƒF[ƒh ¨ ƒNƒŠƒA‰‰oj
+    /// ãƒœã‚¹æ’ƒç ´å¾Œã®æ¼”å‡ºï¼ˆã‚«ãƒ¡ãƒ©ã‚ºãƒ¼ãƒ  â†’ BGMãƒ•ã‚§ãƒ¼ãƒ‰ â†’ ã‚¯ãƒªã‚¢æ¼”å‡ºï¼‰
     /// </summary>
     private IEnumerator BossDeath()
     {
@@ -209,7 +273,7 @@ public class EnemySummoningManagement : MonoBehaviour
     }
 
     /// <summary>
-    /// ƒJƒƒ‰‚ğƒvƒŒƒCƒ„[‚ÖƒY[ƒ€‚³‚¹‚é‰‰o
+    /// ã‚«ãƒ¡ãƒ©ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¸ã‚ºãƒ¼ãƒ ã•ã›ã‚‹æ¼”å‡º
     /// </summary>
     private IEnumerator CameraZoomToPlayer()
     {

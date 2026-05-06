@@ -4,43 +4,35 @@
 //
 // ========================================
 //
-// “G‚ÌoŒ»î•ñ‚ğ‚Ü‚Æ‚ß‚½ ScriptableObjectB
-// EG‹› / ’†ƒ{ƒX / ƒ{ƒX / ‘Ò‹@ / ƒVƒ‡ƒbƒv ‚Ì5í—Ş‚Ìó‘Ô‚ğŠÇ—
-// E“G‚ÌƒvƒŒƒnƒuAHPAoŒ»ˆÊ’uAoŒ»”A‘Ò‹@ŠÔABGM ‚È‚Ç‚ğ•Û
-// EWaveManager ‚â StageManager ‚ª‚±‚ê‚ğ“Ç‚İæ‚Á‚Ä“G‚ğ¶¬‚·‚é
+// æ•µã®å‡ºç¾æƒ…å ±ã‚’ã¾ã¨ã‚ãŸ ScriptableObjectã€‚
+// ãƒ»é›‘é­š / ä¸­ãƒœã‚¹ / ãƒœã‚¹ / å¾…æ©Ÿ / ã‚·ãƒ§ãƒƒãƒ— ã®5ç¨®é¡ã®çŠ¶æ…‹ã‚’ç®¡ç†
+// ãƒ»æ•µã®ãƒ—ãƒ¬ãƒãƒ–ã€HPã€å‡ºç¾ä½ç½®ã€å‡ºç¾æ•°ã€å¾…æ©Ÿæ™‚é–“ã€BGM ãªã©ã‚’ä¿æŒ
+// ãƒ»WaveManager ã‚„ StageManager ãŒã“ã‚Œã‚’èª­ã¿å–ã£ã¦æ•µã‚’ç”Ÿæˆã™ã‚‹
 //
 // ========================================
 
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EnemyDeployment", menuName = "Scriptable Objects/EnemyDeployment")]
-public class EnemyDeployment : ScriptableObject
+[System.Serializable]
+public class EnemyDeployment
 {
     /// <summary>
-    /// “G‚Ìí—ŞioŒ»ó‘Ôj
+    /// æ•µã®ç¨®é¡ï¼ˆå‡ºç¾çŠ¶æ…‹ï¼‰
     /// </summary>
     public enum state
     {
-        Smallfry,   // G‹›
-        middleBoss, // ’†ƒ{ƒX
-        Boss,       // ƒ{ƒX
-        DelayTime,  // ‘Ò‹@
-        Shop,       // ƒVƒ‡ƒbƒv
+        Smallfry,   // é›‘é­š
+        middleBoss, // ä¸­ãƒœã‚¹
+        Boss,       // ãƒœã‚¹
+        DelayTime,  // å¾…æ©Ÿ
+        Shop,       // ã‚·ãƒ§ãƒƒãƒ—
     }
 
-    [SerializeField] private state GetState;             // “G‚Ìí—Ş
-    [SerializeField] private GameObject enemyPrehab;     // “G‚ÌƒvƒŒƒnƒu
-    [SerializeField] private float enemyHP;              // “G‚ÌHP
-    [SerializeField] private Vector2 generationPosition; // oŒ»ˆÊ’u
-    [SerializeField] private int enemyCount;             // oŒ»”
-    [SerializeField] private float delayTime;            // ‘Ò‹@ŠÔiWaveŠÔ‚È‚Çj
-    [SerializeField] private AudioClip bossBGM;          // ƒ{ƒXí—pBGM
-
-    public state GetState1 => GetState;
-    public GameObject EnemyPrehab => enemyPrehab;
-    public int EnemyCount => enemyCount;
-    public float DelayTime => delayTime;
-    public Vector2 GenerationPosition => generationPosition;
-    public float EnemyHP => enemyHP;
-    public AudioClip BossBGM { get => bossBGM; set => bossBGM = value; }
+    public state GetState1;             // æ•µã®ç¨®é¡
+    public GameObject EnemyPrehab;     // æ•µã®ãƒ—ãƒ¬ãƒãƒ–
+    public float EnemyHP;              // æ•µã®HP
+    public Vector2 GenerationPosition; // å‡ºç¾ä½ç½®
+    public int EnemyCount;             // å‡ºç¾æ•°
+    public float DelayTime;            // å¾…æ©Ÿæ™‚é–“ï¼ˆWaveé–“ãªã©ï¼‰
+    public AudioClip BossBGM;          // ãƒœã‚¹æˆ¦ç”¨BGM
 }

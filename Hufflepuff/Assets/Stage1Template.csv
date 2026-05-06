@@ -1,0 +1,8 @@
+State,EnemyPrefabName,EnemyHP,PosX,PosY,EnemyCount,DelayTime,BossBGMName
+Smallfry,CircularBulletEnemy 1,100,5,0,3,1.5,
+DelayTime,,,,,,5.0,
+middleBoss,MiddleBoss,500,0,5,1,0,
+DelayTime,,,,,,5.0,
+Shop,,,,,,,
+DelayTime,,,,,,5.0,
+Boss,Gomi_king,1500,0,5,1,0,BossBGM_1
