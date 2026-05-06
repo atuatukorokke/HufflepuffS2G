@@ -165,7 +165,7 @@ public class PieceButtonManager : MonoBehaviour
     {
         if (presentBoxCountText != null && playerController != null)
         {
-            presentBoxCountText.text = $"プレゼント: {playerController.PieceCount}";
+            presentBoxCountText.text = $"残り: {playerController.PieceCount}";
         }
     }
 

@@ -4,10 +4,10 @@
 //
 // ========================================
 //
-// �o�t�̎�ނƁA���̒l�E�L����Ԃ��܂Ƃ߂��f�[�^�N���X�B
-// �EBuff �� 1�̃o�t���ʂ�\���iID / �l / �L���t���O�j
-// �EBuffForID �̓o�t�̎�ނ��
-// �E�V���b�v��v���C���[���������Ŏg�p�����
+// バフの種類と、その値・有効状態をまとめたデータクラス。
+// ・Buff は 1つのバフ効果を表す（ID / 値 / 有効フラグ）
+// ・BuffForID はバフの種類を列挙
+// ・ショップやプレイヤー強化処理で使用される
 //
 // ========================================
 
@@ -16,15 +16,16 @@ using System;
 [Serializable]
 public class Buff
 {
-    public BuffForID buffID; // �o�t�̎��
-    public float value;      // �o�t�̌��ʗ�
-    public bool isActive;    // �o�t���L�����ǂ���
+    public BuffForID buffID; // バフの種類
+    public float value;      // バフの効果量
+    public bool isActive;    // バフが有効かどうか
 }
 
 public enum BuffForID
 {
-    AtackMethod,     // �U�����@�i�U���̓A�b�v�Ȃǁj
-    InvincibleTime,  // ���G���ԉ���
-    CoinGetLate,     // �R�C���l���ʃA�b�v
-    DamageDownLate,  // ��_���[�W�y��
+    AtackMethod,     // 攻撃方法（攻撃力アップなど）
+    InvincibleTime,  // 無敵時間延長
+    CoinGetLate,     // コイン獲得量アップ
+    DamageDownLate,  // 被ダメージ軽減
+    BombCharge,      // ボム回数追加
 }

@@ -40,7 +40,21 @@ public class DestroyBlock : MonoBehaviour
         {
             if (block.transform.position.x > borderX)
             {
-                placedBlockCount += block.GetComponent<ObjectDragTransform>().PieceCount;
+                int count = 0;
+                
+                // ObjectDragTransformが付いていればそのPieceCountを取得
+                if (block.TryGetComponent<ObjectDragTransform>(out var dragTransform))
+                {
+                    count = dragTransform.PieceCount;
+                }
+
+                // お邪魔ブロックなどPieceCountが0、あるいはコンポーネントが無い場合は1マスとして扱う
+                if (count == 0)
+                {
+                    count = 1;
+                }
+
+                placedBlockCount += count;
             }
         }
 

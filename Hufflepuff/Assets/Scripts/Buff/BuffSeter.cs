@@ -4,9 +4,9 @@
 //
 // ========================================
 //
-// ƒoƒt‚ğƒvƒŒƒCƒ„[‚É“K—p‚µAUI ‚É”½‰f‚·‚éƒNƒ‰ƒXB
-// EBuffManager ‚É“o˜^‚³‚ê‚½ƒoƒt‚ğ“Ç‚İæ‚èAƒvƒŒƒCƒ„[‚ÌŠeíƒXƒe[ƒ^ƒX‚Ö”½‰f
-// Eƒoƒtˆê—— UI ‚ğ¶¬‚µ‚Ä•\¦
+// ãƒãƒ•ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«é©ç”¨ã—ã€UI ã«åæ˜ ã™ã‚‹ã‚¯ãƒ©ã‚¹ã€‚
+// ãƒ»BuffManager ã«ç™»éŒ²ã•ã‚ŒãŸãƒãƒ•ã‚’èª­ã¿å–ã‚Šã€ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å„ç¨®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã¸åæ˜ 
+// ãƒ»ãƒãƒ•ä¸€è¦§ UI ã‚’ç”Ÿæˆã—ã¦è¡¨ç¤º
 //
 // ========================================
 
@@ -14,84 +14,94 @@ using UnityEngine;
 
 public class BuffSeter : MonoBehaviour
 {
-    [SerializeField] PlayrController player;                 // ƒvƒŒƒCƒ„[‚ÌƒXƒe[ƒ^ƒX‚ğ•ÏX‚·‚é
-    [SerializeField] BuffManager buffManager;                // ƒoƒtƒf[ƒ^ŠÇ—
-    [SerializeField] private GameObject buffExplanationObj;  // ƒoƒtà–¾UIƒvƒŒƒnƒu
-    [SerializeField] private GameObject buffListObj;         // ƒoƒtˆê——‚ğ•\¦‚·‚éeƒIƒuƒWƒFƒNƒg
+    [SerializeField] PlayrController player;                 // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’å¤‰æ›´ã™ã‚‹
+    [SerializeField] BuffManager buffManager;                // ãƒãƒ•ãƒ‡ãƒ¼ã‚¿ç®¡ç†
+    [SerializeField] private GameObject buffExplanationObj;  // ãƒãƒ•èª¬æ˜UIãƒ—ãƒ¬ãƒãƒ–
+    [SerializeField] private GameObject buffListObj;         // ãƒãƒ•ä¸€è¦§ã‚’è¡¨ç¤ºã™ã‚‹è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 
-    [Header("ƒoƒt‚ÌƒAƒCƒRƒ“")]
-    [SerializeField] private Sprite AttackIcon;               // UŒ‚ƒAƒbƒv
-    [SerializeField] private Sprite InvincibleIcon;           // –³“GŠÔƒAƒbƒv
-    [SerializeField] private Sprite PuzzleTimeIcon;           // ƒ_ƒ[ƒWŒyŒ¸
-    [SerializeField] private Sprite CarryOverSpecialGaugeIcon; // ƒRƒCƒ“Šl“¾ƒAƒbƒv
+    [Header("ãƒãƒ•ã®ã‚¢ã‚¤ã‚³ãƒ³")]
+    [SerializeField] private Sprite AttackIcon;               // æ”»æ’ƒã‚¢ãƒƒãƒ—
+    [SerializeField] private Sprite InvincibleIcon;           // ç„¡æ•µæ™‚é–“ã‚¢ãƒƒãƒ—
+    [SerializeField] private Sprite PuzzleTimeIcon;           // ãƒ€ãƒ¡ãƒ¼ã‚¸è»½æ¸›
+    [SerializeField] private Sprite CarryOverSpecialGaugeIcon; // ã‚³ã‚¤ãƒ³ç²å¾—ã‚¢ãƒƒãƒ—
 
-    private string buffName;               // ƒoƒt–¼
-    private string buffExplanationText;    // ƒoƒtà–¾•¶
-    private Sprite buffIcon;               // ƒoƒtƒAƒCƒRƒ“
+    private string buffName;               // ãƒãƒ•å
+    private string buffExplanationText;    // ãƒãƒ•èª¬æ˜æ–‡
+    private Sprite buffIcon;               // ãƒãƒ•ã‚¢ã‚¤ã‚³ãƒ³
 
     /// <summary>
-    /// ‘Sƒoƒt‚ğƒvƒŒƒCƒ„[‚É“K—p‚µAUI ‚ğXV‚·‚é
+    /// å…¨ãƒãƒ•ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«é©ç”¨ã—ã€UI ã‚’æ›´æ–°ã™ã‚‹
     /// </summary>
     public void ApplyBuffs()
     {
         // -----------------------------------------
-        // Šù‘¶‚ÌƒoƒtUI‚ğ‘Síœ
+        // æ—¢å­˜ã®ãƒãƒ•UIã‚’å…¨å‰Šé™¤
         // -----------------------------------------
-        foreach (Transform child in buffListObj.transform) // © UIƒŠƒXƒg‚Ìq—v‘f‚ğ‡”Ô‚Éˆ—
+        foreach (Transform child in buffListObj.transform) // â† UIãƒªã‚¹ãƒˆã®å­è¦ç´ ã‚’é †ç•ªã«å‡¦ç†
         {
             Destroy(child.gameObject);
         }
 
         // -----------------------------------------
-        // “o˜^‚³‚ê‚Ä‚¢‚é‘Sƒoƒt‚ğ‡”Ô‚Éˆ—
+        // ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹å…¨ãƒãƒ•ã‚’é †ç•ªã«å‡¦ç†
         // -----------------------------------------
-        foreach (var buff in buffManager.datas) // © ‚·‚×‚Ä‚Ìƒoƒtƒf[ƒ^‚ğ‡”Ô‚Éˆ—
+        foreach (var buff in buffManager.datas) // â† ã™ã¹ã¦ã®ãƒãƒ•ãƒ‡ãƒ¼ã‚¿ã‚’é †ç•ªã«å‡¦ç†
         {
-            switch (buff.buffID) // © ƒoƒt‚Ìí—Ş‚²‚Æ‚Éˆ—‚ğ•ªŠò
+            switch (buff.buffID) // â† ãƒãƒ•ã®ç¨®é¡ã”ã¨ã«å‡¦ç†ã‚’åˆ†å²
             {
                 // -----------------------------------------
-                // UŒ‚—ÍƒAƒbƒv
+                // æ”»æ’ƒåŠ›ã‚¢ãƒƒãƒ—
                 // -----------------------------------------
                 case BuffForID.AtackMethod:
                     player.Attack = 1 + (buff.value / 100);
-                    buffName = "UŒ‚—ÍƒAƒbƒv";
-                    buffExplanationText = $"ƒvƒŒƒCƒ„[‚ÌUŒ‚—Í‚ª <color=#ffd700>{buff.value}%</color> ã¸";
+                    buffName = "æ”»æ’ƒåŠ›ã‚¢ãƒƒãƒ—";
+                    buffExplanationText = $"ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ”»æ’ƒåŠ›ãŒ <color=#ffd700>{buff.value}%</color> ä¸Šæ˜‡";
                     buffIcon = AttackIcon;
                     break;
 
                 // -----------------------------------------
-                // –³“GŠÔ‰„’·
+                // ç„¡æ•µæ™‚é–“å»¶é•·
                 // -----------------------------------------
                 case BuffForID.InvincibleTime:
                     player.InvincibleTime = buff.value;
-                    buffName = "–³“GŠÔ‰„’·";
-                    buffExplanationText = $"–³“GŠÔ‚ª <color=#ffd700>{buff.value}•b</color> ‰„’·";
+                    buffName = "ç„¡æ•µæ™‚é–“å»¶é•·";
+                    buffExplanationText = $"ç„¡æ•µæ™‚é–“ãŒ <color=#ffd700>{buff.value}ç§’</color> å»¶é•·";
                     buffIcon = InvincibleIcon;
                     break;
 
                 // -----------------------------------------
-                // ƒ_ƒ[ƒWŒyŒ¸i‚¨×–‚ƒs[ƒX”­¶—¦’á‰ºj
+                // ãƒ€ãƒ¡ãƒ¼ã‚¸è»½æ¸›ï¼ˆãŠé‚ªé­”ãƒ”ãƒ¼ã‚¹ç™ºç”Ÿç‡ä½ä¸‹ï¼‰
                 // -----------------------------------------
                 case BuffForID.DamageDownLate:
                     player.OutPieceLate = 100 - buff.value;
-                    buffName = "ƒ_ƒ[ƒWŒyŒ¸";
-                    buffExplanationText = $"”í’e‚Ì‚¨×–‚ƒs[ƒX”­¶—¦‚ª <color=#ffd700>{buff.value}%</color> Œ¸­";
+                    buffName = "ãƒ€ãƒ¡ãƒ¼ã‚¸è»½æ¸›";
+                    buffExplanationText = $"è¢«å¼¾æ™‚ã®ãŠé‚ªé­”ãƒ”ãƒ¼ã‚¹ç™ºç”Ÿç‡ãŒ <color=#ffd700>{buff.value}%</color> æ¸›å°‘";
                     buffIcon = PuzzleTimeIcon;
                     break;
 
                 // -----------------------------------------
-                // ƒRƒCƒ“Šl“¾—ÊƒAƒbƒv
+                // ã‚³ã‚¤ãƒ³ç²å¾—é‡ã‚¢ãƒƒãƒ—
                 // -----------------------------------------
                 case BuffForID.CoinGetLate:
                     player.DefultCoinIncreaseCount = 20 + (int)(20 * buff.value / 100);
-                    buffName = "ƒRƒCƒ“Šl“¾—ÊƒAƒbƒv";
-                    buffExplanationText = $"ƒRƒCƒ“Šl“¾—Ê‚ª <color=#ffd700>{buff.value}%</color> ‘‰Á";
+                    buffName = "ã‚³ã‚¤ãƒ³ç²å¾—é‡ã‚¢ãƒƒãƒ—";
+                    buffExplanationText = $"ã‚³ã‚¤ãƒ³ç²å¾—é‡ãŒ <color=#ffd700>{buff.value}%</color> å¢—åŠ ";
                     buffIcon = CarryOverSpecialGaugeIcon;
+                    break;
+
+                // -----------------------------------------
+                // ãƒœãƒ è¿½åŠ 
+                // -----------------------------------------
+                case BuffForID.BombCharge:
+                    player.BombCount += (int)buff.value;
+                    buffName = "ãƒœãƒ è¿½åŠ ";
+                    buffExplanationText = $"ãƒœãƒ ã®ä½¿ç”¨å›æ•°ãŒ <color=#ffd700>{buff.value}å›</color> å¢—åŠ ";
+                    buffIcon = CarryOverSpecialGaugeIcon; // å¿…è¦ã«å¿œã˜ã¦å¾Œã§å°‚ç”¨ã‚¢ã‚¤ã‚³ãƒ³ã«å¤‰æ›´ã—ã¦ãã ã•ã„
                     break;
             }
 
             // -----------------------------------------
-            // ƒoƒtà–¾UI‚ğ¶¬‚µ‚ÄƒŠƒXƒg‚É’Ç‰Á
+            // ãƒãƒ•èª¬æ˜UIã‚’ç”Ÿæˆã—ã¦ãƒªã‚¹ãƒˆã«è¿½åŠ 
             // -----------------------------------------
             GameObject buffExplanation = Instantiate(buffExplanationObj, buffExplanationObj.transform);
             buffExplanation.transform.parent = buffListObj.transform;

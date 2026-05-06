@@ -26,6 +26,7 @@ public class ObjectDragTransform : MonoBehaviour
     [SerializeField] private int pieceCount = 0;                // ピース数
     [SerializeField] private int pieceNumber = 0;               // ピース番号
     [SerializeField] private int sellGold = 0;                  // 売却時のゴールド
+    [SerializeField] private Sprite iconSprite;                 // ショップ用のアイコン画像
 
     [Header("スクリプト参照")]
     [SerializeField] private DeathCount deathCount;             // ピース数管理
@@ -35,6 +36,7 @@ public class ObjectDragTransform : MonoBehaviour
 
     public int SellGold => sellGold;
     public Buff PieceBuff => buff;
+    public Sprite IconSprite => iconSprite;
 
     private int localColliding = 0;                             // 自身の衝突数
     public int LocalColliding => localColliding;

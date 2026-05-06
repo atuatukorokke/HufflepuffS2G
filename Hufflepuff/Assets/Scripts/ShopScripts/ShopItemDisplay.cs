@@ -12,6 +12,7 @@ public class ShopItemDisplay : MonoBehaviour
     private PieceCreate pieceCreate;
     private int pieceNumber;
     private int cost;
+    private GameObject specialPrefab;
 
     /// <summary>
     /// アイテムの表示をセットアップする
@@ -19,7 +20,12 @@ public class ShopItemDisplay : MonoBehaviour
     public void Setup(GameObject piecePrefab, int index, PieceCreate pc)
     {
         pieceCreate = pc;
-        pieceNumber = index + 1; // PieceCreate.NewPiece は 1-indexed (0はランダム)
+        pieceNumber = index + 1; // PieceCreate.NewPiece は 1-indexed (0はランダム、特殊はindex=-1でpieceNumber=0)
+        
+        if (index == -1)
+        {
+            specialPrefab = piecePrefab;
+        }
 
         ObjectDragTransform odt = piecePrefab.GetComponent<ObjectDragTransform>();
         if (odt != null)
@@ -29,12 +35,11 @@ public class ShopItemDisplay : MonoBehaviour
             
             Buff buff = odt.PieceBuff;
             buffText.text = GetBuffExplanationText(buff);
-        }
 
-        SpriteRenderer sr = piecePrefab.GetComponent<SpriteRenderer>();
-        if (sr != null && iconImage != null)
-        {
-            iconImage.sprite = sr.sprite;
+            if (iconImage != null && odt.IconSprite != null)
+            {
+                iconImage.sprite = odt.IconSprite;
+            }
         }
 
         // 購入ボタンのイベント登録
@@ -49,9 +54,24 @@ public class ShopItemDisplay : MonoBehaviour
     {
         if (pieceCreate != null)
         {
-            // 購入処理を呼び出す
-            // PieceCreate.NewPiece の内部で所持コインのチェックが行われ、生成・コイン消費が実行される
-            pieceCreate.NewPiece(pieceNumber, cost);
+            bool isBought = false;
+            
+            if (pieceNumber == 0 && specialPrefab != null)
+            {
+                // 特殊ピース（ボム等）の購入
+                isBought = pieceCreate.NewSpecialPiece(specialPrefab, cost);
+            }
+            else
+            {
+                // 通常ピースの購入
+                isBought = pieceCreate.NewPiece(pieceNumber, cost);
+            }
+
+            if (isBought)
+            {
+                // 購入成功したらこのアイテムのUIを消す
+                Destroy(gameObject);
+            }
         }
     }
 

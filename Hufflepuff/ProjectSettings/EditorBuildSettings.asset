@@ -16,4 +16,3 @@ EditorBuildSettings:
     guid: a12fa0a3d5cf4334d8bcba3e52044b18
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  m_UseUCBPForAssetBundles: 0

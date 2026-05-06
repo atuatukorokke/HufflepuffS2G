@@ -15,6 +15,7 @@
 // ========================================
 
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -47,6 +48,7 @@ public class PlayrController : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI coinText;
     [SerializeField] private TextMeshProUGUI pieceText;
+    [SerializeField] private TextMeshProUGUI bombText;
 
     private AudioSource audio;
     [SerializeField] private AudioClip damageSE;
@@ -61,11 +63,17 @@ public class PlayrController : MonoBehaviour
     [Header("Player Bom")]
     [SerializeField] private GameObject PlayerBomObjerct;
     [SerializeField] private float bomAppearTime = 5f;
-    [SerializeField] private float playerBomDelayTime = 5f;
-    [SerializeField] private float maxChatgeTime;
-    [SerializeField] private float currentChargeTime;
-    [SerializeField] private bool isCharge = true;
-    [SerializeField] private bool isBom;
+    [SerializeField] private int bombCount = 2;
+
+    [Header("Bomb Follower Settings")]
+    [SerializeField] private GameObject bombFollowerPrefab;
+    [SerializeField] private int followDelayFrames = 10;
+    private List<GameObject> activeBombFollowers = new List<GameObject>();
+    private List<Vector3> positionHistory = new List<Vector3>();
+    private int maxHistorySize = 100;
+
+    [Header("Homing Bullet Settings")]
+    [SerializeField] private GameObject homingBulletPrehab;
 
     public bool isShooting = false;
 
@@ -74,6 +82,7 @@ public class PlayrController : MonoBehaviour
     public PlayState Playstate { get => playState; set => playState = value; }
     public int CoinCount { get => coinCount; set => coinCount = value; }
     public int PieceCount { get => pieceCount; set => pieceCount = value; }
+    public int BombCount { get => bombCount; set { bombCount = value; UpdateBombText(); } }
     public int DefultCoinIncreaseCount { get => defultCoinIncreaseCount; set => defultCoinIncreaseCount = value; }
     public float OutPieceLate { get => outPieceLate; set => outPieceLate = value; }
 
@@ -85,28 +94,82 @@ public class PlayrController : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody2D>();
         pieceCreate = FindAnyObjectByType<PieceCreate>();
 
-        currentChargeTime = 0.0f;
-        isCharge = true;
-        isBom = false;
-
         pieceText.text = $"ピース:<color=#ffd700>{PieceCount}</color>";
         coinText.text = $"コイン:<color=#ffd700>{CoinCount}</color>";
+        UpdateBombText();
     }
 
     private void Update()
     {
         if (Playstate == PlayState.Shooting)
             PlayerMove();
+    }
 
-        if (isCharge)
+    private void UpdateBombText()
+    {
+        if (bombText != null)
         {
-            currentChargeTime += Time.deltaTime;
+            bombText.gameObject.SetActive(false);
+        }
+        UpdateBombFollowers();
+    }
 
-            if (currentChargeTime >= playerBomDelayTime)
+    private void UpdateBombFollowers()
+    {
+        if (bombFollowerPrefab == null) return;
+
+        // ボムの数と現在の追従オブジェクトの数を合わせる
+        while (activeBombFollowers.Count < bombCount)
+        {
+            GameObject follower = Instantiate(bombFollowerPrefab, transform.position, Quaternion.identity);
+            activeBombFollowers.Add(follower);
+        }
+
+        while (activeBombFollowers.Count > bombCount)
+        {
+            int lastIndex = activeBombFollowers.Count - 1;
+            Destroy(activeBombFollowers[lastIndex]);
+            activeBombFollowers.RemoveAt(lastIndex);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (Playstate != PlayState.Shooting) return;
+
+        // 履歴の先頭に現在の位置を追加
+        positionHistory.Insert(0, transform.position);
+
+        // 必要な履歴の最大サイズを計算 (ボムの最大予想数 * 間隔 + 余裕)
+        maxHistorySize = Mathf.Max(maxHistorySize, (bombCount + 1) * followDelayFrames);
+
+        // 古い履歴を削除
+        if (positionHistory.Count > maxHistorySize)
+        {
+            positionHistory.RemoveAt(positionHistory.Count - 1);
+        }
+
+        // 追従オブジェクトの位置を更新
+        for (int i = 0; i < activeBombFollowers.Count; i++)
+        {
+            if (activeBombFollowers[i] == null) continue;
+
+            int targetIndex = (i + 1) * followDelayFrames;
+            
+            // 履歴が足りない場合は一番古い位置を参照
+            if (targetIndex >= positionHistory.Count)
             {
-                isCharge = false;
-                isBom = true;
-                currentChargeTime = 0.0f;
+                targetIndex = positionHistory.Count - 1;
+            }
+
+            if (targetIndex >= 0)
+            {
+                // Lerpを使って滑らかに追従
+                activeBombFollowers[i].transform.position = Vector3.Lerp(
+                    activeBombFollowers[i].transform.position,
+                    positionHistory[targetIndex],
+                    Time.fixedDeltaTime * 15f
+                );
             }
         }
     }
@@ -136,11 +199,15 @@ public class PlayrController : MonoBehaviour
                 isShooting = true;
                 StartCoroutine(BulletCreat());
                 if (Attack >= 2) StartCoroutine(DiffusionBullet(3));
+                if (Attack >= 3) StartCoroutine(ThirdBulletPattern());
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.X) && isBom)
+        if (Input.GetKeyDown(KeyCode.X) && bombCount > 0)
+        {
+            BombCount--;
             StartCoroutine(Bom());
+        }
 
         if (Input.GetKeyUp(KeyCode.Z))
             isShooting = false;
@@ -152,7 +219,6 @@ public class PlayrController : MonoBehaviour
     private IEnumerator Bom()
     {
         audio.PlayOneShot(specialSE);
-        isBom = false;
 
         Instantiate(CutInnCanvas, Vector3.zero, Quaternion.identity);
 
@@ -169,7 +235,6 @@ public class PlayrController : MonoBehaviour
         }
 
         invincible = false;
-        isCharge = true;
     }
 
     /// <summary>
@@ -218,6 +283,83 @@ public class PlayrController : MonoBehaviour
 
             yield return new WaitForSeconds(delayTime);
         }
+    }
+
+    /// <summary>
+    /// ホーミング弾 または 斜め弾
+    /// </summary>
+    private IEnumerator ThirdBulletPattern()
+    {
+        while (isShooting)
+        {
+            GameObject targetEnemy = FindClosestEnemy();
+
+            GameObject prefabToUse = homingBulletPrehab != null ? homingBulletPrehab : straightBulletPrehab;
+
+            if (targetEnemy != null)
+            {
+                // 敵がいる場合はホーミング弾を生成
+                GameObject bullet = Instantiate(prefabToUse, transform.position, Quaternion.identity);
+                
+                // ホーミングスクリプトを追加または取得
+                PlayerHomingBullet homingScript = bullet.GetComponent<PlayerHomingBullet>();
+                if (homingScript == null) homingScript = bullet.AddComponent<PlayerHomingBullet>();
+                
+                homingScript.Initialize(targetEnemy.transform, bulletSpeed);
+            }
+            else
+            {
+                // 敵がいない場合は斜め上下に発射
+                float[] angles = { 30f, -30f }; // 斜め上30度と斜め下30度
+                foreach (float angle in angles)
+                {
+                    float rad = angle * Mathf.Deg2Rad;
+                    Vector2 direction = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+
+                    GameObject bullet = Instantiate(prefabToUse, transform.position, Quaternion.identity);
+                    
+                    // ホーミングスクリプトがついていたら無効化（直線移動のみにする）
+                    PlayerHomingBullet homingScript = bullet.GetComponent<PlayerHomingBullet>();
+                    if (homingScript != null) Destroy(homingScript);
+
+                    bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * bulletSpeed;
+                }
+            }
+
+            yield return new WaitForSeconds(delayTime);
+        }
+    }
+
+    private GameObject FindClosestEnemy()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] bosses = GameObject.FindGameObjectsWithTag("Boss");
+        
+        GameObject closest = null;
+        float minDistance = Mathf.Infinity;
+        Vector3 currentPos = transform.position;
+
+        foreach (GameObject enemy in enemies)
+        {
+            float dist = Vector3.Distance(enemy.transform.position, currentPos);
+            if (dist < minDistance)
+            {
+                closest = enemy;
+                minDistance = dist;
+            }
+        }
+
+        foreach (GameObject boss in bosses)
+        {
+            float dist = Vector3.Distance(boss.transform.position, currentPos);
+            if (dist < minDistance)
+            {
+                closest = boss;
+                minDistance = dist;
+            }
+        }
+
+        return closest;
     }
 
     /// <summary>

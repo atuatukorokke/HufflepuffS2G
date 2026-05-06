@@ -70,7 +70,7 @@ public class PieceCreate : MonoBehaviour
     /// <summary>
     /// 新しいピースを生成する
     /// </summary>
-    public void NewPiece(int pieceNumber, int buyLate)
+    public bool NewPiece(int pieceNumber, int buyLate)
     {
         int rndMino = pieceNumber - 1;
 
@@ -85,6 +85,8 @@ public class PieceCreate : MonoBehaviour
         float offsetY = (shopBuyCount / 3) * 2.0f;
         Vector3 pos = new Vector3(-42.0f + offsetX, -5.0f - offsetY, 0.0f);
 
+        bool isSuccess = false;
+
         if (goldManager.GetGold() >= buyLate)
         {
             audio.PlayOneShot(blockCreateSE);
@@ -96,6 +98,7 @@ public class PieceCreate : MonoBehaviour
             deathCount.SetPieceCount(pieceCountNum[rndMino]);
 
             shopBuyCount++; // 購入回数をインクリメント
+            isSuccess = true;
         }
         else
         {
@@ -103,6 +106,42 @@ public class PieceCreate : MonoBehaviour
         }
 
         goldText.text = $"コイン:<color=#ffd700>{goldManager.GetGold()}</color>";
+
+        return isSuccess;
+    }
+
+    /// <summary>
+    /// 特殊なピース（ボムなど、配列外のプレハブ）を生成する
+    /// </summary>
+    public bool NewSpecialPiece(GameObject specialPrefab, int buyLate)
+    {
+        float offsetX = (shopBuyCount % 3) * 2.0f;
+        float offsetY = (shopBuyCount / 3) * 2.0f;
+        Vector3 pos = new Vector3(-42.0f + offsetX, -5.0f - offsetY, 0.0f);
+
+        bool isSuccess = false;
+
+        if (goldManager.GetGold() >= buyLate)
+        {
+            audio.PlayOneShot(blockCreateSE);
+
+            goldManager.SetGoldCount(-buyLate);
+            Instantiate(specialPrefab, pos, Quaternion.identity);
+
+            // ボムなどの特殊ピースは1マス分としてカウント（不要な場合は削除可能）
+            deathCount.SetPieceCount(1);
+
+            shopBuyCount++;
+            isSuccess = true;
+        }
+        else
+        {
+            Debug.Log("ゴールドが足りません");
+        }
+
+        goldText.text = $"コイン:<color=#ffd700>{goldManager.GetGold()}</color>";
+
+        return isSuccess;
     }
 
     /// <summary>
@@ -168,7 +207,7 @@ public class PieceCreate : MonoBehaviour
         BlockBoard[randomIndex.x, randomIndex.y] = 1;
 
         // 生成位置
-        Vector3 pos = new Vector3(-2.0f - randomIndex.x, -7.0f - randomIndex.y, 0.0f);
+        Vector3 pos = new Vector3(-28.0f - randomIndex.x, -7.0f - randomIndex.y, 0.0f);
 
         GameObject Trash = Instantiate(pieces[pieces.Length - 1], pos, Quaternion.identity);
         clearCountSet.PieceUseCount(pieces.Length - 1);
